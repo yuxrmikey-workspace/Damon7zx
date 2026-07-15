@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DAMON | Présence. Style. Impact.</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* RESET & BASE */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #050505;
+            color: #e5e5e5;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* NAVBAR */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 20px 0;
+            background: rgba(5, 5, 5, 0.85);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .logo {
+            font-family: 'Cinzel', serif;
+            font-weight: 700;
+            font-size: 1.4rem;
+            letter-spacing: 2px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo span {
+            color: #b80000;
+        }
+
+        .brand-tag {
+            font-size: 0.7rem;
+            letter-spacing: 4px;
+            opacity: 0.6;
+            font-weight: 300;
+            text-transform: uppercase;
+        }
+
+        /* HERO SECTION */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background: linear-gradient(135deg, rgba(5,5,5,0.85) 0%, rgba(10,10,10,0.95) 100%), 
+                        url('https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=1600&q=80') center/cover no-repeat;
+            position: relative;
+        }
+
+        .hero-content h1 {
+            font-family: 'Cinzel', serif;
+            font-size: 6rem;
+            font-weight: 700;
+            letter-spacing: 8px;
+            margin-bottom: 10px;
+            text-shadow: 0 0 40px rgba(184, 0, 0, 0.3);
+        }
+
+        .hero-content .subtitle {
+            font-size: 1.2rem;
+            font-weight: 300;
+            letter-spacing: 6px;
+            text-transform: uppercase;
+            color: #b80000;
+            margin-bottom: 20px;
+        }
+
+        .hero-content .tagline {
+            font-size: 1.5rem;
+            font-weight: 300;
+            letter-spacing: 2px;
+            opacity: 0.8;
+            font-style: italic;
+        }
+
+        .scroll-down {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #e5e5e5;
+            font-size: 1.5rem;
+            animation: bounce 2s infinite;
+            opacity: 0.5;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+            40% { transform: translateX(-50%) translateY(-10px); }
+            60% { transform: translateX(-50%) translateY(-5px); }
+        }
+
+        /* ABOUT */
+        .section {
+            padding: 100px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .section-title {
+            font-family: 'Cinzel', serif;
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 40px;
+            letter-spacing: 4px;
+        }
+
+        .section-title span {
+            color: #b80000;
+        }
+
+        .about-text {
+            max-width: 700px;
+            margin: 0 auto;
+            text-align: center;
+            font-weight: 300;
+            font-size: 1.1rem;
+            letter-spacing: 1px;
+            color: #b0b0b0;
+        }
+
+        .about-text strong {
+            color: #e5e5e5;
+        }
+
+        /* PRODUCTS / SERVICES */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 40px;
+            margin-top: 20px;
+        }
+
+        .product-card {
+            background: #0f0f0f;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 40px 30px;
+            text-align: center;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .product-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: #b80000;
+            transform: scaleX(0);
+            transition: transform 0.4s ease;
+            transform-origin: left;
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+            border-color: #b80000;
+            box-shadow: 0 20px 40px rgba(184, 0, 0, 0.15);
+        }
+
+        .product-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .product-card i {
+            font-size: 2.5rem;
+            color: #b80000;
+            margin-bottom: 20px;
+        }
+
+        .product-card h3 {
+            font-family: 'Cinzel', serif;
+            font-size: 1.4rem;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+        }
+
+        .product-card p {
+            font-weight: 300;
+            font-size: 0.95rem;
+            color: #b0b0b0;
+        }
+
+        /* CONTACT CTA */
+        .contact-section {
+            padding: 80px 0;
+            text-align: center;
+        }
+
+        .contact-section h2 {
+            font-family: 'Cinzel', serif;
+            font-size: 2rem;
+            margin-bottom: 20px;
+            letter-spacing: 3px;
+        }
+
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 15px;
+            background: #b80000;
+            color: #fff;
+            padding: 18px 45px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+
+        .cta-button:hover {
+            background: #8c0000;
+            transform: scale(1.05);
+            box-shadow: 0 0 30px rgba(184, 0, 0, 0.4);
+        }
+
+        .cta-button i {
+            font-size: 1.4rem;
+        }
+
+        .contact-info {
+            margin-top: 25px;
+            font-weight: 300;
+            color: #b0b0b0;
+            letter-spacing: 1px;
+        }
+
+        .contact-info strong {
+            color: #e5e5e5;
+            font-weight: 500;
+        }
+
+        /* FOOTER */
+        footer {
+            background: #0a0a0a;
+            padding: 40px 0;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        footer p {
+            font-weight: 300;
+            font-size: 0.9rem;
+            letter-spacing: 3px;
+            color: #666;
+        }
+
+        footer .footer-logo {
+            font-family: 'Cinzel', serif;
+            font-size: 1.2rem;
+            color: #b80000;
+            margin-bottom: 10px;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .hero-content h1 { font-size: 3.5rem; letter-spacing: 4px; }
+            .hero-content .tagline { font-size: 1.1rem; }
+            .section-title { font-size: 2rem; }
+            .products-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="nav-container">
+            <div class="logo">
+                <span>HIT</span> <span style="color:#fff; opacity:0.3;">|</span> DAMON
+            </div>
+            <div class="brand-tag">Présence. Style. Impact.</div>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <div class="hero-content">
+            <h1>DAMON</h1>
+            <div class="subtitle">L'élégance n'a pas de règles. Je les réécris.</div>
+            <p class="tagline">"Une présence qui ne passe pas inaperçue."</p>
+            <div class="scroll-down"><i class="fas fa-chevron-down"></i></div>
+        </div>
+    </header>
+
+    <section class="section container">
+        <h2 class="section-title">À <span>PROPOS</span></h2>
+        <div class="about-text">
+            <p><strong>Damon</strong> n'est pas un personnage, c'est une déclaration. 
+            Une identité forgée dans le mystère, le charisme brut et un style qui défie le temps. 
+            Je ne joue pas les bad boys, je redéfinis les codes du cool.</p>
+        </div>
+    </section>
+
+    <section class="section container" id="services">
+        <h2 class="section-title">L'<span>ESSENCE</span></h2>
+        <div class="products-grid">
+            <div class="product-card">
+                <i class="fas fa-user-shield"></i>
+                <h3>PRÉSENCE</h3>
+                <p>Un charisme magnétique qui capture l'attention dès le premier regard. L'art de s'imposer sans un mot.</p>
+            </div>
+            <div class="product-card">
+                <i class="fas fa-crown"></i>
+                <h3>STYLE</h3>
+                <p>Minimaliste, sombre, et audacieux. Le noir n'est pas une couleur, c'est une attitude.</p>
+            </div>
+            <div class="product-card">
+                <i class="fas fa-bolt"></i>
+                <h3>IMPACT</h3>
+                <p>Chaque action laisse une empreinte. Une signature indélébile qui transforme l'ordinaire en légendaire.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="contact-section container" id="contact">
+        <h2>PRÊT À <span style="color:#b80000;">FRANCHIR</span> LE PAS ?</h2>
+        <p style="font-weight: 300; opacity: 0.7; margin-bottom: 10px; letter-spacing: 2px;">Ne me fais pas attendre.</p>
+        
+        <a href="https://wa.me/50933990578" target="_blank">
+            <button class="cta-button">
+                <i class="fab fa-whatsapp"></i> Écris-moi sur WhatsApp
+            </button>
+        </a>
+        
+        <div class="contact-info">
+            <strong>+509 33 99 0578</strong> <br>
+            <span style="font-size: 0.85rem; opacity: 0.6;">Disponible 24h/24. Le sang-froid n'attend pas.</span>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-logo">HIT <span style="color:#fff; opacity:0.3;">|</span> DAMON</div>
+            <p>© 2026 DAMON. Tous droits réservés.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scroll for internal anchors (optional, but keeps it clean)
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>
