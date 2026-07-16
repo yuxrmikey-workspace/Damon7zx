@@ -4,269 +4,254 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>D A M O N | Identité Originale</title>
-    <!-- Polices cinéma : Cinzel pour le titre, Montserrat pour le texte -->
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* Reset et fond sombre absolu */
+        /* Reset & Base */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Montserrat', sans-serif;
-            background-color: #000000; /* Noir pur pour plus de profondeur */
+            background-color: #000000;
             color: #f0f0f0;
             line-height: 1.6;
             overflow-x: hidden;
         }
         a { text-decoration: none; color: inherit; }
 
-        /* Effet "Film Noise" ultra pro pour le fond */
+        /* Effet Grain Cinéma */
         body::before {
             content: "";
-            position: fixed;
-            top: 0; left: 0; width: 100vw; height: 100vh;
-            pointer-events: none;
-            z-index: -1;
-            opacity: 0.3;
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            pointer-events: none; z-index: -1; opacity: 0.2;
             background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
         }
 
-        /* Navigation Glassmorphism (Pro & Sombre) */
+        /* Navigation Glassmorphism */
         nav {
-            position: fixed;
-            top: 0; width: 100%;
-            background: rgba(0, 0, 0, 0.75);
-            backdrop-filter: blur(15px); /* Verre dépoli */
-            border-bottom: 1px solid rgba(184, 0, 0, 0.15);
+            position: fixed; top: 0; width: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(184, 0, 0, 0.2);
             padding: 20px 40px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            display: flex; justify-content: center; align-items: center;
             z-index: 1000;
         }
         .nav-logo {
-            display: flex;
-            align-items: center;
-            gap: 15px;
+            display: flex; align-items: center; gap: 15px;
         }
         .nav-logo img { height: 45px; width: auto; }
         .nav-logo span {
             font-family: 'Cinzel', serif;
-            font-size: 1.6rem;
-            letter-spacing: 12px;
-            color: #ffffff;
-            text-shadow: 0 0 15px rgba(184, 0, 0, 0.4);
+            font-size: 1.6rem; letter-spacing: 12px; color: #ffffff;
+            text-shadow: 0 0 20px rgba(184, 0, 0, 0.5);
         }
 
-        /* Section Hero - Lumière rouge centrale */
+        /* Section Hero */
         .hero {
             height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            /* Dégradé central pour l'aura rouge */
-            background: radial-gradient(circle at center, rgba(184, 0, 0, 0.15) 0%, #000000 60%);
+            display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
+            background: radial-gradient(circle at center, rgba(184, 0, 0, 0.2) 0%, #000000 60%);
             position: relative;
         }
-        
-        /* Le Titre DAMON avec un maximum d'Aura */
         .hero h1 {
             font-family: 'Cinzel', serif;
-            font-size: 7rem;
-            letter-spacing: 25px;
-            font-weight: 700;
-            color: #ffffff;
-            /* Glow rouge ultra intense */
-            text-shadow: 0 0 40px rgba(184, 0, 0, 0.9), 0 0 80px rgba(184, 0, 0, 0.5), 0 0 150px rgba(184, 0, 0, 0.3);
+            font-size: 7rem; letter-spacing: 30px; font-weight: 700; color: #ffffff;
+            text-shadow: 0 0 60px rgba(184, 0, 0, 0.8), 0 0 120px rgba(184, 0, 0, 0.4);
             margin-bottom: 15px;
         }
-        
         .hero .tagline {
-            font-size: 1.4rem;
-            font-weight: 300;
-            letter-spacing: 4px;
-            color: #e0e0e0;
-            font-style: italic;
-            padding: 15px 30px;
-            position: relative;
+            font-size: 1.4rem; letter-spacing: 4px; color: #e0e0e0; font-style: italic;
+            padding: 15px 30px; position: relative;
         }
         .hero .tagline::before, .hero .tagline::after {
-            content: '';
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100px;
-            height: 1px;
+            content: ''; position: absolute; left: 50%; transform: translateX(-50%);
+            width: 100px; height: 1px;
             background: linear-gradient(90deg, transparent, #b80000, transparent);
         }
-        .hero .tagline::before { top: 0; }
-        .hero .tagline::after { bottom: 0; }
+        .hero .tagline::before { top: 0; } .hero .tagline::after { bottom: 0; }
 
-        .hero .bio {
-            margin-top: 35px;
-            font-size: 1.2rem;
-            font-weight: 300;
-            letter-spacing: 1.5px;
-            color: #a0a0a0;
-            max-width: 650px;
-            line-height: 1.8;
-        }
-        .hero .bio strong { color: #ffffff; letter-spacing: 2px; }
-
-        /* Sections */
+        /* Nouveau : Section À Propos (Split-screen) */
         .section {
-            padding: 120px 20px;
-            max-width: 1100px;
-            margin: 0 auto;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
-            position: relative;
+            padding: 100px 0;
+            width: 100%;
+            border-bottom: 1px solid rgba(184, 0, 0, 0.05);
         }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+
+        .split-layout {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 50px; align-items: center;
+        }
+        .split-image img {
+            width: 100%; height: auto; border-radius: 4px;
+            border: 1px solid rgba(184, 0, 0, 0.3);
+            box-shadow: 0 0 40px rgba(184, 0, 0, 0.2);
+            background: #111; /* Placeholder */
+        }
+        .split-text h2 {
+            font-family: 'Cinzel', serif; font-size: 2.5rem; letter-spacing: 6px; margin-bottom: 20px;
+        }
+        .split-text h2 span { color: #b80000; }
+        .split-text p {
+            font-weight: 300; font-size: 1.1rem; color: #a0a0a0; margin-bottom: 20px; line-height: 1.8;
+        }
+        .split-text strong { color: #ffffff; }
+
+        /* Nouveau : Section Catalogue (Reprise de tes 3 visuels) */
         .section-title {
-            font-family: 'Cinzel', serif;
-            font-size: 2.8rem;
-            text-align: center;
-            color: #ffffff;
-            letter-spacing: 8px;
-            margin-bottom: 50px;
-            text-shadow: 0 0 20px rgba(184, 0, 0, 0.1);
+            font-family: 'Cinzel', serif; font-size: 2.8rem; text-align: center;
+            color: #ffffff; letter-spacing: 8px; margin-bottom: 50px;
+            text-shadow: 0 0 30px rgba(184, 0, 0, 0.1);
         }
         .section-title span { color: #b80000; }
-
-        /* Grille des packs */
-        .services-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 40px;
-            margin-top: 30px;
+        
+        .products-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px;
         }
-        .service-card {
+        .product-card {
             background: #050505;
-            padding: 50px 30px;
-            text-align: center;
+            padding: 0; /* On laisse l'image prendre toute la largeur */
             border: 1px solid rgba(255,255,255,0.03);
-            transition: all 0.5s ease;
-            position: relative;
+            border-radius: 4px;
+            overflow: hidden;
+            transition: all 0.4s ease;
         }
-        /* Ligne lumineuse au survol */
-        .service-card::after {
-            content: '';
-            position: absolute;
-            bottom: 0; left: 50%;
-            transform: translateX(-50%);
-            width: 0%; height: 2px;
-            background: #b80000;
-            transition: width 0.4s ease;
-            box-shadow: 0 -5px 20px rgba(184, 0, 0, 0.6);
+        .product-card:hover {
+            transform: translateY(-10px); border-color: #b80000;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.8);
         }
-        .service-card:hover {
-            border-color: rgba(184, 0, 0, 0.4);
-            transform: translateY(-8px);
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
+        .product-card img {
+            width: 100%; height: 250px; object-fit: cover;
+            border-bottom: 2px solid rgba(184, 0, 0, 0.5);
         }
-        .service-card:hover::after { width: 100%; }
-        .service-card i { font-size: 2.8rem; color: #b80000; margin-bottom: 25px; }
-        .service-card h3 { font-size: 1.4rem; letter-spacing: 3px; margin-bottom: 15px; font-weight: 500;}
-        .service-card p { font-weight: 300; font-size: 1rem; color: #888; line-height: 1.7; }
+        .product-info { padding: 25px; text-align: center; }
+        .product-info h3 { letter-spacing: 2px; font-size: 1.3rem; margin-bottom: 10px; }
+        .product-info p { font-weight: 300; color: #888; font-size: 0.95rem; }
 
-        /* Bouton WhatsApp Flottant (Plus d'aura) */
+        /* Bouton WhatsApp Flottant (Aura pulsante) */
         .floating-whatsapp-btn {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            background: #b80000;
-            color: #ffffff;
-            width: 70px;
-            height: 70px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            position: fixed; bottom: 30px; right: 30px;
+            background: #b80000; color: #ffffff;
+            width: 70px; height: 70px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
             font-size: 35px;
-            box-shadow: 0 0 30px rgba(184, 0, 0, 0.6);
-            z-index: 9999;
+            box-shadow: 0 0 30px rgba(184, 0, 0, 0.6); z-index: 9999;
             transition: all 0.3s ease;
             animation: pulse 2s infinite;
         }
         @keyframes pulse {
             0% { box-shadow: 0 0 0 0 rgba(184, 0, 0, 0.7); }
-            70% { box-shadow: 0 0 0 20px rgba(184, 0, 0, 0); }
+            70% { box-shadow: 0 0 0 25px rgba(184, 0, 0, 0); }
             100% { box-shadow: 0 0 0 0 rgba(184, 0, 0, 0); }
         }
         .floating-whatsapp-btn:hover {
-            transform: scale(1.1);
-            background: #8c0000;
-            box-shadow: 0 0 50px rgba(184, 0, 0, 0.9);
+            transform: scale(1.1); background: #8c0000;
+            box-shadow: 0 0 60px rgba(184, 0, 0, 0.9);
         }
 
-        /* Footer (HIT totalement retiré) */
+        /* Footer */
         footer {
-            text-align: center;
-            padding: 50px 20px;
-            background: #000000;
+            text-align: center; padding: 60px 20px;
+            background: #000000; color: #444; letter-spacing: 3px; font-size: 0.9rem;
             border-top: 1px solid rgba(184, 0, 0, 0.2);
-            color: #555;
-            letter-spacing: 3px;
-            font-size: 0.9rem;
         }
-        footer span { color: #b80000; }
-        
+        footer span { color: #b80000; letter-spacing: 6px; font-family: 'Cinzel', serif; font-size: 1.2rem; }
+
+        /* Responsive Mobile */
         @media (max-width: 768px) {
-            .hero h1 { font-size: 3.5rem; letter-spacing: 15px; }
-            .nav-logo span { font-size: 1rem; letter-spacing: 5px; }
+            .hero h1 { font-size: 3.5rem; letter-spacing: 12px; }
+            .split-layout { grid-template-columns: 1fr; gap: 30px; }
+            .split-image { order: 1; } /* Image en haut sur mobile */
+            .split-text { order: 2; }
         }
     </style>
 </head>
 <body>
 
-    <!-- Navigation sans HIT, juste DAMON -->
     <nav>
         <div class="nav-logo">
             <img src="logo.png" alt="Logo DAMON">
             <span>D A M O N</span>
         </div>
-        <!-- HIT a été complètement enlevé ici -->
     </nav>
 
-    <!-- Hero Section : Foncé, Aura rouge ++ -->
+    <!-- Section Hero -->
     <section class="hero">
         <h1>D A M O N</h1>
         <div class="tagline">"You scream, you beg and you die."</div>
-        <p class="bio">
-            <strong>L'Original. Le Meilleur.</strong> Beau, attirant, classe.<br>
-            Sarcastique, égoïste, cruel... mais assumé. Je contrôle tout, du style à l'impact.<br>
+        <p style="margin-top: 30px; font-weight: 300; letter-spacing: 1px; color: #aaa; max-width: 600px; padding: 0 20px;">
+            <strong>L'Original.</strong> Beau, attirant, classe.<br>
             Une présence qui ne laisse aucune place à l'indifférence.
         </p>
     </section>
 
-    <!-- Section 2 Packs Stickers -->
-    <section class="section" id="stickers">
-        <h2 class="section-title">L'<span>ESSENCE</span></h2>
-        <div class="services-grid">
-            <div class="service-card">
-                <i class="fas fa-stamp"></i>
-                <h3>PACKS EXCLUSIFS</h3>
-                <p>Deux packs officiels de stickers "Damon". L'attitude et le sarcasme en un clic pour dominer tes conversations.</p>
+    <!-- NOUVEAU : Section À propos (Split Screen) -->
+    <section class="section">
+        <div class="container split-layout">
+            <div class="split-image">
+                <!-- Remplace ce lien par ta photo de profil ou une photo de toi -->
+                <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=800&q=80" alt="Portrait DAMON">
             </div>
-            <div class="service-card">
-                <i class="fas fa-crown"></i>
-                <h3>STYLE & PRÉSENCE</h3>
-                <p>Une identité visuelle sombre et magnétique. Le rouge et le noir comme signature absolue.</p>
-            </div>
-            <div class="service-card">
-                <i class="fas fa-bolt"></i>
-                <h3>IMPACT LÉGENDAIRE</h3>
-                <p>L'original ne suit pas les règles. Il les écrit. Tu veux ma marque ? Tu viens de la trouver.</p>
+            <div class="split-text">
+                <h2>L'<span>IDENTITÉ</span></h2>
+                <p>
+                    Je suis <strong>Damon</strong>. Pas un héros, pas un méchant. Une présence. <br><br>
+                    Sarcastique, égoïste, cruel par moments... mais d'une loyauté sans faille pour ceux qui comptent. 
+                    Je ne cherche pas à être aimé de tous. Je cherche à être <strong>incontournable</strong>. <br><br>
+                    Le style, l'élégance et l'impact sont ma signature. Le rouge et le noir sont mon territoire.
+                </p>
+                <div style="margin-top: 20px; color: #b80000; letter-spacing: 2px; font-size: 0.9rem;">
+                    <i class="fas fa-crown"></i> L'original.
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- Bouton WhatsApp Flottant avec animation Aura -->
+    <!-- NOUVEAU : Section Catalogue & Stickers (Visuels) -->
+    <section class="section" style="background: #020202;">
+        <div class="container">
+            <h2 class="section-title">LE <span>CATALOGUE</span></h2>
+            <div class="products-grid">
+                
+                <!-- Produit 1 -->
+                <div class="product-card">
+                    <!-- Remplace le lien src par ton image de produit 1 -->
+                    <img src="https://images.unsplash.com/photo-1534352894806-1e7f8a556c77?w=600&q=80" alt="Pack Stickers 1">
+                    <div class="product-info">
+                        <h3>PACK EXCLUSIF #1</h3>
+                        <p>L'attitude et le sarcasme de Damon en autocollants. Pour dominer tes conversations.</p>
+                    </div>
+                </div>
+
+                <!-- Produit 2 -->
+                <div class="product-card">
+                    <!-- Remplace le lien src par ton image de produit 2 -->
+                    <img src="https://images.unsplash.com/photo-1514316454349-750a7fd04da3?w=600&q=80" alt="Pack Stickers 2">
+                    <div class="product-info">
+                        <h3>PACK EXCLUSIF #2</h3>
+                        <p>Le charisme brut en version digitale. Une aura qui traverse l'écran.</p>
+                    </div>
+                </div>
+
+                <!-- Produit 3 -->
+                <div class="product-card">
+                    <!-- Remplace le lien src par ton image de produit 3 -->
+                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=600&q=80" alt="Identité Visuelle">
+                    <div class="product-info">
+                        <h3>PRÉSENCE & STYLE</h3>
+                        <p>Une identité visuelle forgée dans l'obscurité. Une marque qui ne s'oublie pas.</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Bouton WhatsApp Flottant -->
     <a href="https://wa.me/50933990578" target="_blank" class="floating-whatsapp-btn" title="Contact WhatsApp">
         <i class="fab fa-whatsapp"></i>
     </a>
 
-    <!-- Footer (HIT retiré) -->
+    <!-- Footer -->
     <footer>
         <span>D A M O N</span> <br><br>
         © 2026 DAMON. Une présence qui ne s'oublie pas.<br>
