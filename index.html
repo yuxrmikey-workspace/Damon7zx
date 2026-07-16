@@ -3,259 +3,271 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>D A M O N | Identité Originale</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+    <title>DAMON | Présence sur WhatsApp</title>
+    <!-- Typographie premium -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
-        /* Reset & Base */
+        /* RESET & BASE */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Montserrat', sans-serif;
             background-color: #000000;
             color: #f0f0f0;
-            line-height: 1.6;
+            line-height: 1.7;
             overflow-x: hidden;
         }
         a { text-decoration: none; color: inherit; }
 
-        /* Effet Grain Cinéma */
+        /* EFFET GRAIN CINÉMA (Look Pro) */
         body::before {
             content: "";
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            pointer-events: none; z-index: -1; opacity: 0.2;
+            pointer-events: none; z-index: -1; opacity: 0.15;
             background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
         }
 
-        /* Navigation Glassmorphism */
+        /* NAVIGATION (Stylé & Moderne) */
         nav {
             position: fixed; top: 0; width: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(15px);
-            border-bottom: 1px solid rgba(184, 0, 0, 0.2);
-            padding: 20px 40px;
-            display: flex; justify-content: center; align-items: center;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(12px); /* Effet verre dépoli */
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 15px 40px;
+            display: flex; justify-content: space-between; align-items: center;
             z-index: 1000;
         }
         .nav-logo {
             display: flex; align-items: center; gap: 15px;
         }
-        .nav-logo img { height: 45px; width: auto; }
-        .nav-logo span {
-            font-family: 'Cinzel', serif;
-            font-size: 1.6rem; letter-spacing: 12px; color: #ffffff;
-            text-shadow: 0 0 20px rgba(184, 0, 0, 0.5);
+        .nav-logo img {
+            height: 45px; width: auto;
+            border-radius: 50%; /* Logo rond pour le profil WhatsApp */
         }
+        .nav-logo span {
+            font-family: 'Cinzel', serif; font-size: 1.4rem; letter-spacing: 8px; color: #fff;
+        }
+        .nav-btn {
+            background: #b80000; color: #fff; padding: 10px 25px;
+            border-radius: 4px; font-size: 0.9rem; font-weight: 500;
+            letter-spacing: 1px; transition: 0.3s;
+        }
+        .nav-btn:hover { background: #8c0000; transform: scale(1.05); }
 
-        /* Section Hero */
+        /* HERO SECTION (Aura, Live Status & CTA) */
         .hero {
             height: 100vh;
             display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
-            background: radial-gradient(circle at center, rgba(184, 0, 0, 0.2) 0%, #000000 60%);
-            position: relative;
+            /* Aura rouge centrale */
+            background: radial-gradient(circle at center, rgba(184, 0, 0, 0.15) 0%, #000000 60%);
+            position: relative; padding: 0 20px;
+        }
+        /* Avatar principal (logo.png) */
+        .hero-avatar {
+            width: 160px; height: 160px;
+            border-radius: 50%; border: 2px solid rgba(184, 0, 0, 0.5);
+            box-shadow: 0 0 40px rgba(184, 0, 0, 0.3);
+            object-fit: cover;
+            margin-bottom: 20px;
         }
         .hero h1 {
-            font-family: 'Cinzel', serif;
-            font-size: 7rem; letter-spacing: 30px; font-weight: 700; color: #ffffff;
-            text-shadow: 0 0 60px rgba(184, 0, 0, 0.8), 0 0 120px rgba(184, 0, 0, 0.4);
-            margin-bottom: 15px;
+            font-family: 'Cinzel', serif; font-size: 5rem; letter-spacing: 15px; font-weight: 700;
+            color: #ffffff; margin-bottom: 10px;
+            text-shadow: 0 0 30px rgba(184, 0, 0, 0.7);
         }
-        .hero .tagline {
-            font-size: 1.4rem; letter-spacing: 4px; color: #e0e0e0; font-style: italic;
-            padding: 15px 30px; position: relative;
+        .hero .subtitle {
+            font-size: 1.2rem; letter-spacing: 3px; color: #b80000; font-weight: 300; margin-bottom: 20px;
         }
-        .hero .tagline::before, .hero .tagline::after {
-            content: ''; position: absolute; left: 50%; transform: translateX(-50%);
-            width: 100px; height: 1px;
-            background: linear-gradient(90deg, transparent, #b80000, transparent);
+        /* Indicateur Live (Très Moderne) */
+        .live-status {
+            display: inline-flex; align-items: center; gap: 10px;
+            background: rgba(184, 0, 0, 0.1); border: 1px solid rgba(184, 0, 0, 0.3);
+            padding: 8px 20px; border-radius: 50px; margin-bottom: 30px;
+            font-size: 0.9rem; letter-spacing: 1px; color: #ccc;
         }
-        .hero .tagline::before { top: 0; } .hero .tagline::after { bottom: 0; }
+        .live-dot {
+            width: 12px; height: 12px; background: #00ff00;
+            border-radius: 50%; display: inline-block;
+            animation: pulse-dot 2s infinite;
+        }
+        @keyframes pulse-dot {
+            0% { opacity: 0.4; transform: scale(0.8); }
+            50% { opacity: 1; transform: scale(1.2); box-shadow: 0 0 15px rgba(0, 255, 0, 0.6); }
+            100% { opacity: 0.4; transform: scale(0.8); }
+        }
+        /* Bouton CTA Principal */
+        .cta-hero {
+            display: inline-flex; align-items: center; gap: 15px;
+            background: #b80000; color: #fff; padding: 18px 45px;
+            border-radius: 4px; font-size: 1.1rem; font-weight: 600; letter-spacing: 3px;
+            text-transform: uppercase; transition: all 0.3s ease;
+            box-shadow: 0 0 30px rgba(184, 0, 0, 0.4);
+        }
+        .cta-hero:hover {
+            background: #8c0000; transform: translateY(-5px);
+            box-shadow: 0 0 50px rgba(184, 0, 0, 0.7);
+        }
 
-        /* Nouveau : Section À Propos (Split-screen) */
-        .section {
-            padding: 100px 0;
-            width: 100%;
-            border-bottom: 1px solid rgba(184, 0, 0, 0.05);
-        }
-        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        /* SECTION À PROPOS (Split Screen) */
+        .section { padding: 100px 20px; border-bottom: 1px solid rgba(255, 255, 255, 0.03); }
+        .container { max-width: 1100px; margin: 0 auto; }
 
-        .split-layout {
-            display: grid; grid-template-columns: 1fr 1fr; gap: 50px; align-items: center;
-        }
-        .split-image img {
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; }
+        .grid-2 img {
             width: 100%; height: auto; border-radius: 4px;
-            border: 1px solid rgba(184, 0, 0, 0.3);
-            box-shadow: 0 0 40px rgba(184, 0, 0, 0.2);
-            background: #111; /* Placeholder */
+            border: 1px solid rgba(184, 0, 0, 0.2); opacity: 0.8;
+            transition: 0.5s;
         }
-        .split-text h2 {
-            font-family: 'Cinzel', serif; font-size: 2.5rem; letter-spacing: 6px; margin-bottom: 20px;
+        .grid-2 img:hover { opacity: 1; border-color: #b80000; }
+        .text-box h2 {
+            font-family: 'Cinzel', serif; font-size: 2.8rem; letter-spacing: 4px; margin-bottom: 20px;
         }
-        .split-text h2 span { color: #b80000; }
-        .split-text p {
-            font-weight: 300; font-size: 1.1rem; color: #a0a0a0; margin-bottom: 20px; line-height: 1.8;
-        }
-        .split-text strong { color: #ffffff; }
+        .text-box h2 span { color: #b80000; }
+        .text-box p { font-weight: 300; color: #a0a0a0; font-size: 1.1rem; margin-bottom: 15px; }
+        .text-box p strong { color: #fff; }
 
-        /* Nouveau : Section Catalogue (Reprise de tes 3 visuels) */
+        /* SECTION SERVICES */
         .section-title {
-            font-family: 'Cinzel', serif; font-size: 2.8rem; text-align: center;
-            color: #ffffff; letter-spacing: 8px; margin-bottom: 50px;
-            text-shadow: 0 0 30px rgba(184, 0, 0, 0.1);
+            font-family: 'Cinzel', serif; font-size: 2.5rem; text-align: center; color: #fff;
+            letter-spacing: 6px; margin-bottom: 40px;
         }
         .section-title span { color: #b80000; }
         
-        .products-grid {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px;
+        .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; }
+        .service-card {
+            background: #080808; padding: 40px 20px; text-align: center;
+            border: 1px solid rgba(255,255,255,0.05); transition: 0.4s;
         }
-        .product-card {
-            background: #050505;
-            padding: 0; /* On laisse l'image prendre toute la largeur */
-            border: 1px solid rgba(255,255,255,0.03);
-            border-radius: 4px;
-            overflow: hidden;
-            transition: all 0.4s ease;
-        }
-        .product-card:hover {
-            transform: translateY(-10px); border-color: #b80000;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.8);
-        }
-        .product-card img {
-            width: 100%; height: 250px; object-fit: cover;
-            border-bottom: 2px solid rgba(184, 0, 0, 0.5);
-        }
-        .product-info { padding: 25px; text-align: center; }
-        .product-info h3 { letter-spacing: 2px; font-size: 1.3rem; margin-bottom: 10px; }
-        .product-info p { font-weight: 300; color: #888; font-size: 0.95rem; }
+        .service-card:hover { border-color: #b80000; transform: translateY(-8px); box-shadow: 0 10px 30px rgba(0,0,0,0.8); }
+        .service-card i { font-size: 2.5rem; color: #b80000; margin-bottom: 20px; }
+        .service-card h3 { font-size: 1.3rem; letter-spacing: 2px; margin-bottom: 10px; }
+        .service-card p { font-weight: 300; color: #888; font-size: 0.95rem; }
 
-        /* Bouton WhatsApp Flottant (Aura pulsante) */
-        .floating-whatsapp-btn {
-            position: fixed; bottom: 30px; right: 30px;
-            background: #b80000; color: #ffffff;
-            width: 70px; height: 70px; border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 35px;
-            box-shadow: 0 0 30px rgba(184, 0, 0, 0.6); z-index: 9999;
-            transition: all 0.3s ease;
-            animation: pulse 2s infinite;
+        /* CONTACT DIRECT VIA WHATSAPP */
+        .contact-section {
+            text-align: center; padding: 80px 20px;
+            background: radial-gradient(circle at center, rgba(184, 0, 0, 0.05) 0%, #000 100%);
         }
-        @keyframes pulse {
-            0% { box-shadow: 0 0 0 0 rgba(184, 0, 0, 0.7); }
-            70% { box-shadow: 0 0 0 25px rgba(184, 0, 0, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(184, 0, 0, 0); }
+        .contact-section h2 { font-size: 2rem; margin-bottom: 15px; font-family: 'Cinzel', serif; letter-spacing: 3px; }
+        .contact-section p { color: #888; margin-bottom: 30px; }
+        
+        .cta-footer {
+            display: inline-flex; align-items: center; gap: 15px;
+            background: transparent; border: 2px solid #b80000; color: #b80000;
+            padding: 16px 40px; border-radius: 4px; font-size: 1.1rem; font-weight: 600;
+            letter-spacing: 2px; transition: 0.3s;
         }
-        .floating-whatsapp-btn:hover {
-            transform: scale(1.1); background: #8c0000;
-            box-shadow: 0 0 60px rgba(184, 0, 0, 0.9);
-        }
+        .cta-footer:hover { background: #b80000; color: #fff; box-shadow: 0 0 30px rgba(184, 0, 0, 0.4); }
+        .contact-info { margin-top: 25px; font-weight: 300; color: #666; letter-spacing: 1px; }
+        .contact-info strong { color: #ccc; }
 
-        /* Footer */
-        footer {
-            text-align: center; padding: 60px 20px;
-            background: #000000; color: #444; letter-spacing: 3px; font-size: 0.9rem;
-            border-top: 1px solid rgba(184, 0, 0, 0.2);
-        }
-        footer span { color: #b80000; letter-spacing: 6px; font-family: 'Cinzel', serif; font-size: 1.2rem; }
+        /* FOOTER */
+        footer { text-align: center; padding: 40px 20px; background: #000; color: #555; letter-spacing: 2px; font-size: 0.9rem; border-top: 1px solid rgba(184, 0, 0, 0.1); }
+        footer span { color: #b80000; font-family: 'Cinzel', serif; letter-spacing: 6px; }
 
-        /* Responsive Mobile */
+        /* RESPONSIVE */
         @media (max-width: 768px) {
-            .hero h1 { font-size: 3.5rem; letter-spacing: 12px; }
-            .split-layout { grid-template-columns: 1fr; gap: 30px; }
-            .split-image { order: 1; } /* Image en haut sur mobile */
-            .split-text { order: 2; }
+            .hero h1 { font-size: 3rem; letter-spacing: 8px; }
+            .grid-2 { grid-template-columns: 1fr; }
+            .grid-2 img { order: 1; } /* Image en haut sur mobile */
+            .text-box { order: 2; }
+            .hero-avatar { width: 120px; height: 120px; }
         }
     </style>
 </head>
 <body>
 
+    <!-- NAVIGATION -->
     <nav>
         <div class="nav-logo">
-            <img src="logo.png" alt="Logo DAMON">
-            <span>D A M O N</span>
+            <!-- Ton logo.png représente ton identité WhatsApp -->
+            <img src="logo.png" alt="Profil WhatsApp DAMON">
+            <span>DAMON</span>
         </div>
+        <a href="https://wa.me/50933990578" target="_blank" class="nav-btn">
+            <i class="fab fa-whatsapp"></i> Contact
+        </a>
     </nav>
 
-    <!-- Section Hero -->
-    <section class="hero">
-        <h1>D A M O N</h1>
-        <div class="tagline">"You scream, you beg and you die."</div>
-        <p style="margin-top: 30px; font-weight: 300; letter-spacing: 1px; color: #aaa; max-width: 600px; padding: 0 20px;">
-            <strong>L'Original.</strong> Beau, attirant, classe.<br>
-            Une présence qui ne laisse aucune place à l'indifférence.
-        </p>
-    </section>
+    <!-- HERO SECTION (LIVE & CTA) -->
+    <header class="hero">
+        <!-- Affichage du logo en grand pour renforcer l'identité -->
+        <img src="logo.png" alt="DAMON Profile" class="hero-avatar">
+        
+        <h1>DAMON</h1>
+        <div class="subtitle">Présence. Style. Impact.</div>
+        
+        <!-- Indicateur "LIVE" pour montrer que tu es actif sur WhatsApp -->
+        <div class="live-status">
+            <span class="live-dot"></span> En ligne sur WhatsApp
+        </div>
 
-    <!-- NOUVEAU : Section À propos (Split Screen) -->
+        <!-- Bouton principal pour contacter immédiatement -->
+        <a href="https://wa.me/50933990578" target="_blank" class="cta-hero">
+            <i class="fab fa-whatsapp"></i> Me contacter sur WhatsApp
+        </a>
+    </header>
+
+    <!-- SECTION À PROPOS -->
     <section class="section">
-        <div class="container split-layout">
-            <div class="split-image">
-                <!-- Remplace ce lien par ta photo de profil ou une photo de toi -->
-                <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=800&q=80" alt="Portrait DAMON">
-            </div>
-            <div class="split-text">
-                <h2>L'<span>IDENTITÉ</span></h2>
-                <p>
-                    Je suis <strong>Damon</strong>. Pas un héros, pas un méchant. Une présence. <br><br>
-                    Sarcastique, égoïste, cruel par moments... mais d'une loyauté sans faille pour ceux qui comptent. 
-                    Je ne cherche pas à être aimé de tous. Je cherche à être <strong>incontournable</strong>. <br><br>
-                    Le style, l'élégance et l'impact sont ma signature. Le rouge et le noir sont mon territoire.
-                </p>
-                <div style="margin-top: 20px; color: #b80000; letter-spacing: 2px; font-size: 0.9rem;">
-                    <i class="fas fa-crown"></i> L'original.
-                </div>
+        <div class="container grid-2">
+            <img src="https://images.unsplash.com/photo-1534352894806-1e7f8a556c77?w=800&q=80" alt="Ambiance Dark" style="aspect-ratio: 1/1; object-fit: cover;">
+            <div class="text-box">
+                <h2>L'<span>ORIGINAL</span></h2>
+                <p>Je suis <strong>Damon</strong>. Le meilleur, beau, attirant, classe.</p>
+                <p>Sarcastique, égoïste, cruel... mais je l'assume. Je ne suis pas là pour plaire à tout le monde, je suis là pour laisser une empreinte.</p>
+                <p>Cette page est mon identité digitale. Mon espace personnel, mon style, mon territoire. Le rouge et le noir sont ma signature.</p>
+                <a href="https://wa.me/50933990578" target="_blank" style="display: inline-block; margin-top: 15px; color: #b80000; border-bottom: 1px solid #b80000; padding-bottom: 3px; font-weight: 500;">
+                    Discutons-en &rarr;
+                </a>
             </div>
         </div>
     </section>
 
-    <!-- NOUVEAU : Section Catalogue & Stickers (Visuels) -->
+    <!-- SECTION SERVICES / PRODUITS -->
     <section class="section" style="background: #020202;">
         <div class="container">
-            <h2 class="section-title">LE <span>CATALOGUE</span></h2>
-            <div class="products-grid">
-                
-                <!-- Produit 1 -->
-                <div class="product-card">
-                    <!-- Remplace le lien src par ton image de produit 1 -->
-                    <img src="https://images.unsplash.com/photo-1534352894806-1e7f8a556c77?w=600&q=80" alt="Pack Stickers 1">
-                    <div class="product-info">
-                        <h3>PACK EXCLUSIF #1</h3>
-                        <p>L'attitude et le sarcasme de Damon en autocollants. Pour dominer tes conversations.</p>
-                    </div>
+            <h2 class="section-title">L'<span>ESSENCE</span></h2>
+            <div class="services-grid">
+                <div class="service-card">
+                    <i class="fas fa-stamp"></i>
+                    <h3>PACKS STICKERS</h3>
+                    <p>Deux packs officiels de stickers "Damon" pour injecter mon attitude et mon sarcasme dans tes conversations.</p>
                 </div>
-
-                <!-- Produit 2 -->
-                <div class="product-card">
-                    <!-- Remplace le lien src par ton image de produit 2 -->
-                    <img src="https://images.unsplash.com/photo-1514316454349-750a7fd04da3?w=600&q=80" alt="Pack Stickers 2">
-                    <div class="product-info">
-                        <h3>PACK EXCLUSIF #2</h3>
-                        <p>Le charisme brut en version digitale. Une aura qui traverse l'écran.</p>
-                    </div>
+                <div class="service-card">
+                    <i class="fas fa-crown"></i>
+                    <h3>PRÉSENCE & STYLE</h3>
+                    <p>Une identité visuelle sombre et magnétique. Une marque de fabrique qui ne laisse personne indifférent.</p>
                 </div>
-
-                <!-- Produit 3 -->
-                <div class="product-card">
-                    <!-- Remplace le lien src par ton image de produit 3 -->
-                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=600&q=80" alt="Identité Visuelle">
-                    <div class="product-info">
-                        <h3>PRÉSENCE & STYLE</h3>
-                        <p>Une identité visuelle forgée dans l'obscurité. Une marque qui ne s'oublie pas.</p>
-                    </div>
+                <div class="service-card">
+                    <i class="fas fa-bolt"></i>
+                    <h3>IMPACT ABSOLU</h3>
+                    <p>L'original ne suit pas les règles. Il les écrit. Si tu veux ma signature, tu viens de la trouver.</p>
                 </div>
-
             </div>
         </div>
     </section>
 
-    <!-- Bouton WhatsApp Flottant -->
-    <a href="https://wa.me/50933990578" target="_blank" class="floating-whatsapp-btn" title="Contact WhatsApp">
-        <i class="fab fa-whatsapp"></i>
-    </a>
+    <!-- CONTACT DIRECT WHATSAPP -->
+    <section class="contact-section">
+        <h2>UNE <span style="color:#b80000;">PRÉSENCE</span> À NE PAS IGNORER</h2>
+        <p>Mon WhatsApp est ouvert 24h/24. Ne me fais pas attendre.</p>
+        
+        <a href="https://wa.me/50933990578" target="_blank" class="cta-footer">
+            <i class="fab fa-whatsapp"></i> Discutons sur WhatsApp
+        </a>
+        
+        <div class="contact-info">
+            <strong>+509 33 99 0578</strong> <br>
+            <span style="font-size: 0.8rem;">Direct. Sarcastique. Efficace.</span>
+        </div>
+    </section>
 
-    <!-- Footer -->
+    <!-- FOOTER -->
     <footer>
         <span>D A M O N</span> <br><br>
-        © 2026 DAMON. Une présence qui ne s'oublie pas.<br>
-        +509 33 99 0578
+        © 2026 DAMON. Une marque qui ne s'oublie pas.
     </footer>
 
 </body>
