@@ -3,397 +3,226 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DAMON | Présence. Style. Impact.</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <title>D A M O N | Identité Originale</title>
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* RESET & BASE */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        /* Reset & Base */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Montserrat', sans-serif;
             background-color: #050505;
-            color: #e5e5e5;
-            line-height: 1.6;
+            color: #ffffff; /* Fonts police color: Blanc */
             overflow-x: hidden;
         }
+        a { text-decoration: none; color: inherit; }
 
-        a {
-            text-decoration: none;
-            color: inherit;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        /* NAVBAR */
+        /* Navbar */
         nav {
             position: fixed;
-            top: 0;
-            width: 100%;
-            padding: 20px 0;
-            background: rgba(5, 5, 5, 0.85);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            top: 0; width: 100%;
+            background: rgba(5, 5, 5, 0.9);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(184, 0, 0, 0.3);
+            padding: 18px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             z-index: 1000;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
         }
-
-        .nav-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            width: 100%;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        .logo {
+        .nav-logo { display: flex; align-items: center; gap: 15px; }
+        .nav-logo img { height: 45px; width: auto; } /* Logo.png */
+        .nav-logo span {
             font-family: 'Cinzel', serif;
-            font-weight: 700;
             font-size: 1.4rem;
+            letter-spacing: 8px;
+            color: #ffffff;
+        }
+        .brand-tagline {
+            font-size: 0.8rem;
             letter-spacing: 2px;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .logo span {
             color: #b80000;
-        }
-
-        .brand-tag {
-            font-size: 0.7rem;
-            letter-spacing: 4px;
-            opacity: 0.6;
-            font-weight: 300;
             text-transform: uppercase;
         }
 
-        /* HERO SECTION */
+        /* Hero Section - Sombre, Aura */
         .hero {
             height: 100vh;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
             text-align: center;
-            background: linear-gradient(135deg, rgba(5,5,5,0.85) 0%, rgba(10,10,10,0.95) 100%), 
-                        url('https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=1600&q=80') center/cover no-repeat;
+            background: radial-gradient(circle at center, rgba(184,0,0,0.15) 0%, rgba(5,5,5,1) 70%);
             position: relative;
         }
-
-        .hero-content h1 {
+        .hero h1 {
             font-family: 'Cinzel', serif;
             font-size: 6rem;
+            letter-spacing: 20px; /* D  A  M  O  N espacé */
             font-weight: 700;
-            letter-spacing: 8px;
+            /* L'AURA DEMANDÉE (Rouge et noir) */
+            color: #ffffff;
+            text-shadow: 0 0 30px rgba(184, 0, 0, 0.8), 0 0 80px rgba(184, 0, 0, 0.4);
             margin-bottom: 10px;
-            text-shadow: 0 0 40px rgba(184, 0, 0, 0.3);
         }
-
-        .hero-content .subtitle {
-            font-size: 1.2rem;
+        .hero .tagline {
+            font-size: 1.4rem;
             font-weight: 300;
-            letter-spacing: 6px;
-            text-transform: uppercase;
-            color: #b80000;
-            margin-bottom: 20px;
+            letter-spacing: 3px;
+            color: #e0e0e0;
+            font-style: italic;
+            border-top: 1px solid #b80000;
+            border-bottom: 1px solid #b80000;
+            padding: 15px 30px;
+            margin-top: 15px;
         }
-
-        .hero-content .tagline {
-            font-size: 1.5rem;
+        .hero .bio {
+            margin-top: 30px;
+            font-size: 1.1rem;
             font-weight: 300;
             letter-spacing: 2px;
-            opacity: 0.8;
-            font-style: italic;
+            color: #a0a0a0;
+            max-width: 600px;
         }
+        .hero .bio strong { color: #ffffff; }
 
-        .scroll-down {
-            position: absolute;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            color: #e5e5e5;
-            font-size: 1.5rem;
-            animation: bounce 2s infinite;
-            opacity: 0.5;
-        }
-
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
-            40% { transform: translateX(-50%) translateY(-10px); }
-            60% { transform: translateX(-50%) translateY(-5px); }
-        }
-
-        /* ABOUT */
+        /* Sections */
         .section {
-            padding: 100px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 100px 20px;
+            max-width: 1100px;
+            margin: 0 auto;
+            border-bottom: 1px solid rgba(184, 0, 0, 0.2);
         }
-
         .section-title {
             font-family: 'Cinzel', serif;
             font-size: 2.5rem;
             text-align: center;
+            color: #ffffff;
+            letter-spacing: 6px;
             margin-bottom: 40px;
-            letter-spacing: 4px;
+            text-shadow: 0 0 15px rgba(184, 0, 0, 0.2);
         }
+        .section-title span { color: #b80000; }
 
-        .section-title span {
-            color: #b80000;
-        }
-
-        .about-text {
-            max-width: 700px;
-            margin: 0 auto;
-            text-align: center;
-            font-weight: 300;
-            font-size: 1.1rem;
-            letter-spacing: 1px;
-            color: #b0b0b0;
-        }
-
-        .about-text strong {
-            color: #e5e5e5;
-        }
-
-        /* PRODUCTS / SERVICES */
-        .products-grid {
+        .services-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 40px;
-            margin-top: 20px;
+            gap: 30px;
+            margin-top: 30px;
         }
-
-        .product-card {
-            background: #0f0f0f;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            padding: 40px 30px;
+        .service-card {
+            background: #0d0d0d;
+            padding: 40px 20px;
             text-align: center;
-            transition: all 0.4s ease;
-            position: relative;
-            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: 0.3s;
         }
-
-        .product-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 4px;
-            background: #b80000;
-            transform: scaleX(0);
-            transition: transform 0.4s ease;
-            transform-origin: left;
-        }
-
-        .product-card:hover {
-            transform: translateY(-10px);
+        .service-card:hover {
             border-color: #b80000;
-            box-shadow: 0 20px 40px rgba(184, 0, 0, 0.15);
+            transform: translateY(-5px);
+            box-shadow: 0 0 20px rgba(184, 0, 0, 0.2);
         }
+        .service-card i { font-size: 2.5rem; color: #b80000; margin-bottom: 20px; }
+        .service-card h3 { font-size: 1.3rem; letter-spacing: 2px; margin-bottom: 10px; }
+        .service-card p { font-weight: 300; font-size: 0.95rem; color: #a0a0a0; }
 
-        .product-card:hover::before {
-            transform: scaleX(1);
-        }
-
-        .product-card i {
-            font-size: 2.5rem;
-            color: #b80000;
-            margin-bottom: 20px;
-        }
-
-        .product-card h3 {
-            font-family: 'Cinzel', serif;
-            font-size: 1.4rem;
-            letter-spacing: 2px;
-            margin-bottom: 15px;
-        }
-
-        .product-card p {
-            font-weight: 300;
-            font-size: 0.95rem;
-            color: #b0b0b0;
-        }
-
-        /* CONTACT CTA */
-        .contact-section {
-            padding: 80px 0;
-            text-align: center;
-        }
-
-        .contact-section h2 {
-            font-family: 'Cinzel', serif;
-            font-size: 2rem;
-            margin-bottom: 20px;
-            letter-spacing: 3px;
-        }
-
-        .cta-button {
-            display: inline-flex;
-            align-items: center;
-            gap: 15px;
+        /* Bouton WhatsApp Flottant (Exactement comme demandé) */
+        .floating-whatsapp-btn {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
             background: #b80000;
-            color: #fff;
-            padding: 18px 45px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
+            color: #ffffff;
+            width: 65px;
+            height: 65px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            box-shadow: 0 4px 20px rgba(184, 0, 0, 0.6);
+            z-index: 9999;
             transition: all 0.3s ease;
-            margin-top: 10px;
         }
-
-        .cta-button:hover {
+        .floating-whatsapp-btn:hover {
+            transform: scale(1.1);
             background: #8c0000;
-            transform: scale(1.05);
-            box-shadow: 0 0 30px rgba(184, 0, 0, 0.4);
+            box-shadow: 0 0 40px rgba(184, 0, 0, 0.9);
         }
 
-        .cta-button i {
-            font-size: 1.4rem;
-        }
-
-        .contact-info {
-            margin-top: 25px;
-            font-weight: 300;
-            color: #b0b0b0;
-            letter-spacing: 1px;
-        }
-
-        .contact-info strong {
-            color: #e5e5e5;
-            font-weight: 500;
-        }
-
-        /* FOOTER */
+        /* Footer */
         footer {
-            background: #0a0a0a;
-            padding: 40px 0;
             text-align: center;
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        footer p {
-            font-weight: 300;
-            font-size: 0.9rem;
-            letter-spacing: 3px;
+            padding: 40px 20px;
+            background: #020202;
+            border-top: 1px solid #b80000;
             color: #666;
+            letter-spacing: 2px;
+            font-size: 0.9rem;
         }
-
-        footer .footer-logo {
-            font-family: 'Cinzel', serif;
-            font-size: 1.2rem;
-            color: #b80000;
-            margin-bottom: 10px;
-        }
-
-        /* RESPONSIVE */
+        
+        /* Mobile responsive */
         @media (max-width: 768px) {
-            .hero-content h1 { font-size: 3.5rem; letter-spacing: 4px; }
-            .hero-content .tagline { font-size: 1.1rem; }
-            .section-title { font-size: 2rem; }
-            .products-grid { grid-template-columns: 1fr; }
+            .hero h1 { font-size: 3rem; letter-spacing: 12px; }
+            .nav-logo span { font-size: 1rem; }
         }
     </style>
 </head>
 <body>
 
+    <!-- Navigation avec le logo.png -->
     <nav>
-        <div class="nav-container">
-            <div class="logo">
-                <span>HIT</span> <span style="color:#fff; opacity:0.3;">|</span> DAMON
-            </div>
-            <div class="brand-tag">Présence. Style. Impact.</div>
+        <div class="nav-logo">
+            <img src="logo.png" alt="Logo DAMON"> <!-- C'est ici que tu mets ton logo.png -->
+            <span>D A M O N</span>
         </div>
+        <div class="brand-tagline">H I T</div>
     </nav>
 
-    <header class="hero">
-        <div class="hero-content">
-            <h1>DAMON</h1>
-            <div class="subtitle">L'élégance n'a pas de règles. Je les réécris.</div>
-            <p class="tagline">"Une présence qui ne passe pas inaperçue."</p>
-            <div class="scroll-down"><i class="fas fa-chevron-down"></i></div>
-        </div>
-    </header>
-
-    <section class="section container">
-        <h2 class="section-title">À <span>PROPOS</span></h2>
-        <div class="about-text">
-            <p><strong>Damon</strong> n'est pas un personnage, c'est une déclaration. 
-            Une identité forgée dans le mystère, le charisme brut et un style qui défie le temps. 
-            Je ne joue pas les bad boys, je redéfinis les codes du cool.</p>
-        </div>
+    <!-- Hero Section : Sombre & Aura -->
+    <section class="hero">
+        <h1>D A M O N</h1>
+        <div class="tagline">"You scream, you beg and you die."</div>
+        <p class="bio">
+            <strong>Le meilleur. Beau, attirant, classe.</strong> <br>
+            Sarcastique, égoïste, cruel... mais j'assume. Je contrôle tout, du style à l'impact. <br>
+            Je suis l'<strong>Original</strong>.
+        </p>
     </section>
 
-    <section class="section container" id="services">
+    <!-- Section Stickers (d'après tes notes) -->
+    <section class="section" id="stickers">
         <h2 class="section-title">L'<span>ESSENCE</span></h2>
-        <div class="products-grid">
-            <div class="product-card">
-                <i class="fas fa-user-shield"></i>
-                <h3>PRÉSENCE</h3>
-                <p>Un charisme magnétique qui capture l'attention dès le premier regard. L'art de s'imposer sans un mot.</p>
+        <div class="services-grid">
+            <div class="service-card">
+                <i class="fas fa-stamp"></i>
+                <h3>PACKS STICKERS</h3>
+                <p>Deux packs exclusifs de stickers "Damon". L'attitude en un clic pour tes conversations.</p>
             </div>
-            <div class="product-card">
+            <div class="service-card">
                 <i class="fas fa-crown"></i>
-                <h3>STYLE</h3>
-                <p>Minimaliste, sombre, et audacieux. Le noir n'est pas une couleur, c'est une attitude.</p>
+                <h3>PRÉSENCE & STYLE</h3>
+                <p>Sombre, magnétique, intemporel. Une identité visuelle forgée dans le rouge et le noir.</p>
             </div>
-            <div class="product-card">
+            <div class="service-card">
                 <i class="fas fa-bolt"></i>
-                <h3>IMPACT</h3>
-                <p>Chaque action laisse une empreinte. Une signature indélébile qui transforme l'ordinaire en légendaire.</p>
+                <h3>IMPACT ABSOLU</h3>
+                <p>L'original ne suit pas les règles. Il les écrit. Tu veux ma signature ? Tu l'as.</p>
             </div>
         </div>
     </section>
 
-    <section class="contact-section container" id="contact">
-        <h2>PRÊT À <span style="color:#b80000;">FRANCHIR</span> LE PAS ?</h2>
-        <p style="font-weight: 300; opacity: 0.7; margin-bottom: 10px; letter-spacing: 2px;">Ne me fais pas attendre.</p>
-        
-        <a href="https://wa.me/50933990578" target="_blank">
-            <button class="cta-button">
-                <i class="fab fa-whatsapp"></i> Écris-moi sur WhatsApp
-            </button>
-        </a>
-        
-        <div class="contact-info">
-            <strong>+509 33 99 0578</strong> <br>
-            <span style="font-size: 0.85rem; opacity: 0.6;">Disponible 24h/24. Le sang-froid n'attend pas.</span>
-        </div>
-    </section>
+    <!-- Bouton WhatsApp Flottant (Amenant à la discussion) -->
+    <a href="https://wa.me/50933990578" target="_blank" class="floating-whatsapp-btn" title="Contact WhatsApp">
+        <i class="fab fa-whatsapp"></i>
+    </a>
 
+    <!-- Footer -->
     <footer>
-        <div class="container">
-            <div class="footer-logo">HIT <span style="color:#fff; opacity:0.3;">|</span> DAMON</div>
-            <p>© 2026 DAMON. Tous droits réservés.</p>
-        </div>
+        <p>© 2026 D A M O N | Identité Originale <br> +509 33 99 0578</p>
     </footer>
 
-    <script>
-        // Smooth scroll for internal anchors (optional, but keeps it clean)
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
-            });
-        });
-    </script>
 </body>
 </html>
