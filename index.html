@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-        /* Reset absolu */
+        /* Reset & Layout */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Inter', sans-serif;
@@ -21,7 +21,7 @@
 
         .container { max-width: 700px; width: 100%; display: flex; flex-direction: column; align-items: center; }
 
-        /* LOGO ORIGINAL (avec bordure et ombre rouge) */
+        /* LOGO ORIGINAL (avec bordure et aura rouge) */
         .avatar-wrapper {
             position: relative; margin-bottom: 25px;
             display: flex; justify-content: center; align-items: center;
@@ -63,7 +63,7 @@
             100% { opacity: 1; transform: scale(1.3); box-shadow: 0 0 15px #25D366; }
         }
 
-        /* BOUTON CTA UNIQUE */
+        /* BOUTON DE CONTACT PRINCIPAL */
         .cta-primary {
             display: inline-flex; align-items: center; justify-content: center; gap: 15px;
             background: #b80000; color: #ffffff; 
@@ -78,55 +78,69 @@
         }
         .cta-primary i { font-size: 1.5rem; }
 
-        /* NUMÉRO UNIQUEMENT SOUS LE BOUTON */
-        .phone-number {
-            color: #666; font-weight: 400; letter-spacing: 2px; font-size: 1rem;
-            margin-top: 20px;
+        /* ICÔNE WHATSAPP FLOTTANTE (En bas à droite) */
+        .floating-whatsapp {
+            position: fixed; bottom: 30px; right: 30px;
+            width: 65px; height: 65px; border-radius: 50%;
+            background: #25D366; color: #ffffff;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 2.2rem; z-index: 1000;
+            box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4);
+            transition: all 0.3s ease; animation: floatPulse 2s infinite;
         }
-        .phone-number strong { color: #a0a0a0; }
+        @keyframes floatPulse {
+            0%, 100% { transform: translateY(0px); box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4); }
+            50% { transform: translateY(-6px); box-shadow: 0 8px 30px rgba(37, 211, 102, 0.8); }
+        }
+        .floating-whatsapp:hover {
+            transform: scale(1.1); background: #1ebd59;
+            box-shadow: 0 8px 40px rgba(37, 211, 102, 0.9);
+        }
 
+        /* FOOTER */
         footer {
             color: #333; font-size: 0.75rem; letter-spacing: 2px;
             border-top: 1px solid rgba(255,255,255,0.05); padding-top: 20px;
-            margin-top: 40px; width: 100%;
+            margin-top: 50px; width: 100%;
         }
 
         @media (max-width: 600px) {
             .avatar-wrapper img { width: 120px; height: 120px; }
             h1 { font-size: 2.8rem; }
             .cta-primary { padding: 16px 20px; font-size: 1rem; }
+            .floating-whatsapp { width: 55px; height: 55px; font-size: 1.8rem; bottom: 20px; right: 20px; }
         }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <!-- 1. LOGO ORIGINAL (Place logo.png ici) -->
+        <!-- 1. LOGO ORIGINAL (logo.png) -->
         <div class="avatar-wrapper">
             <img src="logo.png" alt="Tylxr Logo">
         </div>
 
-        <!-- 2. NOM -->
+        <!-- 2. NOM & TAGLINE -->
         <h1>It's Tylxr🧛🏽</h1>
         <p class="tagline">"You scream, you beg and you die."</p>
 
-        <!-- 3. LIVE -->
+        <!-- 3. LIVE INDICATOR -->
         <div class="live-pill">
             <span class="live-dot"></span> En ligne sur WhatsApp
         </div>
 
-        <!-- 4. LE BOUTON PRINCIPAL -->
+        <!-- 4. BOUTON DE CONTACT PRINCIPAL (Le numéro est caché dans le lien) -->
         <a href="https://wa.me/17879684394" target="_blank" class="cta-primary">
             <i class="fab fa-whatsapp"></i> Me contacter sur WhatsApp
         </a>
-
-        <!-- 5. NUMÉRO (UNIQUEMENT ICI) -->
-        <div class="phone-number">
-            <strong>+1 787 968 4394</strong>
-        </div>
     </div>
 
-    <!-- FOOTER -->
+    <!-- 5. ICÔNE FLOTTANTE (Même lien, aucun numéro visible) -->
+    <a href="https://wa.me/17879684394" target="_blank" class="floating-whatsapp">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <!-- 6. FOOTER -->
     <footer>
         <span>It's Tylxr🧛🏽</span> &bull; Identité WhatsApp &bull; © 2026
     </footer>
