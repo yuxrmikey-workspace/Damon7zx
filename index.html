@@ -3,181 +3,141 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>It's Tylxr🧛🏽 | Présence</title>
-    <!-- Polices minimalistes mais imposantes : Inter pour le texte, Playfair pour le titre -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
+    <title>It's Tylxr🧛🏽 | Identité WhatsApp</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-        /* Reset Ultra Propre */
+        /* Reset Ultra Minimaliste */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #050505; /* Noir presque absolu */
+            background-color: #050505;
             color: #f5f5f5;
-            line-height: 1.6;
-            display: flex; flex-direction: column; min-height: 100vh;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            min-height: 100vh; text-align: center; padding: 20px;
         }
         a { text-decoration: none; color: inherit; }
 
-        /* Ambiance de fond (léger grain cinéma) */
-        body::before {
-            content: ""; position: fixed; inset: 0;
-            pointer-events: none; z-index: -1; opacity: 0.15;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        /* Conteneur central (persuasif) */
+        .container {
+            max-width: 700px; width: 100%;
+            display: flex; flex-direction: column; align-items: center;
         }
 
-        /* --- NAVIGATION (ÉPURÉE) --- */
-        nav {
-            position: fixed; top: 0; width: 100%;
-            background: rgba(5, 5, 5, 0.85);
-            backdrop-filter: blur(8px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
-            padding: 18px 30px;
-            display: flex; justify-content: space-between; align-items: center;
-            z-index: 1000;
+        /* LOGO ORIGINAL (avec aura rouge) */
+        .avatar-wrapper {
+            position: relative; margin-bottom: 25px;
         }
-        .nav-brand {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.2rem; letter-spacing: 1px; color: #fff;
+        .avatar-wrapper img {
+            width: 150px; height: 150px; border-radius: 50%; object-fit: cover;
+            border: 3px solid rgba(184, 0, 0, 0.5);
+            box-shadow: 0 0 40px rgba(184, 0, 0, 0.3); /* L'aura persuasive */
+            background: #111; /* Fond de secours si l'image est transparente */
+            transition: 0.3s;
         }
-        .nav-contact {
-            display: flex; align-items: center; gap: 15px;
-            color: #a0a0a0; font-size: 0.9rem; font-weight: 400; letter-spacing: 0.5px;
-        }
-        .nav-contact i { color: #25D366; font-size: 1.1rem; }
-        .nav-contact a {
-            background: transparent; border: 1px solid #25D366;
-            padding: 6px 16px; border-radius: 4px; color: #fff; font-size: 0.8rem; font-weight: 500;
-            transition: 0.3s; display: flex; align-items: center; gap: 8px;
-        }
-        .nav-contact a:hover { background: #25D366; color: #000; }
+        .avatar-wrapper img:hover { box-shadow: 0 0 70px rgba(184, 0, 0, 0.6); }
 
-        /* --- HERO (TYPOGRAPHIE MASSIVE) --- */
-        .hero {
-            flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center;
-            text-align: center; padding: 120px 20px 60px; position: relative;
-        }
-        
-        .hero h1 {
+        /* NOM */
+        h1 {
             font-family: 'Playfair Display', serif;
-            font-size: 5.5rem; letter-spacing: 2px; font-weight: 700;
-            color: #ffffff; margin-bottom: 10px;
-            /* Léger dégradé sombre pour le style */
-            background: linear-gradient(135deg, #ffffff 30%, #cc0000 100%);
+            font-size: 3.8rem; letter-spacing: 2px; font-weight: 700;
+            background: linear-gradient(135deg, #ffffff 60%, #b80000 100%);
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            margin-bottom: 5px;
         }
-        .hero .subtitle {
-            font-size: 1.2rem; font-weight: 300; font-style: italic;
-            letter-spacing: 4px; color: #888888; margin-bottom: 50px;
+        .tagline {
+            font-weight: 300; font-style: italic; letter-spacing: 3px;
+            color: #888888; font-size: 1.1rem; margin-bottom: 30px;
         }
 
-        /* INDICATEUR LIVE (Très propre) */
+        /* INDICATEUR LIVE (Pour persuader de la réactivité) */
         .live-pill {
             display: inline-flex; align-items: center; gap: 12px;
-            background: rgba(37, 211, 102, 0.05);
-            border: 1px solid rgba(37, 211, 102, 0.15);
-            padding: 10px 28px; border-radius: 50px; margin-bottom: 50px;
-            color: #b0b0b0; font-size: 0.9rem; letter-spacing: 2px;
+            background: rgba(37, 211, 102, 0.08);
+            border: 1px solid rgba(37, 211, 102, 0.2);
+            padding: 10px 28px; border-radius: 50px; margin-bottom: 40px;
+            color: #b0b0b0; font-size: 0.95rem; letter-spacing: 1px;
         }
         .live-dot {
-            width: 8px; height: 8px; background: #25D366; border-radius: 50%;
-            animation: glowLive 1.5s ease-in-out infinite alternate;
+            width: 10px; height: 10px; background: #25D366; border-radius: 50%;
+            animation: pulseLive 1.5s ease-in-out infinite alternate;
         }
-        @keyframes glowLive {
+        @keyframes pulseLive {
             0% { opacity: 0.4; transform: scale(1); }
-            100% { opacity: 1; transform: scale(1.3); box-shadow: 0 0 12px #25D366; }
+            100% { opacity: 1; transform: scale(1.3); box-shadow: 0 0 15px #25D366; }
         }
 
-        /* BOUTON CTA PRINCIPAL */
+        /* BOUTON UNIQUE ET MASSIF (Le seul appel à l'action) */
         .cta-primary {
-            display: inline-flex; align-items: center; gap: 12px;
-            background: #cc0000; /* Rouge profond, pas néon */
-            color: #ffffff; padding: 16px 45px;
-            border-radius: 4px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase;
-            transition: 0.3s ease; box-shadow: 0 4px 20px rgba(204, 0, 0, 0.3);
+            display: inline-flex; align-items: center; justify-content: center; gap: 15px;
+            background: #b80000; color: #ffffff; 
+            width: 100%; max-width: 450px; padding: 20px 30px;
+            border-radius: 6px; font-weight: 600; font-size: 1.1rem;
+            letter-spacing: 2px; text-transform: uppercase;
+            transition: 0.3s ease; 
+            box-shadow: 0 4px 30px rgba(184, 0, 0, 0.4);
+            margin-bottom: 20px;
         }
         .cta-primary:hover {
-            background: #990000; transform: translateY(-3px);
-            box-shadow: 0 8px 30px rgba(204, 0, 0, 0.5);
+            background: #8c0000; transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 8px 40px rgba(184, 0, 0, 0.7);
         }
-        .cta-primary i { font-size: 1.3rem; }
+        .cta-primary i { font-size: 1.5rem; }
 
-        /* --- BIO (BRUT & DIRECT) --- */
-        .bio-section {
-            padding: 40px 20px 100px; text-align: center; border-top: 1px solid rgba(255,255,255,0.03);
+        /* NUMÉRO & FOOTER MINIMALISTE */
+        .phone-number {
+            color: #666666; font-weight: 400; letter-spacing: 2px; font-size: 1rem;
+            margin-bottom: 40px;
         }
-        .bio-text {
-            max-width: 600px; margin: 0 auto;
-            font-weight: 300; font-size: 1.1rem; line-height: 2;
-            color: #9a9a9a; letter-spacing: 1px;
-        }
-        .bio-text strong { color: #ffffff; font-weight: 500; }
+        .phone-number strong { color: #a0a0a0; }
 
-        /* --- FOOTER ULTRA SIMPLE --- */
         footer {
-            text-align: center; padding: 40px 20px;
-            background: #000000; color: #444444;
-            font-size: 0.8rem; letter-spacing: 1px; border-top: 1px solid rgba(255,255,255,0.03);
+            color: #333333; font-size: 0.75rem; letter-spacing: 2px;
+            border-top: 1px solid rgba(255,255,255,0.05); padding-top: 20px; width: 100%;
         }
-        footer .name { color: #777; font-family: 'Playfair Display', serif; letter-spacing: 2px; }
 
-        /* --- MOBILE RESPONSIVE --- */
-        @media (max-width: 768px) {
-            nav { padding: 14px 20px; flex-direction: column; gap: 10px; }
-            .nav-contact { width: 100%; justify-content: flex-end; }
-            .nav-contact a { padding: 4px 12px; font-size: 0.75rem; }
-            
-            .hero h1 { font-size: 3.2rem; letter-spacing: 0px; }
-            .hero .subtitle { font-size: 1rem; margin-bottom: 30px; }
-            .cta-primary { padding: 14px 30px; font-size: 0.9rem; }
+        /* RESPONSIVE */
+        @media (max-width: 600px) {
+            .avatar-wrapper img { width: 120px; height: 120px; }
+            h1 { font-size: 2.8rem; }
+            .cta-primary { padding: 16px 20px; font-size: 1rem; }
         }
     </style>
 </head>
 <body>
 
-    <!-- NAVIGATION -->
-    <nav>
-        <div class="nav-brand">It's Tylxr🧛🏽</div>
-        <div class="nav-contact">
-            <span><i class="fab fa-whatsapp"></i> +1 787 968 4394</span>
-            <a href="https://wa.me/17879684394" target="_blank"><i class="fab fa-whatsapp"></i> Contact</a>
-        </div>
-    </nav>
+    <div class="container">
 
-    <!-- HERO -->
-    <main class="hero">
+        <!-- 1. LOGO ORIGINAL (logo.png) -->
+        <div class="avatar-wrapper">
+            <img src="logo.png" alt="Identité WhatsApp Tylxr">
+        </div>
+
+        <!-- 2. NOM & TAGLINE -->
         <h1>It's Tylxr🧛🏽</h1>
-        <p class="subtitle">"You scream, you beg and you die."</p>
-        
-        <!-- LIVE STATUS -->
+        <p class="tagline">"You scream, you beg and you die."</p>
+
+        <!-- 3. INDICATEUR LIVE (Preuve de disponibilité) -->
         <div class="live-pill">
-            <span class="live-dot"></span> Actif maintenant
+            <span class="live-dot"></span> En ligne & disponible immédiatement
         </div>
 
-        <!-- BOUTON PRINCIPAL -->
+        <!-- 4. CTA UNIQUE : TOUT EST DANS CE BOUTON -->
         <a href="https://wa.me/17879684394" target="_blank" class="cta-primary">
-            <i class="fab fa-whatsapp"></i> Discuter sur WhatsApp
+            <i class="fab fa-whatsapp"></i> Me contacter sur WhatsApp
         </a>
-    </main>
 
-    <!-- BIO SECTION -->
-    <section class="bio-section">
-        <p class="bio-text">
-            Sarcastique. Imprévisible. Loyal.<br>
-            Aucune règle, juste une présence impossible à ignorer.<br>
-            <strong>Mon espace. Mon style. Ma signature.</strong>
-        </p>
-    </section>
+        <!-- 5. NUMÉRO DE TÉLÉPHONE -->
+        <div class="phone-number">
+            <strong>+1 787 968 4394</strong>
+        </div>
 
-    <!-- FOOTER -->
+    </div>
+
+    <!-- 6. FOOTER LÉGER -->
     <footer>
-        <div class="name">It's Tylxr🧛🏽</div>
-        <br>
-        © 2026. Une identité qui ne s'oublie pas.<br>
-        +1 787 968 4394
+        <span>It's Tylxr🧛🏽</span> &bull; © 2026 &bull; Identité WhatsApp
     </footer>
 
 </body>
