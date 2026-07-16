@@ -3,269 +3,181 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>✰ It's Tylxr🧛🏽 | Présence Digitale</title>
-    <!-- Polices Premium : Cinzel pour le nom, Montserrat pour le texte -->
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <title>It's Tylxr🧛🏽 | Présence</title>
+    <!-- Polices minimalistes mais imposantes : Inter pour le texte, Playfair pour le titre -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-        /* --- RESET & CONFIGURATION --- */
+        /* Reset Ultra Propre */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            font-family: 'Montserrat', sans-serif;
-            background-color: #05050a; /* Noir profond à reflets bleutés */
-            color: #f8fafc;
-            line-height: 1.7;
-            overflow-x: hidden;
+            font-family: 'Inter', sans-serif;
+            background-color: #050505; /* Noir presque absolu */
+            color: #f5f5f5;
+            line-height: 1.6;
+            display: flex; flex-direction: column; min-height: 100vh;
         }
         a { text-decoration: none; color: inherit; }
 
-        /* --- PALETTE DE COULEURS (NOIR + VIOLET/CYAN NÉON) --- */
-        :root {
-            --bg-dark: #05050a;
-            --neon-purple: #a855f7;
-            --neon-cyan: #06b6d4;
-            --gradient-primary: linear-gradient(135deg, #a855f7, #06b6d4);
-            --text-muted: #94a3b8;
-            --glass-bg: rgba(255, 255, 255, 0.03);
-            --glass-border: rgba(255, 255, 255, 0.05);
+        /* Ambiance de fond (léger grain cinéma) */
+        body::before {
+            content: ""; position: fixed; inset: 0;
+            pointer-events: none; z-index: -1; opacity: 0.15;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
         }
 
-        /* --- EFFET DE FOND DYNAMIQUE (AURA MOUVANTE) --- */
-        .bg-live-aura {
-            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            pointer-events: none; z-index: -2;
-            background: 
-                radial-gradient(circle at 10% 20%, rgba(168, 85, 247, 0.08) 0%, transparent 50%),
-                radial-gradient(circle at 90% 80%, rgba(6, 182, 212, 0.08) 0%, transparent 50%);
-            animation: shiftGlow 20s ease-in-out infinite alternate;
-        }
-        @keyframes shiftGlow {
-            0% { transform: scale(1) rotate(0deg); opacity: 0.5; }
-            100% { transform: scale(1.2) rotate(5deg); opacity: 1; }
-        }
-
-        /* --- NAVIGATION (VERRE DÉPOLI PREMIUM) --- */
+        /* --- NAVIGATION (ÉPURÉE) --- */
         nav {
-            position: fixed; top: 0; width: 100%; padding: 16px 40px;
-            background: rgba(5, 5, 10, 0.85); backdrop-filter: blur(12px);
-            border-bottom: 1px solid var(--glass-border);
+            position: fixed; top: 0; width: 100%;
+            background: rgba(5, 5, 5, 0.85);
+            backdrop-filter: blur(8px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+            padding: 18px 30px;
             display: flex; justify-content: space-between; align-items: center;
-            z-index: 1000; transition: 0.3s;
+            z-index: 1000;
         }
         .nav-brand {
-            font-family: 'Cinzel', serif;
-            font-size: 1.1rem; letter-spacing: 2px;
-            background: var(--gradient-primary);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.2rem; letter-spacing: 1px; color: #fff;
         }
         .nav-contact {
-            font-size: 0.9rem; letter-spacing: 1px; color: #ccc;
-            display: flex; align-items: center; gap: 10px;
+            display: flex; align-items: center; gap: 15px;
+            color: #a0a0a0; font-size: 0.9rem; font-weight: 400; letter-spacing: 0.5px;
         }
-        .nav-contact i { color: #25D366; font-size: 1.2rem; }
+        .nav-contact i { color: #25D366; font-size: 1.1rem; }
+        .nav-contact a {
+            background: transparent; border: 1px solid #25D366;
+            padding: 6px 16px; border-radius: 4px; color: #fff; font-size: 0.8rem; font-weight: 500;
+            transition: 0.3s; display: flex; align-items: center; gap: 8px;
+        }
+        .nav-contact a:hover { background: #25D366; color: #000; }
 
-        /* --- HERO (LIVE, MAGNÉTIQUE, SANS IMAGE) --- */
+        /* --- HERO (TYPOGRAPHIE MASSIVE) --- */
         .hero {
-            height: 100vh;
-            display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
-            padding: 0 20px; position: relative;
+            flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center;
+            text-align: center; padding: 120px 20px 60px; position: relative;
         }
-
-        /* Anneau lumineux tournant autour de l'emoji */
-        .icon-wrapper {
-            position: relative; width: 140px; height: 140px; margin-bottom: 30px;
-            display: flex; justify-content: center; align-items: center;
-        }
-        .icon-wrapper::before {
-            content: ''; position: absolute; inset: -4px;
-            border-radius: 50%; padding: 2px;
-            background: var(--gradient-primary);
-            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            -webkit-mask-composite: xor; mask-composite: exclude;
-            animation: spinRing 8s linear infinite;
-        }
-        @keyframes spinRing { 100% { transform: rotate(360deg); } }
         
-        .icon-wrapper span {
-            font-size: 5rem; line-height: 1;
-            filter: drop-shadow(0 0 30px rgba(168, 85, 247, 0.4));
-        }
-
         .hero h1 {
-            font-family: 'Cinzel', serif;
-            font-size: 3.5rem; letter-spacing: 4px; font-weight: 700;
-            background: var(--gradient-primary);
+            font-family: 'Playfair Display', serif;
+            font-size: 5.5rem; letter-spacing: 2px; font-weight: 700;
+            color: #ffffff; margin-bottom: 10px;
+            /* Léger dégradé sombre pour le style */
+            background: linear-gradient(135deg, #ffffff 30%, #cc0000 100%);
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            margin-bottom: 5px;
-            text-shadow: 0 0 40px rgba(168, 85, 247, 0.3);
         }
-        .hero .quote {
-            font-weight: 300; font-size: 1.2rem; font-style: italic;
-            letter-spacing: 3px; color: var(--text-muted); margin-bottom: 30px;
+        .hero .subtitle {
+            font-size: 1.2rem; font-weight: 300; font-style: italic;
+            letter-spacing: 4px; color: #888888; margin-bottom: 50px;
         }
 
-        /* STATUT LIVE (Effet pulsant) */
-        .live-status {
+        /* INDICATEUR LIVE (Très propre) */
+        .live-pill {
             display: inline-flex; align-items: center; gap: 12px;
-            background: rgba(37, 211, 102, 0.1); border: 1px solid rgba(37, 211, 102, 0.2);
-            padding: 10px 28px; border-radius: 50px; margin-bottom: 40px;
-            color: #ccc; font-size: 0.9rem; letter-spacing: 1.5px;
+            background: rgba(37, 211, 102, 0.05);
+            border: 1px solid rgba(37, 211, 102, 0.15);
+            padding: 10px 28px; border-radius: 50px; margin-bottom: 50px;
+            color: #b0b0b0; font-size: 0.9rem; letter-spacing: 2px;
         }
         .live-dot {
-            width: 10px; height: 10px; background: #25D366; border-radius: 50%;
-            box-shadow: 0 0 15px #25D366; animation: pulseLive 1.5s infinite;
+            width: 8px; height: 8px; background: #25D366; border-radius: 50%;
+            animation: glowLive 1.5s ease-in-out infinite alternate;
         }
-        @keyframes pulseLive { 0%, 100% { opacity: 0.6; transform: scale(1); } 50% { opacity: 1; transform: scale(1.3); } }
+        @keyframes glowLive {
+            0% { opacity: 0.4; transform: scale(1); }
+            100% { opacity: 1; transform: scale(1.3); box-shadow: 0 0 12px #25D366; }
+        }
 
-        /* BOUTON D'APPEL À L'ACTION (Très attirant) */
+        /* BOUTON CTA PRINCIPAL */
         .cta-primary {
-            display: inline-flex; align-items: center; gap: 15px;
-            background: var(--gradient-primary);
-            color: #fff; padding: 18px 50px; border-radius: 8px;
-            font-weight: 600; letter-spacing: 2px; text-transform: uppercase;
-            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            position: relative; box-shadow: 0 0 30px rgba(168, 85, 247, 0.2);
+            display: inline-flex; align-items: center; gap: 12px;
+            background: #cc0000; /* Rouge profond, pas néon */
+            color: #ffffff; padding: 16px 45px;
+            border-radius: 4px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase;
+            transition: 0.3s ease; box-shadow: 0 4px 20px rgba(204, 0, 0, 0.3);
         }
         .cta-primary:hover {
-            transform: scale(1.05) translateY(-3px);
-            box-shadow: 0 0 50px rgba(168, 85, 247, 0.6);
+            background: #990000; transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(204, 0, 0, 0.5);
         }
+        .cta-primary i { font-size: 1.3rem; }
 
-        /* --- SECTIONS (ÉPURÉE, PRO) --- */
-        .section { padding: 100px 20px; border-bottom: 1px solid var(--glass-border); }
-        .container { max-width: 900px; margin: 0 auto; text-align: center; }
+        /* --- BIO (BRUT & DIRECT) --- */
+        .bio-section {
+            padding: 40px 20px 100px; text-align: center; border-top: 1px solid rgba(255,255,255,0.03);
+        }
+        .bio-text {
+            max-width: 600px; margin: 0 auto;
+            font-weight: 300; font-size: 1.1rem; line-height: 2;
+            color: #9a9a9a; letter-spacing: 1px;
+        }
+        .bio-text strong { color: #ffffff; font-weight: 500; }
 
-        .section-title {
-            font-family: 'Cinzel', serif; font-size: 2.5rem; letter-spacing: 4px; margin-bottom: 20px;
-            background: var(--gradient-primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        /* --- FOOTER ULTRA SIMPLE --- */
+        footer {
+            text-align: center; padding: 40px 20px;
+            background: #000000; color: #444444;
+            font-size: 0.8rem; letter-spacing: 1px; border-top: 1px solid rgba(255,255,255,0.03);
         }
-        
-        .desc-text {
-            max-width: 700px; margin: 0 auto;
-            font-weight: 300; color: var(--text-muted); font-size: 1.1rem;
-        }
-        .desc-text strong { color: #f8fafc; font-weight: 500; }
+        footer .name { color: #777; font-family: 'Playfair Display', serif; letter-spacing: 2px; }
 
-        .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 30px; margin-top: 40px; }
-        .service-card {
-            background: var(--glass-bg); padding: 40px 20px; text-align: center;
-            border: 1px solid var(--glass-border); transition: 0.4s; border-radius: 12px;
-        }
-        .service-card:hover {
-            border-color: #a855f7; transform: translateY(-8px);
-            box-shadow: 0 15px 30px rgba(0,0,0,0.6), inset 0 0 20px rgba(168, 85, 247, 0.05);
-        }
-        .service-card i { font-size: 2.8rem; background: var(--gradient-primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 20px; }
-        .service-card h3 { font-size: 1.3rem; letter-spacing: 1px; margin-bottom: 10px; }
-        .service-card p { font-weight: 300; color: #777; font-size: 0.95rem; }
-
-        /* --- BOUTON WHATSAPP FLOTTANT (LIVE) --- */
-        .floating-whatsapp {
-            position: fixed; bottom: 30px; right: 30px;
-            width: 60px; height: 60px; border-radius: 50%;
-            background: #25D366; color: #fff;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 2rem; z-index: 9999;
-            box-shadow: 0 0 20px rgba(37, 211, 102, 0.4);
-            transition: 0.3s; animation: floatPulse 2s infinite;
-        }
-        @keyframes floatPulse {
-            0%, 100% { transform: translateY(0); box-shadow: 0 0 20px rgba(37, 211, 102, 0.4); }
-            50% { transform: translateY(-5px); box-shadow: 0 0 40px rgba(37, 211, 102, 0.8); }
-        }
-        .floating-whatsapp:hover { transform: scale(1.1); }
-
-        /* --- FOOTER --- */
-        footer { text-align: center; padding: 40px 20px; background: #030308; color: #444; letter-spacing: 2px; font-size: 0.9rem; }
-
-        /* --- RESPONSIVE --- */
+        /* --- MOBILE RESPONSIVE --- */
         @media (max-width: 768px) {
-            .hero h1 { font-size: 2.4rem; letter-spacing: 1px; }
-            .icon-wrapper { width: 100px; height: 100px; }
-            .icon-wrapper span { font-size: 3.5rem; }
-            nav { padding: 15px 20px; }
-            .nav-brand { font-size: 0.9rem; }
+            nav { padding: 14px 20px; flex-direction: column; gap: 10px; }
+            .nav-contact { width: 100%; justify-content: flex-end; }
+            .nav-contact a { padding: 4px 12px; font-size: 0.75rem; }
+            
+            .hero h1 { font-size: 3.2rem; letter-spacing: 0px; }
+            .hero .subtitle { font-size: 1rem; margin-bottom: 30px; }
             .cta-primary { padding: 14px 30px; font-size: 0.9rem; }
         }
     </style>
 </head>
 <body>
 
-    <!-- AURA DE FOND DYNAMIQUE (SANS IMAGE) -->
-    <div class="bg-live-aura"></div>
-
     <!-- NAVIGATION -->
     <nav>
-        <div class="nav-brand">✰ It's Tylxr🧛🏽</div>
+        <div class="nav-brand">It's Tylxr🧛🏽</div>
         <div class="nav-contact">
-            <i class="fab fa-whatsapp"></i> +1 787 968 4394
+            <span><i class="fab fa-whatsapp"></i> +1 787 968 4394</span>
+            <a href="https://wa.me/17879684394" target="_blank"><i class="fab fa-whatsapp"></i> Contact</a>
         </div>
     </nav>
 
-    <!-- HERO (100% CODÉ CSS, SANS IMAGE) -->
-    <header class="hero">
+    <!-- HERO -->
+    <main class="hero">
+        <h1>It's Tylxr🧛🏽</h1>
+        <p class="subtitle">"You scream, you beg and you die."</p>
         
-        <!-- Remplacement du logo par un emoji entouré d'un anneau lumineux -->
-        <div class="icon-wrapper">
-            <span>🧛🏽‍♂️</span>
-        </div>
-        
-        <h1>✰ It's Tylxr🧛🏽</h1>
-        <p class="quote">"You scream, you beg and you die."</p>
-        
-        <!-- Indicateur Live ultra visible -->
-        <div class="live-status">
-            <span class="live-dot"></span> Connecté & Actif
+        <!-- LIVE STATUS -->
+        <div class="live-pill">
+            <span class="live-dot"></span> Actif maintenant
         </div>
 
+        <!-- BOUTON PRINCIPAL -->
         <a href="https://wa.me/17879684394" target="_blank" class="cta-primary">
-            <i class="fab fa-whatsapp"></i> Me contacter
+            <i class="fab fa-whatsapp"></i> Discuter sur WhatsApp
         </a>
-    </header>
+    </main>
 
-    <!-- À PROPOS -->
-    <section class="section container">
-        <h2 class="section-title">L'ORIGINAL</h2>
-        <p class="desc-text">
-            Sarcastique, égoïste, imprévisible... mais d'une loyauté sans faille. <br><br>
-            Je ne suis pas là pour plaire à tout le monde. Je suis là pour laisser une empreinte. 
-            Le mystère, l'élégance brute et un style qui ne s'explique pas, il se ressent. <br><br>
-            <strong>Mon univers est sombre, mon territoire est WhatsApp.</strong>
+    <!-- BIO SECTION -->
+    <section class="bio-section">
+        <p class="bio-text">
+            Sarcastique. Imprévisible. Loyal.<br>
+            Aucune règle, juste une présence impossible à ignorer.<br>
+            <strong>Mon espace. Mon style. Ma signature.</strong>
         </p>
     </section>
 
-    <!-- SERVICES -->
-    <section class="section container">
-        <h2 class="section-title">L'ESSENCE</h2>
-        <div class="services-grid">
-            <div class="service-card">
-                <i class="fas fa-stamp"></i>
-                <h3>PACKS STICKERS</h3>
-                <p>Deux packs de stickers exclusifs à l'effigie de mon identité. L'attitude en un clic.</p>
-            </div>
-            <div class="service-card">
-                <i class="fas fa-crown"></i>
-                <h3>PRÉSENCE & STYLE</h3>
-                <p>Une identité visuelle forgée dans l'obscurité. Un design qui ne s'oublie pas.</p>
-            </div>
-            <div class="service-card">
-                <i class="fas fa-bolt"></i>
-                <h3>IMPACT BRUT</h3>
-                <p>Ne pas suivre les règles, mais les réécrire. Si tu veux une présence, la voici.</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- BOUTON WHATSAPP FLOTTANT (ANIMÉ) -->
-    <a href="https://wa.me/17879684394" target="_blank" class="floating-whatsapp">
-        <i class="fab fa-whatsapp"></i>
-    </a>
-
     <!-- FOOTER -->
     <footer>
-        ✰ 𝙄𝙩'𝙨 𝙏𝙮𝙡𝙚𝙧꯭𝅥🧛🏽‍♂️ <br><br>
-        © 2026. Une marque qui ne s'oublie pas.
+        <div class="name">It's Tylxr🧛🏽</div>
+        <br>
+        © 2026. Une identité qui ne s'oublie pas.<br>
+        +1 787 968 4394
     </footer>
 
 </body>
