@@ -3,346 +3,270 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DAMON | L'Original</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+    <title>✰ 𝙄𝙩'𝙨 𝙏𝙮𝙡𝙚𝙧꯭𝅥🧛🏽‍♂️ | Présence Digitale</title>
+    <!-- Polices Premium : Cinzel pour le nom, Montserrat pour le texte -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-        :root {
-            --primary: #b80000;
-            --primary-glow: rgba(184, 0, 0, 0.7);
-            --black: #000000;
-            --dark-bg: #050505;
-            --glass: rgba(255, 255, 255, 0.03);
-            --text: #f0f0f0;
-            --text-muted: #888;
-        }
-
+        /* --- RESET & CONFIGURATION --- */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Montserrat', sans-serif;
-            background: var(--black);
-            color: var(--text);
-            line-height: 1.6;
+            background-color: #05050a; /* Noir profond à reflets bleutés */
+            color: #f8fafc;
+            line-height: 1.7;
             overflow-x: hidden;
-            scroll-behavior: smooth;
         }
         a { text-decoration: none; color: inherit; }
 
-        /* --- EFFETS DE FOND --- */
-        body::before {
-            content: "";
+        /* --- PALETTE DE COULEURS (NOIR + VIOLET/CYAN NÉON) --- */
+        :root {
+            --bg-dark: #05050a;
+            --neon-purple: #a855f7;
+            --neon-cyan: #06b6d4;
+            --gradient-primary: linear-gradient(135deg, #a855f7, #06b6d4);
+            --text-muted: #94a3b8;
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.05);
+        }
+
+        /* --- EFFET DE FOND DYNAMIQUE (AURA MOUVANTE) --- */
+        .bg-live-aura {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            pointer-events: none; z-index: -2; opacity: 0.25;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+            pointer-events: none; z-index: -2;
+            background: 
+                radial-gradient(circle at 10% 20%, rgba(168, 85, 247, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 90% 80%, rgba(6, 182, 212, 0.08) 0%, transparent 50%);
+            animation: shiftGlow 20s ease-in-out infinite alternate;
         }
-        .bg-aura {
-            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            width: 80vw; height: 80vh; z-index: -1; pointer-events: none;
-            background: radial-gradient(circle, rgba(184,0,0,0.15) 0%, transparent 70%);
-            transition: transform 0.1s ease-out; /* Effet de parallaxe léger */
+        @keyframes shiftGlow {
+            0% { transform: scale(1) rotate(0deg); opacity: 0.5; }
+            100% { transform: scale(1.2) rotate(5deg); opacity: 1; }
         }
 
-        /* --- NAVIGATION GLASS --- */
+        /* --- NAVIGATION (VERRE DÉPOLI PREMIUM) --- */
         nav {
-            position: fixed; top: 0; width: 100%; padding: 18px 40px;
-            z-index: 1000;
+            position: fixed; top: 0; width: 100%; padding: 16px 40px;
+            background: rgba(5, 5, 10, 0.85); backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--glass-border);
             display: flex; justify-content: space-between; align-items: center;
-            transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            background: transparent; border-bottom: 1px solid transparent;
+            z-index: 1000; transition: 0.3s;
         }
-        nav.scrolled {
-            background: rgba(0, 0, 0, 0.85);
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(184, 0, 0, 0.2);
-            padding: 12px 40px;
+        .nav-brand {
+            font-family: 'Cinzel', serif;
+            font-size: 1.1rem; letter-spacing: 2px;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
-        .nav-logo { display: flex; align-items: center; gap: 15px; }
-        .nav-logo img { height: 45px; width: auto; border-radius: 50%; border: 1px solid rgba(255,255,255,0.1); }
-        .nav-logo span { font-family: 'Cinzel', serif; font-size: 1.4rem; letter-spacing: 8px; }
-        .nav-cta {
-            background: transparent; border: 1px solid var(--primary); color: #fff;
-            padding: 8px 20px; border-radius: 4px; font-size: 0.8rem; letter-spacing: 2px;
-            transition: 0.3s; display: flex; align-items: center; gap: 10px;
+        .nav-contact {
+            font-size: 0.9rem; letter-spacing: 1px; color: #ccc;
+            display: flex; align-items: center; gap: 10px;
         }
-        .nav-cta:hover { background: var(--primary); box-shadow: 0 0 20px var(--primary-glow); }
+        .nav-contact i { color: #25D366; font-size: 1.2rem; }
 
-        /* --- HERO (IMMERSIF) --- */
+        /* --- HERO (LIVE, MAGNÉTIQUE, SANS IMAGE) --- */
         .hero {
-            height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
+            height: 100vh;
+            display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
             padding: 0 20px; position: relative;
         }
-        .avatar-wrapper {
-            position: relative; width: 160px; height: 160px; margin-bottom: 30px;
+
+        /* Anneau lumineux tournant autour de l'emoji */
+        .icon-wrapper {
+            position: relative; width: 140px; height: 140px; margin-bottom: 30px;
+            display: flex; justify-content: center; align-items: center;
         }
-        .avatar-wrapper img {
-            width: 100%; height: 100%; border-radius: 50%; object-fit: cover;
-            position: relative; z-index: 2; border: 2px solid rgba(184,0,0,0.4);
+        .icon-wrapper::before {
+            content: ''; position: absolute; inset: -4px;
+            border-radius: 50%; padding: 2px;
+            background: var(--gradient-primary);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor; mask-composite: exclude;
+            animation: spinRing 8s linear infinite;
         }
-        /* AURA ROTATIVE AUTOUR DU LOGO */
-        .aura-ring {
-            position: absolute; top: -10px; left: -10px; width: 180px; height: 180px;
-            border-radius: 50%; border: 1px solid rgba(184,0,0,0.2); z-index: 1;
-            animation: spinRing 10s linear infinite;
+        @keyframes spinRing { 100% { transform: rotate(360deg); } }
+        
+        .icon-wrapper span {
+            font-size: 5rem; line-height: 1;
+            filter: drop-shadow(0 0 30px rgba(168, 85, 247, 0.4));
         }
-        .aura-ring::before {
-            content: ''; position: absolute; top: -2px; left: 50%; transform: translateX(-50%);
-            width: 20px; height: 20px; background: var(--primary); border-radius: 50%;
-            box-shadow: 0 0 30px var(--primary-glow), 0 0 80px var(--primary-glow);
-        }
-        @keyframes spinRing { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
         .hero h1 {
-            font-family: 'Cinzel', serif; font-size: 6rem; letter-spacing: 20px; font-weight: 700;
-            text-shadow: 0 0 40px var(--primary-glow), 0 0 100px rgba(184,0,0,0.4);
-            margin-bottom: 10px;
+            font-family: 'Cinzel', serif;
+            font-size: 3.5rem; letter-spacing: 4px; font-weight: 700;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            margin-bottom: 5px;
+            text-shadow: 0 0 40px rgba(168, 85, 247, 0.3);
         }
-        .hero .quote { font-style: italic; font-size: 1.2rem; letter-spacing: 2px; margin-bottom: 30px; color: #aaa; }
-        
-        /* LIVE STATUS */
-        .live-indicator {
-            display: inline-flex; align-items: center; gap: 12px;
-            background: rgba(0, 255, 0, 0.05); border: 1px solid rgba(0, 255, 0, 0.2);
-            padding: 8px 25px; border-radius: 50px; margin-bottom: 40px;
-            color: #ccc; font-size: 0.9rem; letter-spacing: 1px;
-            animation: livePulse 3s infinite;
+        .hero .quote {
+            font-weight: 300; font-size: 1.2rem; font-style: italic;
+            letter-spacing: 3px; color: var(--text-muted); margin-bottom: 30px;
         }
-        .live-dot { width: 10px; height: 10px; background: #00ff00; border-radius: 50%; box-shadow: 0 0 15px #00ff00; }
-        @keyframes livePulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(0, 255, 0, 0); } 50% { box-shadow: 0 0 0 10px rgba(0, 255, 0, 0); } }
 
-        /* BOUTONS PREMIUM */
-        .cta-group { display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; }
+        /* STATUT LIVE (Effet pulsant) */
+        .live-status {
+            display: inline-flex; align-items: center; gap: 12px;
+            background: rgba(37, 211, 102, 0.1); border: 1px solid rgba(37, 211, 102, 0.2);
+            padding: 10px 28px; border-radius: 50px; margin-bottom: 40px;
+            color: #ccc; font-size: 0.9rem; letter-spacing: 1.5px;
+        }
+        .live-dot {
+            width: 10px; height: 10px; background: #25D366; border-radius: 50%;
+            box-shadow: 0 0 15px #25D366; animation: pulseLive 1.5s infinite;
+        }
+        @keyframes pulseLive { 0%, 100% { opacity: 0.6; transform: scale(1); } 50% { opacity: 1; transform: scale(1.3); } }
+
+        /* BOUTON D'APPEL À L'ACTION (Très attirant) */
         .cta-primary {
             display: inline-flex; align-items: center; gap: 15px;
-            background: var(--primary); color: #fff; padding: 18px 45px;
-            border-radius: 4px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase;
-            transition: 0.3s; position: relative; overflow: hidden;
-            box-shadow: 0 0 30px var(--primary-glow);
+            background: var(--gradient-primary);
+            color: #fff; padding: 18px 50px; border-radius: 8px;
+            font-weight: 600; letter-spacing: 2px; text-transform: uppercase;
+            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative; box-shadow: 0 0 30px rgba(168, 85, 247, 0.2);
         }
         .cta-primary:hover {
-            transform: translateY(-4px) scale(1.02); background: #8c0000;
-            box-shadow: 0 0 60px var(--primary-glow);
+            transform: scale(1.05) translateY(-3px);
+            box-shadow: 0 0 50px rgba(168, 85, 247, 0.6);
         }
 
-        .cta-secondary {
-            display: inline-flex; align-items: center; gap: 15px;
-            background: transparent; border: 1px solid rgba(255,255,255,0.2); padding: 18px 35px;
-            border-radius: 4px; color: #fff; font-weight: 500; letter-spacing: 2px;
-            transition: 0.3s;
-        }
-        .cta-secondary:hover { background: rgba(255,255,255,0.1); border-color: #fff; transform: translateY(-4px); }
-
-        /* --- SECTIONS (ANIMATIONS) --- */
-        .section { padding: 100px 20px; border-bottom: 1px solid rgba(255,255,255,0.02); }
-        .container { max-width: 1100px; margin: 0 auto; }
-        
-        .reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
-        .reveal.active { opacity: 1; transform: translateY(0); }
-
-        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
-        .grid-2 img {
-            width: 100%; border-radius: 6px; border: 1px solid rgba(184,0,0,0.1);
-            box-shadow: 0 20px 50px rgba(0,0,0,0.9); transition: 0.5s; filter: grayscale(20%);
-        }
-        .grid-2 img:hover { filter: grayscale(0%); border-color: var(--primary); transform: scale(1.02); }
-        .text-box h2 {
-            font-family: 'Cinzel', serif; font-size: 2.8rem; letter-spacing: 4px; margin-bottom: 25px;
-        }
-        .text-box h2 span { color: var(--primary); text-shadow: 0 0 20px var(--primary-glow); }
-        .text-box p { font-weight: 300; color: var(--text-muted); font-size: 1.1rem; margin-bottom: 15px; }
-        .text-box p strong { color: #fff; }
+        /* --- SECTIONS (ÉPURÉE, PRO) --- */
+        .section { padding: 100px 20px; border-bottom: 1px solid var(--glass-border); }
+        .container { max-width: 900px; margin: 0 auto; text-align: center; }
 
         .section-title {
-            font-family: 'Cinzel', serif; font-size: 2.8rem; text-align: center; color: #fff;
-            letter-spacing: 6px; margin-bottom: 50px; text-shadow: 0 0 20px rgba(184,0,0,0.2);
+            font-family: 'Cinzel', serif; font-size: 2.5rem; letter-spacing: 4px; margin-bottom: 20px;
+            background: var(--gradient-primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
-        .section-title span { color: var(--primary); }
+        
+        .desc-text {
+            max-width: 700px; margin: 0 auto;
+            font-weight: 300; color: var(--text-muted); font-size: 1.1rem;
+        }
+        .desc-text strong { color: #f8fafc; font-weight: 500; }
 
-        .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 30px; }
+        .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 30px; margin-top: 40px; }
         .service-card {
-            background: #080808; padding: 50px 20px; text-align: center;
-            border: 1px solid rgba(255,255,255,0.03); transition: 0.4s; position: relative;
+            background: var(--glass-bg); padding: 40px 20px; text-align: center;
+            border: 1px solid var(--glass-border); transition: 0.4s; border-radius: 12px;
         }
         .service-card:hover {
-            border-color: var(--primary); transform: translateY(-10px);
-            box-shadow: 0 10px 40px rgba(0,0,0,0.8);
+            border-color: #a855f7; transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.6), inset 0 0 20px rgba(168, 85, 247, 0.05);
         }
-        .service-card::after {
-            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 2px;
-            background: var(--primary); transform: scaleX(0); transition: 0.4s; transform-origin: left;
-        }
-        .service-card:hover::after { transform: scaleX(1); }
-        .service-card i { font-size: 2.8rem; color: var(--primary); margin-bottom: 20px; }
-        .service-card h3 { font-size: 1.4rem; letter-spacing: 2px; margin-bottom: 10px; }
-        .service-card p { font-weight: 300; color: var(--text-muted); font-size: 0.95rem; }
+        .service-card i { font-size: 2.8rem; background: var(--gradient-primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 20px; }
+        .service-card h3 { font-size: 1.3rem; letter-spacing: 1px; margin-bottom: 10px; }
+        .service-card p { font-weight: 300; color: #777; font-size: 0.95rem; }
 
-        /* --- CONTACT FOOTER --- */
-        .contact-section { text-align: center; padding: 120px 20px; position: relative; }
-        .contact-section h2 { font-size: 2.5rem; font-family: 'Cinzel', serif; letter-spacing: 4px; margin-bottom: 20px; }
-        .contact-section p { color: var(--text-muted); margin-bottom: 40px; }
-        .cta-footer {
-            display: inline-flex; align-items: center; gap: 15px;
-            background: transparent; border: 2px solid var(--primary); color: #fff;
-            padding: 18px 45px; border-radius: 4px; font-size: 1.1rem; font-weight: 600;
-            letter-spacing: 2px; transition: 0.3s; text-transform: uppercase;
+        /* --- BOUTON WHATSAPP FLOTTANT (LIVE) --- */
+        .floating-whatsapp {
+            position: fixed; bottom: 30px; right: 30px;
+            width: 60px; height: 60px; border-radius: 50%;
+            background: #25D366; color: #fff;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 2rem; z-index: 9999;
+            box-shadow: 0 0 20px rgba(37, 211, 102, 0.4);
+            transition: 0.3s; animation: floatPulse 2s infinite;
         }
-        .cta-footer:hover {
-            background: var(--primary); box-shadow: 0 0 40px var(--primary-glow);
-            transform: scale(1.05);
+        @keyframes floatPulse {
+            0%, 100% { transform: translateY(0); box-shadow: 0 0 20px rgba(37, 211, 102, 0.4); }
+            50% { transform: translateY(-5px); box-shadow: 0 0 40px rgba(37, 211, 102, 0.8); }
         }
-        .info-number { margin-top: 30px; color: #666; letter-spacing: 2px; }
-        .info-number strong { color: #ccc; font-weight: 400; }
+        .floating-whatsapp:hover { transform: scale(1.1); }
 
-        footer { text-align: center; padding: 40px 20px; background: #000; color: #333; letter-spacing: 2px; font-size: 0.9rem; }
+        /* --- FOOTER --- */
+        footer { text-align: center; padding: 40px 20px; background: #030308; color: #444; letter-spacing: 2px; font-size: 0.9rem; }
 
         /* --- RESPONSIVE --- */
         @media (max-width: 768px) {
-            .hero h1 { font-size: 3.2rem; letter-spacing: 8px; }
-            .grid-2 { grid-template-columns: 1fr; gap: 30px; }
-            .grid-2 img { order: 1; }
-            .text-box { order: 2; }
-            .avatar-wrapper { width: 120px; height: 120px; }
-            .aura-ring { width: 140px; height: 140px; top: -10px; left: -10px; }
+            .hero h1 { font-size: 2.4rem; letter-spacing: 1px; }
+            .icon-wrapper { width: 100px; height: 100px; }
+            .icon-wrapper span { font-size: 3.5rem; }
             nav { padding: 15px 20px; }
-            nav.scrolled { padding: 10px 20px; }
+            .nav-brand { font-size: 0.9rem; }
+            .cta-primary { padding: 14px 30px; font-size: 0.9rem; }
         }
     </style>
 </head>
 <body>
 
-    <!-- AURA MOUVANTE -->
-    <div class="bg-aura" id="bgAura"></div>
+    <!-- AURA DE FOND DYNAMIQUE (SANS IMAGE) -->
+    <div class="bg-live-aura"></div>
 
     <!-- NAVIGATION -->
-    <nav id="navbar">
-        <div class="nav-logo">
-            <img src="logo.png" alt="DAMON Logo">
-            <span>DAMON</span>
+    <nav>
+        <div class="nav-brand">✰ 𝙄𝙩'𝙨 𝙏𝙮𝙡𝙚𝙧꯭𝅥🧛🏽‍♂️</div>
+        <div class="nav-contact">
+            <i class="fab fa-whatsapp"></i> +1 787 968 4394
         </div>
-        <a href="https://wa.me/50933990578" target="_blank" class="nav-cta">
-            <i class="fab fa-whatsapp"></i> Contact
-        </a>
     </nav>
 
-    <!-- HERO SECTION -->
+    <!-- HERO (100% CODÉ CSS, SANS IMAGE) -->
     <header class="hero">
-        <div class="avatar-wrapper">
-            <img src="logo.png" alt="DAMON Profile">
-            <div class="aura-ring"></div> <!-- L'anneau qui tourne autour du logo -->
+        
+        <!-- Remplacement du logo par un emoji entouré d'un anneau lumineux -->
+        <div class="icon-wrapper">
+            <span>🧛🏽‍♂️</span>
         </div>
         
-        <h1>DAMON</h1>
+        <h1>✰ 𝙄𝙩'𝙨 𝙏𝙮𝙡𝙚𝙧꯭𝅥🧛🏽‍♂️</h1>
         <p class="quote">"You scream, you beg and you die."</p>
         
-        <!-- Indicateur Connecté -->
-        <div class="live-indicator">
-            <span class="live-dot"></span> En ligne sur WhatsApp
+        <!-- Indicateur Live ultra visible -->
+        <div class="live-status">
+            <span class="live-dot"></span> Connecté & Actif
         </div>
 
-        <!-- DOUBLE CTA -->
-        <div class="cta-group">
-            <a href="https://wa.me/50933990578" target="_blank" class="cta-primary">
-                <i class="fab fa-whatsapp"></i> Me contacter
-            </a>
-            <a href="#about" class="cta-secondary">
-                Découvrir l'identité
-            </a>
-        </div>
+        <a href="https://wa.me/17879684394" target="_blank" class="cta-primary">
+            <i class="fab fa-whatsapp"></i> Me contacter
+        </a>
     </header>
 
-    <!-- ABOUT SECTION -->
-    <section class="section container grid-2" id="about">
-        <div class="reveal">
-            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=800&q=80" alt="L'Aura">
-        </div>
-        <div class="text-box reveal">
-            <h2>L'<span>ORIGINAL</span></h2>
-            <p>Je suis <strong>Damon</strong>. Beau, attirant, classe. Une présence qui ne laisse personne indifférent.</p>
-            <p>Sarcastique, égoïste, cruel... et totalement assumé. Je ne cherche pas à plaire à tout le monde. Je cherche à laisser une <strong>empreinte indélébile</strong>.</p>
-            <p>Mon identité sur WhatsApp est le reflet de mon territoire : le rouge et le noir, le mystère, l'élégance brute. Cette page est ma carte de visite. <br><br>
-            <span style="color: #b80000; font-weight: 500;">Tu veux parler ? Le bouton est en bas.</span></p>
-        </div>
+    <!-- À PROPOS -->
+    <section class="section container">
+        <h2 class="section-title">L'ORIGINAL</h2>
+        <p class="desc-text">
+            Sarcastique, égoïste, imprévisible... mais d'une loyauté sans faille. <br><br>
+            Je ne suis pas là pour plaire à tout le monde. Je suis là pour laisser une empreinte. 
+            Le mystère, l'élégance brute et un style qui ne s'explique pas, il se ressent. <br><br>
+            <strong>Mon univers est sombre, mon territoire est WhatsApp.</strong>
+        </p>
     </section>
 
-    <!-- SERVICES / CATALOGUE -->
+    <!-- SERVICES -->
     <section class="section container">
-        <h2 class="section-title">L'<span>ESSENCE</span></h2>
+        <h2 class="section-title">L'ESSENCE</h2>
         <div class="services-grid">
-            <div class="service-card reveal">
+            <div class="service-card">
                 <i class="fas fa-stamp"></i>
                 <h3>PACKS STICKERS</h3>
-                <p>Deux packs exclusifs de stickers "Damon". L'attitude et le sarcasme pour tes conversations.</p>
+                <p>Deux packs de stickers exclusifs à l'effigie de mon identité. L'attitude en un clic.</p>
             </div>
-            <div class="service-card reveal">
+            <div class="service-card">
                 <i class="fas fa-crown"></i>
                 <h3>PRÉSENCE & STYLE</h3>
-                <p>Une identité visuelle sombre et magnétique. Une marque qui ne s'oublie pas.</p>
+                <p>Une identité visuelle forgée dans l'obscurité. Un design qui ne s'oublie pas.</p>
             </div>
-            <div class="service-card reveal">
+            <div class="service-card">
                 <i class="fas fa-bolt"></i>
-                <h3>IMPACT ABSOLU</h3>
-                <p>L'original ne suit pas les règles. Il les écrit. Si tu veux ma signature, tu l'as trouvée.</p>
+                <h3>IMPACT BRUT</h3>
+                <p>Ne pas suivre les règles, mais les réécrire. Si tu veux une présence, la voici.</p>
             </div>
         </div>
     </section>
 
-    <!-- SECTION CONTACT WHATSAPP -->
-    <section class="contact-section container reveal">
-        <h2>UNE <span style="color: #b80000;">PRÉSENCE</span> À NE PAS IGNORER</h2>
-        <p>Mon WhatsApp est ouvert. Sois direct, intelligent et ne me fais pas attendre.</p>
-        
-        <a href="https://wa.me/50933990578" target="_blank" class="cta-footer">
-            <i class="fab fa-whatsapp"></i> Discuter sur WhatsApp
-        </a>
-        
-        <div class="info-number">
-            <strong>+509 33 99 0578</strong> <br>
-            <span style="font-size: 0.8rem; color: #444;">Sarcastique. Efficace. Immédiat.</span>
-        </div>
-    </section>
+    <!-- BOUTON WHATSAPP FLOTTANT (ANIMÉ) -->
+    <a href="https://wa.me/17879684394" target="_blank" class="floating-whatsapp">
+        <i class="fab fa-whatsapp"></i>
+    </a>
 
     <!-- FOOTER -->
     <footer>
-        <span style="color: #b80000; font-family: 'Cinzel', serif; letter-spacing: 6px;">D A M O N</span> <br><br>
-        © 2026 DAMON. Une identité qui ne s'oublie pas.
+        ✰ 𝙄𝙩'𝙨 𝙏𝙮𝙡𝙚𝙧꯭𝅥🧛🏽‍♂️ <br><br>
+        © 2026. Une marque qui ne s'oublie pas.
     </footer>
 
-    <!-- SCRIPTS (Pro Level) -->
-    <script>
-        // 1. NAVBAR SCROLL EFFECT
-        const navbar = document.getElementById('navbar');
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 50) {
-                navbar.classList.add('scrolled');
-            } else {
-                navbar.classList.remove('scrolled');
-            }
-        });
-
-        // 2. SCROLL REVEAL (Animations au défilement)
-        const revealElements = document.querySelectorAll('.reveal');
-        const observerOptions = {
-            root: null,
-            rootMargin: '0px',
-            threshold: 0.1
-        };
-        const revealObserver = new IntersectionObserver((entries, observer) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('active');
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, observerOptions);
-        revealElements.forEach(el => revealObserver.observe(el));
-
-        // 3. PARALLAX DOUX SUR L'AURA
-        const bgAura = document.getElementById('bgAura');
-        document.addEventListener('mousemove', (e) => {
-            const x = (window.innerWidth - e.clientX * 2) / 50;
-            const y = (window.innerHeight - e.clientY * 2) / 50;
-            bgAura.style.transform = `translate(calc(-50% + ${x}px), calc(-50% + ${y}px))`;
-        });
-    </script>
 </body>
 </html>
