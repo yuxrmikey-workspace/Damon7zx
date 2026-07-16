@@ -4,145 +4,161 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>It's Tylxr🧛🏽 | BUM B*TCHES</title>
+    <!-- Polices Premium et modernes -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-        /* Reset & Layout */
+        /* Reset & Base (Pro & Fluide) */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Inter', sans-serif;
             background-color: #050505;
             color: #f5f5f5;
             display: flex; flex-direction: column; align-items: center;
-            min-height: 100vh; text-align: center; padding: 20px;
+            min-height: 100vh; text-align: center; padding: 0 20px 40px;
+            scroll-behavior: smooth; /* Fluidité globale */
         }
         a { text-decoration: none; color: inherit; }
-
         .container { max-width: 750px; width: 100%; display: flex; flex-direction: column; align-items: center; }
 
-        /* SECTION IDENTITÉ PERSONNELLE */
-        .personal-section { width: 100%; display: flex; flex-direction: column; align-items: center; }
-        
-        .avatar-wrapper {
-            position: relative; margin-bottom: 25px; display: flex; justify-content: center; align-items: center;
+        /* --- HEADER (MINIMALISTE & FIXE) --- */
+        header {
+            position: fixed; top: 0; left: 0; width: 100%;
+            background: rgba(5, 5, 5, 0.88); backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+            padding: 15px 30px; z-index: 1000;
+            display: flex; justify-content: space-between; align-items: center;
         }
-        .avatar-wrapper img {
-            width: 150px; height: 150px; border-radius: 50%; object-fit: cover;
-            border: 3px solid rgba(184, 0, 0, 0.5);
-            box-shadow: 0 0 40px rgba(184, 0, 0, 0.3);
-            transition: 0.3s; background: #111;
-        }
-        .avatar-wrapper img:hover { box-shadow: 0 0 70px rgba(184, 0, 0, 0.5); }
-
-        h1 {
-            font-family: 'Playfair Display', serif; font-size: 3.2rem; letter-spacing: 2px; font-weight: 700;
+        .header-brand {
+            font-family: 'Playfair Display', serif; font-size: 1.3rem; letter-spacing: 1px;
             background: linear-gradient(135deg, #ffffff 60%, #b80000 100%);
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            margin-bottom: 5px;
         }
-        .tagline { font-weight: 300; font-style: italic; letter-spacing: 3px; color: #888; font-size: 1.1rem; margin-bottom: 30px; }
+        .header-status {
+            display: flex; align-items: center; gap: 8px; color: #b0b0b0; font-size: 0.8rem; letter-spacing: 1px; font-weight: 400;
+        }
+        .header-dot {
+            width: 8px; height: 8px; background: #25D366; border-radius: 50%;
+            animation: pulseLive 1.8s ease-in-out infinite alternate;
+        }
+        @keyframes pulseLive { 0% { opacity: 0.4; transform: scale(1); } 100% { opacity: 1; transform: scale(1.2); box-shadow: 0 0 10px #25D366; } }
 
-        .live-pill {
+        /* --- ESPACE (Pour compenser le header fixe) --- */
+        .spacer { height: 80px; width: 100%; }
+
+        /* --- BLOC 1 : IDENTITÉ PERSONNELLE --- */
+        .personal-block { width: 100%; display: flex; flex-direction: column; align-items: center; padding: 30px 0 20px; animation: fadeInUp 0.8s ease-out both; }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+
+        .avatar-wrapper { display: flex; justify-content: center; align-items: center; margin-bottom: 20px; }
+        .avatar-wrapper img {
+            width: 140px; height: 140px; border-radius: 50%; object-fit: cover;
+            border: 3px solid rgba(184, 0, 0, 0.4); transition: 0.4s ease;
+            box-shadow: 0 0 30px rgba(184, 0, 0, 0.2);
+        }
+        .avatar-wrapper img:hover { transform: scale(1.05); border-color: #b80000; box-shadow: 0 0 50px rgba(184, 0, 0, 0.5); }
+
+        .personal-name { font-size: 2.8rem; font-family: 'Playfair Display', serif; margin-bottom: 5px; background: linear-gradient(135deg, #ffffff, #b80000); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .personal-tagline { font-weight: 300; font-style: italic; letter-spacing: 2px; color: #888; font-size: 1.1rem; margin-bottom: 30px; }
+
+        .btn-personal {
             display: inline-flex; align-items: center; gap: 12px;
-            background: rgba(37, 211, 102, 0.08); border: 1px solid rgba(37, 211, 102, 0.2);
-            padding: 10px 28px; border-radius: 50px; margin-bottom: 30px;
-            color: #b0b0b0; font-size: 0.9rem; letter-spacing: 1px;
+            background: #b80000; color: #ffffff;
+            width: 100%; max-width: 450px; padding: 16px 30px; border-radius: 6px;
+            font-weight: 600; font-size: 1rem; letter-spacing: 2px; text-transform: uppercase;
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            box-shadow: 0 4px 20px rgba(184, 0, 0, 0.3);
         }
-        .live-dot {
-            width: 10px; height: 10px; background: #25D366; border-radius: 50%;
-            animation: pulseLive 1.5s ease-in-out infinite alternate;
+        .btn-personal:hover { background: #8c0000; transform: translateY(-4px); box-shadow: 0 6px 30px rgba(184, 0, 0, 0.6); }
+
+        /* --- SÉPARATEUR FLUIDE --- */
+        .divider { width: 60%; height: 1px; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent); margin: 50px 0; animation: fadeInUp 1s ease-out both; animation-delay: 0.2s; }
+
+        /* --- BLOC 2 : GROUPE BUM B*TCHES --- */
+        .group-block { width: 100%; display: flex; flex-direction: column; align-items: center; animation: fadeInUp 0.8s ease-out both; animation-delay: 0.4s; }
+        
+        .group-avatar-wrapper { display: flex; justify-content: center; align-items: center; margin-bottom: 15px; }
+        .group-avatar-wrapper img { width: 100px; height: 100px; border-radius: 50%; object-fit: cover; border: 2px solid rgba(255,182,193,0.4); box-shadow: 0 0 20px rgba(255,105,180,0.2); transition: 0.3s; }
+        .group-avatar-wrapper img:hover { transform: scale(1.05); border-color: #fbc2eb; }
+
+        .group-title { font-family: 'Playfair Display', serif; font-size: 1.8rem; color: #fbc2eb; margin-bottom: 5px; letter-spacing: 1px; }
+        .group-sub { color: #d4af37; font-style: italic; font-size: 1rem; margin-bottom: 5px; }
+        .group-vibes { color: #aaa; letter-spacing: 1px; font-size: 0.9rem; margin-bottom: 20px; }
+
+        .content-box { width: 100%; text-align: left; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); border-radius: 8px; padding: 20px; margin-bottom: 15px; }
+        .content-box h4 { text-align: center; color: #d4af37; letter-spacing: 2px; margin-bottom: 10px; font-weight: 500; font-size: 1.1rem; }
+        
+        .list-items { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+        .list-items li { font-weight: 300; color: #ccc; font-size: 0.95rem; border-left: 3px solid transparent; padding-left: 10px; transition: 0.3s; }
+        .list-items li strong { color: #fbc2eb; font-weight: 500; }
+        .list-items li:hover { border-left-color: #d4af37; color: #fff; }
+        .list-items li::before { content: "✦ "; color: #d4af37; font-size: 0.8rem; }
+        
+        .btn-group {
+            display: inline-flex; align-items: center; gap: 12px;
+            background: transparent; border: 2px solid #d4af37; color: #ffffff;
+            width: 100%; max-width: 450px; padding: 16px 30px; border-radius: 6px;
+            font-weight: 600; font-size: 1rem; letter-spacing: 2px; transition: all 0.3s ease; margin-top: 10px;
         }
-        @keyframes pulseLive { 0% { opacity: 0.4; transform: scale(1); } 100% { opacity: 1; transform: scale(1.3); box-shadow: 0 0 15px #25D366; } }
+        .btn-group:hover { background: #d4af37; color: #050505; transform: translateY(-4px); border-color: #d4af37; }
+        .btn-group i { color: #25D366; transition: 0.3s; }
+        .btn-group:hover i { color: #050505; }
 
-        .cta-personal {
-            display: inline-flex; align-items: center; justify-content: center; gap: 15px;
-            background: #b80000; color: #ffffff; width: 100%; max-width: 450px; padding: 18px 30px;
-            border-radius: 6px; font-weight: 600; font-size: 1.1rem; letter-spacing: 2px; text-transform: uppercase;
-            transition: 0.3s ease; box-shadow: 0 4px 30px rgba(184, 0, 0, 0.4);
-        }
-        .cta-personal:hover { background: #8c0000; transform: translateY(-4px); box-shadow: 0 8px 40px rgba(184, 0, 0, 0.7); }
-
-        /* SÉPARATEUR */
-        .divider { width: 100%; height: 1px; background: rgba(255,255,255,0.05); margin: 50px 0; }
-
-        /* SECTION GROUPE */
-        .group-section { width: 100%; display: flex; flex-direction: column; align-items: center; }
-        .group-title { font-family: 'Playfair Display', serif; font-size: 1.8rem; color: #fbc2eb; margin-bottom: 5px; text-shadow: 0 0 20px rgba(255,105,180,0.2);}
-        .group-subtitle { color: #d4af37; font-style: italic; font-size: 0.95rem; margin-bottom: 20px; }
-
-        .group-avatar {
-            width: 100px; height: 100px; border-radius: 50%; object-fit: cover;
-            border: 2px solid rgba(255,182,193,0.4); box-shadow: 0 0 20px rgba(255,105,180,0.2); margin-bottom: 20px;
-        }
-
-        .group-schedule { width: 100%; text-align: left; margin: 15px 0; }
-        .group-schedule ul { list-style: none; display: flex; flex-direction: column; gap: 6px; }
-        .group-schedule li {
-            font-weight: 300; color: #ccc; background: rgba(255,255,255,0.03);
-            padding: 8px 12px; border-radius: 4px; border-left: 3px solid #d4af37; font-size: 0.95rem;
-        }
-        .group-schedule li strong { color: #fbc2eb; }
-
-        .group-rules { width: 100%; text-align: left; margin: 20px 0; }
-        .group-rules ul { list-style: none; display: flex; flex-direction: column; gap: 6px; }
-        .group-rules li { font-weight: 300; color: #aaa; font-size: 0.9rem; padding: 6px 0; }
-        .group-rules li strong { color: #fbc2eb; }
-        .group-rules li::before { content: "✧ "; color: #d4af37; font-weight: 700; }
-
-        .cta-group {
-            display: inline-flex; align-items: center; justify-content: center; gap: 12px;
-            background: transparent; border: 2px solid #d4af37; color: #f5f5f5;
-            width: 100%; max-width: 450px; padding: 15px 30px;
-            border-radius: 6px; font-weight: 600; font-size: 1rem; letter-spacing: 2px;
-            transition: 0.3s ease; margin-top: 10px;
-        }
-        .cta-group:hover { background: #d4af37; color: #050505; transform: translateY(-3px); }
-        .cta-group i { color: #25D366; font-size: 1.2rem; }
-        .cta-group:hover i { color: #050505; }
-
-        /* ICÔNE FLOTTANTE (Contact direct pour Tylxr) */
-        .floating-whatsapp {
+        /* --- BOUTON FLOTTANT (Pour écrire à Tylxr) --- */
+        .floating-btn {
             position: fixed; bottom: 30px; right: 30px;
             width: 60px; height: 60px; border-radius: 50%;
-            background: #25D366; color: #ffffff;
+            background: #25D366; color: #ffffff; font-size: 2rem;
             display: flex; align-items: center; justify-content: center;
-            font-size: 2rem; z-index: 1000;
-            box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4);
-            transition: all 0.3s ease; animation: floatPulse 2s infinite;
+            box-shadow: 0 6px 25px rgba(37, 211, 102, 0.4); z-index: 1000;
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            animation: floatPulse 2.5s ease-in-out infinite;
         }
-        @keyframes floatPulse { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-6px); box-shadow: 0 8px 30px rgba(37, 211, 102, 0.8); } }
-        .floating-whatsapp:hover { transform: scale(1.1); background: #1ebd59; }
+        @keyframes floatPulse { 0%, 100% { transform: translateY(0px) scale(1); } 50% { transform: translateY(-6px) scale(1.05); box-shadow: 0 8px 35px rgba(37, 211, 102, 0.7); } }
+        .floating-btn:hover { transform: scale(1.1); background: #1ebd59; }
 
-        footer { color: #333; font-size: 0.75rem; letter-spacing: 2px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 20px; margin-top: 50px; width: 100%; }
-        
+        /* --- FOOTER MINIMAL --- */
+        footer { width: 100%; text-align: center; margin-top: 60px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.03); color: #333; font-size: 0.75rem; letter-spacing: 2px; }
+
+        /* --- RESPONSIVE --- */
         @media (max-width: 600px) {
+            header { padding: 12px 20px; }
+            .header-brand { font-size: 1.1rem; }
+            .header-status { font-size: 0.7rem; gap: 6px; }
+            
+            .personal-name { font-size: 2.2rem; }
             .avatar-wrapper img { width: 120px; height: 120px; }
-            h1 { font-size: 2.4rem; }
-            .cta-personal, .cta-group { padding: 14px 20px; font-size: 0.9rem; }
-            .floating-whatsapp { width: 55px; height: 55px; font-size: 1.8rem; bottom: 20px; right: 20px; }
+            .group-title { font-size: 1.5rem; }
+            .content-box { padding: 15px; }
+            .btn-personal, .btn-group { padding: 14px 20px; font-size: 0.9rem; }
+            .floating-btn { width: 55px; height: 55px; font-size: 1.6rem; bottom: 20px; right: 20px; }
         }
     </style>
 </head>
 <body>
 
+    <!-- HEADER (Identité en haut, minimaliste) -->
+    <header>
+        <div class="header-brand">It's Tylxr🧛🏽</div>
+        <div class="header-status">
+            <span class="header-dot"></span> En ligne
+        </div>
+    </header>
+
     <div class="container">
+        <!-- Espace pour le header fixe -->
+        <div class="spacer"></div>
 
-        <!-- 1. IDENTITÉ PERSONNELLE (Tylxr) -->
-        <div class="personal-section">
+        <!-- 1. BLOC PERSONNEL (Profil Tylxr) -->
+        <div class="personal-block">
             <div class="avatar-wrapper">
-                <img src="logo.png" alt="It's Tylxr Logo">
+                <img src="logo.png" alt="It's Tylxr Profile">
             </div>
-            
-            <h1>It's Tylxr🧛🏽</h1>
-            <p class="tagline">"You scream, you beg and you die."</p>
-            
-            <div class="live-pill">
-                <span class="live-dot"></span> En ligne sur WhatsApp
-            </div>
+            <div class="personal-name">It's Tylxr🧛🏽</div>
+            <div class="personal-tagline">"You scream, you beg and you die."</div>
 
-            <!-- Bouton pour écrire à Tylxr (privé) -->
-            <a href="https://wa.me/17879684394" target="_blank" class="cta-personal">
+            <a href="https://wa.me/17879684394" target="_blank" class="btn-personal">
                 <i class="fab fa-whatsapp"></i> Me contacter en privé
             </a>
         </div>
@@ -150,19 +166,19 @@
         <!-- 2. SÉPARATEUR -->
         <div class="divider"></div>
 
-        <!-- 3. GROUPE BUM B*TCHES -->
-        <div class="group-section">
-            <div class="avatar-wrapper" style="margin-bottom: 15px;">
-                <img src="logo-group.png" alt="BUM B*TCHES Group Logo" class="group-avatar">
+        <!-- 3. BLOC GROUPE (BUM B*TCHES) -->
+        <div class="group-block">
+            <div class="group-avatar-wrapper">
+                <img src="logo-group.png" alt="BUM B*TCHES Logo">
             </div>
+            <div class="group-title">❁ ๖ — 🌸🌿 BUM B*TCHES 🌿 • 💗 | 🌼🥺</div>
+            <div class="group-sub">“❣ Follow the schedule or stay out!! ” ❤️🏖️</div>
+            <div class="group-vibes">_Chill • Fun • Games • Summer Energy_ 🔥🌴</div>
 
-            <h2 class="group-title">❁ ๖ — 🌸🌿 BUM B*TCHES 🌿 • 💗 | 🌼🥺</h2>
-            <p class="group-subtitle">“❣ Follow the schedule or stay out!! ” ❤️🏖️</p>
-            <p style="color: #aaa; margin-bottom: 20px; letter-spacing: 1px; font-size: 0.9rem;">_Chill • Fun • Games • Summer Energy_ 🔥🌴</p>
-
-            <div class="group-schedule">
-                <p style="color:#d4af37; text-align: center; margin-bottom: 8px; letter-spacing: 2px; font-weight: 500;">✦ PLANNING ✦</p>
-                <ul>
+            <!-- Planning -->
+            <div class="content-box">
+                <h4>✦ PLANNING DE LA SEMAINE ✦</h4>
+                <ul class="list-items">
                     <li><strong>Lundi :</strong> Concours Beauté (Girls) 🥺❤️</li>
                     <li><strong>Mardi :</strong> Concours Pic Sexy 🧁</li>
                     <li><strong>Mercredi :</strong> Confessions 🍫</li>
@@ -171,12 +187,13 @@
                     <li><strong>Samedi :</strong> Pass Or Smash ❤️✨</li>
                     <li><strong>Dimanche :</strong> Free Day 🌴✨</li>
                 </ul>
-                <p style="text-align: center; color: #777; font-size: 0.8rem; font-style: italic; margin-top: 10px;">Memes • Chill • Fun All Day 🛍️</p>
+                <p style="text-align: center; color: #777; font-size: 0.85rem; font-style: italic; margin-top: 12px; letter-spacing: 1px;">Memes • Chill • Fun All Day 🛍️</p>
             </div>
 
-            <div class="group-rules">
-                <p style="color:#d4af37; text-align: center; margin-bottom: 8px; letter-spacing: 2px; font-weight: 500;">✦ RÈGLES ✦</p>
-                <ul>
+            <!-- Règles -->
+            <div class="content-box">
+                <h4>✦ RÈGLES DU GROUPE ✦</h4>
+                <ul class="list-items">
                     <li><strong>#1 :</strong> PA SEND STICKERS ANIMÉS. ⭐</li>
                     <li><strong>#2 :</strong> PA JOURE MANMAN NOU, BCS NOU SE YON FAMILLE. ❤️</li>
                     <li><strong>#3 :</strong> PA SEND LINK GWOUP LA POU SA. 🙂</li>
@@ -184,22 +201,20 @@
                 </ul>
             </div>
 
-            <!-- Bouton pour rejoindre le groupe -->
-            <a href="https://chat.whatsapp.com/IlnFUzCP1by6hbW7yQ7I0S" target="_blank" class="cta-group">
+            <a href="https://chat.whatsapp.com/IlnFUzCP1by6hbW7yQ7I0S" target="_blank" class="btn-group">
                 <i class="fab fa-whatsapp"></i> Rejoindre le groupe
             </a>
         </div>
 
+        <footer>
+            It's Tylxr🧛🏽 &bull; BUM B*TCHES &bull; 2026
+        </footer>
     </div>
 
-    <!-- 4. ICÔNE FLOTTANTE (Pour envoyer un message perso à Tylxr) -->
-    <a href="https://wa.me/17879684394" target="_blank" class="floating-whatsapp">
+    <!-- BOUTON FLOTTANT (Pour contacter Tylxr directement) -->
+    <a href="https://wa.me/17879684394" target="_blank" class="floating-btn">
         <i class="fab fa-whatsapp"></i>
     </a>
-
-    <footer>
-        <span>It's Tylxr🧛🏽</span> &bull; BUM B*TCHES &bull; © 2026
-    </footer>
 
 </body>
 </html>
