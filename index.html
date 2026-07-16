@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BUM B*TCHES | Groupe WhatsApp</title>
+    <title>It's Tylxr🧛🏽 | BUM B*TCHES</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
@@ -21,37 +21,28 @@
 
         .container { max-width: 750px; width: 100%; display: flex; flex-direction: column; align-items: center; }
 
-        /* LOGO ORIGINAL (logo-group.png) */
+        /* SECTION IDENTITÉ PERSONNELLE */
+        .personal-section { width: 100%; display: flex; flex-direction: column; align-items: center; }
+        
         .avatar-wrapper {
-            position: relative; margin-bottom: 25px;
-            display: flex; justify-content: center; align-items: center;
+            position: relative; margin-bottom: 25px; display: flex; justify-content: center; align-items: center;
         }
         .avatar-wrapper img {
             width: 150px; height: 150px; border-radius: 50%; object-fit: cover;
-            border: 3px solid rgba(255, 182, 193, 0.4);
-            box-shadow: 0 0 45px rgba(255, 105, 180, 0.2);
+            border: 3px solid rgba(184, 0, 0, 0.5);
+            box-shadow: 0 0 40px rgba(184, 0, 0, 0.3);
             transition: 0.3s; background: #111;
         }
-        .avatar-wrapper img:hover { box-shadow: 0 0 80px rgba(255, 105, 180, 0.5); }
+        .avatar-wrapper img:hover { box-shadow: 0 0 70px rgba(184, 0, 0, 0.5); }
 
-        /* NOM PRINCIPAL */
         h1 {
-            font-family: 'Playfair Display', serif;
-            font-size: 2.6rem; letter-spacing: 1px; font-weight: 700;
-            background: linear-gradient(135deg, #fbc2eb 0%, #a6c1ee 100%);
+            font-family: 'Playfair Display', serif; font-size: 3.2rem; letter-spacing: 2px; font-weight: 700;
+            background: linear-gradient(135deg, #ffffff 60%, #b80000 100%);
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            margin-bottom: 5px; line-height: 1.3;
+            margin-bottom: 5px;
         }
-        .tagline {
-            font-weight: 300; font-style: italic; letter-spacing: 1px;
-            color: #d4af37; font-size: 1.1rem; margin-bottom: 5px;
-        }
-        .vibes {
-            font-weight: 400; letter-spacing: 2px;
-            color: #a0a0a0; font-size: 1rem; margin-bottom: 30px;
-        }
+        .tagline { font-weight: 300; font-style: italic; letter-spacing: 3px; color: #888; font-size: 1.1rem; margin-bottom: 30px; }
 
-        /* LIVE INDICATOR */
         .live-pill {
             display: inline-flex; align-items: center; gap: 12px;
             background: rgba(37, 211, 102, 0.08); border: 1px solid rgba(37, 211, 102, 0.2);
@@ -62,54 +53,55 @@
             width: 10px; height: 10px; background: #25D366; border-radius: 50%;
             animation: pulseLive 1.5s ease-in-out infinite alternate;
         }
-        @keyframes pulseLive {
-            0% { opacity: 0.4; transform: scale(1); }
-            100% { opacity: 1; transform: scale(1.3); box-shadow: 0 0 15px #25D366; }
-        }
+        @keyframes pulseLive { 0% { opacity: 0.4; transform: scale(1); } 100% { opacity: 1; transform: scale(1.3); box-shadow: 0 0 15px #25D366; } }
 
-        /* BOUTON PRINCIPAL (Rejoindre le groupe) */
-        .cta-primary {
+        .cta-personal {
             display: inline-flex; align-items: center; justify-content: center; gap: 15px;
-            background: linear-gradient(135deg, #e65c00, #F9D423);
-            color: #050505; /* Texte sombre pour le contraste avec le jaune */
-            width: 100%; max-width: 450px; padding: 20px 30px;
-            border-radius: 8px; font-weight: 700; font-size: 1.1rem;
-            letter-spacing: 2px; text-transform: uppercase;
-            transition: 0.3s ease; box-shadow: 0 4px 30px rgba(249, 212, 35, 0.3);
+            background: #b80000; color: #ffffff; width: 100%; max-width: 450px; padding: 18px 30px;
+            border-radius: 6px; font-weight: 600; font-size: 1.1rem; letter-spacing: 2px; text-transform: uppercase;
+            transition: 0.3s ease; box-shadow: 0 4px 30px rgba(184, 0, 0, 0.4);
         }
-        .cta-primary:hover {
-            transform: translateY(-4px) scale(1.02);
-            box-shadow: 0 8px 40px rgba(249, 212, 35, 0.6);
-        }
-        .cta-primary i { font-size: 1.5rem; }
+        .cta-personal:hover { background: #8c0000; transform: translateY(-4px); box-shadow: 0 8px 40px rgba(184, 0, 0, 0.7); }
 
-        /* SCHEDULE & RULES SECTIONS (Proprement structurées) */
-        .section-spacer { width: 100%; margin: 40px 0; border-top: 1px solid rgba(255,255,255,0.05); }
-        
-        .sub-section {
-            width: 100%; margin-top: 30px; text-align: left;
+        /* SÉPARATEUR */
+        .divider { width: 100%; height: 1px; background: rgba(255,255,255,0.05); margin: 50px 0; }
+
+        /* SECTION GROUPE */
+        .group-section { width: 100%; display: flex; flex-direction: column; align-items: center; }
+        .group-title { font-family: 'Playfair Display', serif; font-size: 1.8rem; color: #fbc2eb; margin-bottom: 5px; text-shadow: 0 0 20px rgba(255,105,180,0.2);}
+        .group-subtitle { color: #d4af37; font-style: italic; font-size: 0.95rem; margin-bottom: 20px; }
+
+        .group-avatar {
+            width: 100px; height: 100px; border-radius: 50%; object-fit: cover;
+            border: 2px solid rgba(255,182,193,0.4); box-shadow: 0 0 20px rgba(255,105,180,0.2); margin-bottom: 20px;
         }
-        .sub-section-title {
-            font-family: 'Playfair Display', serif; font-size: 1.4rem;
-            color: #d4af37; letter-spacing: 2px; text-align: center; margin-bottom: 20px;
-        }
-        .schedule-list { list-style: none; display: flex; flex-direction: column; gap: 8px; }
-        .schedule-list li {
+
+        .group-schedule { width: 100%; text-align: left; margin: 15px 0; }
+        .group-schedule ul { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+        .group-schedule li {
             font-weight: 300; color: #ccc; background: rgba(255,255,255,0.03);
-            padding: 10px 15px; border-radius: 4px;
-            border-left: 3px solid #d4af37;
+            padding: 8px 12px; border-radius: 4px; border-left: 3px solid #d4af37; font-size: 0.95rem;
         }
-        .schedule-list li strong { color: #fbc2eb; font-weight: 500; }
-        
-        .rules-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
-        .rules-list li {
-            font-weight: 300; color: #aaa; font-size: 0.95rem;
-            background: rgba(255, 255, 255, 0.02); padding: 12px 15px; border-radius: 4px;
-        }
-        .rules-list li strong { color: #fbc2eb; }
-        .rules-list li::before { content: "✧ "; color: #d4af37; font-weight: 700; }
+        .group-schedule li strong { color: #fbc2eb; }
 
-        /* ICÔNE WHATSAPP FLOTTANTE (Mène au groupe) */
+        .group-rules { width: 100%; text-align: left; margin: 20px 0; }
+        .group-rules ul { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+        .group-rules li { font-weight: 300; color: #aaa; font-size: 0.9rem; padding: 6px 0; }
+        .group-rules li strong { color: #fbc2eb; }
+        .group-rules li::before { content: "✧ "; color: #d4af37; font-weight: 700; }
+
+        .cta-group {
+            display: inline-flex; align-items: center; justify-content: center; gap: 12px;
+            background: transparent; border: 2px solid #d4af37; color: #f5f5f5;
+            width: 100%; max-width: 450px; padding: 15px 30px;
+            border-radius: 6px; font-weight: 600; font-size: 1rem; letter-spacing: 2px;
+            transition: 0.3s ease; margin-top: 10px;
+        }
+        .cta-group:hover { background: #d4af37; color: #050505; transform: translateY(-3px); }
+        .cta-group i { color: #25D366; font-size: 1.2rem; }
+        .cta-group:hover i { color: #050505; }
+
+        /* ICÔNE FLOTTANTE (Contact direct pour Tylxr) */
         .floating-whatsapp {
             position: fixed; bottom: 30px; right: 30px;
             width: 60px; height: 60px; border-radius: 50%;
@@ -119,23 +111,15 @@
             box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4);
             transition: all 0.3s ease; animation: floatPulse 2s infinite;
         }
-        @keyframes floatPulse {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-6px); box-shadow: 0 8px 30px rgba(37, 211, 102, 0.8); }
-        }
+        @keyframes floatPulse { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-6px); box-shadow: 0 8px 30px rgba(37, 211, 102, 0.8); } }
         .floating-whatsapp:hover { transform: scale(1.1); background: #1ebd59; }
 
-        /* FOOTER */
-        footer {
-            color: #333; font-size: 0.75rem; letter-spacing: 2px;
-            border-top: 1px solid rgba(255,255,255,0.05); padding-top: 20px;
-            margin-top: 50px; width: 100%;
-        }
-
+        footer { color: #333; font-size: 0.75rem; letter-spacing: 2px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 20px; margin-top: 50px; width: 100%; }
+        
         @media (max-width: 600px) {
             .avatar-wrapper img { width: 120px; height: 120px; }
-            h1 { font-size: 1.8rem; word-break: break-word; }
-            .cta-primary { padding: 16px 20px; font-size: 0.9rem; }
+            h1 { font-size: 2.4rem; }
+            .cta-personal, .cta-group { padding: 14px 20px; font-size: 0.9rem; }
             .floating-whatsapp { width: 55px; height: 55px; font-size: 1.8rem; bottom: 20px; right: 20px; }
         }
     </style>
@@ -144,66 +128,77 @@
 
     <div class="container">
 
-        <!-- 1. LOGO DU GROUPE (logo-group.png) -->
-        <div class="avatar-wrapper">
-            <img src="logo-group.png" alt="BUM B*TCHES Logo">
+        <!-- 1. IDENTITÉ PERSONNELLE (Tylxr) -->
+        <div class="personal-section">
+            <div class="avatar-wrapper">
+                <img src="logo.png" alt="It's Tylxr Logo">
+            </div>
+            
+            <h1>It's Tylxr🧛🏽</h1>
+            <p class="tagline">"You scream, you beg and you die."</p>
+            
+            <div class="live-pill">
+                <span class="live-dot"></span> En ligne sur WhatsApp
+            </div>
+
+            <!-- Bouton pour écrire à Tylxr (privé) -->
+            <a href="https://wa.me/17879684394" target="_blank" class="cta-personal">
+                <i class="fab fa-whatsapp"></i> Me contacter en privé
+            </a>
         </div>
 
-        <!-- 2. NOM & TAGLINE -->
-        <h1>❁ ๖ — 🌸🌿 BUM B*TCHES 🌿 • 💗 | 🌼🥺</h1>
-        <p class="tagline">“❣ Follow the schedule or stay out!! ” ❤️🏖️</p>
-        <p class="vibes">_Chill • Fun • Games • Summer Energy_ 🔥🌴</p>
+        <!-- 2. SÉPARATEUR -->
+        <div class="divider"></div>
 
-        <!-- 3. LIVE INDICATOR -->
-        <div class="live-pill">
-            <span class="live-dot"></span> Groupe actif
-        </div>
+        <!-- 3. GROUPE BUM B*TCHES -->
+        <div class="group-section">
+            <div class="avatar-wrapper" style="margin-bottom: 15px;">
+                <img src="logo-group.png" alt="BUM B*TCHES Group Logo" class="group-avatar">
+            </div>
 
-        <!-- 4. BOUTON PRINCIPAL POUR REJOINDRE -->
-        <a href="https://chat.whatsapp.com/IlnFUzCP1by6hbW7yQ7I0S" target="_blank" class="cta-primary">
-            <i class="fab fa-whatsapp"></i> Rejoindre le groupe
-        </a>
+            <h2 class="group-title">❁ ๖ — 🌸🌿 BUM B*TCHES 🌿 • 💗 | 🌼🥺</h2>
+            <p class="group-subtitle">“❣ Follow the schedule or stay out!! ” ❤️🏖️</p>
+            <p style="color: #aaa; margin-bottom: 20px; letter-spacing: 1px; font-size: 0.9rem;">_Chill • Fun • Games • Summer Energy_ 🔥🌴</p>
 
-        <div class="section-spacer"></div>
+            <div class="group-schedule">
+                <p style="color:#d4af37; text-align: center; margin-bottom: 8px; letter-spacing: 2px; font-weight: 500;">✦ PLANNING ✦</p>
+                <ul>
+                    <li><strong>Lundi :</strong> Concours Beauté (Girls) 🥺❤️</li>
+                    <li><strong>Mardi :</strong> Concours Pic Sexy 🧁</li>
+                    <li><strong>Mercredi :</strong> Confessions 🍫</li>
+                    <li><strong>Jeudi :</strong> Pic Secret 🧁</li>
+                    <li><strong>Vendredi :</strong> Concours Twerk 😍</li>
+                    <li><strong>Samedi :</strong> Pass Or Smash ❤️✨</li>
+                    <li><strong>Dimanche :</strong> Free Day 🌴✨</li>
+                </ul>
+                <p style="text-align: center; color: #777; font-size: 0.8rem; font-style: italic; margin-top: 10px;">Memes • Chill • Fun All Day 🛍️</p>
+            </div>
 
-        <!-- 5. PLANNING HEBDOMADAIRE -->
-        <div class="sub-section">
-            <h3 class="sub-section-title">✦ Planning de la semaine ✦</h3>
-            <ul class="schedule-list">
-                <li><strong>Lundi :</strong> Concours Beauté (Girls) 🥺❤️</li>
-                <li><strong>Mardi :</strong> Concours Pic Sexy 🧁</li>
-                <li><strong>Mercredi :</strong> Confessions 🍫</li>
-                <li><strong>Jeudi :</strong> Pic Secret 🧁</li>
-                <li><strong>Vendredi :</strong> Concours Twerk 😍</li>
-                <li><strong>Samedi :</strong> Pass Or Smash ❤️✨</li>
-                <li><strong>Dimanche :</strong> Free Day 🌴✨</li>
-            </ul>
-            <p style="text-align: center; color: #777; font-size: 0.9rem; font-style: italic; margin-top: 15px;">Memes • Chill • Fun All Day 🛍️</p>
-        </div>
+            <div class="group-rules">
+                <p style="color:#d4af37; text-align: center; margin-bottom: 8px; letter-spacing: 2px; font-weight: 500;">✦ RÈGLES ✦</p>
+                <ul>
+                    <li><strong>#1 :</strong> PA SEND STICKERS ANIMÉS. ⭐</li>
+                    <li><strong>#2 :</strong> PA JOURE MANMAN NOU, BCS NOU SE YON FAMILLE. ❤️</li>
+                    <li><strong>#3 :</strong> PA SEND LINK GWOUP LA POU SA. 🙂</li>
+                    <li><strong>#4 :</strong> PA PRIVE MOUN SANS OTORIZASYON. 🙂</li>
+                </ul>
+            </div>
 
-        <div class="section-spacer"></div>
-
-        <!-- 6. RÈGLES DU GROUPE -->
-        <div class="sub-section">
-            <h3 class="sub-section-title">✦ Règles du groupe ✦</h3>
-            <ul class="rules-list">
-                <li><strong>#1 :</strong> PA SEND STICKERS ANIMÉS. ⭐</li>
-                <li><strong>#2 :</strong> PA JOURE MANMAN NOU, BCS NOU SE YON FAMILLE. ❤️</li>
-                <li><strong>#3 :</strong> PA SEND LINK GWOUP LA POU SA. 🙂</li>
-                <li><strong>#4 :</strong> PA PRIVE MOUN SANS OTORIZASYON. 🙂</li>
-            </ul>
+            <!-- Bouton pour rejoindre le groupe -->
+            <a href="https://chat.whatsapp.com/IlnFUzCP1by6hbW7yQ7I0S" target="_blank" class="cta-group">
+                <i class="fab fa-whatsapp"></i> Rejoindre le groupe
+            </a>
         </div>
 
     </div>
 
-    <!-- 7. ICÔNE FLOTTANTE WHATSAPP (Mène au groupe) -->
-    <a href="https://chat.whatsapp.com/IlnFUzCP1by6hbW7yQ7I0S" target="_blank" class="floating-whatsapp">
+    <!-- 4. ICÔNE FLOTTANTE (Pour envoyer un message perso à Tylxr) -->
+    <a href="https://wa.me/17879684394" target="_blank" class="floating-whatsapp">
         <i class="fab fa-whatsapp"></i>
     </a>
 
-    <!-- FOOTER -->
     <footer>
-        <span>BUM B*TCHES</span> &bull; Groupe WhatsApp &bull; © 2026
+        <span>It's Tylxr🧛🏽</span> &bull; BUM B*TCHES &bull; © 2026
     </footer>
 
 </body>
