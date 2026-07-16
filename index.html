@@ -4,49 +4,60 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>D A M O N | Identité Originale</title>
-    <!-- Fonts -->
+    <!-- Polices cinéma : Cinzel pour le titre, Montserrat pour le texte -->
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* Reset & Base */
+        /* Reset et fond sombre absolu */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Montserrat', sans-serif;
-            background-color: #050505;
-            color: #ffffff; /* Fonts police color: Blanc */
+            background-color: #000000; /* Noir pur pour plus de profondeur */
+            color: #f0f0f0;
+            line-height: 1.6;
             overflow-x: hidden;
         }
         a { text-decoration: none; color: inherit; }
 
-        /* Navbar */
+        /* Effet "Film Noise" ultra pro pour le fond */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            pointer-events: none;
+            z-index: -1;
+            opacity: 0.3;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        /* Navigation Glassmorphism (Pro & Sombre) */
         nav {
             position: fixed;
             top: 0; width: 100%;
-            background: rgba(5, 5, 5, 0.9);
-            backdrop-filter: blur(12px);
-            border-bottom: 1px solid rgba(184, 0, 0, 0.3);
-            padding: 18px 40px;
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(15px); /* Verre dépoli */
+            border-bottom: 1px solid rgba(184, 0, 0, 0.15);
+            padding: 20px 40px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             z-index: 1000;
         }
-        .nav-logo { display: flex; align-items: center; gap: 15px; }
-        .nav-logo img { height: 45px; width: auto; } /* Logo.png */
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .nav-logo img { height: 45px; width: auto; }
         .nav-logo span {
             font-family: 'Cinzel', serif;
-            font-size: 1.4rem;
-            letter-spacing: 8px;
+            font-size: 1.6rem;
+            letter-spacing: 12px;
             color: #ffffff;
-        }
-        .brand-tagline {
-            font-size: 0.8rem;
-            letter-spacing: 2px;
-            color: #b80000;
-            text-transform: uppercase;
+            text-shadow: 0 0 15px rgba(184, 0, 0, 0.4);
         }
 
-        /* Hero Section - Sombre, Aura */
+        /* Section Hero - Lumière rouge centrale */
         .hero {
             height: 100vh;
             display: flex;
@@ -54,174 +65,212 @@
             align-items: center;
             justify-content: center;
             text-align: center;
-            background: radial-gradient(circle at center, rgba(184,0,0,0.15) 0%, rgba(5,5,5,1) 70%);
+            /* Dégradé central pour l'aura rouge */
+            background: radial-gradient(circle at center, rgba(184, 0, 0, 0.15) 0%, #000000 60%);
             position: relative;
         }
+        
+        /* Le Titre DAMON avec un maximum d'Aura */
         .hero h1 {
             font-family: 'Cinzel', serif;
-            font-size: 6rem;
-            letter-spacing: 20px; /* D  A  M  O  N espacé */
+            font-size: 7rem;
+            letter-spacing: 25px;
             font-weight: 700;
-            /* L'AURA DEMANDÉE (Rouge et noir) */
             color: #ffffff;
-            text-shadow: 0 0 30px rgba(184, 0, 0, 0.8), 0 0 80px rgba(184, 0, 0, 0.4);
-            margin-bottom: 10px;
+            /* Glow rouge ultra intense */
+            text-shadow: 0 0 40px rgba(184, 0, 0, 0.9), 0 0 80px rgba(184, 0, 0, 0.5), 0 0 150px rgba(184, 0, 0, 0.3);
+            margin-bottom: 15px;
         }
+        
         .hero .tagline {
             font-size: 1.4rem;
             font-weight: 300;
-            letter-spacing: 3px;
+            letter-spacing: 4px;
             color: #e0e0e0;
             font-style: italic;
-            border-top: 1px solid #b80000;
-            border-bottom: 1px solid #b80000;
             padding: 15px 30px;
-            margin-top: 15px;
+            position: relative;
         }
+        .hero .tagline::before, .hero .tagline::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #b80000, transparent);
+        }
+        .hero .tagline::before { top: 0; }
+        .hero .tagline::after { bottom: 0; }
+
         .hero .bio {
-            margin-top: 30px;
-            font-size: 1.1rem;
+            margin-top: 35px;
+            font-size: 1.2rem;
             font-weight: 300;
-            letter-spacing: 2px;
+            letter-spacing: 1.5px;
             color: #a0a0a0;
-            max-width: 600px;
+            max-width: 650px;
+            line-height: 1.8;
         }
-        .hero .bio strong { color: #ffffff; }
+        .hero .bio strong { color: #ffffff; letter-spacing: 2px; }
 
         /* Sections */
         .section {
-            padding: 100px 20px;
+            padding: 120px 20px;
             max-width: 1100px;
             margin: 0 auto;
-            border-bottom: 1px solid rgba(184, 0, 0, 0.2);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+            position: relative;
         }
         .section-title {
             font-family: 'Cinzel', serif;
-            font-size: 2.5rem;
+            font-size: 2.8rem;
             text-align: center;
             color: #ffffff;
-            letter-spacing: 6px;
-            margin-bottom: 40px;
-            text-shadow: 0 0 15px rgba(184, 0, 0, 0.2);
+            letter-spacing: 8px;
+            margin-bottom: 50px;
+            text-shadow: 0 0 20px rgba(184, 0, 0, 0.1);
         }
         .section-title span { color: #b80000; }
 
+        /* Grille des packs */
         .services-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 30px;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
             margin-top: 30px;
         }
         .service-card {
-            background: #0d0d0d;
-            padding: 40px 20px;
+            background: #050505;
+            padding: 50px 30px;
             text-align: center;
-            border: 1px solid rgba(255,255,255,0.05);
-            transition: 0.3s;
+            border: 1px solid rgba(255,255,255,0.03);
+            transition: all 0.5s ease;
+            position: relative;
+        }
+        /* Ligne lumineuse au survol */
+        .service-card::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 50%;
+            transform: translateX(-50%);
+            width: 0%; height: 2px;
+            background: #b80000;
+            transition: width 0.4s ease;
+            box-shadow: 0 -5px 20px rgba(184, 0, 0, 0.6);
         }
         .service-card:hover {
-            border-color: #b80000;
-            transform: translateY(-5px);
-            box-shadow: 0 0 20px rgba(184, 0, 0, 0.2);
+            border-color: rgba(184, 0, 0, 0.4);
+            transform: translateY(-8px);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
         }
-        .service-card i { font-size: 2.5rem; color: #b80000; margin-bottom: 20px; }
-        .service-card h3 { font-size: 1.3rem; letter-spacing: 2px; margin-bottom: 10px; }
-        .service-card p { font-weight: 300; font-size: 0.95rem; color: #a0a0a0; }
+        .service-card:hover::after { width: 100%; }
+        .service-card i { font-size: 2.8rem; color: #b80000; margin-bottom: 25px; }
+        .service-card h3 { font-size: 1.4rem; letter-spacing: 3px; margin-bottom: 15px; font-weight: 500;}
+        .service-card p { font-weight: 300; font-size: 1rem; color: #888; line-height: 1.7; }
 
-        /* Bouton WhatsApp Flottant (Exactement comme demandé) */
+        /* Bouton WhatsApp Flottant (Plus d'aura) */
         .floating-whatsapp-btn {
             position: fixed;
-            bottom: 25px;
-            right: 25px;
+            bottom: 30px;
+            right: 30px;
             background: #b80000;
             color: #ffffff;
-            width: 65px;
-            height: 65px;
+            width: 70px;
+            height: 70px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 32px;
-            box-shadow: 0 4px 20px rgba(184, 0, 0, 0.6);
+            font-size: 35px;
+            box-shadow: 0 0 30px rgba(184, 0, 0, 0.6);
             z-index: 9999;
             transition: all 0.3s ease;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(184, 0, 0, 0.7); }
+            70% { box-shadow: 0 0 0 20px rgba(184, 0, 0, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(184, 0, 0, 0); }
         }
         .floating-whatsapp-btn:hover {
             transform: scale(1.1);
             background: #8c0000;
-            box-shadow: 0 0 40px rgba(184, 0, 0, 0.9);
+            box-shadow: 0 0 50px rgba(184, 0, 0, 0.9);
         }
 
-        /* Footer */
+        /* Footer (HIT totalement retiré) */
         footer {
             text-align: center;
-            padding: 40px 20px;
-            background: #020202;
-            border-top: 1px solid #b80000;
-            color: #666;
-            letter-spacing: 2px;
+            padding: 50px 20px;
+            background: #000000;
+            border-top: 1px solid rgba(184, 0, 0, 0.2);
+            color: #555;
+            letter-spacing: 3px;
             font-size: 0.9rem;
         }
+        footer span { color: #b80000; }
         
-        /* Mobile responsive */
         @media (max-width: 768px) {
-            .hero h1 { font-size: 3rem; letter-spacing: 12px; }
-            .nav-logo span { font-size: 1rem; }
+            .hero h1 { font-size: 3.5rem; letter-spacing: 15px; }
+            .nav-logo span { font-size: 1rem; letter-spacing: 5px; }
         }
     </style>
 </head>
 <body>
 
-    <!-- Navigation avec le logo.png -->
+    <!-- Navigation sans HIT, juste DAMON -->
     <nav>
         <div class="nav-logo">
-            <img src="logo.png" alt="Logo DAMON"> <!-- C'est ici que tu mets ton logo.png -->
+            <img src="logo.png" alt="Logo DAMON">
             <span>D A M O N</span>
         </div>
-        <div class="brand-tagline">H I T</div>
+        <!-- HIT a été complètement enlevé ici -->
     </nav>
 
-    <!-- Hero Section : Sombre & Aura -->
+    <!-- Hero Section : Foncé, Aura rouge ++ -->
     <section class="hero">
         <h1>D A M O N</h1>
         <div class="tagline">"You scream, you beg and you die."</div>
         <p class="bio">
-            <strong>Le meilleur. Beau, attirant, classe.</strong> <br>
-            Sarcastique, égoïste, cruel... mais j'assume. Je contrôle tout, du style à l'impact. <br>
-            Je suis l'<strong>Original</strong>.
+            <strong>L'Original. Le Meilleur.</strong> Beau, attirant, classe.<br>
+            Sarcastique, égoïste, cruel... mais assumé. Je contrôle tout, du style à l'impact.<br>
+            Une présence qui ne laisse aucune place à l'indifférence.
         </p>
     </section>
 
-    <!-- Section Stickers (d'après tes notes) -->
+    <!-- Section 2 Packs Stickers -->
     <section class="section" id="stickers">
         <h2 class="section-title">L'<span>ESSENCE</span></h2>
         <div class="services-grid">
             <div class="service-card">
                 <i class="fas fa-stamp"></i>
-                <h3>PACKS STICKERS</h3>
-                <p>Deux packs exclusifs de stickers "Damon". L'attitude en un clic pour tes conversations.</p>
+                <h3>PACKS EXCLUSIFS</h3>
+                <p>Deux packs officiels de stickers "Damon". L'attitude et le sarcasme en un clic pour dominer tes conversations.</p>
             </div>
             <div class="service-card">
                 <i class="fas fa-crown"></i>
-                <h3>PRÉSENCE & STYLE</h3>
-                <p>Sombre, magnétique, intemporel. Une identité visuelle forgée dans le rouge et le noir.</p>
+                <h3>STYLE & PRÉSENCE</h3>
+                <p>Une identité visuelle sombre et magnétique. Le rouge et le noir comme signature absolue.</p>
             </div>
             <div class="service-card">
                 <i class="fas fa-bolt"></i>
-                <h3>IMPACT ABSOLU</h3>
-                <p>L'original ne suit pas les règles. Il les écrit. Tu veux ma signature ? Tu l'as.</p>
+                <h3>IMPACT LÉGENDAIRE</h3>
+                <p>L'original ne suit pas les règles. Il les écrit. Tu veux ma marque ? Tu viens de la trouver.</p>
             </div>
         </div>
     </section>
 
-    <!-- Bouton WhatsApp Flottant (Amenant à la discussion) -->
+    <!-- Bouton WhatsApp Flottant avec animation Aura -->
     <a href="https://wa.me/50933990578" target="_blank" class="floating-whatsapp-btn" title="Contact WhatsApp">
         <i class="fab fa-whatsapp"></i>
     </a>
 
-    <!-- Footer -->
+    <!-- Footer (HIT retiré) -->
     <footer>
-        <p>© 2026 D A M O N | Identité Originale <br> +509 33 99 0578</p>
+        <span>D A M O N</span> <br><br>
+        © 2026 DAMON. Une présence qui ne s'oublie pas.<br>
+        +509 33 99 0578
     </footer>
 
 </body>
