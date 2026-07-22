@@ -53,25 +53,39 @@
             font-size:1.2rem; cursor:pointer; padding:6px 10px; border-radius:6px;
         }
 
-        /* SIDEBAR – plus court et compact */
-        .sidebar-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.8); z-index:2000; display:none; }
+        /* SIDEBAR – plus professionnel, compact et ordonné */
+        .sidebar-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.7); z-index:2000; display:none; }
         .sidebar-overlay.active { display:block; }
         .sidebar {
-            position:fixed; top:0; right:0; width:280px; max-width:85vw; height:100vh;
-            background:var(--bg-sidebar); z-index:2001; padding:0.8rem 0.6rem; overflow-y:auto;
+            position:fixed; top:0; right:0; width:270px; max-width:85vw; height:100vh;
+            background:var(--bg-sidebar); z-index:2001; padding:0.6rem 0.4rem; overflow-y:auto;
             transform:translateX(100%); transition:transform 0.2s ease;
+            border-left:1px solid var(--border-light);
         }
         .sidebar.active { transform:translateX(0); }
-        .sidebar-close-btn { position:absolute; top:0.6rem; right:0.6rem; background:none; border:none; color:#aaa; font-size:1.2rem; cursor:pointer; }
-        .sidebar-header { display:flex; align-items:center; gap:0.6rem; border-bottom:1px solid var(--border-light); padding-bottom:0.5rem; margin-bottom:0.5rem; }
-        .sidebar-profile .avatar { width:32px; height:32px; border-radius:50%; background:var(--gradient); display:flex; align-items:center; justify-content:center; font-weight:700; color:#fff; font-size:0.8rem; }
+        .sidebar-close-btn {
+            position:absolute; top:0.5rem; right:0.5rem; background:none; border:none; color:#aaa;
+            font-size:1.2rem; cursor:pointer; padding:4px; border-radius:4px; transition:background 0.2s;
+        }
+        .sidebar-close-btn:hover { background:rgba(255,255,255,0.05); color:#fff; }
+        .sidebar-header {
+            display:flex; align-items:center; gap:0.6rem; border-bottom:1px solid var(--border-light);
+            padding-bottom:0.5rem; margin-bottom:0.4rem;
+        }
+        .sidebar-profile .avatar {
+            width:32px; height:32px; border-radius:50%; background:var(--gradient);
+            display:flex; align-items:center; justify-content:center; font-weight:700; color:#fff; font-size:0.8rem;
+        }
         .sidebar-profile .info .name { font-weight:600; font-size:0.85rem; }
-        .menu-section { margin-bottom:0.3rem; }
-        .menu-section .section-label { font-size:0.55rem; text-transform:uppercase; color:#666; padding:0.1rem 0.4rem; letter-spacing:0.5px; }
+        .menu-section { margin-bottom:0.2rem; }
+        .menu-section .section-label {
+            font-size:0.55rem; text-transform:uppercase; color:var(--text-muted);
+            padding:0.1rem 0.4rem; letter-spacing:0.5px;
+        }
         .menu-section .section-items { list-style:none; display:flex; flex-direction:column; gap:0.05rem; }
         .menu-section .section-items li a {
             display:flex; align-items:center; gap:0.5rem; padding:0.3rem 0.5rem; border-radius:4px;
-            font-size:0.8rem; color:var(--text-sec); 
+            font-size:0.8rem; color:var(--text-sec); transition:background 0.2s, color 0.2s;
         }
         .menu-section .section-items li a:hover { background:rgba(249,115,22,0.1); color:var(--orange); }
         .menu-section .section-items li a i { width:16px; color:#666; font-size:0.85rem; }
@@ -83,16 +97,23 @@
         .hero h1 { font-family:var(--font-title); font-size:2rem; font-weight:700; text-transform:uppercase; letter-spacing:1px; }
         .hero h1 span { background:var(--gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
         .hero p { font-size:0.95rem; color:var(--text-sec); max-width:450px; margin:0.5rem auto 1rem; }
-        .hero .cta { background:var(--gradient); color:#fff; padding:0.7rem 2rem; border-radius:30px; font-family:var(--font-title); font-weight:700; border:none; cursor:pointer; font-size:0.85rem; transition:background 0.2s; }
+        .hero .cta { background:var(--gradient); color:#fff; padding:0.7rem 2rem; border-radius:30px; font-family:var(--font-title); font-weight:700; border:none; cursor:pointer; font-size:0.85rem; transition:opacity 0.2s; }
         .hero .cta:hover { opacity:0.9; }
 
-        /* FLYERS */
-        .flyers-section { padding:0.5rem 0 1.5rem; overflow-x:auto; white-space:nowrap; }
-        .flyers-section::-webkit-scrollbar { display:none; }
+        /* FLYERS – défilement automatique à 0.5x (vitesse lente) */
+        .flyers-section { padding:0.5rem 0 1.5rem; overflow:hidden; position:relative; }
+        .flyers-track {
+            display:flex; gap:1.2rem; width:max-content;
+            animation: scrollFlyers 40s linear infinite; /* 0.5x = durée double (ex: 40s au lieu de 20s) */
+        }
+        .flyers-track:hover { animation-play-state:paused; }
+        @keyframes scrollFlyers {
+            0% { transform:translateX(0); }
+            100% { transform:translateX(-50%); }
+        }
         .flyer-item {
-            display:inline-block; width:280px; margin-right:1rem; background:var(--bg-card);
-            border-radius:var(--radius); overflow:hidden; border:1px solid var(--border-light);
-            vertical-align:top; cursor:pointer; transition:background 0.2s;
+            width:280px; background:var(--bg-card); border-radius:var(--radius); overflow:hidden;
+            border:1px solid var(--border-light); cursor:pointer; transition:background 0.2s;
         }
         .flyer-item:hover { background:var(--bg-sidebar); }
         .flyer-item img { width:100%; height:160px; object-fit:cover; }
@@ -106,18 +127,18 @@
         .categories-grid { display:grid; grid-template-columns:1fr 1fr; gap:0.8rem; padding-bottom:1.5rem; }
         .category-card {
             background:var(--bg-card); border-radius:var(--radius); padding:1.2rem 0.8rem; text-align:center;
-            border:1px solid var(--border-light); cursor:pointer; transition:background 0.2s;
+            border:1px solid var(--border-light); cursor:pointer; transition:background 0.2s, border-color 0.2s;
         }
         .category-card:hover { background:var(--bg-sidebar); border-color:rgba(249,115,22,0.3); }
         .category-icon { font-size:1.8rem; background:var(--gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent; display:block; margin-bottom:0.3rem; }
         .category-card h3 { font-family:var(--font-title); font-size:0.8rem; font-weight:600; text-transform:uppercase; }
         .category-card p { font-size:0.65rem; color:var(--text-sec); }
 
-        /* PRODUITS EN VEDETTE – logos agrandis */
+        /* PRODUITS EN VEDETTE */
         .products-grid { display:grid; grid-template-columns:1fr 1fr; gap:1rem; padding-bottom:2rem; }
         .product-card {
             background:var(--bg-card); border-radius:var(--radius); padding:1.2rem 0.8rem; text-align:center;
-            border:1px solid var(--border-light); cursor:pointer; transition:background 0.2s;
+            border:1px solid var(--border-light); cursor:pointer; transition:background 0.2s, border-color 0.2s;
         }
         .product-card:hover { background:var(--bg-sidebar); border-color:rgba(249,115,22,0.3); }
         .product-card .logo-wrap { width:120px; height:120px; margin:0 auto 0.6rem; display:flex; align-items:center; justify-content:center; }
@@ -132,15 +153,29 @@
         }
         .product-card .btn:hover { background:var(--orange); color:#fff; }
 
+        /* SECTION COMMUNAUTÉ WHATSAPP */
+        .community-section { text-align:center; padding:1.5rem 0 1rem; border-top:1px solid var(--border-light); border-bottom:1px solid var(--border-light); margin-bottom:1.5rem; }
+        .community-section h2 { font-family:var(--font-title); font-size:1.1rem; font-weight:700; text-transform:uppercase; margin-bottom:0.3rem; }
+        .community-section p { font-size:0.85rem; color:var(--text-sec); max-width:400px; margin:0 auto 1rem; }
+        .community-links { display:flex; flex-direction:column; gap:0.6rem; align-items:center; }
+        .community-links .btn-whatsapp {
+            display:inline-flex; align-items:center; gap:0.6rem; padding:0.6rem 1.5rem;
+            border-radius:30px; font-weight:600; font-size:0.85rem; text-decoration:none; transition:opacity 0.2s;
+            width:100%; max-width:280px; justify-content:center;
+        }
+        .community-links .btn-whatsapp:hover { opacity:0.85; }
+        .community-links .btn-whatsapp.green { background:#25d366; color:#fff; }
+        .community-links .btn-whatsapp.dark { background:#1a7a3a; color:#fff; }
+
         /* PANIER FLOTTANT */
         .cart-float { position:fixed; bottom:1.5rem; right:1.5rem; z-index:500; background:var(--gradient); color:#fff; width:48px; height:48px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:1.1rem; box-shadow:0 4px 12px rgba(0,0,0,0.4); cursor:pointer; border:none; transition:transform 0.2s; }
         .cart-float:hover { transform:scale(1.05); }
         .cart-float .badge { position:absolute; top:-4px; right:-4px; background:#ef4444; color:#fff; font-size:0.5rem; font-weight:700; width:18px; height:18px; border-radius:50%; display:flex; align-items:center; justify-content:center; }
 
-        /* FOOTER – plus professionnel */
+        /* FOOTER – avec logo à la place du texte */
         footer { background:var(--bg-sidebar); padding:2rem 1.2rem 1rem; margin:0 -1.2rem; border-top:2px solid rgba(255,255,255,0.04); }
         .footer-grid { display:grid; grid-template-columns:1fr; gap:1.5rem; max-width:1200px; margin:0 auto; }
-        .footer-brand .brand { font-family:var(--font-title); font-size:1.2rem; font-weight:900; background:var(--gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent; display:inline-block; margin-bottom:0.3rem; }
+        .footer-brand .logo-footer { height:50px; width:auto; display:block; margin-bottom:0.3rem; }
         .footer-brand p { font-size:0.8rem; color:var(--text-sec); max-width:300px; }
         .footer-links-grid { display:grid; grid-template-columns:1fr 1fr; gap:1.2rem; }
         .footer-col h4 { font-family:var(--font-title); font-size:0.65rem; text-transform:uppercase; letter-spacing:0.8px; color:var(--text); margin-bottom:0.5rem; }
@@ -164,6 +199,8 @@
             .hero h1 { font-size:3rem; }
             .categories-grid { grid-template-columns:repeat(3,1fr); gap:1.2rem; }
             .products-grid { grid-template-columns:repeat(4,1fr); gap:1.2rem; }
+            .community-links { flex-direction:row; justify-content:center; }
+            .community-links .btn-whatsapp { width:auto; min-width:200px; }
             .footer-grid { grid-template-columns:1fr 2fr; gap:2rem; }
             .footer-links-grid { grid-template-columns:repeat(3,1fr); }
             .footer-bottom { flex-direction:row; justify-content:space-between; }
@@ -189,7 +226,7 @@
         </div>
     </header>
 
-    <!-- SIDEBAR plus court -->
+    <!-- SIDEBAR amélioré -->
     <div class="sidebar-overlay" id="sidebar-overlay"></div>
     <div class="sidebar" id="sidebar">
         <button class="sidebar-close-btn" id="sidebar-close-btn"><i class="fa-solid fa-xmark"></i></button>
@@ -200,7 +237,6 @@
                     <div class="info"><div class="name">Visiteur</div></div>
                 </div>
             </div>
-            <!-- Menu raccourci : seulement l'essentiel -->
             <div class="menu-section">
                 <div class="section-label">Navigation</div>
                 <ul class="section-items">
@@ -223,23 +259,43 @@
             <button class="cta" onclick="window.location.href='/authentification/register.html'">Commencer</button>
         </section>
 
-        <!-- FLYERS -->
+        <!-- FLYERS avec défilement automatique lent (0.5x) -->
         <section class="flyers-section">
-            <div class="flyer-item" onclick="location.href='/gaming.html'">
-                <img src="/flyerslive/flyers-gaming.png" alt="Gaming" loading="lazy" />
-                <div class="label">Free Fire – Gaming</div>
-            </div>
-            <div class="flyer-item" onclick="location.href='/streaming.html'">
-                <img src="/flyerslive/flyers-streaming.png" alt="Streaming" loading="lazy" />
-                <div class="label">Netflix – Streaming</div>
-            </div>
-            <div class="flyer-item" onclick="location.href='/services-digitaux.html'">
-                <img src="/flyerslive/flyers-digital.png" alt="Services" loading="lazy" />
-                <div class="label">Wise & MERU – Services</div>
-            </div>
-            <div class="flyer-item" onclick="location.href='/gaming.html'">
-                <img src="/flyerslive/flyer-other.png" alt="COD Mobile" loading="lazy" />
-                <div class="label">COD Mobile – Gaming</div>
+            <div class="flyers-track" id="flyersTrack">
+                <!-- Contenu dupliqué pour boucle infinie -->
+                <div class="flyer-item" onclick="location.href='/gaming.html'">
+                    <img src="/flyerslive/flyers-gaming.png" alt="Gaming" loading="lazy" />
+                    <div class="label">Free Fire – Gaming</div>
+                </div>
+                <div class="flyer-item" onclick="location.href='/streaming.html'">
+                    <img src="/flyerslive/flyers-streaming.png" alt="Streaming" loading="lazy" />
+                    <div class="label">Netflix – Streaming</div>
+                </div>
+                <div class="flyer-item" onclick="location.href='/services-digitaux.html'">
+                    <img src="/flyerslive/flyers-digital.png" alt="Services" loading="lazy" />
+                    <div class="label">Wise & MERU – Services</div>
+                </div>
+                <div class="flyer-item" onclick="location.href='/gaming.html'">
+                    <img src="/flyerslive/flyer-other.png" alt="COD Mobile" loading="lazy" />
+                    <div class="label">COD Mobile – Gaming</div>
+                </div>
+                <!-- Duplication pour l'infini -->
+                <div class="flyer-item" onclick="location.href='/gaming.html'">
+                    <img src="/flyerslive/flyers-gaming.png" alt="Gaming" loading="lazy" />
+                    <div class="label">Free Fire – Gaming</div>
+                </div>
+                <div class="flyer-item" onclick="location.href='/streaming.html'">
+                    <img src="/flyerslive/flyers-streaming.png" alt="Streaming" loading="lazy" />
+                    <div class="label">Netflix – Streaming</div>
+                </div>
+                <div class="flyer-item" onclick="location.href='/services-digitaux.html'">
+                    <img src="/flyerslive/flyers-digital.png" alt="Services" loading="lazy" />
+                    <div class="label">Wise & MERU – Services</div>
+                </div>
+                <div class="flyer-item" onclick="location.href='/gaming.html'">
+                    <img src="/flyerslive/flyer-other.png" alt="COD Mobile" loading="lazy" />
+                    <div class="label">COD Mobile – Gaming</div>
+                </div>
             </div>
         </section>
 
@@ -319,16 +375,31 @@
         </div>
     </main>
 
+    <!-- SECTION COMMUNAUTÉ WHATSAPP (avant footer) -->
+    <section class="community-section">
+        <h2>Rejoignez notre communauté</h2>
+        <p>Restez connecté pour ne manquer aucune promo et offre exclusive !</p>
+        <div class="community-links">
+            <a href="https://whatsapp.com/channel/0029VbAcGmCGufIrRej1sR04" class="btn-whatsapp green" target="_blank">
+                <i class="fa-brands fa-whatsapp"></i> Chaîne WhatsApp
+            </a>
+            <a href="https://chat.whatsapp.com/FV6m1fFoFYMERC34UyQyVZ" class="btn-whatsapp dark" target="_blank">
+                <i class="fa-solid fa-users"></i> Groupe WhatsApp
+            </a>
+        </div>
+    </section>
+
     <!-- PANIER FLOTTANT -->
     <button class="cart-float" onclick="window.location.href='/panier.html'" aria-label="Panier">
         <i class="fa-solid fa-bag-shopping"></i>
         <span class="badge" id="cart-float-badge">0</span>
     </button>
 
+    <!-- FOOTER avec logo -->
     <footer>
         <div class="footer-grid">
             <div class="footer-brand">
-                <div class="brand">DIGITALPAY</div>
+                <img src="/assets/logo.png" alt="DigitalPay" class="logo-footer" />
                 <p>Votre plateforme de recharge gaming, streaming, services financiers, gift cards et cartes virtuelles en Haïti.</p>
                 <div class="footer-social">
                     <a href="https://wa.me/50936535649" target="_blank"><i class="fa-brands fa-whatsapp"></i></a>
