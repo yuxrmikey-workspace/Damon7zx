@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+    <title>Connexion – DigitalPay HT</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Orbitron:wght@500;600;700;900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <style>
+        :root {
+            --font-title: 'Orbitron', sans-serif;
+            --font-body: 'Inter', sans-serif;
+            --bg: #000000;
+            --bg-card: rgba(20,20,40,0.6);
+            --text: #ffffff;
+            --text-sec: #a0a0c0;
+            --orange: #f97316;
+            --gradient: linear-gradient(135deg, #1a6bc4, #f97316);
+            --radius: 16px;
+            --radius-lg: 24px;
+        }
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body { font-family:var(--font-body); background:var(--bg); color:var(--text); display:flex; align-items:center; justify-content:center; min-height:100vh; }
+        a { text-decoration:none; color:inherit; }
+        img { display:block; max-width:100%; }
+
+        .login-card {
+            width:100%; max-width:440px; margin:1.5rem;
+            background:var(--bg-card); backdrop-filter:blur(14px); border-radius:var(--radius-lg);
+            padding:2.5rem 2rem; border:1px solid rgba(255,255,255,0.04);
+            box-shadow:0 20px 60px rgba(0,0,0,0.5);
+        }
+        .logo-container { text-align:center; margin-bottom:1.5rem; }
+        .logo-container img { height:96px; width:auto; display:inline-block; }
+        .login-title { font-family:var(--font-title); font-size:1.5rem; font-weight:700; text-align:center; margin-bottom:0.3rem; }
+        .login-sub { font-size:0.9rem; color:var(--text-sec); text-align:center; margin-bottom:1.8rem; }
+
+        .form-group { margin-bottom:1.2rem; }
+        .form-group label { display:block; font-weight:600; font-size:0.8rem; color:var(--text-sec); margin-bottom:0.3rem; }
+        .form-group label i { color:var(--orange); margin-right:0.4rem; }
+        .form-group input {
+            width:100%; padding:0.7rem 0.9rem; border-radius:10px;
+            border:1px solid rgba(255,255,255,0.06); background:rgba(255,255,255,0.02);
+            color:var(--text); font-size:0.95rem; outline:none; font-family:var(--font-body);
+        }
+        .form-group input:focus { border-color:var(--orange); background:rgba(255,255,255,0.04); }
+
+        .forgot-link { text-align:right; margin-top:-0.2rem; margin-bottom:0.2rem; }
+        .forgot-link a { font-size:0.75rem; color:var(--text-tert); transition:0.2s; }
+        .forgot-link a:hover { color:var(--orange); }
+
+        .btn-primary {
+            width:100%; padding:0.8rem; background:var(--gradient); border:none; border-radius:12px;
+            color:#fff; font-weight:700; font-size:1rem; cursor:pointer; transition:0.2s; font-family:var(--font-body);
+        }
+        .btn-primary:hover { transform:translateY(-2px); box-shadow:0 8px 30px rgba(249,115,22,0.2); }
+        .btn-primary:disabled { opacity:0.6; cursor:not-allowed; transform:none; }
+
+        .divider { display:flex; align-items:center; gap:1rem; margin:1.5rem 0; color:var(--text-tert); font-size:0.8rem; }
+        .divider::before, .divider::after { content:''; flex:1; height:1px; background:rgba(255,255,255,0.04); }
+
+        .btn-google {
+            width:100%; padding:0.7rem; background:transparent; border:1px solid rgba(255,255,255,0.08);
+            border-radius:12px; color:var(--text); font-weight:600; font-size:0.9rem; cursor:pointer;
+            transition:0.3s; display:flex; align-items:center; justify-content:center; gap:0.6rem; font-family:var(--font-body);
+        }
+        .btn-google:hover { background:rgba(255,255,255,0.02); }
+        .btn-google i { font-size:1.2rem; color:#ea4335; }
+
+        .register-link { text-align:center; margin-top:1.2rem; font-size:0.85rem; color:var(--text-sec); }
+        .register-link a { color:var(--orange); font-weight:600; transition:0.2s; }
+        .register-link a:hover { text-decoration:underline; }
+
+        .toast-container { position:fixed; bottom:1.5rem; left:50%; transform:translateX(-50%); z-index:9999; width:90%; max-width:400px; pointer-events:none; }
+        .toast { padding:0.8rem 1.2rem; border-radius:12px; background:var(--bg-card); backdrop-filter:blur(14px); border:1px solid rgba(255,255,255,0.04); color:var(--text); font-weight:500; font-size:0.9rem; box-shadow:0 8px 30px rgba(0,0,0,0.4); opacity:0; transform:translateY(20px) scale(0.95); transition:all 0.35s; pointer-events:auto; text-align:center; }
+        .toast.show { opacity:1; transform:translateY(0) scale(1); }
+        .toast.error { border-color:rgba(239,68,68,0.3); }
+        .toast.success { border-color:rgba(34,197,94,0.3); }
+        .toast i { margin-right:0.5rem; }
+    </style>
+</head>
+<body>
+    <div class="login-card">
+        <div class="logo-container"><img src="/assets/logo.png" alt="DigitalPay HT" /></div>
+        <div class="login-title">Connexion</div>
+        <div class="login-sub">Retrouvez votre espace sécurisé</div>
+
+        <form id="loginForm">
+            <div class="form-group">
+                <label for="email"><i class="fa-regular fa-envelope"></i> Adresse email</label>
+                <input type="email" id="email" placeholder="exemple@email.com" required />
+            </div>
+            <div class="form-group">
+                <label for="password"><i class="fa-solid fa-lock"></i> Mot de passe</label>
+                <input type="password" id="password" placeholder="Votre mot de passe" required />
+            </div>
+            <div class="forgot-link"><a href="/authentification/forgot-password.html">Mot de passe oublié ?</a></div>
+            <button type="submit" class="btn-primary" id="loginBtn"><i class="fa-solid fa-arrow-right-to-bracket"></i> Se connecter</button>
+        </form>
+
+        <div class="divider">ou</div>
+
+        <button class="btn-google" id="googleBtn"><i class="fa-brands fa-google"></i> Continuer avec Google</button>
+
+        <div class="register-link">Pas encore de compte ? <a href="/authentification/register.html">Inscrivez-vous</a></div>
+    </div>
+
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyDCj6vyMXsdEMlH-vYOWdwcfoD2VI622Uc",
+            authDomain: "digitalpayhaiti-509.firebaseapp.com",
+            projectId: "digitalpayhaiti-509",
+            storageBucket: "digitalpayhaiti-509.firebasestorage.app",
+            messagingSenderId: "987271970971",
+            appId: "1:987271970971:web:482635fb1202dc575ac63e"
+        };
+        if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const provider = new firebase.auth.GoogleAuthProvider();
+
+        function showToast(msg, type='info') {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = 'toast ' + type;
+            const icon = type==='error' ? 'fa-circle-exclamation' : type==='success' ? 'fa-circle-check' : 'fa-circle-info';
+            toast.innerHTML = `<i class="fa-solid ${icon}"></i> ${msg}`;
+            container.appendChild(toast);
+            requestAnimationFrame(() => toast.classList.add('show'));
+            setTimeout(() => { toast.classList.remove('show'); setTimeout(() => toast.remove(), 400); }, 3000);
+        }
+
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value;
+            const btn = document.getElementById('loginBtn');
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Connexion...';
+            try {
+                await auth.signInWithEmailAndPassword(email, password);
+                showToast('Connexion réussie !', 'success');
+                setTimeout(() => { window.location.href = '/home.html'; }, 1500);
+            } catch (error) {
+                let msg = 'Erreur de connexion.';
+                if (error.code === 'auth/user-not-found') msg = 'Aucun compte associé à cet email.';
+                else if (error.code === 'auth/wrong-password') msg = 'Mot de passe incorrect.';
+                else if (error.code === 'auth/too-many-requests') msg = 'Trop de tentatives. Réessayez plus tard.';
+                else msg = error.message;
+                showToast(msg, 'error');
+            }
+            btn.disabled = false;
+            btn.innerHTML = '<i class="fa-solid fa-arrow-right-to-bracket"></i> Se connecter';
+        });
+
+        document.getElementById('googleBtn').addEventListener('click', async () => {
+            try {
+                await auth.signInWithPopup(provider);
+                showToast('Connexion Google réussie !', 'success');
+                setTimeout(() => { window.location.href = '/home.html'; }, 1500);
+            } catch (error) {
+                let msg = 'Erreur lors de la connexion Google.';
+                if (error.code === 'auth/popup-closed-by-user') msg = 'La fenêtre popup a été fermée.';
+                else msg = error.message;
+                showToast(msg, 'error');
+            }
+        });
+    </script>
+</body>
+</html>
