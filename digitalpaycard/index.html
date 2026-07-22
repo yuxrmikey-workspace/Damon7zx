@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+    <title>DigitalPay Card – DigitalPay HT</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Orbitron:wght@500;600;700;900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+    <style>
+        :root {
+            --font-title: 'Orbitron', sans-serif; --font-body: 'Inter', sans-serif;
+            --bg: #000000; --bg-card: rgba(20, 20, 40, 0.6);
+            --bg-card-hover: rgba(30, 30, 60, 0.8); --bg-sidebar: #0c0c18;
+            --text: #ffffff; --text-sec: #a0a0c0; --text-tert: #6a6a8a;
+            --blue: #1a6bc4; --orange: #f97316;
+            --gradient: linear-gradient(135deg, #1a6bc4, #f97316);
+            --shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+            --shadow-hover: 0 20px 60px rgba(26, 107, 196, 0.2);
+            --radius: 16px; --radius-lg: 24px; --transition: 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; overflow-x: hidden; }
+        body { font-family: var(--font-body); background: var(--bg); color: var(--text); line-height: 1.6; overflow-x: hidden; font-size: 16px; min-height: 100vh; }
+        a { text-decoration: none; color: inherit; }
+        img { display: block; max-width: 100%; height: auto; }
+
+        ::-webkit-scrollbar { width: 4px; } ::-webkit-scrollbar-track { background: var(--bg); } ::-webkit-scrollbar-thumb { background: var(--orange); border-radius: 10px; }
+
+        /* HEADER (identique) */
+        header { position: sticky; top: 0; width: 100%; z-index: 1000; background: var(--bg-card); backdrop-filter: blur(14px); border-bottom: 1px solid rgba(255, 255, 255, 0.06); padding: 0 1.2rem; height: auto; min-height: 64px; display: flex; align-items: center; justify-content: space-between; }
+        .logo img { height: 84px; width: auto; display: block; }
+        .nav-links { display: none; }
+        .header-actions { display: flex; align-items: center; gap: 0.5rem; }
+        .auth-btn { background: var(--bg-card); backdrop-filter: blur(10px); border: 1px solid var(--orange); color: var(--orange); padding: 0.3rem 0.8rem; border-radius: 8px; font-size: 0.7rem; font-weight: 600; cursor: pointer; transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s; text-decoration: none; display: inline-flex; align-items: center; gap: 0.3rem; white-space: nowrap; }
+        .auth-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 16px rgba(249, 115, 22, 0.2); background: rgba(249, 115, 22, 0.1); }
+        .auth-btn.primary { background: var(--gradient); color: #fff; border-color: transparent; }
+        .auth-btn.danger { border-color: #ef4444; color: #ef4444; }
+        .menu-toggle { background: var(--bg-card); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.06); color: var(--text); font-size: 1.3rem; cursor: pointer; padding: 8px 10px; border-radius: 12px; transition: all 0.25s ease; }
+
+        /* SIDEBAR simplifié */
+        .sidebar-overlay { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(6px); z-index: 2000; opacity: 0; visibility: hidden; transition: opacity 0.3s ease, visibility 0.3s ease; }
+        .sidebar-overlay.active { opacity: 1; visibility: visible; }
+        .sidebar { position: fixed; top: 0; right: -340px; width: 320px; max-width: 88vw; height: 100vh; background: var(--bg-sidebar); z-index: 2001; padding: 1.2rem 0.8rem 1rem; transition: right 0.4s cubic-bezier(0.22, 1, 0.36, 1); border-left: 1px solid rgba(255, 255, 255, 0.03); border-radius: 24px 0 0 24px; }
+        .sidebar.active { right: 0; }
+        .sidebar-close-btn { position: absolute; top: 0.6rem; right: 0.8rem; background: none; border: none; color: var(--text-tert); font-size: 1.3rem; cursor: pointer; }
+        .sidebar-scroll { flex: 1; overflow-y: auto; max-height: calc(100vh - 120px); } .sidebar-scroll::-webkit-scrollbar-thumb { background: var(--orange); border-radius: 10px; }
+        .sidebar-header { display: flex; align-items: center; gap: 0.6rem; padding-bottom: 0.8rem; border-bottom: 1px solid rgba(255, 255, 255, 0.04); margin-bottom: 0.8rem; }
+        .sidebar-profile .avatar { width: 40px; height: 40px; border-radius: 50%; background: var(--gradient); display: flex; align-items: center; justify-content: center; font-weight: 700; color: #fff; }
+        .sidebar-profile .info .name { font-weight: 600; font-size: 0.9rem; color: var(--text); }
+        .sidebar-footer .logout { background: none; border: none; color: #ef4444; font-size: 0.8rem; cursor: pointer; padding: 0.5rem 0.7rem; width: 100%; text-align: left; border-radius: 10px; display: flex; align-items: center; gap: 0.7rem; }
+
+        /* MAIN */
+        main { position: relative; z-index: 1; padding: 0 1.2rem; max-width: 1200px; margin: 0 auto; }
+        .back-link { display: inline-flex; align-items: center; gap: 0.4rem; color: var(--text-sec); font-size: 0.85rem; margin: 1rem 0 0.5rem; transition: color 0.3s ease; }
+        .back-link:hover { color: var(--orange); }
+
+        /* HERO CARTE */
+        .card-hero { padding: 1.5rem 0 1rem; text-align: center; }
+        .card-hero .icon-wrap { font-size: 4rem; color: var(--orange); margin-bottom: 0.5rem; }
+        .card-hero h1 { font-family: var(--font-title); font-size: 2rem; font-weight: 900; text-transform: uppercase; background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .card-hero p { font-size: 0.9rem; color: var(--text-sec); max-width: 500px; margin: 0.5rem auto 1rem; }
+
+        .card-container { max-width: 500px; margin: 0 auto 2rem; background: var(--bg-card); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(255, 255, 255, 0.04); backdrop-filter: blur(10px); box-shadow: var(--shadow); }
+        .card-container .form-group { margin-bottom: 1.2rem; }
+        .card-container .form-group label { display: block; font-weight: 600; font-size: 0.85rem; color: var(--text-sec); margin-bottom: 0.3rem; }
+        .card-container .form-group label i { color: var(--orange); margin-right: 0.3rem; }
+        .card-container .form-group input { width: 100%; padding: 0.7rem 0.9rem; border-radius: 10px; border: 1px solid rgba(255, 255, 255, 0.06); background: rgba(255, 255, 255, 0.02); color: var(--text); font-size: 0.95rem; outline: none; font-family: var(--font-body); }
+        .card-container .form-group input:focus { border-color: var(--orange); background: rgba(255, 255, 255, 0.04); box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.05); }
+
+        .btn-create { display: flex; align-items: center; justify-content: center; gap: 0.6rem; width: 100%; padding: 0.9rem; background: var(--gradient); border: none; border-radius: 50px; color: #fff; font-weight: 700; font-size: 1rem; cursor: pointer; transition: transform 0.3s ease, box-shadow 0.3s ease; font-family: var(--font-body); }
+        .btn-create:hover { transform: scale(1.03); box-shadow: 0 8px 30px rgba(249, 115, 22, 0.2); }
+
+        .cart-float { position: fixed; bottom: 1.2rem; right: 1.2rem; z-index: 500; background: var(--gradient); color: #fff; width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; box-shadow: 0 4px 16px rgba(249, 115, 22, 0.15); transition: transform 0.3s ease; cursor: pointer; border: none; }
+        .cart-float:hover { transform: scale(1.08); }
+        .cart-float .badge { position: absolute; top: -4px; right: -4px; background: #ef4444; color: #fff; font-size: 0.5rem; font-weight: 700; width: 16px; height: 16px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+        .toast-container { position: fixed; bottom: 1.5rem; left: 50%; transform: translateX(-50%); z-index: 9999; width: 90%; max-width: 400px; pointer-events: none; }
+        .toast { padding: 0.8rem 1.2rem; border-radius: 12px; background: var(--bg-card); backdrop-filter: blur(14px); border: 1px solid rgba(255, 255, 255, 0.04); color: var(--text); font-weight: 500; font-size: 0.9rem; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4); opacity: 0; transform: translateY(20px) scale(0.95); transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1); pointer-events: auto; text-align: center; }
+        .toast.show { opacity: 1; transform: translateY(0) scale(1); }
+        .toast.success { border-color: rgba(34, 197, 94, 0.3); }
+
+        /* FOOTER */
+        footer { background: var(--bg-sidebar); padding: 2rem 1.2rem 1.2rem; margin: 0 -1.2rem; border-top: 1px solid rgba(255, 255, 255, 0.02); }
+        .footer-grid { display: grid; grid-template-columns: 1fr; gap: 1.5rem; max-width: 1200px; margin: 0 auto; }
+        .footer-brand .brand { font-family: var(--font-title); font-size: 1rem; font-weight: 900; background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: 1px; }
+        .footer-brand p { font-size: 0.8rem; color: var(--text-sec); margin-top: 0.2rem; }
+        .footer-links-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+        .footer-col h4 { font-family: var(--font-title); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px; color: var(--text); margin-bottom: 0.4rem; }
+        .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 0.3rem; }
+        .footer-col ul a { font-size: 0.75rem; color: var(--text-tert); transition: color 0.3s ease; }
+        .footer-col ul a:hover { color: var(--orange); }
+        .footer-col ul li { font-size: 0.75rem; color: var(--text-tert); display: flex; align-items: center; gap: 0.4rem; }
+        .footer-col ul li i { color: var(--orange); width: 16px; }
+        .footer-bottom { text-align: center; font-size: 0.6rem; color: var(--text-tert); border-top: 1px solid rgba(255, 255, 255, 0.02); padding-top: 0.8rem; margin-top: 1rem; }
+
+        @media (min-width: 768px) {
+            header { padding: 0 2.5rem; } .menu-toggle { display: none; } .nav-links { display: flex; gap: 1.8rem; }
+            .nav-links a { font-weight: 500; font-size: 0.8rem; color: var(--text-sec); transition: color 0.3s ease; position: relative; }
+            .nav-links a::after { content: ''; position: absolute; bottom: -2px; left: 0; width: 0; height: 2px; background: var(--gradient); transition: width 0.3s ease; border-radius: 10px; }
+            .nav-links a:hover { color: var(--text); } .nav-links a:hover::after { width: 100%; }
+            main { padding: 0 2.5rem; } .footer-grid { grid-template-columns: 1fr 2fr; gap: 2rem; } .footer-links-grid { grid-template-columns: repeat(3, 1fr); }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/home.html" class="logo"><img src="/assets/logo.png" alt="DigitalPay HT" /></a>
+        <nav class="nav-links">
+            <a href="/home.html">Accueil</a> <a href="/gaming.html">Gaming</a> <a href="/streaming.html">Streaming</a>
+            <a href="/services-digitaux.html">Services</a> <a href="/echange/index.html">Échange</a>
+            <a href="/giftcard/index.html">Gift Card</a> <a href="/digitalpaycard/index.html">DigitalPay Card</a>
+        </nav>
+        <div class="header-actions">
+            <a href="/compte/index.html" class="auth-btn primary"><i class="fa-solid fa-user"></i> Compte</a>
+            <button class="auth-btn danger" id="header-logout"><i class="fa-solid fa-arrow-right-from-bracket"></i> Déconnexion</button>
+            <button class="menu-toggle" id="menu-open"><i class="fa-solid fa-bars"></i></button>
+        </div>
+    </header>
+
+    <div class="sidebar-overlay" id="sidebar-overlay"></div>
+    <div class="sidebar" id="sidebar">
+        <button class="sidebar-close-btn" id="sidebar-close-btn"><i class="fa-solid fa-xmark"></i></button>
+        <div class="sidebar-scroll">
+            <div class="sidebar-header">
+                <div class="sidebar-profile">
+                    <div class="avatar"><i class="fa-regular fa-user"></i></div>
+                    <div class="info"><div class="name" id="sidebar-name">Utilisateur</div></div>
+                </div>
+            </div>
+        </div>
+        <div class="sidebar-footer"><button class="logout" id="sidebar-logout"><i class="fa-solid fa-arrow-right-from-bracket"></i> Déconnexion</button></div>
+    </div>
+
+    <main>
+        <a href="/digitalpaycard.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> Retour</a>
+
+        <section class="card-hero">
+            <div class="icon-wrap"><i class="fa-solid fa-credit-card"></i></div>
+            <h1>DigitalPay Card</h1>
+            <p>Créez votre carte de crédit virtuelle en quelques secondes. Utilisez-la pour vos achats en ligne, recharges et abonnements.</p>
+        </section>
+
+        <div class="card-container">
+            <form id="cardForm">
+                <div class="form-group">
+                    <label for="cardName"><i class="fa-solid fa-user"></i> Nom sur la carte</label>
+                    <input type="text" id="cardName" placeholder="Exemple : Jean Dupont" required />
+                </div>
+                <div class="form-group">
+                    <label for="cardEmail"><i class="fa-solid fa-envelope"></i> Adresse email</label>
+                    <input type="email" id="cardEmail" placeholder="votre.email@exemple.com" required />
+                </div>
+                <div class="form-group">
+                    <label for="cardWhatsapp"><i class="fa-brands fa-whatsapp"></i> Numéro WhatsApp</label>
+                    <input type="tel" id="cardWhatsapp" placeholder="Exemple : 50936535649" required />
+                </div>
+                <button type="button" class="btn-create" id="createCardBtn">
+                    <i class="fa-solid fa-plus"></i> Créer ma carte virtuelle
+                </button>
+            </form>
+        </div>
+    </main>
+
+    <button class="cart-float" onclick="window.location.href='/panier.html'" aria-label="Panier">
+        <i class="fa-solid fa-bag-shopping"></i>
+        <span class="badge" id="cart-float-badge">0</span>
+    </button>
+
+    <div class="toast-container" id="toastContainer"></div>
+
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-brand"><div class="brand">DIGITALPAY</div><p>Votre plateforme de recharge gaming, streaming, services financiers, gift cards et cartes virtuelles en Haïti.</p></div>
+            <div class="footer-links-grid">
+                <div class="footer-col"><h4>Liens rapides</h4><ul><li><a href="/home.html">Accueil</a></li><li><a href="/gaming.html">Gaming</a></li><li><a href="/streaming.html">Streaming</a></li><li><a href="/services-digitaux.html">Services</a></li><li><a href="/echange/index.html">Échange</a></li><li><a href="/giftcard/index.html">Gift Card</a></li><li><a href="/digitalpaycard/index.html">DigitalPay Card</a></li></ul></div>
+                <div class="footer-col"><h4>Support</h4><ul><li><a href="/support/help.html">Centre d'aide</a></li><li><a href="/legal/conditions-utilisation.html">Conditions</a></li><li><a href="/legal/politique-confidentialite.html">Confidentialité</a></li></ul></div>
+                <div class="footer-col"><h4>Contact</h4><ul><li><i class="fa-regular fa-envelope"></i> contact@digitalpay.ht</li><li><i class="fa-solid fa-phone"></i> +509 3399 0578</li><li><i class="fa-brands fa-whatsapp"></i> +509 3653 5649</li></ul></div>
+            </div>
+        </div>
+        <div class="footer-bottom"><span>&copy; 2026 DigitalPay. Tous droits réservés.</span><span>Paiements sécurisés • Support WhatsApp</span></div>
+    </footer>
+
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyDCj6vyMXsdEMlH-vYOWdwcfoD2VI622Uc",
+            authDomain: "digitalpayhaiti-509.firebaseapp.com",
+            projectId: "digitalpayhaiti-509",
+            storageBucket: "digitalpayhaiti-509.firebasestorage.app",
+            messagingSenderId: "987271970971",
+            appId: "1:987271970971:web:482635fb1202dc575ac63e"
+        };
+        if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+
+        auth.onAuthStateChanged((user) => {
+            if (!user) window.location.href = '/authentification/login.html';
+            else document.getElementById('sidebar-name').textContent = user.displayName || user.email || 'Utilisateur';
+        });
+
+        function logout() { auth.signOut().then(() => { localStorage.removeItem('paynova_user'); window.location.href = '/index.html'; }); }
+        document.getElementById('header-logout').addEventListener('click', logout);
+        document.getElementById('sidebar-logout').addEventListener('click', logout);
+
+        const sidebarOverlay = document.getElementById('sidebar-overlay');
+        const sidebar = document.getElementById('sidebar');
+        document.getElementById('menu-open').addEventListener('click', () => { sidebarOverlay.classList.add('active'); sidebar.classList.add('active'); document.body.style.overflow = 'hidden'; });
+        document.getElementById('sidebar-close-btn').addEventListener('click', () => { sidebarOverlay.classList.remove('active'); sidebar.classList.remove('active'); document.body.style.overflow = ''; });
+        sidebarOverlay.addEventListener('click', () => { sidebarOverlay.classList.remove('active'); sidebar.classList.remove('active'); document.body.style.overflow = ''; });
+
+        function getCart() { try { return JSON.parse(localStorage.getItem('cart')) || []; } catch { return []; } }
+        function saveCart(cart) { localStorage.setItem('cart', JSON.stringify(cart)); updateBadge(); }
+        function updateBadge() { const badge = document.getElementById('cart-float-badge'); const cart = getCart(); badge.textContent = cart.length; }
+        updateBadge();
+
+        function showToast(msg, type = 'success') {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = 'toast ' + type;
+            const icon = type === 'success' ? 'fa-circle-check' : 'fa-circle-exclamation';
+            toast.innerHTML = `<i class="fa-solid ${icon}"></i> ${msg}`;
+            container.appendChild(toast);
+            requestAnimationFrame(() => toast.classList.add('show'));
+            setTimeout(() => { toast.classList.remove('show'); setTimeout(() => toast.remove(), 400); }, 3000);
+        }
+
+        document.getElementById('createCardBtn').addEventListener('click', () => {
+            const cardName = document.getElementById('cardName').value.trim();
+            const cardEmail = document.getElementById('cardEmail').value.trim();
+            const cardWhatsapp = document.getElementById('cardWhatsapp').value.trim();
+
+            if (!cardName) { showToast('Veuillez entrer le nom sur la carte.', 'error'); return; }
+            if (!cardEmail) { showToast('Veuillez entrer votre adresse email.', 'error'); return; }
+            if (!cardWhatsapp) { showToast('Veuillez entrer votre numéro WhatsApp.', 'error'); return; }
+
+            // On ajoute la carte virtuelle au panier comme un produit (prix 0 pour l'instant)
+            const cart = getCart();
+            cart.push({
+                id: 'digitalpay_card_' + Date.now(),
+                productId: 'digitalpay_card',
+                name: 'DigitalPay Card Virtuelle',
+                price: 0, // Prix à définir si tu veux
+                quantity: 1,
+                cardName, cardEmail, cardWhatsapp,
+                image: '/assets/digitalpaycard-logo.png',
+                source: 'DigitalPay Card'
+            });
+            saveCart(cart);
+            showToast('✅ Votre DigitalPay Card a été ajoutée au panier !', 'success');
+            
+            document.getElementById('cardForm').reset();
+        });
+    </script>
+</body>
+</html>
