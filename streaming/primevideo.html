@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>Netflix Premium - NX STORE | Abonnement</title>
-  <meta name="description" content="Abonnement Netflix Premium : Ultra HD, 4 écrans. Livraison instantanée.">
+  <title>Prime Video - NX STORE | Abonnement</title>
+  <meta name="description" content="Abonnement Prime Video : films, séries, livraison incluse. Livraison instantanée.">
   <meta name="theme-color" content="#030508">
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -143,10 +143,10 @@
   <main class="page-content">
     <div class="container">
       <div class="product-detail">
-        <div class="product-image"><img src="/assets/netflix-logo.png" alt="Netflix"></div>
+        <div class="product-image"><img src="/assets/primevideo-logo.png" alt="Prime Video"></div>
         <div class="product-info">
-          <h2>Netflix Premium</h2>
-          <p class="desc">Ultra HD, 4 écrans. Livraison immédiate.</p>
+          <h2>Prime Video</h2>
+          <p class="desc">Films, séries, livraison incluse. Livraison immédiate.</p>
           <div class="category-divider reveal"><span class="line"></span><span class="label"><i class="fas fa-calendar-alt"></i> Abonnement</span><span class="line"></span></div>
           <div class="pack-row" id="packAbos"></div>
           <div id="dynamicFields" style="margin-top:20px;"></div>
@@ -175,9 +175,9 @@
     function updateSidebarUser(user){ const authDiv=document.getElementById('authSide'), logoutDiv=document.getElementById('logoutSide'); document.getElementById('sideUserName').textContent=user?(user.displayName||user.email.split('@')[0]||'Membre'):'Invité'; document.getElementById('sideUserEmail').textContent=user?user.email:'Connectez-vous'; if(authDiv) authDiv.style.display=user?'none':'flex'; if(logoutDiv) logoutDiv.style.display=user?'block':'none'; }
     auth.onAuthStateChanged(user=>updateSidebarUser(user)); document.getElementById('doLogoutSide')?.addEventListener('click',()=>{ auth.signOut(); closeSidebar(); });
     const packs = [
-      { name:"1 mois", price:"400 Gdes", value:"1m" },
-      { name:"2 mois", price:"850 Gdes", value:"2m" },
-      { name:"3 mois", price:"1300 Gdes", value:"3m" }
+      { name:"1 mois", price:"425 Gdes", value:"1m" },
+      { name:"2 mois", price:"825 Gdes", value:"2m" },
+      { name:"3 mois", price:"1240 Gdes", value:"3m" }
     ];
     const container = document.getElementById('packAbos'); let selectedPack = null;
     packs.forEach(pack => {
@@ -186,8 +186,8 @@
       div.addEventListener('click', () => { document.querySelectorAll('.pack-item').forEach(el => el.classList.remove('selected')); div.classList.add('selected'); selectedPack = pack; document.getElementById('addToCartBtn').disabled = false; updateFormFields(pack); });
       container.appendChild(div);
     });
-    function updateFormFields(pack){ const dyn = document.getElementById('dynamicFields'); dyn.innerHTML = `<div class="form-group"><label><i class="fas fa-envelope"></i> Email</label><input type="email" id="nfEmail" placeholder="Email du compte"></div><div class="form-group"><label><i class="fab fa-whatsapp"></i> Numéro WhatsApp</label><input type="tel" id="nfWhatsapp" placeholder="+509XXXXXXXX"></div>`; }
-    document.getElementById('addToCartBtn').addEventListener('click',()=>{ if(!selectedPack) return; const email = document.getElementById('nfEmail')?.value.trim() || ''; const whatsapp = document.getElementById('nfWhatsapp')?.value.trim() || ''; if(!email || !whatsapp){ showToast('Veuillez remplir tous les champs.', 'error'); return; } cart.push({ product:'Netflix', pack:selectedPack.name, price:selectedPack.price, fields:{email,whatsapp}, date:new Date().toISOString() }); localStorage.setItem('nx_cart',JSON.stringify(cart)); updateCartCount(); showToast(`${selectedPack.name} ajouté au panier`, 'success'); });
+    function updateFormFields(pack){ const dyn = document.getElementById('dynamicFields'); dyn.innerHTML = `<div class="form-group"><label><i class="fas fa-envelope"></i> Email</label><input type="email" id="pvEmail" placeholder="Email du compte"></div><div class="form-group"><label><i class="fab fa-whatsapp"></i> Numéro WhatsApp</label><input type="tel" id="pvWhatsapp" placeholder="+509XXXXXXXX"></div>`; }
+    document.getElementById('addToCartBtn').addEventListener('click',()=>{ if(!selectedPack) return; const email = document.getElementById('pvEmail')?.value.trim() || ''; const whatsapp = document.getElementById('pvWhatsapp')?.value.trim() || ''; if(!email || !whatsapp){ showToast('Veuillez remplir tous les champs.', 'error'); return; } cart.push({ product:'Prime Video', pack:selectedPack.name, price:selectedPack.price, fields:{email,whatsapp}, date:new Date().toISOString() }); localStorage.setItem('nx_cart',JSON.stringify(cart)); updateCartCount(); showToast(`${selectedPack.name} ajouté au panier`, 'success'); });
     const revealEls = document.querySelectorAll('.reveal'); const observer = new IntersectionObserver(entries => { entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('visible'); observer.unobserve(e.target); } }) }, { threshold:0.1 }); revealEls.forEach(el => observer.observe(el));
   </script>
 </body>
