@@ -1,194 +1,357 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>Netflix Premium - NX STORE | Abonnement</title>
-  <meta name="description" content="Abonnement Netflix Premium : Ultra HD, 4 écrans. Livraison instantanée.">
-  <meta name="theme-color" content="#030508">
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-  <style>
-    * { margin:0; padding:0; box-sizing:border-box; }
-    :root {
-      --bg-deep:#030508; --bg-card:#0a0e14; --bg-elevated:#0f1520;
-      --cyan:#00E5FF; --cyan-dark:#0099B0; --cyan-glow:rgba(0,229,255,0.4);
-      --magenta:#FF006E; --purple:#8B5CF6; --text-main:#FFFFFF;
-      --text-muted:#7B8CA8; --border-glass:rgba(255,255,255,0.04);
-      --border-hover:rgba(0,229,255,0.7); --card-radius:20px;
-      --transition-fluid:all 0.5s cubic-bezier(0.16,1,0.3,1);
-    }
-    html,body { height:100%; scroll-behavior:smooth; }
-    body { font-family:'Rajdhani',sans-serif; background:var(--bg-deep); color:var(--text-main); line-height:1.5; overflow-x:hidden; -webkit-font-smoothing:antialiased; }
-    a,button { text-decoration:none!important; cursor:pointer; outline:none; border:none; }
-    ::-webkit-scrollbar { width:4px; } ::-webkit-scrollbar-track { background:var(--bg-deep); } ::-webkit-scrollbar-thumb { background:var(--cyan); border-radius:10px; }
-    @keyframes floatParticle { 0% { transform:translateY(100%) scale(0); opacity:0; } 10% { opacity:0.3; } 90% { opacity:0.3; } 100% { transform:translateY(-10%) scale(1.5); opacity:0; } }
-    @keyframes hexGrid { 0% { opacity:0.03; transform:scale(1); } 50% { opacity:0.08; transform:scale(1.02); } 100% { opacity:0.03; transform:scale(1); } }
-    @keyframes scanline { 0% { top:-100%; } 100% { top:200%; } }
-    @keyframes orbFloat { 0% { transform:translate(0,0) scale(1); } 25% { transform:translate(30px,-20px) scale(1.1); } 50% { transform:translate(-20px,-40px) scale(0.9); } 75% { transform:translate(-30px,10px) scale(1.05); } 100% { transform:translate(0,0) scale(1); } }
-    @keyframes pulseGlow { 0% { box-shadow:0 0 0 0 rgba(0,229,255,0.7); } 70% { box-shadow:0 0 0 25px rgba(0,229,255,0); } 100% { box-shadow:0 0 0 0 rgba(0,229,255,0); } }
-    @keyframes floatCyan { 0%,100% { transform:translateY(0) rotate(0deg); } 50% { transform:translateY(-12px) rotate(1deg); } }
-    @keyframes toastIn { 0% { opacity:0; transform:translateX(-50%) translateY(20px); } 100% { opacity:1; transform:translateX(-50%) translateY(0); } }
-    @keyframes toastOut { 0% { opacity:1; transform:translateX(-50%) translateY(0); } 100% { opacity:0; transform:translateX(-50%) translateY(20px); } }
-    .reveal { opacity:0; transform:translateY(40px) scale(0.92); transition:opacity 0.9s cubic-bezier(0.16,1,0.3,1),transform 0.9s cubic-bezier(0.16,1,0.3,1); }
-    .reveal.visible { opacity:1; transform:translateY(0) scale(1); }
-    .bg-layer { position:fixed; top:0; left:0; width:100%; height:100%; z-index:0; pointer-events:none; overflow:hidden; }
-    .bg-layer .particle { position:absolute; width:3px; height:3px; background:var(--cyan); border-radius:50%; opacity:0.2; animation:floatParticle 20s linear infinite; }
-    .bg-grid { position:fixed; top:0; left:0; width:100%; height:100%; z-index:0; pointer-events:none; background-image:linear-gradient(rgba(0,229,255,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(0,229,255,0.04) 1px,transparent 1px); background-size:50px 50px; animation:hexGrid 6s ease-in-out infinite; }
-    .bg-scanline { position:fixed; top:0; left:0; width:100%; height:4px; z-index:0; pointer-events:none; background:linear-gradient(90deg,transparent,rgba(0,229,255,0.3),transparent); animation:scanline 6s linear infinite; filter:blur(1px); }
-    .orb { position:fixed; border-radius:50%; filter:blur(80px); pointer-events:none; z-index:0; }
-    .orb-1 { width:500px; height:500px; background:rgba(0,229,255,0.1); top:10%; left:-10%; animation:orbFloat 18s ease-in-out infinite; }
-    .orb-2 { width:400px; height:400px; background:rgba(139,92,246,0.08); bottom:20%; right:-5%; animation:orbFloat 22s ease-in-out infinite reverse; }
-    .container { width:100%; max-width:1400px; margin:0 auto; padding:0 20px; position:relative; z-index:1; }
-    @media(min-width:768px) { .container { padding:0 40px; } }
-    header { position:fixed; top:0; left:0; right:0; background:rgba(3,5,8,0.55); backdrop-filter:blur(25px); -webkit-backdrop-filter:blur(25px); border-bottom:1px solid var(--border-glass); z-index:1000; padding:0.8rem 0; transition:var(--transition-fluid); }
-    header.scrolled { padding:0.5rem 0; background:rgba(3,5,8,0.95); box-shadow:0 10px 60px -10px rgba(0,0,0,0.95); }
-    .header-flex { display:flex; justify-content:space-between; align-items:center; }
-    .logo-text { font-family:'Orbitron',monospace; font-weight:900; font-size:26px; background:linear-gradient(135deg,#fff 30%,#00E5FF 70%); -webkit-background-clip:text; background-clip:text; color:transparent; letter-spacing:3px; }
-    .nav-links { display:none; }
-    .menu-btn { background:rgba(0,229,255,0.06); border:1px solid rgba(0,229,255,0.25); border-radius:40px; color:var(--cyan); font-size:14px; font-weight:600; padding:8px 18px; font-family:'Rajdhani',sans-serif; transition:var(--transition-fluid); display:flex; align-items:center; gap:8px; }
-    .menu-btn:hover { background:rgba(0,229,255,0.2); border-color:var(--cyan); transform:translateY(-2px); box-shadow:0 4px 20px var(--cyan-glow); }
-    @media(min-width:1025px) { .nav-links { display:flex; gap:32px; align-items:center; } .nav-links a { color:var(--text-muted); font-weight:600; font-size:14px; transition:color 0.3s; font-family:'Rajdhani',sans-serif; } .nav-links a:hover { color:var(--text-main); } .menu-btn { display:none; } }
-    .sidebar { position:fixed; top:0; left:-100%; width:300px; max-width:85%; height:100%; background:rgba(5,8,12,0.9); backdrop-filter:blur(40px); -webkit-backdrop-filter:blur(40px); border-right:1px solid rgba(0,229,255,0.1); z-index:1001; transition:left 0.6s cubic-bezier(0.16,1,0.3,1); overflow-y:auto; }
-    .sidebar.open { left:0; }
-    .overlay { position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.85); backdrop-filter:blur(4px); z-index:1000; opacity:0; visibility:hidden; transition:opacity 0.4s; }
-    .overlay.active { opacity:1; visibility:visible; }
-    .sidebar-header { padding:24px 20px; display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border-glass); }
-    .close-menu { color:var(--text-muted); font-size:20px; background:transparent; transition:var(--transition-fluid); }
-    .close-menu:hover { color:var(--cyan); transform:rotate(90deg); }
-    .user-mini { padding:30px 20px; text-align:center; border-bottom:1px solid var(--border-glass); }
-    .avatar-mini { width:70px; height:70px; border-radius:50%; background:linear-gradient(135deg,#00E5FF,#8B5CF6); display:flex; align-items:center; justify-content:center; margin:0 auto 16px; font-size:28px; color:#000; box-shadow:0 10px 30px var(--cyan-glow); animation:pulseGlow 2.5s infinite; }
-    .sidebar-nav a { display:flex; align-items:center; gap:14px; padding:16px 24px; color:var(--text-muted); font-size:15px; font-weight:600; transition:var(--transition-fluid); }
-    .sidebar-nav a:hover { background:linear-gradient(90deg,rgba(0,229,255,0.1),transparent); color:var(--text-main); padding-left:32px; }
-    .btn-cyan, .btn-outline-cyan { padding:14px 32px; border-radius:40px; font-size:15px; transition:var(--transition-fluid); display:inline-flex; align-items:center; gap:8px; font-weight:700; cursor:pointer; font-family:'Rajdhani',sans-serif; letter-spacing:0.5px; }
-    .btn-cyan { background:linear-gradient(135deg,#00E5FF,#0099B0); color:#000; box-shadow:0 4px 20px var(--cyan-glow); }
-    .btn-cyan:hover { transform:translateY(-4px) scale(1.03); box-shadow:0 12px 40px rgba(0,229,255,0.6); }
-    .btn-outline-cyan { background:transparent; border:1px solid var(--cyan); color:var(--cyan); }
-    .btn-outline-cyan:hover { background:rgba(0,229,255,0.15); transform:translateY(-4px); box-shadow:0 8px 30px var(--cyan-glow); }
-    .back-btn { position:fixed; top:90px; left:20px; z-index:900; display:inline-flex; align-items:center; gap:8px; background:rgba(10,14,20,0.8); backdrop-filter:blur(10px); border:1px solid rgba(0,229,255,0.3); border-radius:30px; padding:8px 18px; color:var(--cyan); font-weight:600; font-size:14px; font-family:'Rajdhani',sans-serif; letter-spacing:0.5px; transition:var(--transition-fluid); }
-    .back-btn:hover { background:rgba(0,229,255,0.1); border-color:var(--cyan); transform:translateY(-2px); box-shadow:0 4px 20px var(--cyan-glow); }
-    @media(min-width:1025px) { .back-btn { top:100px; left:40px; } }
-    .page-content { padding:120px 0 60px; }
-    .product-detail { display:flex; flex-wrap:wrap; gap:40px; align-items:flex-start; }
-    .product-image { width:180px; height:180px; background:var(--bg-card); border-radius:24px; display:flex; align-items:center; justify-content:center; border:1px solid rgba(0,229,255,0.15); flex-shrink:0; }
-    .product-image img { width:80%; height:80%; object-fit:contain; filter:drop-shadow(0 0 15px rgba(0,229,255,0.4)); }
-    .product-info { flex:1; min-width:300px; }
-    .product-info h2 { font-family:'Orbitron',monospace; font-size:32px; font-weight:800; margin-bottom:8px; background:linear-gradient(135deg,#fff,#00E5FF); -webkit-background-clip:text; background-clip:text; color:transparent; }
-    .product-info .desc { color:var(--text-muted); margin-bottom:24px; font-size:15px; }
-    .category-divider { display:flex; align-items:center; gap:14px; margin:28px 0 16px; }
-    .category-divider .line { flex:1; height:1px; background:linear-gradient(90deg,rgba(0,229,255,0.3),transparent); }
-    .category-divider .line:last-child { background:linear-gradient(90deg,transparent,rgba(0,229,255,0.3)); }
-    .category-divider .label { font-family:'Orbitron',monospace; font-size:10px; letter-spacing:2px; color:var(--cyan); text-transform:uppercase; padding:4px 12px; border:1px solid rgba(0,229,255,0.2); border-radius:20px; background:rgba(0,229,255,0.05); white-space:nowrap; }
-    .pack-row { display:flex; flex-direction:column; gap:10px; margin-bottom:8px; }
-    .pack-item { background:var(--bg-card); border:1px solid var(--border-glass); border-radius:14px; padding:14px 18px; cursor:pointer; transition:var(--transition-fluid); display:flex; justify-content:space-between; align-items:center; }
-    .pack-item:hover { border-color:rgba(0,229,255,0.4); background:var(--bg-elevated); transform:translateX(4px); }
-    .pack-item.selected { border-color:var(--cyan); background:rgba(0,229,255,0.06); box-shadow:0 0 20px rgba(0,229,255,0.15); }
-    .pack-item .pack-left { display:flex; align-items:center; gap:12px; }
-    .pack-item .pack-icon { width:36px; height:36px; border-radius:10px; background:rgba(0,229,255,0.08); display:flex; align-items:center; justify-content:center; color:var(--cyan); font-size:16px; }
-    .pack-item .pack-name { font-weight:600; font-size:15px; }
-    .pack-item .pack-price { font-weight:700; color:var(--cyan); font-size:16px; white-space:nowrap; }
-    .pack-item .check-icon { color:var(--cyan); font-size:18px; opacity:0; transition:opacity 0.3s; }
-    .pack-item.selected .check-icon { opacity:1; }
-    .form-group { margin-bottom:20px; }
-    .form-group label { display:block; margin-bottom:6px; font-weight:600; color:var(--text-muted); }
-    .form-group input { width:100%; padding:12px 16px; background:var(--bg-elevated); border:1px solid var(--border-glass); border-radius:12px; color:var(--text-main); font-size:16px; font-family:'Rajdhani',sans-serif; transition:var(--transition-fluid); }
-    .form-group input:focus { border-color:var(--cyan); outline:none; box-shadow:0 0 10px var(--cyan-glow); }
-    .toast-container { position:fixed; bottom:30px; left:50%; transform:translateX(-50%); z-index:9999; display:flex; flex-direction:column; gap:8px; pointer-events:none; }
-    .toast { background:var(--bg-card); border:1px solid rgba(0,229,255,0.4); border-radius:12px; padding:14px 24px; display:flex; align-items:center; gap:12px; color:var(--text-main); font-weight:600; font-size:15px; box-shadow:0 10px 30px rgba(0,229,255,0.2); pointer-events:auto; animation:toastIn 0.4s cubic-bezier(0.16,1,0.3,1) forwards; }
-    .toast.removing { animation:toastOut 0.3s ease-in forwards; }
-    .toast i { font-size:20px; }
-    .toast.success i { color:#00ff88; }
-    .toast.error i { color:var(--magenta); }
-    .toast.info i { color:var(--cyan); }
-    .whatsapp-float, .cart-float { position:fixed; bottom:20px; width:56px; height:56px; border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; z-index:999; }
-    .whatsapp-float { left:20px; background:#25D366; box-shadow:0 4px 25px rgba(37,211,102,0.5); animation:floatCyan 3.5s ease-in-out infinite; }
-    .whatsapp-float i { font-size:28px; color:white; }
-    .cart-float { right:20px; background:linear-gradient(135deg,#00E5FF,#8B5CF6); box-shadow:0 4px 25px var(--cyan-glow); animation:pulseGlow 2.5s infinite; }
-    .cart-float i { font-size:22px; color:#000; }
-    .cart-count { position:absolute; top:-2px; right:-2px; background:#FF006E; color:white; font-size:11px; font-weight:800; width:22px; height:22px; border-radius:50%; display:flex; align-items:center; justify-content:center; border:2px solid var(--bg-deep); }
-    footer { background:#020304; border-top:1px solid rgba(0,229,255,0.1); padding:10px 0; text-align:center; }
-    .footer-content { display:flex; flex-wrap:wrap; justify-content:center; align-items:center; gap:6px 18px; }
-    .footer-links a { color:var(--text-muted); font-size:12px; font-weight:600; transition:var(--transition-fluid); }
-    .footer-links a:hover { color:var(--cyan); }
-    .footer-bottom { font-size:10px; color:#3a4560; font-family:'Orbitron',monospace; }
-    .live-indicator { position:fixed; top:80px; right:20px; z-index:998; display:flex; align-items:center; gap:6px; background:rgba(0,229,255,0.06); border:1px solid rgba(0,229,255,0.2); border-radius:20px; padding:4px 12px; font-size:10px; font-weight:700; color:var(--cyan); font-family:'Orbitron',monospace; }
-    .live-dot { width:6px; height:6px; background:#00ff88; border-radius:50%; animation:pulseGlow 1.5s infinite; }
-  </style>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+    <title>Netflix – DigitalPay HT</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Orbitron:wght@500;600;700;900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+    <style>
+        :root {
+            --font-title: 'Orbitron', sans-serif;
+            --font-body: 'Inter', sans-serif;
+            --bg: #000000; --bg-card: rgba(20, 20, 40, 0.6);
+            --bg-card-hover: rgba(30, 30, 60, 0.8); --bg-sidebar: #0c0c18;
+            --text: #ffffff; --text-sec: #a0a0c0; --text-tert: #6a6a8a;
+            --blue: #1a6bc4; --orange: #f97316;
+            --gradient: linear-gradient(135deg, #1a6bc4, #f97316);
+            --shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+            --shadow-hover: 0 20px 60px rgba(26, 107, 196, 0.2);
+            --radius: 16px; --radius-lg: 24px; --transition: 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; overflow-x: hidden; }
+        body { font-family: var(--font-body); background: var(--bg); color: var(--text); line-height: 1.6; overflow-x: hidden; font-size: 16px; min-height: 100vh; }
+        a { text-decoration: none; color: inherit; }
+        img { display: block; max-width: 100%; height: auto; }
+
+        ::-webkit-scrollbar { width: 4px; } ::-webkit-scrollbar-track { background: var(--bg); } ::-webkit-scrollbar-thumb { background: var(--orange); border-radius: 10px; }
+
+        /* HEADER & SIDEBAR (Identique aux autres pages connectées) */
+        header {
+            position: sticky; top: 0; width: 100%; z-index: 1000;
+            background: var(--bg-card); backdrop-filter: blur(14px); border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            padding: 0 1.2rem; height: auto; min-height: 64px; display: flex; align-items: center; justify-content: space-between;
+        }
+        .logo img { height: 84px; width: auto; display: block; }
+        .nav-links { display: none; }
+        .header-actions { display: flex; align-items: center; gap: 0.5rem; }
+        .auth-btn {
+            background: var(--bg-card); backdrop-filter: blur(10px); border: 1px solid var(--orange);
+            color: var(--orange); padding: 0.3rem 0.8rem; border-radius: 8px; font-size: 0.7rem; font-weight: 600;
+            cursor: pointer; transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s;
+            text-decoration: none; display: inline-flex; align-items: center; gap: 0.3rem; white-space: nowrap;
+        }
+        .auth-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 16px rgba(249, 115, 22, 0.2); background: rgba(249, 115, 22, 0.1); }
+        .auth-btn.primary { background: var(--gradient); color: #fff; border-color: transparent; }
+        .auth-btn.danger { border-color: #ef4444; color: #ef4444; }
+        .menu-toggle { background: var(--bg-card); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.06); color: var(--text); font-size: 1.3rem; cursor: pointer; padding: 8px 10px; border-radius: 12px; transition: all 0.25s ease; }
+
+        /* SIDEBAR simplifié */
+        .sidebar-overlay { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(6px); z-index: 2000; opacity: 0; visibility: hidden; transition: opacity 0.3s ease, visibility 0.3s ease; }
+        .sidebar-overlay.active { opacity: 1; visibility: visible; }
+        .sidebar { position: fixed; top: 0; right: -340px; width: 320px; max-width: 88vw; height: 100vh; background: var(--bg-sidebar); z-index: 2001; padding: 1.2rem 0.8rem 1rem; transition: right 0.4s cubic-bezier(0.22, 1, 0.36, 1); border-left: 1px solid rgba(255, 255, 255, 0.03); border-radius: 24px 0 0 24px; }
+        .sidebar.active { right: 0; }
+        .sidebar-close-btn { position: absolute; top: 0.6rem; right: 0.8rem; background: none; border: none; color: var(--text-tert); font-size: 1.3rem; cursor: pointer; }
+        .sidebar-scroll { flex: 1; overflow-y: auto; max-height: calc(100vh - 120px); } .sidebar-scroll::-webkit-scrollbar-thumb { background: var(--orange); border-radius: 10px; }
+        .sidebar-header { display: flex; align-items: center; gap: 0.6rem; padding-bottom: 0.8rem; border-bottom: 1px solid rgba(255, 255, 255, 0.04); margin-bottom: 0.8rem; }
+        .sidebar-profile .avatar { width: 40px; height: 40px; border-radius: 50%; background: var(--gradient); display: flex; align-items: center; justify-content: center; font-weight: 700; color: #fff; }
+        .sidebar-profile .info .name { font-weight: 600; font-size: 0.9rem; color: var(--text); }
+        .sidebar-footer .logout { background: none; border: none; color: #ef4444; font-size: 0.8rem; cursor: pointer; padding: 0.5rem 0.7rem; width: 100%; text-align: left; border-radius: 10px; display: flex; align-items: center; gap: 0.7rem; }
+
+        /* MAIN */
+        main { position: relative; z-index: 1; padding: 0 1.2rem; max-width: 1200px; margin: 0 auto; }
+        .back-link { display: inline-flex; align-items: center; gap: 0.4rem; color: var(--text-sec); font-size: 0.85rem; margin: 1rem 0 0.5rem; transition: color 0.3s ease; }
+        .back-link:hover { color: var(--orange); }
+
+        .product-hero { padding: 1.5rem 0 1rem; text-align: center; }
+        .product-hero .logo-wrap { width: 100%; max-width: 420px; margin: 0 auto 0.8rem; background: rgba(255, 255, 255, 0.02); border-radius: var(--radius-lg); padding: 1rem; aspect-ratio: 1/1; display: flex; align-items: center; justify-content: center; border: 1px solid rgba(255, 255, 255, 0.02); backdrop-filter: blur(10px); }
+        .product-hero .logo-wrap img { width: 100%; height: 100%; object-fit: contain; }
+        .product-hero h1 { font-family: var(--font-title); font-size: 2rem; font-weight: 900; text-transform: uppercase; background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .product-hero .subtitle { font-size: 0.8rem; color: var(--text-sec); font-weight: 300; }
+
+        .product-description { max-width: 600px; margin: 0 auto 1.5rem; text-align: center; background: var(--bg-card); padding: 1.2rem 1.5rem; border-radius: var(--radius); border: 1px solid rgba(255, 255, 255, 0.02); backdrop-filter: blur(10px); }
+        .product-description p { font-size: 0.9rem; color: var(--text-sec); line-height: 1.7; }
+
+        /* DROPDOWN & FORMULAIRE */
+        .pack-section { padding-bottom: 2rem; max-width: 700px; margin: 0 auto; }
+        .pack-section h2 { font-family: var(--font-title); font-size: 1.2rem; font-weight: 700; text-transform: uppercase; margin-bottom: 1.2rem; text-align: center; }
+        .form-group { margin-bottom: 1.2rem; }
+        .form-group label { display: block; font-weight: 600; font-size: 0.85rem; color: var(--text-sec); margin-bottom: 0.3rem; }
+        .form-group label i { color: var(--orange); margin-right: 0.3rem; }
+
+        .custom-select-wrapper { position: relative; width: 100%; margin-bottom: 0.8rem; }
+        .custom-select-trigger { background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.06); padding: 0.7rem 0.9rem; border-radius: 10px; color: var(--text-sec); cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease; font-size: 0.95rem; }
+        .custom-select-trigger:hover, .custom-select-wrapper.open .custom-select-trigger { border-color: var(--orange); }
+        .custom-options { display: none; position: absolute; top: 110%; left: 0; width: 100%; background: var(--bg-card); border: 1px solid rgba(255, 255, 255, 0.06); border-radius: 10px; max-height: 200px; overflow-y: auto; z-index: 20; backdrop-filter: blur(14px); box-shadow: var(--shadow); }
+        .custom-select-wrapper.open .custom-options { display: block; }
+        .custom-options .option { padding: 0.7rem 0.9rem; cursor: pointer; color: var(--text-sec); border-bottom: 1px solid rgba(255, 255, 255, 0.02); transition: all 0.2s ease; }
+        .custom-options .option:last-child { border-bottom: none; }
+        .custom-options .option:hover, .custom-options .option.selected { background: var(--bg-card-hover); color: var(--orange); }
+
+        /* CHAMPS DYNAMIQUES (Email, Mot de passe, WhatsApp) */
+        #info-fields { display: none; margin-top: 1rem; }
+        #info-fields.show { display: block; }
+        .field-group input { width: 100%; padding: 0.7rem 0.9rem; border-radius: 10px; border: 1px solid rgba(255, 255, 255, 0.06); background: rgba(255, 255, 255, 0.02); color: var(--text); font-size: 0.95rem; outline: none; font-family: var(--font-body); }
+        .field-group input:focus { border-color: var(--orange); background: rgba(255, 255, 255, 0.04); box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.05); }
+        .field-group .hint { font-size: 0.7rem; color: var(--text-tert); margin-top: 0.2rem; }
+
+        .btn-add-cart { display: flex; align-items: center; justify-content: center; gap: 0.6rem; width: 100%; max-width: 400px; margin: 1.2rem auto 0; padding: 0.9rem; background: var(--gradient); border: none; border-radius: 50px; color: #fff; font-weight: 700; font-size: 1rem; cursor: pointer; transition: transform 0.3s ease, box-shadow 0.3s ease; font-family: var(--font-body); }
+        .btn-add-cart:hover { transform: scale(1.03); box-shadow: 0 8px 30px rgba(249, 115, 22, 0.2); }
+
+        .cart-float { position: fixed; bottom: 1.2rem; right: 1.2rem; z-index: 500; background: var(--gradient); color: #fff; width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; box-shadow: 0 4px 16px rgba(249, 115, 22, 0.15); transition: transform 0.3s ease; cursor: pointer; border: none; }
+        .cart-float:hover { transform: scale(1.08); }
+        .cart-float .badge { position: absolute; top: -4px; right: -4px; background: #ef4444; color: #fff; font-size: 0.5rem; font-weight: 700; width: 16px; height: 16px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+        .toast-container { position: fixed; bottom: 1.5rem; left: 50%; transform: translateX(-50%); z-index: 9999; width: 90%; max-width: 400px; pointer-events: none; }
+        .toast { padding: 0.8rem 1.2rem; border-radius: 12px; background: var(--bg-card); backdrop-filter: blur(14px); border: 1px solid rgba(255, 255, 255, 0.04); color: var(--text); font-weight: 500; font-size: 0.9rem; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4); opacity: 0; transform: translateY(20px) scale(0.95); transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1); pointer-events: auto; text-align: center; }
+        .toast.show { opacity: 1; transform: translateY(0) scale(1); }
+        .toast.success { border-color: rgba(34, 197, 94, 0.3); }
+
+        /* FOOTER */
+        footer { background: var(--bg-sidebar); padding: 2rem 1.2rem 1.2rem; margin: 0 -1.2rem; border-top: 1px solid rgba(255, 255, 255, 0.02); }
+        .footer-grid { display: grid; grid-template-columns: 1fr; gap: 1.5rem; max-width: 1200px; margin: 0 auto; }
+        .footer-brand .brand { font-family: var(--font-title); font-size: 1rem; font-weight: 900; background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: 1px; }
+        .footer-brand p { font-size: 0.8rem; color: var(--text-sec); margin-top: 0.2rem; }
+        .footer-links-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+        .footer-col h4 { font-family: var(--font-title); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px; color: var(--text); margin-bottom: 0.4rem; }
+        .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 0.3rem; }
+        .footer-col ul a { font-size: 0.75rem; color: var(--text-tert); transition: color 0.3s ease; }
+        .footer-col ul a:hover { color: var(--orange); }
+        .footer-col ul li { font-size: 0.75rem; color: var(--text-tert); display: flex; align-items: center; gap: 0.4rem; }
+        .footer-col ul li i { color: var(--orange); width: 16px; }
+        .footer-bottom { text-align: center; font-size: 0.6rem; color: var(--text-tert); border-top: 1px solid rgba(255, 255, 255, 0.02); padding-top: 0.8rem; margin-top: 1rem; }
+
+        @media (min-width: 768px) {
+            header { padding: 0 2.5rem; } .menu-toggle { display: none; } .nav-links { display: flex; gap: 1.8rem; }
+            .nav-links a { font-weight: 500; font-size: 0.8rem; color: var(--text-sec); transition: color 0.3s ease; position: relative; }
+            .nav-links a::after { content: ''; position: absolute; bottom: -2px; left: 0; width: 0; height: 2px; background: var(--gradient); transition: width 0.3s ease; border-radius: 10px; }
+            .nav-links a:hover { color: var(--text); } .nav-links a:hover::after { width: 100%; }
+            main { padding: 0 2.5rem; } .footer-grid { grid-template-columns: 1fr 2fr; gap: 2rem; } .footer-links-grid { grid-template-columns: repeat(3, 1fr); }
+        }
+    </style>
 </head>
 <body>
-  <div class="bg-layer" id="bgLayer"></div>
-  <div class="bg-grid"></div>
-  <div class="bg-scanline"></div>
-  <div class="orb orb-1"></div>
-  <div class="orb orb-2"></div>
-  <div class="live-indicator"><span class="live-dot"></span> LIVE</div>
-  <div class="toast-container" id="toastContainer"></div>
-  <header id="main-header">
-    <div class="container"><div class="header-flex"><a href="/" class="logo-text">NX STORE</a>
-      <nav class="nav-links"><a href="/#gaming">Gaming</a> <a href="/#streaming">Streaming</a> <a href="/#services">Services</a> <a href="/support/">Support</a> <a href="/authentification/login.html" style="color:var(--cyan);">Connexion</a></nav>
-      <button class="menu-btn" id="menuBtn"><i class="fas fa-bars"></i> Menu</button>
-    </div></div>
-  </header>
-  <a href="#" class="back-btn" id="backBtn"><i class="fas fa-arrow-left"></i> Retour</a>
-  <div class="overlay" id="overlay"></div>
-  <aside class="sidebar" id="sidebar">
-    <div class="sidebar-header"><span class="logo-text" style="font-size:18px;">NX</span> <button class="close-menu" id="closeMenu"><i class="fas fa-times"></i></button></div>
-    <div class="user-mini" id="sidebarUser"><div class="avatar-mini"><i class="fas fa-gamepad"></i></div><div class="user-name-side" id="sideUserName">Invité</div><div class="user-email-side" id="sideUserEmail">Connectez-vous</div></div>
-    <nav class="sidebar-nav"><a href="/"><i class="fas fa-home"></i> Accueil</a><a href="/#gaming"><i class="fas fa-gamepad"></i> Gaming</a><a href="/#streaming"><i class="fas fa-film"></i> Streaming</a><a href="/#services"><i class="fas fa-credit-card"></i> Services</a><a href="/commandes/"><i class="fas fa-shopping-bag"></i> Commandes</a><a href="/compte/dashboard.html"><i class="fas fa-user-circle"></i> Mon compte</a><a href="/support/"><i class="fas fa-headset"></i> Support</a></nav>
-    <div id="authSide" style="padding:24px;display:flex;flex-direction:column;gap:12px;"><a href="/authentification/login.html" class="btn-cyan" style="text-align:center;">Connexion</a><a href="/authentification/register.html" class="btn-outline-cyan" style="text-align:center;">Inscription</a></div>
-    <div id="logoutSide" style="display:none;padding:24px;"><button class="btn-outline-cyan" id="doLogoutSide" style="width:100%;"><i class="fas fa-sign-out-alt"></i> Déconnexion</button></div>
-  </aside>
-  <a href="https://wa.me/17879684394" target="_blank" class="whatsapp-float"><i class="fab fa-whatsapp"></i></a>
-  <div class="cart-float" id="cartFloat"><i class="fas fa-shopping-cart"></i><span class="cart-count" id="cartCount">0</span></div>
-  <main class="page-content">
-    <div class="container">
-      <div class="product-detail">
-        <div class="product-image"><img src="/assets/netflix-logo.png" alt="Netflix"></div>
-        <div class="product-info">
-          <h2>Netflix Premium</h2>
-          <p class="desc">Ultra HD, 4 écrans. Livraison immédiate.</p>
-          <div class="category-divider reveal"><span class="line"></span><span class="label"><i class="fas fa-calendar-alt"></i> Abonnement</span><span class="line"></span></div>
-          <div class="pack-row" id="packAbos"></div>
-          <div id="dynamicFields" style="margin-top:20px;"></div>
-          <button class="btn-cyan" id="addToCartBtn" disabled style="margin-top:8px;"><i class="fas fa-cart-plus"></i> Ajouter au panier</button>
+    <!-- HEADER -->
+    <header>
+        <a href="/home.html" class="logo"><img src="/assets/logo.png" alt="DigitalPay HT" /></a>
+        <nav class="nav-links">
+            <a href="/home.html">Accueil</a> <a href="/gaming.html">Gaming</a> <a href="/streaming.html">Streaming</a>
+            <a href="/services-digitaux.html">Services</a> <a href="/echange/index.html">Échange</a>
+            <a href="/giftcard/index.html">Gift Card</a> <a href="/digitalpaycard/index.html">DigitalPay Card</a>
+        </nav>
+        <div class="header-actions">
+            <a href="/compte/index.html" class="auth-btn primary"><i class="fa-solid fa-user"></i> Compte</a>
+            <button class="auth-btn danger" id="header-logout"><i class="fa-solid fa-arrow-right-from-bracket"></i> Déconnexion</button>
+            <button class="menu-toggle" id="menu-open"><i class="fa-solid fa-bars"></i></button>
         </div>
-      </div>
+    </header>
+
+    <!-- SIDEBAR -->
+    <div class="sidebar-overlay" id="sidebar-overlay"></div>
+    <div class="sidebar" id="sidebar">
+        <button class="sidebar-close-btn" id="sidebar-close-btn"><i class="fa-solid fa-xmark"></i></button>
+        <div class="sidebar-scroll">
+            <div class="sidebar-header">
+                <div class="sidebar-profile">
+                    <div class="avatar"><i class="fa-regular fa-user"></i></div>
+                    <div class="info"><div class="name" id="sidebar-name">Utilisateur</div></div>
+                </div>
+            </div>
+        </div>
+        <div class="sidebar-footer"><button class="logout" id="sidebar-logout"><i class="fa-solid fa-arrow-right-from-bracket"></i> Déconnexion</button></div>
     </div>
-  </main>
-  <footer><div class="container"><div class="footer-content"><div class="footer-links"><a href="/#gaming">Gaming</a> <a href="/#streaming">Streaming</a> <a href="/#services">Services</a> <a href="/support/">Support</a> <a href="/legal/conditions-utilisation.html">CGU</a></div><div class="footer-bottom">© 2026 NX STORE — L'univers digital, sans limite.</div></div></div></footer>
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
-  <script>
-    const firebaseConfig = { apiKey:"AIzaSyBxkkjN8m9GKDq7C39gDhoLFEk8CJeOrK0", authDomain:"nxgamerstore.firebaseapp.com", projectId:"nxgamerstore", storageBucket:"nxgamerstore.firebasestorage.app", messagingSenderId:"539804282803", appId:"1:539804282803:web:e05e338262764affd4a5c6" };
-    firebase.initializeApp(firebaseConfig); const auth = firebase.auth();
-    document.getElementById('backBtn').addEventListener('click', e => { e.preventDefault(); history.back(); });
-    function showToast(msg, type='success') { const container = document.getElementById('toastContainer'); const toast = document.createElement('div'); toast.className = `toast ${type}`; let icon = type==='error'?'fa-exclamation-circle':type==='info'?'fa-info-circle':'fa-check-circle'; toast.innerHTML = `<i class="fas ${icon}"></i> <span>${msg}</span>`; container.appendChild(toast); setTimeout(() => { toast.classList.add('removing'); setTimeout(() => toast.remove(), 300); }, 3000); }
-    (function(){ const c=document.getElementById('bgLayer'); if(!c)return; for(let i=0;i<50;i++){ const s=document.createElement('span'); s.className='particle'; s.style.cssText=`width:${Math.random()*4+1.5}px;height:${Math.random()*4+1.5}px;left:${Math.random()*100}%;animation-duration:${Math.random()*20+12}s;animation-delay:${Math.random()*10}s;`; c.appendChild(s); } })();
-    window.addEventListener('scroll',()=>{ document.getElementById('main-header').classList.toggle('scrolled',window.scrollY>20); });
-    const sidebar=document.getElementById('sidebar'), overlay=document.getElementById('overlay');
-    function openSidebar(){ sidebar.classList.add('open'); overlay.classList.add('active'); sidebar.setAttribute('aria-hidden','false'); document.body.style.overflow='hidden'; }
-    function closeSidebar(){ sidebar.classList.remove('open'); overlay.classList.remove('active'); sidebar.setAttribute('aria-hidden','true'); document.body.style.overflow=''; }
-    document.getElementById('menuBtn')?.addEventListener('click',openSidebar); document.getElementById('closeMenu')?.addEventListener('click',closeSidebar); overlay?.addEventListener('click',closeSidebar); document.querySelectorAll('.sidebar-nav a').forEach(a=>a.addEventListener('click',closeSidebar));
-    let cart=JSON.parse(localStorage.getItem('nx_cart')||'[]');
-    function updateCartCount(){ document.getElementById('cartCount').textContent=cart.reduce((s,i)=>s+(i.quantity||1),0); }
-    updateCartCount(); document.getElementById('cartFloat')?.addEventListener('click',()=>window.location.href='/commandes/panier.html');
-    function updateSidebarUser(user){ const authDiv=document.getElementById('authSide'), logoutDiv=document.getElementById('logoutSide'); document.getElementById('sideUserName').textContent=user?(user.displayName||user.email.split('@')[0]||'Membre'):'Invité'; document.getElementById('sideUserEmail').textContent=user?user.email:'Connectez-vous'; if(authDiv) authDiv.style.display=user?'none':'flex'; if(logoutDiv) logoutDiv.style.display=user?'block':'none'; }
-    auth.onAuthStateChanged(user=>updateSidebarUser(user)); document.getElementById('doLogoutSide')?.addEventListener('click',()=>{ auth.signOut(); closeSidebar(); });
-    const packs = [
-      { name:"1 mois", price:"400 Gdes", value:"1m" },
-      { name:"2 mois", price:"850 Gdes", value:"2m" },
-      { name:"3 mois", price:"1300 Gdes", value:"3m" }
-    ];
-    const container = document.getElementById('packAbos'); let selectedPack = null;
-    packs.forEach(pack => {
-      const div = document.createElement('div'); div.className = 'pack-item reveal';
-      div.innerHTML = `<div class="pack-left"><div class="pack-icon"><i class="fas fa-calendar-alt"></i></div><div><div class="pack-name">${pack.name}</div></div></div><div class="pack-price">${pack.price}</div><div class="check-icon"><i class="fas fa-check-circle"></i></div>`;
-      div.addEventListener('click', () => { document.querySelectorAll('.pack-item').forEach(el => el.classList.remove('selected')); div.classList.add('selected'); selectedPack = pack; document.getElementById('addToCartBtn').disabled = false; updateFormFields(pack); });
-      container.appendChild(div);
-    });
-    function updateFormFields(pack){ const dyn = document.getElementById('dynamicFields'); dyn.innerHTML = `<div class="form-group"><label><i class="fas fa-envelope"></i> Email</label><input type="email" id="nfEmail" placeholder="Email du compte"></div><div class="form-group"><label><i class="fab fa-whatsapp"></i> Numéro WhatsApp</label><input type="tel" id="nfWhatsapp" placeholder="+509XXXXXXXX"></div>`; }
-    document.getElementById('addToCartBtn').addEventListener('click',()=>{ if(!selectedPack) return; const email = document.getElementById('nfEmail')?.value.trim() || ''; const whatsapp = document.getElementById('nfWhatsapp')?.value.trim() || ''; if(!email || !whatsapp){ showToast('Veuillez remplir tous les champs.', 'error'); return; } cart.push({ product:'Netflix', pack:selectedPack.name, price:selectedPack.price, fields:{email,whatsapp}, date:new Date().toISOString() }); localStorage.setItem('nx_cart',JSON.stringify(cart)); updateCartCount(); showToast(`${selectedPack.name} ajouté au panier`, 'success'); });
-    const revealEls = document.querySelectorAll('.reveal'); const observer = new IntersectionObserver(entries => { entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('visible'); observer.unobserve(e.target); } }) }, { threshold:0.1 }); revealEls.forEach(el => observer.observe(el));
-  </script>
+
+    <!-- MAIN -->
+    <main>
+        <a href="/streaming.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> Retour au Streaming</a>
+
+        <section class="product-hero">
+            <div class="logo-wrap"><img src="/assets/netflix-logo.png" alt="Netflix" /></div>
+            <h1>Netflix</h1>
+            <div class="subtitle">Séries, films, documentaires en illimité</div>
+        </section>
+
+        <section class="product-description">
+            <p><strong>Netflix</strong> est le leader mondial du streaming. Profitez de milliers de films, séries et documentaires en qualité HD, sans publicité. Rechargez votre abonnement avec DigitalPay HT.</p>
+        </section>
+
+        <section class="pack-section">
+            <h2>Choisissez votre abonnement</h2>
+            <form id="packForm">
+                <!-- Un seul dropdown pour Netflix -->
+                <div class="form-group">
+                    <label><i class="fa-solid fa-calendar-check"></i> Durée d'abonnement</label>
+                    <div class="custom-select-wrapper" data-category="streaming">
+                        <div class="custom-select-trigger">-- Choisissez une durée -- <i class="fa-solid fa-chevron-down"></i></div>
+                        <div class="custom-options" id="streaming-options"></div>
+                    </div>
+                </div>
+
+                <!-- Champs pour Pass / Abonnement (Email + Mot de passe + WhatsApp) -->
+                <div id="info-fields">
+                    <div class="form-group"><label for="accountEmail"><i class="fa-solid fa-envelope"></i> Adresse email</label><input type="email" id="accountEmail" placeholder="votre.email@exemple.com" required /></div>
+                    <div class="form-group"><label for="accountPassword"><i class="fa-solid fa-lock"></i> Mot de passe</label><input type="password" id="accountPassword" placeholder="Votre mot de passe associé" required /></div>
+                    <div class="form-group"><label for="whatsappNumber"><i class="fa-brands fa-whatsapp"></i> Numéro WhatsApp</label><input type="tel" id="whatsappNumber" placeholder="Exemple : 50936535649" required /><div class="hint">Utilisé pour recevoir les informations de votre commande</div></div>
+                </div>
+
+                <button type="button" class="btn-add-cart" id="addToCartBtn"><i class="fa-solid fa-cart-plus"></i> Ajouter au panier</button>
+            </form>
+        </section>
+    </main>
+
+    <!-- PANIER FLOTTANT -->
+    <button class="cart-float" onclick="window.location.href='/panier.html'" aria-label="Panier">
+        <i class="fa-solid fa-bag-shopping"></i>
+        <span class="badge" id="cart-float-badge">0</span>
+    </button>
+
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-brand"><div class="brand">DIGITALPAY</div><p>Votre plateforme de recharge gaming, streaming, services financiers, gift cards et cartes virtuelles en Haïti.</p></div>
+            <div class="footer-links-grid">
+                <div class="footer-col"><h4>Liens rapides</h4><ul><li><a href="/home.html">Accueil</a></li><li><a href="/gaming.html">Gaming</a></li><li><a href="/streaming.html">Streaming</a></li><li><a href="/services-digitaux.html">Services</a></li><li><a href="/echange/index.html">Échange</a></li><li><a href="/giftcard/index.html">Gift Card</a></li><li><a href="/digitalpaycard/index.html">DigitalPay Card</a></li></ul></div>
+                <div class="footer-col"><h4>Support</h4><ul><li><a href="/support/help.html">Centre d'aide</a></li><li><a href="/legal/conditions-utilisation.html">Conditions</a></li><li><a href="/legal/politique-confidentialite.html">Confidentialité</a></li></ul></div>
+                <div class="footer-col"><h4>Contact</h4><ul><li><i class="fa-regular fa-envelope"></i> contact@digitalpay.ht</li><li><i class="fa-solid fa-phone"></i> +509 3399 0578</li><li><i class="fa-brands fa-whatsapp"></i> +509 3653 5649</li></ul></div>
+            </div>
+        </div>
+        <div class="footer-bottom"><span>&copy; 2026 DigitalPay. Tous droits réservés.</span><span>Paiements sécurisés • Support WhatsApp</span></div>
+    </footer>
+
+    <!-- SCRIPTS -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+    <script src="/assets/js/products-data.js"></script>
+
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyDCj6vyMXsdEMlH-vYOWdwcfoD2VI622Uc",
+            authDomain: "digitalpayhaiti-509.firebaseapp.com",
+            projectId: "digitalpayhaiti-509",
+            storageBucket: "digitalpayhaiti-509.firebasestorage.app",
+            messagingSenderId: "987271970971",
+            appId: "1:987271970971:web:482635fb1202dc575ac63e"
+        };
+        if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+
+        auth.onAuthStateChanged((user) => {
+            if (!user) window.location.href = '/authentification/login.html';
+            else document.getElementById('sidebar-name').textContent = user.displayName || user.email || 'Utilisateur';
+        });
+
+        function logout() { auth.signOut().then(() => { localStorage.removeItem('paynova_user'); window.location.href = '/index.html'; }); }
+        document.getElementById('header-logout').addEventListener('click', logout);
+        document.getElementById('sidebar-logout').addEventListener('click', logout);
+
+        // SIDEBAR
+        const sidebarOverlay = document.getElementById('sidebar-overlay');
+        const sidebar = document.getElementById('sidebar');
+        document.getElementById('menu-open').addEventListener('click', () => { sidebarOverlay.classList.add('active'); sidebar.classList.add('active'); document.body.style.overflow = 'hidden'; });
+        document.getElementById('sidebar-close-btn').addEventListener('click', () => { sidebarOverlay.classList.remove('active'); sidebar.classList.remove('active'); document.body.style.overflow = ''; });
+        sidebarOverlay.addEventListener('click', () => { sidebarOverlay.classList.remove('active'); sidebar.classList.remove('active'); document.body.style.overflow = ''; });
+
+        // PRODUITS NETFLIX
+        const allProducts = window.productsData || [];
+        const netflixProducts = allProducts.filter(p => p.category === 'streaming' && p.subcategory === 'netflix');
+
+        const container = document.getElementById('streaming-options');
+        const wrapper = container.closest('.custom-select-wrapper');
+        const trigger = wrapper.querySelector('.custom-select-trigger');
+
+        let selectedPack = null;
+        const infoFields = document.getElementById('info-fields');
+
+        // Remplir le dropdown
+        if (netflixProducts.length === 0) {
+            const msg = document.createElement('div');
+            msg.className = 'option'; msg.style.cursor = 'default'; msg.style.color = 'var(--text-tert)';
+            msg.textContent = '⚠️ Aucun pack disponible';
+            container.appendChild(msg);
+        } else {
+            netflixProducts.forEach(p => {
+                const div = document.createElement('div');
+                div.className = 'option';
+                div.dataset.id = p.id; div.dataset.price = p.price; div.dataset.name = p.name; div.dataset.category = p.category;
+                div.textContent = `${p.name} – ${p.price} HTG`;
+                div.addEventListener('click', function() {
+                    document.querySelectorAll('.custom-options .option').forEach(el => el.classList.remove('selected'));
+                    this.classList.add('selected');
+                    wrapper.classList.remove('open');
+                    trigger.innerHTML = `${this.textContent} <i class="fa-solid fa-chevron-down"></i>`;
+
+                    selectedPack = { id: this.dataset.id, name: this.dataset.name, price: parseInt(this.dataset.price) };
+                    infoFields.classList.add('show');
+                });
+                container.appendChild(div);
+            });
+        }
+
+        trigger.addEventListener('click', (e) => {
+            e.stopPropagation();
+            document.querySelectorAll('.custom-select-wrapper').forEach(w => w.classList.remove('open'));
+            wrapper.classList.toggle('open');
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.custom-select-wrapper')) {
+                document.querySelectorAll('.custom-select-wrapper').forEach(w => w.classList.remove('open'));
+            }
+        });
+
+        // PANIER
+        function getCart() { try { return JSON.parse(localStorage.getItem('cart')) || []; } catch { return []; } }
+        function saveCart(cart) { localStorage.setItem('cart', JSON.stringify(cart)); updateBadge(); }
+        function updateBadge() { const badge = document.getElementById('cart-float-badge'); const cart = getCart(); badge.textContent = cart.length; }
+        updateBadge();
+
+        function showToast(msg, type = 'success') {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = 'toast ' + type;
+            const icon = type === 'success' ? 'fa-circle-check' : 'fa-circle-exclamation';
+            toast.innerHTML = `<i class="fa-solid ${icon}"></i> ${msg}`;
+            container.appendChild(toast);
+            requestAnimationFrame(() => toast.classList.add('show'));
+            setTimeout(() => { toast.classList.remove('show'); setTimeout(() => toast.remove(), 400); }, 3000);
+        }
+
+        document.getElementById('addToCartBtn').addEventListener('click', () => {
+            if (!selectedPack) { showToast('Veuillez sélectionner un abonnement.', 'error'); return; }
+
+            const accountEmail = document.getElementById('accountEmail').value.trim();
+            const accountPassword = document.getElementById('accountPassword').value.trim();
+            const whatsappNumber = document.getElementById('whatsappNumber').value.trim();
+
+            if (!accountEmail) { showToast('Veuillez entrer votre adresse email.', 'error'); return; }
+            if (!accountPassword) { showToast('Veuillez entrer votre mot de passe.', 'error'); return; }
+            if (!whatsappNumber) { showToast('Veuillez entrer votre numéro WhatsApp.', 'error'); return; }
+
+            const cart = getCart();
+            cart.push({
+                id: selectedPack.id + '_' + Date.now(),
+                productId: selectedPack.id,
+                name: selectedPack.name,
+                price: selectedPack.price,
+                quantity: 1,
+                accountEmail, accountPassword, whatsappNumber,
+                image: '/assets/netflix-logo.png',
+                source: 'Netflix'
+            });
+            saveCart(cart);
+            showToast(`✅ ${selectedPack.name} ajouté au panier !`, 'success');
+            
+            document.querySelectorAll('.custom-options .option').forEach(el => el.classList.remove('selected'));
+            trigger.innerHTML = `-- Choisissez une durée -- <i class="fa-solid fa-chevron-down"></i>`;
+            selectedPack = null;
+            infoFields.classList.remove('show');
+            document.getElementById('packForm').reset();
+        });
+    </script>
 </body>
 </html>
