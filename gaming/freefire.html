@@ -1,1 +1,456 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+    <title>Free Fire – DigitalPay HT</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Orbitron:wght@500;600;700;900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 
+    <style>
+        :root {
+            --font-title: 'Orbitron', sans-serif;
+            --font-body: 'Inter', sans-serif;
+            --bg: #000000; /* Noir pur */
+            --bg-card: rgba(20, 20, 40, 0.6);
+            --bg-card-hover: rgba(30, 30, 60, 0.8);
+            --bg-sidebar: #0c0c18;
+            --text: #ffffff;
+            --text-sec: #a0a0c0;
+            --text-tert: #6a6a8a;
+            --blue: #1a6bc4;
+            --orange: #f97316;
+            --gradient: linear-gradient(135deg, #1a6bc4, #f97316);
+            --shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+            --shadow-hover: 0 20px 60px rgba(26, 107, 196, 0.2);
+            --radius: 16px;
+            --radius-lg: 24px;
+            --transition: 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; overflow-x: hidden; }
+        body { font-family: var(--font-body); background: var(--bg); color: var(--text); line-height: 1.6; overflow-x: hidden; font-size: 16px; -webkit-font-smoothing: antialiased; min-height: 100vh; }
+        a { text-decoration: none; color: inherit; }
+        img { display: block; max-width: 100%; height: auto; }
+
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: var(--bg); }
+        ::-webkit-scrollbar-thumb { background: var(--orange); border-radius: 10px; }
+
+        /* HEADER */
+        header {
+            position: sticky; top: 0; width: 100%; z-index: 1000;
+            background: var(--bg-card); backdrop-filter: blur(14px); border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            padding: 0 1.2rem; height: auto; min-height: 64px; display: flex; align-items: center; justify-content: space-between;
+        }
+        .logo img { height: 84px; width: auto; display: block; }
+        .nav-links { display: none; }
+        .header-actions { display: flex; align-items: center; gap: 0.5rem; }
+        .auth-btn {
+            background: var(--bg-card); backdrop-filter: blur(10px); border: 1px solid var(--orange);
+            color: var(--orange); padding: 0.3rem 0.8rem; border-radius: 8px; font-size: 0.7rem; font-weight: 600;
+            cursor: pointer; transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s;
+            text-decoration: none; display: inline-flex; align-items: center; gap: 0.3rem; white-space: nowrap;
+        }
+        .auth-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 16px rgba(249, 115, 22, 0.2); background: rgba(249, 115, 22, 0.1); }
+        .auth-btn.primary { background: var(--gradient); color: #fff; border-color: transparent; }
+        .auth-btn.danger { border-color: #ef4444; color: #ef4444; }
+        .menu-toggle {
+            background: var(--bg-card); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.06);
+            color: var(--text); font-size: 1.3rem; cursor: pointer; padding: 8px 10px; border-radius: 12px; transition: all 0.25s ease;
+        }
+
+        /* SIDEBAR */
+        .sidebar-overlay { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(6px); z-index: 2000; opacity: 0; visibility: hidden; transition: opacity 0.3s ease, visibility 0.3s ease; }
+        .sidebar-overlay.active { opacity: 1; visibility: visible; }
+        .sidebar { position: fixed; top: 0; right: -340px; width: 320px; max-width: 88vw; height: 100vh; background: var(--bg-sidebar); z-index: 2001; padding: 1.2rem 0.8rem 1rem; transition: right 0.4s cubic-bezier(0.22, 1, 0.36, 1); border-left: 1px solid rgba(255, 255, 255, 0.03); border-radius: 24px 0 0 24px; }
+        .sidebar.active { right: 0; }
+        .sidebar-close-btn { position: absolute; top: 0.6rem; right: 0.8rem; background: none; border: none; color: var(--text-tert); font-size: 1.3rem; cursor: pointer; }
+        .sidebar-scroll { flex: 1; overflow-y: auto; max-height: calc(100vh - 120px); }
+        .sidebar-scroll::-webkit-scrollbar-thumb { background: var(--orange); border-radius: 10px; }
+        .sidebar-header { display: flex; align-items: center; gap: 0.6rem; padding-bottom: 0.8rem; border-bottom: 1px solid rgba(255, 255, 255, 0.04); margin-bottom: 0.8rem; }
+        .sidebar-profile .avatar { width: 40px; height: 40px; border-radius: 50%; background: var(--gradient); display: flex; align-items: center; justify-content: center; font-weight: 700; color: #fff; }
+        .sidebar-profile .info .name { font-weight: 600; font-size: 0.9rem; color: var(--text); }
+        .sidebar-footer .logout { background: none; border: none; color: #ef4444; font-size: 0.8rem; cursor: pointer; padding: 0.5rem 0.7rem; width: 100%; text-align: left; border-radius: 10px; display: flex; align-items: center; gap: 0.7rem; }
+
+        /* MAIN */
+        main { position: relative; z-index: 1; padding: 0 1.2rem; max-width: 1200px; margin: 0 auto; }
+        .back-link { display: inline-flex; align-items: center; gap: 0.4rem; color: var(--text-sec); font-size: 0.85rem; margin: 1rem 0 0.5rem; transition: color 0.3s ease; }
+        .back-link:hover { color: var(--orange); }
+
+        .product-hero { padding: 1.5rem 0 1rem; text-align: center; }
+        .product-hero .logo-wrap { width: 100%; max-width: 420px; margin: 0 auto 0.8rem; background: rgba(255, 255, 255, 0.02); border-radius: var(--radius-lg); padding: 1rem; aspect-ratio: 1/1; display: flex; align-items: center; justify-content: center; border: 1px solid rgba(255, 255, 255, 0.02); backdrop-filter: blur(10px); }
+        .product-hero .logo-wrap img { width: 100%; height: 100%; object-fit: contain; }
+        .product-hero h1 { font-family: var(--font-title); font-size: 2rem; font-weight: 900; text-transform: uppercase; background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .product-hero .subtitle { font-size: 0.8rem; color: var(--text-sec); font-weight: 300; }
+
+        .product-description { max-width: 600px; margin: 0 auto 1.5rem; text-align: center; background: var(--bg-card); padding: 1.2rem 1.5rem; border-radius: var(--radius); border: 1px solid rgba(255, 255, 255, 0.02); backdrop-filter: blur(10px); }
+        .product-description p { font-size: 0.9rem; color: var(--text-sec); line-height: 1.7; }
+
+        /* DROPDOWNS */
+        .pack-section { padding-bottom: 2rem; max-width: 700px; margin: 0 auto; }
+        .pack-section h2 { font-family: var(--font-title); font-size: 1.2rem; font-weight: 700; text-transform: uppercase; margin-bottom: 1.2rem; text-align: center; }
+        .form-group { margin-bottom: 1.2rem; }
+        .form-group label { display: block; font-weight: 600; font-size: 0.85rem; color: var(--text-sec); margin-bottom: 0.3rem; }
+        .form-group label i { color: var(--orange); margin-right: 0.3rem; }
+
+        .custom-select-wrapper { position: relative; width: 100%; margin-bottom: 0.8rem; }
+        .custom-select-trigger {
+            background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.06);
+            padding: 0.7rem 0.9rem; border-radius: 10px; color: var(--text-sec); cursor: pointer;
+            display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease; font-size: 0.95rem;
+        }
+        .custom-select-trigger:hover, .custom-select-wrapper.open .custom-select-trigger { border-color: var(--orange); }
+        .custom-options {
+            display: none; position: absolute; top: 110%; left: 0; width: 100%;
+            background: var(--bg-card); border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 10px; max-height: 200px; overflow-y: auto; z-index: 20;
+            backdrop-filter: blur(14px); box-shadow: var(--shadow);
+        }
+        .custom-select-wrapper.open .custom-options { display: block; }
+        .custom-options .option {
+            padding: 0.7rem 0.9rem; cursor: pointer; color: var(--text-sec);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.02); transition: all 0.2s ease;
+        }
+        .custom-options .option:last-child { border-bottom: none; }
+        .custom-options .option:hover, .custom-options .option.selected { background: var(--bg-card-hover); color: var(--orange); }
+
+        /* CHAMPS DYNAMIQUES */
+        #info-fields { display: none; margin-top: 1rem; }
+        #info-fields.show { display: block; }
+        .field-group { display: none; margin-bottom: 1rem; }
+        .field-group.active { display: block; }
+        .field-group input { width: 100%; padding: 0.7rem 0.9rem; border-radius: 10px; border: 1px solid rgba(255, 255, 255, 0.06); background: rgba(255, 255, 255, 0.02); color: var(--text); font-size: 0.95rem; outline: none; font-family: var(--font-body); }
+        .field-group input:focus { border-color: var(--orange); background: rgba(255, 255, 255, 0.04); box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.05); }
+        .field-group .hint { font-size: 0.7rem; color: var(--text-tert); margin-top: 0.2rem; }
+
+        .btn-add-cart { display: flex; align-items: center; justify-content: center; gap: 0.6rem; width: 100%; max-width: 400px; margin: 1.2rem auto 0; padding: 0.9rem; background: var(--gradient); border: none; border-radius: 50px; color: #fff; font-weight: 700; font-size: 1rem; cursor: pointer; transition: transform 0.3s ease, box-shadow 0.3s ease; font-family: var(--font-body); }
+        .btn-add-cart:hover { transform: scale(1.03); box-shadow: 0 8px 30px rgba(249, 115, 22, 0.2); }
+
+        .cart-float { position: fixed; bottom: 1.2rem; right: 1.2rem; z-index: 500; background: var(--gradient); color: #fff; width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; box-shadow: 0 4px 16px rgba(249, 115, 22, 0.15); transition: transform 0.3s ease; cursor: pointer; border: none; }
+        .cart-float:hover { transform: scale(1.08); }
+        .cart-float .badge { position: absolute; top: -4px; right: -4px; background: #ef4444; color: #fff; font-size: 0.5rem; font-weight: 700; width: 16px; height: 16px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+        .toast-container { position: fixed; bottom: 1.5rem; left: 50%; transform: translateX(-50%); z-index: 9999; width: 90%; max-width: 400px; pointer-events: none; }
+        .toast { padding: 0.8rem 1.2rem; border-radius: 12px; background: var(--bg-card); backdrop-filter: blur(14px); border: 1px solid rgba(255, 255, 255, 0.04); color: var(--text); font-weight: 500; font-size: 0.9rem; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4); opacity: 0; transform: translateY(20px) scale(0.95); transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1); pointer-events: auto; text-align: center; }
+        .toast.show { opacity: 1; transform: translateY(0) scale(1); }
+        .toast.success { border-color: rgba(34, 197, 94, 0.3); }
+
+        /* FOOTER */
+        footer { background: var(--bg-sidebar); padding: 2rem 1.2rem 1.2rem; margin: 0 -1.2rem; border-top: 1px solid rgba(255, 255, 255, 0.02); }
+        .footer-grid { display: grid; grid-template-columns: 1fr; gap: 1.5rem; max-width: 1200px; margin: 0 auto; }
+        .footer-brand .brand { font-family: var(--font-title); font-size: 1rem; font-weight: 900; background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: 1px; }
+        .footer-brand p { font-size: 0.8rem; color: var(--text-sec); margin-top: 0.2rem; }
+        .footer-links-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+        .footer-col h4 { font-family: var(--font-title); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px; color: var(--text); margin-bottom: 0.4rem; }
+        .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 0.3rem; }
+        .footer-col ul a { font-size: 0.75rem; color: var(--text-tert); transition: color 0.3s ease; }
+        .footer-col ul a:hover { color: var(--orange); }
+        .footer-col ul li { font-size: 0.75rem; color: var(--text-tert); display: flex; align-items: center; gap: 0.4rem; }
+        .footer-col ul li i { color: var(--orange); width: 16px; }
+        .footer-bottom { text-align: center; font-size: 0.6rem; color: var(--text-tert); border-top: 1px solid rgba(255, 255, 255, 0.02); padding-top: 0.8rem; margin-top: 1rem; }
+
+        @media (min-width: 768px) {
+            header { padding: 0 2.5rem; } .menu-toggle { display: none; } .nav-links { display: flex; gap: 1.8rem; }
+            .nav-links a { font-weight: 500; font-size: 0.8rem; color: var(--text-sec); transition: color 0.3s ease; position: relative; }
+            .nav-links a::after { content: ''; position: absolute; bottom: -2px; left: 0; width: 0; height: 2px; background: var(--gradient); transition: width 0.3s ease; border-radius: 10px; }
+            .nav-links a:hover { color: var(--text); } .nav-links a:hover::after { width: 100%; }
+            main { padding: 0 2.5rem; } .footer-grid { grid-template-columns: 1fr 2fr; gap: 2rem; } .footer-links-grid { grid-template-columns: repeat(3, 1fr); }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/home.html" class="logo"><img src="/assets/logo.png" alt="DigitalPay HT" /></a>
+        <nav class="nav-links">
+            <a href="/home.html">Accueil</a> <a href="/gaming.html">Gaming</a> <a href="/streaming.html">Streaming</a>
+            <a href="/services-digitaux.html">Services</a> <a href="/echange/index.html">Échange</a>
+            <a href="/giftcard/index.html">Gift Card</a> <a href="/digitalpaycard/index.html">DigitalPay Card</a>
+        </nav>
+        <div class="header-actions">
+            <a href="/compte/index.html" class="auth-btn primary"><i class="fa-solid fa-user"></i> Compte</a>
+            <button class="auth-btn danger" id="header-logout"><i class="fa-solid fa-arrow-right-from-bracket"></i> Déconnexion</button>
+            <button class="menu-toggle" id="menu-open"><i class="fa-solid fa-bars"></i></button>
+        </div>
+    </header>
+
+    <div class="sidebar-overlay" id="sidebar-overlay"></div>
+    <div class="sidebar" id="sidebar">
+        <button class="sidebar-close-btn" id="sidebar-close-btn"><i class="fa-solid fa-xmark"></i></button>
+        <div class="sidebar-scroll">
+            <div class="sidebar-header">
+                <div class="sidebar-profile">
+                    <div class="avatar"><i class="fa-regular fa-user"></i></div>
+                    <div class="info"><div class="name" id="sidebar-name">Utilisateur</div></div>
+                </div>
+            </div>
+        </div>
+        <div class="sidebar-footer"><button class="logout" id="sidebar-logout"><i class="fa-solid fa-arrow-right-from-bracket"></i> Déconnexion</button></div>
+    </div>
+
+    <main>
+        <a href="/gaming.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> Retour au Gaming</a>
+
+        <section class="product-hero">
+            <div class="logo-wrap"><img src="/assets/freefire-logo.png" alt="Free Fire" /></div>
+            <h1>Free Fire</h1>
+            <div class="subtitle">Battle Royale · 50 joueurs · Action rapide</div>
+        </section>
+
+        <section class="product-description">
+            <p><strong>Free Fire</strong> est l'un des Battle Royale les plus populaires. Affrontez 49 autres joueurs, récupérez des armes et survivez jusqu'au dernier debout. Rechargez vos diamants avec DigitalPay HT.</p>
+        </section>
+
+        <section class="pack-section">
+            <h2>Choisissez votre pack</h2>
+            <form id="packForm">
+                <div class="form-group">
+                    <label><i class="fa-solid fa-gem"></i> Packs de Diamants</label>
+                    <div class="custom-select-wrapper" data-category="diamants">
+                        <div class="custom-select-trigger">-- Choisissez un pack de diamants -- <i class="fa-solid fa-chevron-down"></i></div>
+                        <div class="custom-options" id="diamants-options"></div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label><i class="fa-solid fa-ticket"></i> Pass</label>
+                    <div class="custom-select-wrapper" data-category="pass">
+                        <div class="custom-select-trigger">-- Choisissez un Pass -- <i class="fa-solid fa-chevron-down"></i></div>
+                        <div class="custom-options" id="pass-options"></div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label><i class="fa-solid fa-calendar-days"></i> Abonnement</label>
+                    <div class="custom-select-wrapper" data-category="abonnement">
+                        <div class="custom-select-trigger">-- Choisissez un abonnement -- <i class="fa-solid fa-chevron-down"></i></div>
+                        <div class="custom-options" id="abonnement-options"></div>
+                    </div>
+                </div>
+
+                <div id="info-fields">
+                    <div class="field-group active" id="diamant-fields">
+                        <div class="form-group"><label for="gameId"><i class="fa-solid fa-id-card"></i> ID du joueur</label><input type="text" id="gameId" placeholder="Exemple : 1234567890" required /></div>
+                        <div class="form-group"><label for="accountName"><i class="fa-solid fa-user-tag"></i> Nom du compte</label><input type="text" id="accountName" placeholder="Votre nom dans Free Fire" required /></div>
+                        <div class="form-group"><label for="whatsappNumber"><i class="fa-brands fa-whatsapp"></i> Numéro WhatsApp</label><input type="tel" id="whatsappNumber" placeholder="Exemple : 50936535649" required /><div class="hint">Utilisé pour recevoir les informations de votre commande</div></div>
+                    </div>
+
+                    <div class="field-group" id="pass-fields">
+                        <div class="form-group"><label for="accountEmail"><i class="fa-solid fa-envelope"></i> Adresse email</label><input type="email" id="accountEmail" placeholder="votre.email@exemple.com" required /></div>
+                        <div class="form-group"><label for="accountPassword"><i class="fa-solid fa-lock"></i> Mot de passe</label><input type="password" id="accountPassword" placeholder="Votre mot de passe associé" required /></div>
+                        <div class="form-group"><label for="whatsappNumberPass"><i class="fa-brands fa-whatsapp"></i> Numéro WhatsApp</label><input type="tel" id="whatsappNumberPass" placeholder="Exemple : 50936535649" required /><div class="hint">Utilisé pour recevoir les informations de votre commande</div></div>
+                    </div>
+                </div>
+
+                <button type="button" class="btn-add-cart" id="addToCartBtn"><i class="fa-solid fa-cart-plus"></i> Ajouter au panier</button>
+            </form>
+        </section>
+    </main>
+
+    <button class="cart-float" onclick="window.location.href='/panier.html'" aria-label="Panier">
+        <i class="fa-solid fa-bag-shopping"></i>
+        <span class="badge" id="cart-float-badge">0</span>
+    </button>
+
+    <div class="toast-container" id="toastContainer"></div>
+
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <div class="brand">DIGITALPAY</div>
+                <p>Votre plateforme de recharge gaming, streaming, services financiers, gift cards et cartes virtuelles en Haïti.</p>
+            </div>
+            <div class="footer-links-grid">
+                <div class="footer-col"><h4>Liens rapides</h4><ul><li><a href="/home.html">Accueil</a></li><li><a href="/gaming.html">Gaming</a></li><li><a href="/streaming.html">Streaming</a></li><li><a href="/services-digitaux.html">Services</a></li><li><a href="/echange/index.html">Échange</a></li><li><a href="/giftcard/index.html">Gift Card</a></li><li><a href="/digitalpaycard/index.html">DigitalPay Card</a></li></ul></div>
+                <div class="footer-col"><h4>Support</h4><ul><li><a href="/support/help.html">Centre d'aide</a></li><li><a href="/legal/conditions-utilisation.html">Conditions</a></li><li><a href="/legal/politique-confidentialite.html">Confidentialité</a></li></ul></div>
+                <div class="footer-col"><h4>Contact</h4><ul><li><i class="fa-regular fa-envelope"></i> contact@digitalpay.ht</li><li><i class="fa-solid fa-phone"></i> +509 3399 0578</li><li><i class="fa-brands fa-whatsapp"></i> +509 3653 5649</li></ul></div>
+            </div>
+        </div>
+        <div class="footer-bottom"><span>&copy; 2026 DigitalPay. Tous droits réservés.</span><span>Paiements sécurisés • Support WhatsApp</span></div>
+    </footer>
+
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+    <script src="/assets/js/products-data.js"></script>
+
+    <script>
+        // ===== FIREBASE =====
+        const firebaseConfig = {
+            apiKey: "AIzaSyDCj6vyMXsdEMlH-vYOWdwcfoD2VI622Uc",
+            authDomain: "digitalpayhaiti-509.firebaseapp.com",
+            projectId: "digitalpayhaiti-509",
+            storageBucket: "digitalpayhaiti-509.firebasestorage.app",
+            messagingSenderId: "987271970971",
+            appId: "1:987271970971:web:482635fb1202dc575ac63e"
+        };
+        if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+
+        auth.onAuthStateChanged((user) => {
+            if (!user) window.location.href = '/authentification/login.html';
+            else document.getElementById('sidebar-name').textContent = user.displayName || user.email || 'Utilisateur';
+        });
+
+        function logout() { auth.signOut().then(() => { localStorage.removeItem('paynova_user'); window.location.href = '/index.html'; }); }
+        document.getElementById('header-logout').addEventListener('click', logout);
+        document.getElementById('sidebar-logout').addEventListener('click', logout);
+
+        const sidebarOverlay = document.getElementById('sidebar-overlay');
+        const sidebar = document.getElementById('sidebar');
+        document.getElementById('menu-open').addEventListener('click', () => { sidebarOverlay.classList.add('active'); sidebar.classList.add('active'); document.body.style.overflow = 'hidden'; });
+        document.getElementById('sidebar-close-btn').addEventListener('click', () => { sidebarOverlay.classList.remove('active'); sidebar.classList.remove('active'); document.body.style.overflow = ''; });
+        sidebarOverlay.addEventListener('click', () => { sidebarOverlay.classList.remove('active'); sidebar.classList.remove('active'); document.body.style.overflow = ''; });
+
+        // ===== CHARGEMENT DES PRODUITS AVEC GESTION D'ERREUR =====
+        const allProducts = window.productsData || [];
+        const freeFireProducts = allProducts.filter(p => p.category === 'gaming' && p.subcategory === 'freefire');
+
+        const diamants = freeFireProducts.filter(p => p.type === 'diamants');
+        const passes = freeFireProducts.filter(p => p.type === 'pass');
+        const abonnements = freeFireProducts.filter(p => p.type === 'abonnement');
+
+        function createDropdown(data, containerId, category) {
+            const container = document.getElementById(containerId);
+            const wrapper = container.closest('.custom-select-wrapper');
+            const trigger = wrapper.querySelector('.custom-select-trigger');
+
+            // Vider le conteneur au cas où
+            container.innerHTML = '';
+
+            if (data.length === 0) {
+                // Afficher un message si aucun produit n'est trouvé
+                const msg = document.createElement('div');
+                msg.className = 'option';
+                msg.style.cursor = 'default';
+                msg.style.color = 'var(--text-tert)';
+                msg.textContent = '⚠️ Aucun pack disponible (vérifiez products-data.js)';
+                container.appendChild(msg);
+                return;
+            }
+
+            data.forEach(p => {
+                const div = document.createElement('div');
+                div.className = 'option';
+                div.dataset.id = p.id;
+                div.dataset.price = p.price;
+                div.dataset.name = p.name;
+                div.dataset.category = category;
+                div.textContent = `${p.name} – ${p.price} HTG`;
+                div.addEventListener('click', function() {
+                    document.querySelectorAll('.custom-options .option').forEach(el => el.classList.remove('selected'));
+                    this.classList.add('selected');
+                    wrapper.classList.remove('open');
+                    trigger.innerHTML = `${this.textContent} <i class="fa-solid fa-chevron-down"></i>`;
+                    handlePackSelection(this.dataset.id, this.dataset.name, parseInt(this.dataset.price), this.dataset.category);
+                });
+                container.appendChild(div);
+            });
+
+            trigger.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const isOpen = wrapper.classList.contains('open');
+                document.querySelectorAll('.custom-select-wrapper').forEach(w => w.classList.remove('open'));
+                if (!isOpen) wrapper.classList.add('open');
+            });
+        }
+
+        createDropdown(diamants, 'diamants-options', 'diamants');
+        createDropdown(passes, 'pass-options', 'pass');
+        createDropdown(abonnements, 'abonnement-options', 'abonnement');
+
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.custom-select-wrapper')) {
+                document.querySelectorAll('.custom-select-wrapper').forEach(w => w.classList.remove('open'));
+            }
+        });
+
+        let selectedPack = null;
+        const infoFields = document.getElementById('info-fields');
+        const diamantFields = document.getElementById('diamant-fields');
+        const passFields = document.getElementById('pass-fields');
+
+        function handlePackSelection(id, name, price, category) {
+            selectedPack = { id, name, price, category };
+            infoFields.classList.add('show');
+            if (category === 'diamants') {
+                diamantFields.classList.add('active');
+                passFields.classList.remove('active');
+            } else {
+                diamantFields.classList.remove('active');
+                passFields.classList.add('active');
+            }
+        }
+
+        // ===== PANIER =====
+        function getCart() { try { return JSON.parse(localStorage.getItem('cart')) || []; } catch { return []; } }
+        function saveCart(cart) { localStorage.setItem('cart', JSON.stringify(cart)); updateBadge(); }
+        function updateBadge() {
+            const badge = document.getElementById('cart-float-badge');
+            const cart = getCart();
+            badge.textContent = cart.length;
+        }
+        updateBadge();
+
+        function showToast(msg, type = 'success') {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = 'toast ' + type;
+            const icon = type === 'success' ? 'fa-circle-check' : 'fa-circle-exclamation';
+            toast.innerHTML = `<i class="fa-solid ${icon}"></i> ${msg}`;
+            container.appendChild(toast);
+            requestAnimationFrame(() => toast.classList.add('show'));
+            setTimeout(() => { toast.classList.remove('show'); setTimeout(() => toast.remove(), 400); }, 3000);
+        }
+
+        document.getElementById('addToCartBtn').addEventListener('click', () => {
+            if (!selectedPack) { showToast('Veuillez sélectionner un pack.', 'error'); return; }
+
+            let extraData = {};
+            if (selectedPack.category === 'diamants') {
+                const gameId = document.getElementById('gameId').value.trim();
+                const accountName = document.getElementById('accountName').value.trim();
+                const whatsappNumber = document.getElementById('whatsappNumber').value.trim();
+                if (!gameId) { showToast('Veuillez entrer votre ID du joueur.', 'error'); return; }
+                if (!accountName) { showToast('Veuillez entrer le nom du compte.', 'error'); return; }
+                if (!whatsappNumber) { showToast('Veuillez entrer votre numéro WhatsApp.', 'error'); return; }
+                extraData = { gameId, accountName, whatsappNumber };
+            } else {
+                const accountEmail = document.getElementById('accountEmail').value.trim();
+                const accountPassword = document.getElementById('accountPassword').value.trim();
+                const whatsappNumberPass = document.getElementById('whatsappNumberPass').value.trim();
+                if (!accountEmail) { showToast('Veuillez entrer votre adresse email.', 'error'); return; }
+                if (!accountPassword) { showToast('Veuillez entrer votre mot de passe.', 'error'); return; }
+                if (!whatsappNumberPass) { showToast('Veuillez entrer votre numéro WhatsApp.', 'error'); return; }
+                extraData = { accountEmail, accountPassword, whatsappNumber: whatsappNumberPass };
+            }
+
+            const cart = getCart();
+            cart.push({
+                id: selectedPack.id + '_' + Date.now(),
+                productId: selectedPack.id,
+                name: selectedPack.name,
+                price: selectedPack.price,
+                category: selectedPack.category,
+                quantity: 1,
+                ...extraData,
+                image: '/assets/freefire-logo.png',
+                source: 'Free Fire'
+            });
+            saveCart(cart);
+            showToast(`✅ ${selectedPack.name} ajouté au panier !`, 'success');
+            
+            document.querySelectorAll('.custom-options .option').forEach(el => el.classList.remove('selected'));
+            document.querySelectorAll('.custom-select-trigger').forEach(el => {
+                const defaultText = el.textContent.trim().includes('Diamants') ? '-- Choisissez un pack de diamants --' :
+                                    el.textContent.trim().includes('Pass') ? '-- Choisissez un Pass --' :
+                                    '-- Choisissez un abonnement --';
+                el.innerHTML = `${defaultText} <i class="fa-solid fa-chevron-down"></i>`;
+            });
+            selectedPack = null;
+            infoFields.classList.remove('show');
+            document.getElementById('packForm').reset();
+        });
+    </script>
+</body>
+</html>
