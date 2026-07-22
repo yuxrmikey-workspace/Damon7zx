@@ -15,13 +15,13 @@
             --font-body: 'Inter', sans-serif;
             --bg: #000000;
             --bg-card: #0c0c18;
-            --bg-sidebar: #0c0c18;
+            --bg-sidebar: #111123;
             --text: #ffffff;
             --text-sec: #a0a0c0;
             --text-muted: #6a6a8a;
             --orange: #f97316;
             --gradient: linear-gradient(135deg, #1a6bc4, #f97316);
-            --radius: 12px;
+            --radius: 8px;
             --border-light: rgba(255,255,255,0.05);
         }
 
@@ -53,46 +53,68 @@
             font-size:1.2rem; cursor:pointer; padding:6px 10px; border-radius:6px;
         }
 
-        /* SIDEBAR – plus professionnel, compact et ordonné */
-        .sidebar-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.7); z-index:2000; display:none; }
+        /* ===== SIDEBAR – Version non connectée ===== */
+        .sidebar-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.6); z-index:2000; display:none; backdrop-filter:blur(4px); }
         .sidebar-overlay.active { display:block; }
         .sidebar {
-            position:fixed; top:0; right:0; width:270px; max-width:85vw; height:100vh;
-            background:var(--bg-sidebar); z-index:2001; padding:0.6rem 0.4rem; overflow-y:auto;
+            position:fixed; top:0; right:0; width:320px; max-width:90vw; height:100vh;
+            background:var(--bg-sidebar); z-index:2001; padding:1.2rem 0.6rem 1rem; overflow-y:auto;
             transform:translateX(100%); transition:transform 0.2s ease;
-            border-left:1px solid var(--border-light);
         }
         .sidebar.active { transform:translateX(0); }
         .sidebar-close-btn {
-            position:absolute; top:0.5rem; right:0.5rem; background:none; border:none; color:#aaa;
-            font-size:1.2rem; cursor:pointer; padding:4px; border-radius:4px; transition:background 0.2s;
+            position:absolute; top:1rem; right:1rem; background:none; border:none; color:#aaa;
+            font-size:1.2rem; cursor:pointer; transition:color 0.2s;
         }
-        .sidebar-close-btn:hover { background:rgba(255,255,255,0.05); color:#fff; }
+        .sidebar-close-btn:hover { color:#fff; }
+
+        /* Logo dans le sidebar */
+        .sidebar-logo { display:flex; align-items:center; gap:0.6rem; padding:0 0.6rem 0.8rem; border-bottom:1px solid var(--border-light); margin-bottom:0.5rem; }
+        .sidebar-logo img { height:32px; width:auto; }
+
+        /* En-tête profil (invité) */
         .sidebar-header {
-            display:flex; align-items:center; gap:0.6rem; border-bottom:1px solid var(--border-light);
-            padding-bottom:0.5rem; margin-bottom:0.4rem;
+            display:flex; align-items:center; gap:0.8rem; padding:0.5rem 0.6rem 0.8rem; 
+            margin-bottom:0.5rem;
         }
+        .sidebar-profile { display:flex; align-items:center; gap:0.8rem; flex:1; }
         .sidebar-profile .avatar {
-            width:32px; height:32px; border-radius:50%; background:var(--gradient);
-            display:flex; align-items:center; justify-content:center; font-weight:700; color:#fff; font-size:0.8rem;
+            width:44px; height:44px; border-radius:50%; background:var(--gradient);
+            display:flex; align-items:center; justify-content:center; font-weight:600; color:#fff; font-size:1rem;
         }
-        .sidebar-profile .info .name { font-weight:600; font-size:0.85rem; }
-        .menu-section { margin-bottom:0.2rem; }
+        .sidebar-profile .info { flex:1; }
+        .sidebar-profile .info .name { font-weight:600; font-size:0.95rem; color:var(--text); }
+        .sidebar-profile .info .email { font-size:0.7rem; color:var(--text-muted); margin-top:1px; }
+        .sidebar-profile .badge {
+            background:rgba(255,255,255,0.05); color:var(--text-sec); font-size:0.5rem; font-weight:700;
+            padding:0.15rem 0.5rem; border-radius:12px; text-transform:uppercase; letter-spacing:0.5px; border:1px solid var(--border-light);
+        }
+
+        /* Catégories de menu */
+        .menu-section { margin-bottom:0.5rem; }
         .menu-section .section-label {
             font-size:0.55rem; text-transform:uppercase; color:var(--text-muted);
-            padding:0.1rem 0.4rem; letter-spacing:0.5px;
+            padding:0.2rem 0.6rem; letter-spacing:0.5px; font-weight:600;
         }
-        .menu-section .section-items { list-style:none; display:flex; flex-direction:column; gap:0.05rem; }
+        .menu-section .section-items { list-style:none; display:flex; flex-direction:column; gap:0.1rem; }
         .menu-section .section-items li a {
-            display:flex; align-items:center; gap:0.5rem; padding:0.3rem 0.5rem; border-radius:4px;
-            font-size:0.8rem; color:var(--text-sec); transition:background 0.2s, color 0.2s;
+            display:flex; align-items:center; gap:0.7rem; padding:0.5rem 0.6rem; border-radius:var(--radius);
+            font-size:0.85rem; color:var(--text-sec); transition:all 0.2s; position:relative;
         }
-        .menu-section .section-items li a:hover { background:rgba(249,115,22,0.1); color:var(--orange); }
-        .menu-section .section-items li a i { width:16px; color:#666; font-size:0.85rem; }
+        .menu-section .section-items li a:hover { background:rgba(255,255,255,0.03); color:var(--orange); }
+        .menu-section .section-items li a.active { background:rgba(249,115,22,0.08); color:var(--orange); }
+        .menu-section .section-items li a.active::before {
+            content:''; position:absolute; left:0; top:10%; height:80%; width:3px;
+            background:var(--orange); border-radius:0 4px 4px 0;
+        }
+        .menu-section .section-items li a i { width:18px; color:var(--text-muted); font-size:0.95rem; }
         .menu-section .section-items li a:hover i { color:var(--orange); }
+        .menu-section .section-items li a.active i { color:var(--orange); }
 
-        /* MAIN */
-        main { padding:0 1.2rem; max-width:1200px; margin:0 auto; }
+        /* Pas de bouton Logout pour l'index */
+
+        /* ===== MAIN ===== */
+        main { padding:0 1.2rem; max-width:1200px; margin:0 auto; position:relative; z-index:1; }
         .hero { text-align:center; padding:2rem 0 1rem; }
         .hero h1 { font-family:var(--font-title); font-size:2rem; font-weight:700; text-transform:uppercase; letter-spacing:1px; }
         .hero h1 span { background:var(--gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
@@ -100,21 +122,12 @@
         .hero .cta { background:var(--gradient); color:#fff; padding:0.7rem 2rem; border-radius:30px; font-family:var(--font-title); font-weight:700; border:none; cursor:pointer; font-size:0.85rem; transition:opacity 0.2s; }
         .hero .cta:hover { opacity:0.9; }
 
-        /* FLYERS – défilement automatique à 0.5x (vitesse lente) */
+        /* FLYERS */
         .flyers-section { padding:0.5rem 0 1.5rem; overflow:hidden; position:relative; }
-        .flyers-track {
-            display:flex; gap:1.2rem; width:max-content;
-            animation: scrollFlyers 40s linear infinite; /* 0.5x = durée double (ex: 40s au lieu de 20s) */
-        }
+        .flyers-track { display:flex; gap:1.2rem; width:max-content; animation:scrollFlyers 40s linear infinite; }
         .flyers-track:hover { animation-play-state:paused; }
-        @keyframes scrollFlyers {
-            0% { transform:translateX(0); }
-            100% { transform:translateX(-50%); }
-        }
-        .flyer-item {
-            width:280px; background:var(--bg-card); border-radius:var(--radius); overflow:hidden;
-            border:1px solid var(--border-light); cursor:pointer; transition:background 0.2s;
-        }
+        @keyframes scrollFlyers { 0% { transform:translateX(0); } 100% { transform:translateX(-50%); } }
+        .flyer-item { width:280px; background:var(--bg-card); border-radius:var(--radius); overflow:hidden; border:1px solid var(--border-light); cursor:pointer; transition:background 0.2s; }
         .flyer-item:hover { background:var(--bg-sidebar); }
         .flyer-item img { width:100%; height:160px; object-fit:cover; }
         .flyer-item .label { padding:0.5rem 0.7rem; font-size:0.8rem; color:var(--text-sec); text-align:center; font-weight:500; }
@@ -123,46 +136,31 @@
         .section-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:0.8rem; }
         .section-header h2 { font-family:var(--font-title); font-size:1rem; font-weight:700; text-transform:uppercase; letter-spacing:0.5px; }
         .section-header a { font-size:0.7rem; color:var(--orange); font-weight:600; }
-
         .categories-grid { display:grid; grid-template-columns:1fr 1fr; gap:0.8rem; padding-bottom:1.5rem; }
-        .category-card {
-            background:var(--bg-card); border-radius:var(--radius); padding:1.2rem 0.8rem; text-align:center;
-            border:1px solid var(--border-light); cursor:pointer; transition:background 0.2s, border-color 0.2s;
-        }
+        .category-card { background:var(--bg-card); border-radius:var(--radius); padding:1.2rem 0.8rem; text-align:center; border:1px solid var(--border-light); cursor:pointer; transition:background 0.2s, border-color 0.2s; }
         .category-card:hover { background:var(--bg-sidebar); border-color:rgba(249,115,22,0.3); }
         .category-icon { font-size:1.8rem; background:var(--gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent; display:block; margin-bottom:0.3rem; }
         .category-card h3 { font-family:var(--font-title); font-size:0.8rem; font-weight:600; text-transform:uppercase; }
         .category-card p { font-size:0.65rem; color:var(--text-sec); }
 
-        /* PRODUITS EN VEDETTE */
+        /* PRODUITS */
         .products-grid { display:grid; grid-template-columns:1fr 1fr; gap:1rem; padding-bottom:2rem; }
-        .product-card {
-            background:var(--bg-card); border-radius:var(--radius); padding:1.2rem 0.8rem; text-align:center;
-            border:1px solid var(--border-light); cursor:pointer; transition:background 0.2s, border-color 0.2s;
-        }
+        .product-card { background:var(--bg-card); border-radius:var(--radius); padding:1.2rem 0.8rem; text-align:center; border:1px solid var(--border-light); cursor:pointer; transition:background 0.2s, border-color 0.2s; }
         .product-card:hover { background:var(--bg-sidebar); border-color:rgba(249,115,22,0.3); }
         .product-card .logo-wrap { width:120px; height:120px; margin:0 auto 0.6rem; display:flex; align-items:center; justify-content:center; }
         .product-card .logo-wrap img { max-width:100%; max-height:100%; object-fit:contain; }
         .product-card h4 { font-family:var(--font-title); font-size:0.9rem; font-weight:600; text-transform:uppercase; }
         .product-card .genre { font-size:0.65rem; color:var(--text-sec); }
         .product-card .price { font-size:0.8rem; font-weight:700; color:var(--orange); margin:0.3rem 0; }
-        .product-card .btn {
-            background:transparent; border:1px solid var(--orange); color:var(--orange);
-            padding:0.3rem 1rem; border-radius:20px; font-size:0.65rem; font-weight:600; cursor:pointer;
-            transition:background 0.2s, color 0.2s;
-        }
+        .product-card .btn { background:transparent; border:1px solid var(--orange); color:var(--orange); padding:0.3rem 1rem; border-radius:20px; font-size:0.65rem; font-weight:600; cursor:pointer; transition:background 0.2s, color 0.2s; }
         .product-card .btn:hover { background:var(--orange); color:#fff; }
 
-        /* SECTION COMMUNAUTÉ WHATSAPP */
+        /* SECTION WHATSAPP */
         .community-section { text-align:center; padding:1.5rem 0 1rem; border-top:1px solid var(--border-light); border-bottom:1px solid var(--border-light); margin-bottom:1.5rem; }
         .community-section h2 { font-family:var(--font-title); font-size:1.1rem; font-weight:700; text-transform:uppercase; margin-bottom:0.3rem; }
         .community-section p { font-size:0.85rem; color:var(--text-sec); max-width:400px; margin:0 auto 1rem; }
         .community-links { display:flex; flex-direction:column; gap:0.6rem; align-items:center; }
-        .community-links .btn-whatsapp {
-            display:inline-flex; align-items:center; gap:0.6rem; padding:0.6rem 1.5rem;
-            border-radius:30px; font-weight:600; font-size:0.85rem; text-decoration:none; transition:opacity 0.2s;
-            width:100%; max-width:280px; justify-content:center;
-        }
+        .community-links .btn-whatsapp { display:inline-flex; align-items:center; gap:0.6rem; padding:0.6rem 1.5rem; border-radius:30px; font-weight:600; font-size:0.85rem; text-decoration:none; transition:opacity 0.2s; width:100%; max-width:280px; justify-content:center; }
         .community-links .btn-whatsapp:hover { opacity:0.85; }
         .community-links .btn-whatsapp.green { background:#25d366; color:#fff; }
         .community-links .btn-whatsapp.dark { background:#1a7a3a; color:#fff; }
@@ -172,7 +170,7 @@
         .cart-float:hover { transform:scale(1.05); }
         .cart-float .badge { position:absolute; top:-4px; right:-4px; background:#ef4444; color:#fff; font-size:0.5rem; font-weight:700; width:18px; height:18px; border-radius:50%; display:flex; align-items:center; justify-content:center; }
 
-        /* FOOTER – avec logo à la place du texte */
+        /* FOOTER */
         footer { background:var(--bg-sidebar); padding:2rem 1.2rem 1rem; margin:0 -1.2rem; border-top:2px solid rgba(255,255,255,0.04); }
         .footer-grid { display:grid; grid-template-columns:1fr; gap:1.5rem; max-width:1200px; margin:0 auto; }
         .footer-brand .logo-footer { height:50px; width:auto; display:block; margin-bottom:0.3rem; }
@@ -226,32 +224,75 @@
         </div>
     </header>
 
-    <!-- SIDEBAR amélioré -->
+    <!-- ===== SIDEBAR (Version Invité) ===== -->
     <div class="sidebar-overlay" id="sidebar-overlay"></div>
     <div class="sidebar" id="sidebar">
         <button class="sidebar-close-btn" id="sidebar-close-btn"><i class="fa-solid fa-xmark"></i></button>
+        
         <div class="sidebar-scroll">
+            <!-- Logo dans le sidebar -->
+            <div class="sidebar-logo">
+                <img src="/assets/logo.png" alt="DigitalPay" />
+                <span style="font-family:var(--font-title); font-size:0.8rem; background:var(--gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent; font-weight:700;">DigitalPay</span>
+            </div>
+
+            <!-- 1. PROFIL INVITÉ -->
             <div class="sidebar-header">
                 <div class="sidebar-profile">
                     <div class="avatar"><i class="fa-regular fa-user"></i></div>
-                    <div class="info"><div class="name">Visiteur</div></div>
+                    <div class="info">
+                        <div class="name">Invité</div>
+                        <div class="email">connectez-vous</div>
+                    </div>
+                    <span class="badge">Gratuit</span>
                 </div>
             </div>
+
+            <!-- 2. MENU (Seulement l'essentiel pour les visiteurs) -->
             <div class="menu-section">
-                <div class="section-label">Navigation</div>
+                <div class="section-label">Général</div>
                 <ul class="section-items">
-                    <li><a href="/index.html"><i class="fa-solid fa-house"></i> Accueil</a></li>
+                    <li><a href="/index.html" class="active"><i class="fa-solid fa-house"></i> Accueil</a></li>
+                </ul>
+            </div>
+
+            <div class="menu-section">
+                <div class="section-label">Services</div>
+                <ul class="section-items">
                     <li><a href="/gaming.html"><i class="fa-solid fa-gamepad"></i> Gaming</a></li>
                     <li><a href="/streaming.html"><i class="fa-solid fa-film"></i> Streaming</a></li>
-                    <li><a href="/services-digitaux.html"><i class="fa-solid fa-wallet"></i> Services</a></li>
+                    <li><a href="/services-digitaux.html"><i class="fa-solid fa-wallet"></i> Services Digitaux</a></li>
                     <li><a href="/echange/index.html"><i class="fa-solid fa-arrows-left-right"></i> Échange</a></li>
+                </ul>
+            </div>
+
+            <div class="menu-section">
+                <div class="section-label">Cartes</div>
+                <ul class="section-items">
                     <li><a href="/giftcard/index.html"><i class="fa-solid fa-gift"></i> Gift Card</a></li>
                     <li><a href="/digitalpaycard/index.html"><i class="fa-solid fa-credit-card"></i> DigitalPay Card</a></li>
+                </ul>
+            </div>
+
+            <div class="menu-section">
+                <div class="section-label">Communauté</div>
+                <ul class="section-items">
+                    <li><a href="/chat/index.html"><i class="fa-solid fa-comment-dots"></i> Chat live</a></li>
+                    <li><a href="https://whatsapp.com/channel/0029VbAcGmCGufIrRej1sR04" target="_blank"><i class="fa-brands fa-whatsapp"></i> Chaîne WhatsApp</a></li>
+                    <li><a href="https://chat.whatsapp.com/FV6m1fFoFYMERC34UyQyVZ" target="_blank"><i class="fa-solid fa-users"></i> Groupe WhatsApp</a></li>
+                </ul>
+            </div>
+
+            <div class="menu-section">
+                <div class="section-label">Support</div>
+                <ul class="section-items">
+                    <li><a href="/support/help.html"><i class="fa-solid fa-circle-question"></i> Support</a></li>
                 </ul>
             </div>
         </div>
     </div>
 
+    <!-- MAIN -->
     <main>
         <section class="hero">
             <h1>L'accès <span>premium</span> aux services digitaux</h1>
@@ -259,10 +300,9 @@
             <button class="cta" onclick="window.location.href='/authentification/register.html'">Commencer</button>
         </section>
 
-        <!-- FLYERS avec défilement automatique lent (0.5x) -->
+        <!-- FLYERS -->
         <section class="flyers-section">
             <div class="flyers-track" id="flyersTrack">
-                <!-- Contenu dupliqué pour boucle infinie -->
                 <div class="flyer-item" onclick="location.href='/gaming.html'">
                     <img src="/flyerslive/flyers-gaming.png" alt="Gaming" loading="lazy" />
                     <div class="label">Free Fire – Gaming</div>
@@ -279,7 +319,7 @@
                     <img src="/flyerslive/flyer-other.png" alt="COD Mobile" loading="lazy" />
                     <div class="label">COD Mobile – Gaming</div>
                 </div>
-                <!-- Duplication pour l'infini -->
+                <!-- Duplication infini -->
                 <div class="flyer-item" onclick="location.href='/gaming.html'">
                     <img src="/flyerslive/flyers-gaming.png" alt="Gaming" loading="lazy" />
                     <div class="label">Free Fire – Gaming</div>
@@ -334,7 +374,7 @@
             </div>
         </div>
 
-        <!-- PRODUITS EN VEDETTE -->
+        <!-- PRODUITS -->
         <div class="section-header"><h2>Top ventes</h2><a href="/gaming.html">Voir tout →</a></div>
         <div class="products-grid">
             <div class="product-card" onclick="location.href='/gaming/freefire.html'">
@@ -375,7 +415,7 @@
         </div>
     </main>
 
-    <!-- SECTION COMMUNAUTÉ WHATSAPP (avant footer) -->
+    <!-- SECTION WHATSAPP -->
     <section class="community-section">
         <h2>Rejoignez notre communauté</h2>
         <p>Restez connecté pour ne manquer aucune promo et offre exclusive !</p>
@@ -395,7 +435,7 @@
         <span class="badge" id="cart-float-badge">0</span>
     </button>
 
-    <!-- FOOTER avec logo -->
+    <!-- FOOTER -->
     <footer>
         <div class="footer-grid">
             <div class="footer-brand">
@@ -441,7 +481,7 @@
     </footer>
 
     <script>
-        // SIDEBAR
+        // ===== SIDEBAR =====
         const overlay = document.getElementById('sidebar-overlay');
         const sidebar = document.getElementById('sidebar');
         document.getElementById('menu-open').addEventListener('click', () => {
@@ -460,7 +500,7 @@
             document.body.style.overflow = '';
         });
 
-        // PANIER BADGE
+        // ===== PANIER BADGE =====
         try {
             const cart = JSON.parse(localStorage.getItem('cart')) || [];
             document.getElementById('cart-float-badge').textContent = cart.length;
