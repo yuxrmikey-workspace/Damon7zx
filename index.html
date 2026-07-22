@@ -10,127 +10,1484 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 
     <style>
+        /* ============================================================
+           VARIABLES
+           ============================================================ */
         :root {
             --font-title: 'Orbitron', sans-serif;
             --font-body: 'Inter', sans-serif;
-            --bg: #000000;
+            --bg: #0a0a16;
             --bg-card: rgba(20, 20, 40, 0.6);
             --bg-card-hover: rgba(30, 30, 60, 0.8);
             --bg-sidebar: #0c0c18;
             --text: #ffffff;
             --text-sec: #a0a0c0;
             --text-tert: #6a6a8a;
+            --blue: #1a6bc4;
             --orange: #f97316;
             --gradient: linear-gradient(135deg, #1a6bc4, #f97316);
-            --shadow: 0 8px 30px rgba(0,0,0,0.4);
+            --shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+            --shadow-hover: 0 20px 60px rgba(26, 107, 196, 0.2);
             --radius: 16px;
             --radius-lg: 24px;
+            --transition: 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
-        * { margin:0; padding:0; box-sizing:border-box; }
-        body { font-family: var(--font-body); background: var(--bg); color: var(--text); line-height:1.6; min-height:100vh; }
-        a { text-decoration:none; color:inherit; }
-        img { max-width:100%; display:block; }
 
-        ::-webkit-scrollbar { width:4px; }
-        ::-webkit-scrollbar-track { background:var(--bg); }
-        ::-webkit-scrollbar-thumb { background:var(--orange); border-radius:10px; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-        /* HEADER – version non connectée (Inscription / Connexion) */
+        html {
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+            font-size: 16px;
+            -webkit-font-smoothing: antialiased;
+            min-height: 100vh;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+        img {
+            display: block;
+            max-width: 100%;
+            height: auto;
+        }
+
+        /* ============================================================
+           FOND DYNAMIQUE "LIVE" AMÉLIORÉ
+           ============================================================ */
+        .bg-container {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .bg-gradient {
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(ellipse at 20% 50%, rgba(26, 107, 196, 0.20), transparent 50%),
+                radial-gradient(ellipse at 80% 20%, rgba(249, 115, 22, 0.15), transparent 40%),
+                radial-gradient(ellipse at 50% 80%, rgba(26, 107, 196, 0.08), transparent 50%),
+                radial-gradient(ellipse at 70% 70%, rgba(139, 92, 246, 0.06), transparent 50%);
+            animation: gradientShift 20s ease-in-out infinite alternate;
+        }
+        @keyframes gradientShift {
+            0% { transform: scale(1) rotate(0deg); }
+            100% { transform: scale(1.15) rotate(2deg); }
+        }
+
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(100px);
+            opacity: 0.25;
+            animation: orbFloat 25s ease-in-out infinite alternate;
+            will-change: transform;
+        }
+        .orb-1 {
+            width: 500px;
+            height: 500px;
+            background: var(--blue);
+            top: -15%;
+            left: -10%;
+            animation-duration: 30s;
+        }
+        .orb-2 {
+            width: 400px;
+            height: 400px;
+            background: var(--orange);
+            bottom: -15%;
+            right: -10%;
+            animation-duration: 25s;
+            animation-delay: 4s;
+        }
+        .orb-3 {
+            width: 300px;
+            height: 300px;
+            background: #8b5cf6;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation-duration: 35s;
+            animation-delay: 8s;
+        }
+        .orb-4 {
+            width: 250px;
+            height: 250px;
+            background: #06b6d4;
+            top: 30%;
+            right: 5%;
+            animation-duration: 28s;
+            animation-delay: 2s;
+        }
+        @keyframes orbFloat {
+            0% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(40px, -50px) scale(1.15); }
+            66% { transform: translate(-30px, 40px) scale(0.85); }
+            100% { transform: translate(20px, -20px) scale(1.05); }
+        }
+
+        .particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: rgba(255, 255, 255, 0.12);
+            border-radius: 50%;
+            animation: particleDrift linear infinite;
+            will-change: transform;
+        }
+        @keyframes particleDrift {
+            0% { transform: translateY(0) translateX(0) scale(1); opacity: 0.2; }
+            100% { transform: translateY(-100vh) translateX(30px) scale(0.2); opacity: 0; }
+        }
+
+        /* ============================================================
+           SCROLLBAR
+           ============================================================ */
+        ::-webkit-scrollbar {
+            width: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--orange);
+            border-radius: 10px;
+        }
+
+        /* ============================================================
+           LOADER
+           ============================================================ */
+        #page-loader {
+            position: fixed;
+            inset: 0;
+            background: var(--bg);
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.6s ease, visibility 0.6s ease;
+        }
+        #page-loader.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+        .loader-ring {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 3px solid rgba(255, 255, 255, 0.04);
+            border-top-color: var(--orange);
+            animation: spin 0.8s linear infinite;
+            margin-bottom: 1rem;
+        }
+        @keyframes spin {
+            100% { transform: rotate(360deg); }
+        }
+        .loader-text {
+            font-family: var(--font-title);
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--text-sec);
+            letter-spacing: 2px;
+        }
+
+        /* ============================================================
+           TOAST REDIRECTION
+           ============================================================ */
+        #redirect-toast {
+            position: fixed;
+            inset: 0;
+            background: rgba(10, 10, 22, 0.94);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            z-index: 9998;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .toast-card {
+            text-align: center;
+            max-width: 360px;
+            width: 100%;
+            padding: 2.5rem 2rem;
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            border: 1px solid rgba(249, 115, 22, 0.08);
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6);
+            transform: scale(0.95);
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            backdrop-filter: blur(10px);
+        }
+        #redirect-toast.show .toast-card {
+            transform: scale(1);
+        }
+        .toast-card .icon {
+            font-size: 2.8rem;
+            color: var(--orange);
+            margin-bottom: 0.6rem;
+        }
+        .toast-card h3 {
+            font-family: var(--font-title);
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 0.2rem;
+        }
+        .toast-card p {
+            font-size: 0.85rem;
+            color: var(--text-sec);
+            margin-bottom: 1.2rem;
+        }
+        .toast-bar {
+            width: 100%;
+            height: 3px;
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        .toast-bar .fill {
+            width: 0%;
+            height: 100%;
+            background: var(--gradient);
+            border-radius: 4px;
+        }
+
+        /* ============================================================
+           HEADER – fond vitré
+           ============================================================ */
         header {
-            position:sticky; top:0; z-index:1000;
-            background:var(--bg-card); backdrop-filter:blur(14px); border-bottom:1px solid rgba(255,255,255,0.06);
-            padding:0 1.2rem; height:64px; display:flex; align-items:center; justify-content:space-between;
+            position: sticky;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            background: var(--bg-card);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            padding: 0 1.2rem;
+            height: auto;
+            min-height: 64px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
         }
-        .logo img { height:84px; width:auto; }
-        .nav-links { display:none; }
-        .header-actions { display:flex; align-items:center; gap:0.5rem; }
+        .logo img {
+            height: 84px;   /* 56px * 1.5 = 84px */
+            width: auto;
+            display: block;
+        }
+        .nav-links {
+            display: none;
+        }
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Deux boutons d'authentification (Inscription & Connexion) */
         .auth-btn {
-            background:var(--bg-card); backdrop-filter:blur(10px); border:1px solid var(--orange);
-            color:var(--orange); padding:0.3rem 0.8rem; border-radius:8px; font-size:0.7rem; font-weight:600;
-            cursor:pointer; transition:0.2s; text-decoration:none; display:inline-flex; align-items:center; gap:0.3rem;
+            background: var(--bg-card);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid var(--orange);
+            color: var(--orange);
+            padding: 0.3rem 0.8rem;
+            border-radius: 8px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            white-space: nowrap;
         }
-        .auth-btn:hover { transform:translateY(-2px); box-shadow:0 4px 16px rgba(249,115,22,0.2); }
-        .auth-btn.primary { background:var(--gradient); color:#fff; border-color:transparent; }
+        .auth-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(249, 115, 22, 0.2);
+            background: rgba(249, 115, 22, 0.1);
+        }
+        /* pour la cohérence, le bouton "Connexion" peut être un peu différent */
+        .auth-btn.primary {
+            background: var(--gradient);
+            color: #fff;
+            border-color: transparent;
+        }
+        .auth-btn.primary:hover {
+            background: var(--gradient);
+            box-shadow: 0 4px 16px rgba(249, 115, 22, 0.3);
+            opacity: 0.9;
+        }
+
         .menu-toggle {
-            background:var(--bg-card); backdrop-filter:blur(10px); border:1px solid rgba(255,255,255,0.06);
-            color:var(--text); font-size:1.3rem; cursor:pointer; padding:8px 10px; border-radius:12px;
+            background: var(--bg-card);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            color: var(--text);
+            font-size: 1.3rem;
+            cursor: pointer;
+            padding: 8px 10px;
+            border-radius: 12px;
+            transition: all 0.25s ease;
+        }
+        .menu-toggle:hover {
+            background: rgba(255, 255, 255, 0.06);
+            transform: scale(1.04);
+            border-color: rgba(255, 255, 255, 0.12);
         }
 
-        /* SIDEBAR */
-        .sidebar-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.6); backdrop-filter:blur(6px); z-index:2000; opacity:0; visibility:hidden; transition:0.3s; }
-        .sidebar-overlay.active { opacity:1; visibility:visible; }
+        /* ============================================================
+           SIDEBAR – Hauteur limitée, coins arrondis
+           ============================================================ */
+        .sidebar-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+        .sidebar-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
         .sidebar {
-            position:fixed; top:0; right:-340px; width:320px; max-width:88vw; height:100vh;
-            background:var(--bg-sidebar); z-index:2001; padding:1.2rem 0.8rem; transition:right 0.4s;
-            border-left:1px solid rgba(255,255,255,0.03); border-radius:24px 0 0 24px;
+            position: fixed;
+            top: 0;
+            right: -340px;
+            width: 320px;
+            max-width: 88vw;
+            height: 100vh;
+            max-height: 100vh;
+            background: var(--bg-sidebar);
+            z-index: 2001;
+            padding: 1.2rem 0.8rem 1rem;
+            transition: right 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+            display: flex;
+            flex-direction: column;
+            border-left: 1px solid rgba(255, 255, 255, 0.03);
+            box-shadow: -10px 0 50px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+            border-top-left-radius: 24px;
+            border-bottom-left-radius: 24px;
         }
-        .sidebar.active { right:0; }
-        .sidebar-close-btn { position:absolute; top:0.6rem; right:0.8rem; background:none; border:none; color:var(--text-tert); font-size:1.3rem; cursor:pointer; }
-        .sidebar-scroll { overflow-y:auto; max-height:calc(100vh - 120px); }
-        .sidebar-header { display:flex; align-items:center; gap:0.6rem; padding-bottom:0.8rem; border-bottom:1px solid rgba(255,255,255,0.04); margin-bottom:0.8rem; }
-        .sidebar-profile .avatar { width:40px; height:40px; border-radius:50%; background:var(--gradient); display:flex; align-items:center; justify-content:center; font-weight:700; color:#fff; }
-        .sidebar-profile .info .name { font-weight:600; font-size:0.9rem; }
-        .sidebar-footer .logout { background:none; border:none; color:#ef4444; font-size:0.8rem; cursor:pointer; padding:0.5rem 0.7rem; width:100%; text-align:left; border-radius:10px; display:flex; align-items:center; gap:0.7rem; }
+        .sidebar.active {
+            right: 0;
+        }
 
-        /* MAIN */
-        main { padding:0 1.2rem; max-width:1200px; margin:0 auto; position:relative; z-index:1; }
-        .hero { text-align:center; padding:2rem 0 1.5rem; }
-        .hero h1 { font-family:var(--font-title); font-size:2rem; font-weight:900; text-transform:uppercase; }
-        .hero h1 span { background:var(--gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
-        .hero p { font-size:0.9rem; color:var(--text-sec); max-width:440px; margin:0.5rem auto 1rem; }
-        .hero .cta { background:var(--gradient); color:#fff; padding:0.7rem 2rem; border-radius:50px; font-family:var(--font-title); font-size:0.8rem; font-weight:700; border:none; cursor:pointer; transition:0.3s; }
-        .hero .cta:hover { transform:scale(1.04); }
+        .sidebar-close-btn {
+            position: absolute;
+            top: 0.6rem;
+            right: 0.8rem;
+            background: none;
+            border: none;
+            color: var(--text-tert);
+            font-size: 1.3rem;
+            cursor: pointer;
+            padding: 4px 8px;
+            border-radius: 8px;
+            transition: all 0.25s ease;
+            z-index: 10;
+        }
+        .sidebar-close-btn:hover {
+            color: var(--text);
+            background: rgba(255, 255, 255, 0.04);
+            transform: rotate(90deg);
+        }
 
-        .section-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:0.8rem; }
-        .section-header h2 { font-family:var(--font-title); font-size:1.1rem; font-weight:700; text-transform:uppercase; }
-        .section-header a { font-size:0.7rem; color:var(--orange); font-weight:600; }
+        .sidebar-scroll {
+            flex: 1;
+            overflow-y: auto;
+            padding-right: 4px;
+            margin-top: 0.4rem;
+            max-height: calc(100vh - 120px);
+        }
+        .sidebar-scroll::-webkit-scrollbar {
+            width: 3px;
+        }
+        .sidebar-scroll::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .sidebar-scroll::-webkit-scrollbar-thumb {
+            background: var(--orange);
+            border-radius: 10px;
+        }
 
-        .categories-grid { display:grid; grid-template-columns:1fr 1fr; gap:0.8rem; padding-bottom:1.5rem; }
+        .sidebar-header {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            padding-bottom: 0.8rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+            margin-bottom: 0.8rem;
+            flex-shrink: 0;
+        }
+        .sidebar-header .mini-logo img {
+            height: 28px;
+            width: auto;
+        }
+        .sidebar-profile {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            flex: 1;
+            min-width: 0;
+        }
+        .sidebar-profile .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #fff;
+            flex-shrink: 0;
+        }
+        .sidebar-profile .info {
+            flex: 1;
+            min-width: 0;
+        }
+        .sidebar-profile .info .name {
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--text);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .sidebar-profile .info .email {
+            font-size: 0.65rem;
+            color: var(--text-tert);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .sidebar-profile .badge {
+            background: rgba(249, 115, 22, 0.12);
+            color: var(--orange);
+            font-size: 0.45rem;
+            font-weight: 700;
+            padding: 0.15rem 0.5rem;
+            border-radius: 12px;
+            text-transform: uppercase;
+            flex-shrink: 0;
+        }
+
+        /* Sections du menu */
+        .menu-section {
+            margin-bottom: 0.6rem;
+        }
+        .menu-section .section-label {
+            font-size: 0.55rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--text-tert);
+            padding: 0.2rem 0.6rem 0.3rem;
+            font-weight: 600;
+        }
+        .menu-section .section-items {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.1rem;
+        }
+        .menu-section .section-items li a {
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+            padding: 0.55rem 0.7rem;
+            border-radius: 10px;
+            font-weight: 500;
+            font-size: 0.85rem;
+            color: var(--text-sec);
+            transition: all 0.25s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .menu-section .section-items li a::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 3px;
+            height: 100%;
+            background: var(--gradient);
+            opacity: 0;
+            transition: opacity 0.25s ease;
+        }
+        .menu-section .section-items li a:hover::after,
+        .menu-section .section-items li a.active::after {
+            opacity: 1;
+        }
+        .menu-section .section-items li a:hover {
+            background: rgba(249, 115, 22, 0.06);
+            color: var(--orange);
+            padding-left: 1rem;
+        }
+        .menu-section .section-items li a i {
+            width: 20px;
+            font-size: 0.95rem;
+            color: var(--text-tert);
+            transition: color 0.25s ease;
+        }
+        .menu-section .section-items li a:hover i,
+        .menu-section .section-items li a.active i {
+            color: var(--orange);
+        }
+        .menu-section .section-items li a.active {
+            background: rgba(249, 115, 22, 0.06);
+            color: var(--orange);
+        }
+
+        .sidebar-footer {
+            border-top: 1px solid rgba(255, 255, 255, 0.03);
+            padding-top: 0.6rem;
+            margin-top: 0.3rem;
+            flex-shrink: 0;
+        }
+        .sidebar-footer .logout {
+            background: none;
+            border: none;
+            color: #ef4444;
+            font-size: 0.8rem;
+            cursor: pointer;
+            padding: 0.5rem 0.7rem;
+            width: 100%;
+            text-align: left;
+            border-radius: 10px;
+            transition: all 0.25s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+        }
+        .sidebar-footer .logout:hover {
+            background: rgba(239, 68, 68, 0.06);
+            padding-left: 1rem;
+        }
+        .sidebar-footer .logout i {
+            width: 20px;
+        }
+
+        /* ============================================================
+           MAIN
+           ============================================================ */
+        main {
+            position: relative;
+            z-index: 1;
+            padding: 0 1.2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* ============================================================
+           HERO
+           ============================================================ */
+        .hero {
+            padding: 2rem 0 1.5rem;
+            text-align: center;
+        }
+        .hero .badge {
+            display: inline-block;
+            background: rgba(249, 115, 22, 0.08);
+            color: var(--orange);
+            font-size: 0.55rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            padding: 0.15rem 0.7rem;
+            border-radius: 30px;
+            margin-bottom: 0.6rem;
+        }
+        .hero h1 {
+            font-family: var(--font-title);
+            font-size: 2rem;
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 0.3rem;
+            text-transform: uppercase;
+        }
+        .hero h1 span {
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .hero p {
+            font-size: 0.9rem;
+            color: var(--text-sec);
+            max-width: 440px;
+            margin: 0 auto 1rem;
+            font-weight: 300;
+        }
+        .hero .cta {
+            background: var(--gradient);
+            color: #fff;
+            padding: 0.7rem 2rem;
+            border-radius: 50px;
+            font-family: var(--font-title);
+            font-size: 0.8rem;
+            font-weight: 700;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 16px rgba(249, 115, 22, 0.15);
+        }
+        .hero .cta:hover {
+            transform: scale(1.04);
+            box-shadow: 0 8px 28px rgba(249, 115, 22, 0.2);
+        }
+
+        /* ============================================================
+           FLYERS
+           ============================================================ */
+        .flyers-section {
+            padding: 0.5rem 0 1.5rem;
+            overflow: hidden;
+        }
+        .flyers-track {
+            display: flex;
+            gap: 1.2rem;
+            animation: scroll-flyers 25s linear infinite;
+            width: max-content;
+            will-change: transform;
+        }
+        .flyers-track:hover {
+            animation-play-state: paused;
+        }
+        @keyframes scroll-flyers {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        .flyer-item {
+            flex: 0 0 260px;
+            border-radius: 14px;
+            overflow: hidden;
+            background: var(--bg-card);
+            border: 1px solid rgba(255, 255, 255, 0.02);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+            will-change: transform;
+            backdrop-filter: blur(10px);
+        }
+        .flyer-item:hover {
+            transform: scale(1.04) translateY(-4px);
+            border-color: rgba(249, 115, 22, 0.08);
+            box-shadow: var(--shadow-hover);
+        }
+        .flyer-item img {
+            width: 100%;
+            aspect-ratio: 16/10;
+            object-fit: cover;
+            display: block;
+        }
+        .flyer-item .label {
+            padding: 0.6rem 0.8rem 0.7rem;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-sec);
+            text-align: center;
+            background: rgba(0, 0, 0, 0.3);
+            transition: color 0.3s ease;
+        }
+        .flyer-item:hover .label {
+            color: var(--orange);
+        }
+
+        /* ============================================================
+           STATS
+           ============================================================ */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.6rem;
+            padding: 0.5rem 0 1.5rem;
+            text-align: center;
+        }
+        .stat {
+            padding: 0.6rem 0.3rem;
+            background: var(--bg-card);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.02);
+            transition: transform 0.2s ease;
+            backdrop-filter: blur(10px);
+        }
+        .stat:hover {
+            transform: translateY(-2px);
+        }
+        .stat .number {
+            font-family: var(--font-title);
+            font-size: 1.4rem;
+            font-weight: 900;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .stat .label {
+            font-size: 0.6rem;
+            color: var(--text-sec);
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+
+        /* ============================================================
+           CATÉGORIES
+           ============================================================ */
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.8rem;
+        }
+        .section-header h2 {
+            font-family: var(--font-title);
+            font-size: 1.1rem;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+        .section-header a {
+            font-size: 0.7rem;
+            color: var(--orange);
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+        .section-header a:hover {
+            color: var(--orange);
+        }
+
+        .categories-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.8rem;
+            padding-bottom: 1.5rem;
+        }
         .category-card {
-            background:var(--bg-card); border-radius:var(--radius); padding:1.2rem 0.8rem; text-align:center;
-            border:1px solid rgba(255,255,255,0.04); transition:0.3s; cursor:pointer; backdrop-filter:blur(12px);
+            background: var(--bg-card);
+            border-radius: var(--radius);
+            padding: 1.2rem 0.8rem;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+            will-change: transform;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(12px);
         }
-        .category-card:hover { transform:translateY(-4px); background:var(--bg-card-hover); border-color:rgba(249,115,22,0.08); }
-        .category-icon { font-size:1.8rem; background:var(--gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent; display:block; margin-bottom:0.3rem; }
-        .category-card h3 { font-family:var(--font-title); font-size:0.85rem; font-weight:600; text-transform:uppercase; }
-        .category-card p { font-size:0.65rem; color:var(--text-sec); }
+        .category-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--gradient);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .category-card:hover::before {
+            opacity: 1;
+        }
+        .category-card:hover {
+            transform: translateY(-4px) scale(1.02);
+            border-color: rgba(249, 115, 22, 0.08);
+            background: var(--bg-card-hover);
+            box-shadow: var(--shadow-hover);
+        }
+        .category-icon {
+            font-size: 1.8rem;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: block;
+            margin-bottom: 0.3rem;
+        }
+        .category-card h3 {
+            font-family: var(--font-title);
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+        .category-card p {
+            font-size: 0.65rem;
+            color: var(--text-sec);
+            opacity: 0.8;
+        }
 
-        .cart-float { position:fixed; bottom:1.2rem; right:1.2rem; z-index:500; background:var(--gradient); color:#fff; width:48px; height:48px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:1.1rem; box-shadow:0 4px 16px rgba(249,115,22,0.15); cursor:pointer; border:none; transition:0.3s; }
-        .cart-float:hover { transform:scale(1.08); }
-        .cart-float .badge { position:absolute; top:-4px; right:-4px; background:#ef4444; color:#fff; font-size:0.5rem; font-weight:700; width:16px; height:16px; border-radius:50%; display:flex; align-items:center; justify-content:center; }
+        .category-card .btn-card {
+            display: inline-block;
+            margin-top: 0.4rem;
+            padding: 0.25rem 1rem;
+            border-radius: 30px;
+            background: var(--gradient);
+            color: #fff;
+            font-size: 0.6rem;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            font-family: var(--font-body);
+        }
+        .category-card .btn-card:hover {
+            transform: scale(1.05);
+        }
 
-        /* FOOTER */
-        footer { background:var(--bg-sidebar); padding:2rem 1.2rem; margin:0 -1.2rem; border-top:1px solid rgba(255,255,255,0.02); }
-        .footer-grid { display:grid; grid-template-columns:1fr; gap:1.5rem; max-width:1200px; margin:0 auto; }
-        .footer-brand .brand { font-family:var(--font-title); font-size:1rem; font-weight:900; background:var(--gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
-        .footer-brand p { font-size:0.8rem; color:var(--text-sec); }
-        .footer-links-grid { display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
-        .footer-col h4 { font-family:var(--font-title); font-size:0.7rem; text-transform:uppercase; letter-spacing:1px; margin-bottom:0.4rem; }
-        .footer-col ul { list-style:none; display:flex; flex-direction:column; gap:0.3rem; }
-        .footer-col ul a { font-size:0.75rem; color:var(--text-tert); transition:0.3s; }
-        .footer-col ul a:hover { color:var(--orange); }
-        .footer-col ul li { font-size:0.75rem; color:var(--text-tert); display:flex; align-items:center; gap:0.4rem; }
-        .footer-col ul li i { color:var(--orange); width:16px; }
-        .footer-bottom { text-align:center; font-size:0.6rem; color:var(--text-tert); border-top:1px solid rgba(255,255,255,0.02); padding-top:0.8rem; margin-top:1rem; }
+        /* ============================================================
+           PRODUITS
+           ============================================================ */
+        .products-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            padding-bottom: 1.5rem;
+        }
+        .product-card {
+            background: var(--bg-card);
+            border-radius: var(--radius);
+            padding: 1.2rem 0.8rem 1rem;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.02);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+            will-change: transform;
+            position: relative;
+            backdrop-filter: blur(10px);
+        }
+        .product-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 50% 0%, rgba(249, 115, 22, 0.04), transparent 70%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .product-card:hover::before {
+            opacity: 1;
+        }
+        .product-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(249, 115, 22, 0.06);
+            background: var(--bg-card-hover);
+            box-shadow: var(--shadow-hover);
+        }
+        .product-card .logo-wrap {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            max-width: 140px;
+            margin: 0 auto 0.6rem;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.6rem;
+            transition: background 0.3s ease;
+        }
+        .product-card:hover .logo-wrap {
+            background: rgba(255, 255, 255, 0.04);
+        }
+        .product-card .logo-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            transition: transform 0.3s ease;
+        }
+        .product-card:hover .logo-wrap img {
+            transform: scale(1.04);
+        }
+        .product-card h4 {
+            font-family: var(--font-title);
+            font-size: 0.85rem;
+            font-weight: 700;
+            margin-bottom: 0.05rem;
+        }
+        .product-card .genre {
+            font-size: 0.6rem;
+            color: var(--text-tert);
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            margin-bottom: 0.1rem;
+        }
+        .product-card .price {
+            font-size: 0.8rem;
+            font-weight: 700;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.4rem;
+        }
+        .product-card .btn {
+            background: transparent;
+            color: var(--orange);
+            border: 1px solid var(--orange);
+            padding: 0.25rem 1rem;
+            border-radius: 30px;
+            font-size: 0.6rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: var(--font-body);
+        }
+        .product-card .btn:hover {
+            background: var(--gradient);
+            color: #fff;
+            border-color: transparent;
+        }
 
-        @media (min-width:768px) {
-            header { padding:0 2.5rem; }
-            .menu-toggle { display:none; }
-            .nav-links { display:flex; gap:1.8rem; }
-            .nav-links a { font-weight:500; font-size:0.8rem; color:var(--text-sec); transition:0.3s; position:relative; }
-            .nav-links a::after { content:''; position:absolute; bottom:-2px; left:0; width:0; height:2px; background:var(--gradient); transition:width 0.3s; border-radius:10px; }
-            .nav-links a:hover { color:var(--text); }
-            .nav-links a:hover::after { width:100%; }
-            main { padding:0 2.5rem; }
-            .categories-grid { grid-template-columns:repeat(3,1fr); gap:1.2rem; }
-            .footer-grid { grid-template-columns:1fr 2fr; gap:2rem; }
-            .footer-links-grid { grid-template-columns:repeat(3,1fr); }
+        /* ============================================================
+           COMMUNAUTÉ
+           ============================================================ */
+        .community-section {
+            padding: 1.5rem 0 2rem;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.02);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.02);
+            margin: 0.5rem 0 1.5rem;
+        }
+        .community-section .icon {
+            font-size: 2.5rem;
+            color: var(--orange);
+            margin-bottom: 0.5rem;
+        }
+        .community-section h2 {
+            font-family: var(--font-title);
+            font-size: 1.2rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-bottom: 0.2rem;
+        }
+        .community-section p {
+            font-size: 0.85rem;
+            color: var(--text-sec);
+            max-width: 460px;
+            margin: 0 auto 0.8rem;
+        }
+        .community-links {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.8rem;
+        }
+        .community-links .btn-whatsapp {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            padding: 0.7rem 1.8rem;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            text-decoration: none;
+            width: 100%;
+            max-width: 320px;
+            justify-content: center;
+        }
+        .community-links .btn-whatsapp:hover {
+            transform: scale(1.04);
+            box-shadow: 0 8px 30px rgba(37, 211, 102, 0.3);
+        }
+        .community-links .btn-whatsapp i {
+            font-size: 1.2rem;
+        }
+        .community-links .btn-whatsapp.green {
+            background: #25d366;
+            color: #fff;
+        }
+        .community-links .btn-whatsapp.dark {
+            background: #1a7a3a;
+            color: #fff;
+        }
+        .community-section .secure {
+            font-size: 0.65rem;
+            color: var(--text-tert);
+            margin-top: 0.5rem;
+        }
+
+        /* ============================================================
+           FAQ
+           ============================================================ */
+        .faq-section {
+            padding: 0.5rem 0 2rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .faq-item {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.02);
+            padding: 0.6rem 0;
+            transition: border-color 0.3s ease;
+        }
+        .faq-item:hover {
+            border-color: rgba(249, 115, 22, 0.06);
+        }
+        .faq-btn {
+            width: 100%;
+            background: none;
+            border: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            font-family: var(--font-body);
+            font-weight: 600;
+            font-size: 0.8rem;
+            color: var(--text);
+            padding: 0.3rem 0;
+            transition: color 0.3s ease;
+        }
+        .faq-btn:hover {
+            color: var(--orange);
+        }
+        .faq-btn i {
+            color: var(--orange);
+            font-size: 0.7rem;
+            transition: transform 0.35s ease;
+        }
+        .faq-item.active .faq-btn i {
+            transform: rotate(180deg);
+        }
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.35s ease, padding 0.3s ease;
+            color: var(--text-sec);
+            font-size: 0.75rem;
+        }
+        .faq-item.active .faq-answer {
+            max-height: 200px;
+            padding: 0.2rem 0 0.1rem;
+        }
+
+        /* ============================================================
+           WHATSAPP FLOATING BUBBLE
+           ============================================================ */
+        .whatsapp-float {
+            position: fixed;
+            bottom: 1.2rem;
+            left: 1.2rem;
+            z-index: 500;
+            background: #25d366;
+            color: #fff;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            box-shadow: 0 4px 20px rgba(37, 211, 102, 0.35);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+            border: none;
+            text-decoration: none;
+            animation: float-bubble 3s ease-in-out infinite;
+        }
+        .whatsapp-float:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 35px rgba(37, 211, 102, 0.5);
+        }
+        @keyframes float-bubble {
+            0%,100% { transform: translateY(0); }
+            50% { transform: translateY(-6px); }
+        }
+        .whatsapp-float .pulse-ring {
+            position: absolute;
+            top: -4px;
+            left: -4px;
+            width: calc(100% + 8px);
+            height: calc(100% + 8px);
+            border-radius: 50%;
+            border: 2px solid rgba(37, 211, 102, 0.3);
+            animation: pulse-ring 2s ease-out infinite;
+        }
+        @keyframes pulse-ring {
+            0% { transform: scale(1); opacity: 0.8; }
+            100% { transform: scale(1.4); opacity: 0; }
+        }
+
+        /* ============================================================
+           CART FLOATING BUTTON
+           ============================================================ */
+        .cart-float {
+            position: fixed;
+            bottom: 1.2rem;
+            right: 1.2rem;
+            z-index: 500;
+            background: var(--gradient);
+            color: #fff;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            box-shadow: 0 4px 16px rgba(249, 115, 22, 0.15);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+            border: none;
+            will-change: transform;
+        }
+        .cart-float:hover {
+            transform: scale(1.08);
+            box-shadow: 0 8px 28px rgba(249, 115, 22, 0.25);
+        }
+        .cart-float .badge {
+            position: absolute;
+            top: -4px;
+            right: -4px;
+            background: #ef4444;
+            color: #fff;
+            font-size: 0.5rem;
+            font-weight: 700;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* ============================================================
+           FOOTER
+           ============================================================ */
+        footer {
+            background: var(--bg-sidebar);
+            padding: 2rem 1.2rem 1.2rem;
+            margin: 0 -1.2rem;
+            padding-left: 1.2rem;
+            padding-right: 1.2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.02);
+        }
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .footer-brand .brand {
+            font-family: var(--font-title);
+            font-size: 1rem;
+            font-weight: 900;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 1px;
+        }
+        .footer-brand p {
+            font-size: 0.8rem;
+            color: var(--text-sec);
+            margin-top: 0.2rem;
+        }
+        .footer-links-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+        .footer-col h4 {
+            font-family: var(--font-title);
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text);
+            margin-bottom: 0.4rem;
+        }
+        .footer-col ul {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.3rem;
+        }
+        .footer-col ul a {
+            font-size: 0.75rem;
+            color: var(--text-tert);
+            transition: color 0.3s ease;
+        }
+        .footer-col ul a:hover {
+            color: var(--orange);
+        }
+        .footer-col ul li {
+            font-size: 0.75rem;
+            color: var(--text-tert);
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+        .footer-col ul li i {
+            color: var(--orange);
+            width: 16px;
+        }
+        .footer-bottom {
+            text-align: center;
+            font-size: 0.6rem;
+            color: var(--text-tert);
+            border-top: 1px solid rgba(255, 255, 255, 0.02);
+            padding-top: 0.8rem;
+            margin-top: 1rem;
+        }
+
+        /* ============================================================
+           DESKTOP
+           ============================================================ */
+        @media (min-width: 768px) {
+            header {
+                padding: 0 2.5rem;
+            }
+            .logo img {
+                height: 84px; /* same as mobile, 1.5x */
+            }
+            .menu-toggle {
+                display: none;
+            }
+            .nav-links {
+                display: flex;
+                gap: 1.8rem;
+            }
+            .nav-links a {
+                font-weight: 500;
+                font-size: 0.8rem;
+                color: var(--text-sec);
+                transition: color 0.3s ease;
+                position: relative;
+            }
+            .nav-links a::after {
+                content: '';
+                position: absolute;
+                bottom: -2px;
+                left: 0;
+                width: 0;
+                height: 2px;
+                background: var(--gradient);
+                transition: width 0.3s ease;
+                border-radius: 10px;
+            }
+            .nav-links a:hover {
+                color: var(--text);
+            }
+            .nav-links a:hover::after {
+                width: 100%;
+            }
+
+            main {
+                padding: 0 2.5rem;
+            }
+
+            .hero {
+                padding: 3rem 0 2rem;
+            }
+            .hero h1 {
+                font-size: 3rem;
+            }
+            .hero p {
+                font-size: 1rem;
+            }
+            .hero .cta {
+                padding: 0.9rem 2.5rem;
+                font-size: 0.9rem;
+            }
+
+            .flyer-item {
+                flex: 0 0 320px;
+            }
+
+            .stats {
+                gap: 1.2rem;
+            }
+            .stat .number {
+                font-size: 1.8rem;
+            }
+            .stat .label {
+                font-size: 0.7rem;
+            }
+
+            .categories-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 1.2rem;
+            }
+            .category-card {
+                padding: 1.8rem 1rem;
+            }
+            .category-card h3 {
+                font-size: 0.95rem;
+            }
+            .category-icon {
+                font-size: 2rem;
+            }
+
+            .products-grid {
+                grid-template-columns: repeat(4, 1fr);
+                gap: 1.2rem;
+            }
+            .product-card {
+                padding: 1.5rem 1rem 1.2rem;
+            }
+            .product-card .logo-wrap {
+                max-width: 160px;
+            }
+            .product-card h4 {
+                font-size: 0.95rem;
+            }
+            .product-card .price {
+                font-size: 0.9rem;
+            }
+            .product-card .btn {
+                font-size: 0.65rem;
+                padding: 0.3rem 1.2rem;
+            }
+
+            .community-section {
+                padding: 2rem 0 2.5rem;
+            }
+            .community-section h2 {
+                font-size: 1.4rem;
+            }
+            .community-links {
+                flex-direction: row;
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+            .community-links .btn-whatsapp {
+                width: auto;
+                min-width: 200px;
+            }
+
+            .faq-section {
+                padding: 0.5rem 0 2.5rem;
+            }
+            .faq-btn {
+                font-size: 0.9rem;
+            }
+
+            .whatsapp-float {
+                width: 64px;
+                height: 64px;
+                font-size: 2rem;
+                bottom: 1.8rem;
+                left: 1.8rem;
+            }
+
+            .cart-float {
+                width: 54px;
+                height: 54px;
+                font-size: 1.2rem;
+                bottom: 1.8rem;
+                right: 1.8rem;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr 2fr;
+                gap: 2rem;
+            }
+            .footer-links-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            .footer-bottom {
+                margin-top: 1.5rem;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .hero h1 {
+                font-size: 3.8rem;
+            }
+            .hero p {
+                font-size: 1.1rem;
+            }
+            .flyer-item {
+                flex: 0 0 380px;
+            }
+            .product-card .logo-wrap {
+                max-width: 180px;
+            }
+            .categories-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        /* ============================================================
+           UTILITIES
+           ============================================================ */
+        .hidden {
+            display: none !important;
         }
     </style>
 </head>
 <body>
+
+    <!-- ============================================================
+    FOND DYNAMIQUE "LIVE"
+    ============================================================ -->
+    <div class="bg-container">
+        <div class="bg-gradient"></div>
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+        <div class="orb orb-4"></div>
+        <div id="particles-container"></div>
+    </div>
+
+    <!-- ============================================================
+    LOADER
+    ============================================================ -->
+    <div id="page-loader">
+        <div class="loader-ring"></div>
+        <div class="loader-text">DigitalPay</div>
+    </div>
+
+    <!-- ============================================================
+    TOAST REDIRECTION
+    ============================================================ -->
+    <div id="redirect-toast">
+        <div class="toast-card">
+            <div class="icon"><i class="fa-solid fa-rocket"></i></div>
+            <h3>Redirection</h3>
+            <p>Chargement...</p>
+            <div class="toast-bar">
+                <div class="fill" id="toast-bar"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================
+    HEADER
+    ============================================================ -->
     <header>
-        <a href="/index.html" class="logo"><img src="/assets/logo.png" alt="DigitalPay HT" /></a>
+        <a href="/index.html" class="logo">
+            <img src="/assets/logo.png" alt="DigitalPay HT" />
+        </a>
+
         <nav class="nav-links">
             <a href="/index.html">Accueil</a>
             <a href="/gaming.html">Gaming</a>
@@ -139,77 +1496,285 @@
             <a href="/echange/index.html">Échange</a>
             <a href="/giftcard/index.html">Gift Card</a>
             <a href="/digitalpaycard/index.html">DigitalPay Card</a>
+            <a href="/support/help.html">Support</a>
         </nav>
+
         <div class="header-actions">
-            <a href="/authentification/register.html" class="auth-btn"><i class="fa-solid fa-user-plus"></i> Inscription</a>
-            <a href="/authentification/login.html" class="auth-btn primary"><i class="fa-solid fa-arrow-right-to-bracket"></i> Connexion</a>
+            <!-- Deux boutons : Inscription et Connexion -->
+            <a href="/authentification/register.html" class="auth-btn">
+                <i class="fa-solid fa-user-plus"></i> Inscription
+            </a>
+            <a href="/authentification/login.html" class="auth-btn primary">
+                <i class="fa-solid fa-arrow-right-to-bracket"></i> Connexion
+            </a>
             <button class="menu-toggle" id="menu-open"><i class="fa-solid fa-bars"></i></button>
         </div>
     </header>
 
+    <!-- ============================================================
+    SIDEBAR
+    ============================================================ -->
     <div class="sidebar-overlay" id="sidebar-overlay"></div>
     <div class="sidebar" id="sidebar">
-        <button class="sidebar-close-btn" id="sidebar-close-btn"><i class="fa-solid fa-xmark"></i></button>
+
+        <button class="sidebar-close-btn" id="sidebar-close-btn" aria-label="Fermer le menu">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+
         <div class="sidebar-scroll">
+
+            <!-- En-tête : logo + profil -->
             <div class="sidebar-header">
+                <div class="mini-logo">
+                    <img src="/assets/logo.png" alt="DigitalPay HT" />
+                </div>
                 <div class="sidebar-profile">
                     <div class="avatar"><i class="fa-regular fa-user"></i></div>
-                    <div class="info"><div class="name">Visiteur</div></div>
+                    <div class="info">
+                        <div class="name">Visiteur</div>
+                        <div class="email">connectez-vous</div>
+                    </div>
+                    <span class="badge">Gratuit</span>
                 </div>
             </div>
-            <div class="menu-section"><div class="section-label">Général</div><ul class="section-items"><li><a href="/index.html"><i class="fa-solid fa-house"></i> Accueil</a></li></ul></div>
-            <div class="menu-section"><div class="section-label">Services</div><ul class="section-items"><li><a href="/gaming.html"><i class="fa-solid fa-gamepad"></i> Gaming</a></li><li><a href="/streaming.html"><i class="fa-solid fa-film"></i> Streaming</a></li><li><a href="/services-digitaux.html"><i class="fa-solid fa-wallet"></i> Services</a></li><li><a href="/echange/index.html"><i class="fa-solid fa-arrows-left-right"></i> Échange</a></li></ul></div>
-            <div class="menu-section"><div class="section-label">Cartes</div><ul class="section-items"><li><a href="/giftcard/index.html"><i class="fa-solid fa-gift"></i> Gift Card</a></li><li><a href="/digitalpaycard/index.html"><i class="fa-solid fa-credit-card"></i> DigitalPay Card</a></li></ul></div>
+
+            <!-- Général -->
+            <div class="menu-section">
+                <div class="section-label">Général</div>
+                <ul class="section-items">
+                    <li><a href="/index.html" class="active"><i class="fa-solid fa-house"></i> Accueil</a></li>
+                    <li><a href="/wallet/home.html"><i class="fa-solid fa-coins"></i> Wallet</a></li>
+                </ul>
+            </div>
+
+            <!-- Services -->
+            <div class="menu-section">
+                <div class="section-label">Services</div>
+                <ul class="section-items">
+                    <li><a href="/gaming.html"><i class="fa-solid fa-gamepad"></i> Gaming</a></li>
+                    <li><a href="/streaming.html"><i class="fa-solid fa-film"></i> Streaming</a></li>
+                    <li><a href="/services-digitaux.html"><i class="fa-solid fa-wallet"></i> Services Digitaux</a></li>
+                    <li><a href="/echange/index.html"><i class="fa-solid fa-arrows-left-right"></i> Échange</a></li>
+                </ul>
+            </div>
+
+            <!-- Cartes -->
+            <div class="menu-section">
+                <div class="section-label">Cartes</div>
+                <ul class="section-items">
+                    <li><a href="/giftcard/index.html"><i class="fa-solid fa-gift"></i> Gift Card</a></li>
+                    <li><a href="/digitalpaycard/index.html"><i class="fa-solid fa-credit-card"></i> DigitalPay Card</a></li>
+                </ul>
+            </div>
+
+            <!-- Communauté -->
+            <div class="menu-section">
+                <div class="section-label">Communauté</div>
+                <ul class="section-items">
+                    <li><a href="/chat/index.html"><i class="fa-solid fa-comment-dots"></i> Chat live</a></li>
+                    <li><a href="https://whatsapp.com/channel/0029VbAcGmCGufIrRej1sR04" target="_blank"><i class="fa-brands fa-whatsapp"></i> Chaîne WhatsApp</a></li>
+                    <li><a href="https://chat.whatsapp.com/FV6m1fFoFYMERC34UyQyVZ" target="_blank"><i class="fa-solid fa-users"></i> Groupe WhatsApp</a></li>
+                </ul>
+            </div>
+
+            <!-- Support -->
+            <div class="menu-section">
+                <div class="section-label">Support</div>
+                <ul class="section-items">
+                    <li><a href="/support/help.html"><i class="fa-solid fa-circle-question"></i> Support</a></li>
+                </ul>
+            </div>
+
+        </div>
+
+        <!-- Déconnexion (dernier) -->
+        <div class="sidebar-footer">
+            <button class="logout" id="sidebar-logout" style="display:none;">
+                <i class="fa-solid fa-arrow-right-from-bracket"></i> Se déconnecter
+            </button>
         </div>
     </div>
 
+    <!-- ============================================================
+    MAIN
+    ============================================================ -->
     <main>
+
+        <!-- ===== HERO ===== -->
         <section class="hero">
+            <div class="badge">⚡ Live</div>
             <h1>L'accès <span>premium</span> aux services digitaux</h1>
             <p>Recharges gaming, streaming, services financiers, gift cards et cartes virtuelles en Haïti.</p>
-            <button class="cta" onclick="window.location.href='/authentification/register.html'">Commencer</button>
+            <button class="cta" id="main-cta">Commencer</button>
         </section>
 
-        <div class="section-header"><h2>Catégories</h2><a href="/gaming.html">Voir tout →</a></div>
+        <!-- ===== FLYERS ===== -->
+        <section class="flyers-section">
+            <div class="flyers-track" id="flyers-track"></div>
+        </section>
+
+        <!-- ===== STATS ===== -->
+        <section class="stats">
+            <div class="stat">
+                <div class="number">10+</div>
+                <div class="label">Jeux</div>
+            </div>
+            <div class="stat">
+                <div class="number">1500+</div>
+                <div class="label">Clients</div>
+            </div>
+            <div class="stat">
+                <div class="number">5000+</div>
+                <div class="label">Recharges</div>
+            </div>
+        </section>
+
+        <!-- ===== CATÉGORIES ===== -->
+        <div class="section-header">
+            <h2>Catégories</h2>
+            <a href="/gaming.html">Voir tout →</a>
+        </div>
         <div class="categories-grid">
             <div class="category-card" onclick="location.href='/gaming.html'">
                 <span class="category-icon"><i class="fa-solid fa-gamepad"></i></span>
                 <h3>Gaming</h3>
                 <p>Diamants, UC, Robux</p>
             </div>
+
             <div class="category-card" onclick="location.href='/streaming.html'">
                 <span class="category-icon"><i class="fa-solid fa-film"></i></span>
                 <h3>Streaming</h3>
                 <p>Netflix, Disney+, Prime</p>
             </div>
+
             <div class="category-card" onclick="location.href='/services-digitaux.html'">
                 <span class="category-icon"><i class="fa-solid fa-wallet"></i></span>
                 <h3>Services</h3>
                 <p>Wise, PayPal, MERU</p>
             </div>
+
             <div class="category-card" onclick="location.href='/echange/index.html'">
                 <span class="category-icon"><i class="fa-solid fa-arrows-left-right"></i></span>
                 <h3>Échange</h3>
                 <p>Moncash, Natcash, Wise</p>
             </div>
+
             <div class="category-card" onclick="location.href='/giftcard/index.html'">
                 <span class="category-icon"><i class="fa-solid fa-gift"></i></span>
                 <h3>Gift Card</h3>
-                <p>PlayStation, Netflix, Apple</p>
+                <p>PlayStation, Netflix, Apple, Google Play</p>
+                <button class="btn-card" onclick="event.stopPropagation();location.href='/giftcard/index.html'">Accéder à Gift Card</button>
             </div>
+
             <div class="category-card" onclick="location.href='/digitalpaycard/index.html'">
                 <span class="category-icon"><i class="fa-solid fa-credit-card"></i></span>
                 <h3>DigitalPay Card</h3>
-                <p>Carte virtuelle instantanée</p>
+                <p>Créez votre carte de crédit virtuelle en quelques secondes</p>
+                <button class="btn-card" onclick="event.stopPropagation();location.href='/digitalpaycard/index.html'">Créer ma carte</button>
             </div>
         </div>
+
+        <!-- ===== PRODUITS ===== -->
+        <div class="section-header">
+            <h2>Top ventes</h2>
+            <a href="/gaming.html">Voir tout →</a>
+        </div>
+        <div class="products-grid">
+            <div class="product-card" onclick="location.href='/gaming.html'">
+                <div class="logo-wrap"><img src="/assets/freefire-logo.png" alt="Free Fire" loading="lazy" /></div>
+                <h4>Free Fire</h4>
+                <div class="genre">Battle Royale</div>
+                <div class="price">157 HTG</div>
+                <button class="btn">Offres</button>
+            </div>
+            <div class="product-card" onclick="location.href='/streaming.html'">
+                <div class="logo-wrap"><img src="/assets/netflix-logo.png" alt="Netflix" loading="lazy" /></div>
+                <h4>Netflix</h4>
+                <div class="genre">Streaming</div>
+                <div class="price">400 Gdes</div>
+                <button class="btn">Offres</button>
+            </div>
+            <div class="product-card" onclick="location.href='/services-digitaux.html'">
+                <div class="logo-wrap"><img src="/assets/meru-logo.png" alt="MERU" loading="lazy" /></div>
+                <h4>MERU</h4>
+                <div class="genre">Finances</div>
+                <div class="price">5 – 5000 $</div>
+                <button class="btn">Offres</button>
+            </div>
+            <div class="product-card" onclick="location.href='/services-digitaux.html'">
+                <div class="logo-wrap"><img src="/assets/wise-logo.png" alt="Wise" loading="lazy" /></div>
+                <h4>Wise</h4>
+                <div class="genre">Transfert</div>
+                <div class="price">5 – 5000 $</div>
+                <button class="btn">Offres</button>
+            </div>
+        </div>
+
+        <!-- ===== COMMUNAUTÉ ===== -->
+        <section class="community-section">
+            <div class="icon"><i class="fa-brands fa-whatsapp"></i></div>
+            <h2>Rejoignez notre communauté</h2>
+            <p>Restez connecté pour ne manquer aucune promo, astuce gaming et offre exclusive !</p>
+            <div class="community-links">
+                <a href="https://whatsapp.com/channel/0029VbAcGmCGufIrRej1sR04" class="btn-whatsapp green" target="_blank">
+                    <i class="fa-brands fa-whatsapp"></i> Chaîne WhatsApp
+                </a>
+                <a href="https://chat.whatsapp.com/FV6m1fFoFYMERC34UyQyVZ" class="btn-whatsapp dark" target="_blank">
+                    <i class="fa-solid fa-users"></i> Groupe WhatsApp
+                </a>
+            </div>
+            <div class="secure"><i class="fa-solid fa-shield-halved"></i> Redirection sécurisée vers WhatsApp</div>
+        </section>
+
+        <!-- ===== FAQ ===== -->
+        <section class="faq-section">
+            <div class="section-header" style="justify-content:center;">
+                <h2 style="font-size:1rem;">FAQ</h2>
+            </div>
+            <div class="faq-item active">
+                <button class="faq-btn">
+                    <span>Modes de paiement ?</span>
+                    <i class="fa-solid fa-chevron-down"></i>
+                </button>
+                <div class="faq-answer">Moncash, Natcash, Wise, PayPal, USDT, TRONX.</div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-btn">
+                    <span>Délai de livraison ?</span>
+                    <i class="fa-solid fa-chevron-down"></i>
+                </button>
+                <div class="faq-answer">5 à 30 min après validation.</div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-btn">
+                    <span>Échange de devises ?</span>
+                    <i class="fa-solid fa-chevron-down"></i>
+                </button>
+                <div class="faq-answer">Entre Moncash, Natcash, Wise et MERU.</div>
+            </div>
+        </section>
+
     </main>
 
-    <button class="cart-float" onclick="window.location.href='/panier.html'" aria-label="Panier">
+    <!-- ============================================================
+    WHATSAPP FLOATING BUBBLE
+    ============================================================ -->
+    <a href="https://wa.me/50936535649" class="whatsapp-float" target="_blank" aria-label="WhatsApp">
+        <span class="pulse-ring"></span>
+        <i class="fa-brands fa-whatsapp"></i>
+    </a>
+
+    <!-- ============================================================
+    CART FLOATING BUTTON
+    ============================================================ -->
+    <button class="cart-float" onclick="window.location.href='/commandes/commandes.html'" aria-label="Panier">
         <i class="fa-solid fa-bag-shopping"></i>
         <span class="badge" id="cart-float-badge">0</span>
     </button>
 
+    <!-- ============================================================
+    FOOTER
+    ============================================================ -->
     <footer>
         <div class="footer-grid">
             <div class="footer-brand">
@@ -217,40 +1782,1481 @@
                 <p>Votre plateforme de recharge gaming, streaming, services financiers, gift cards et cartes virtuelles en Haïti.</p>
             </div>
             <div class="footer-links-grid">
-                <div class="footer-col"><h4>Liens rapides</h4><ul><li><a href="/index.html">Accueil</a></li><li><a href="/gaming.html">Gaming</a></li><li><a href="/streaming.html">Streaming</a></li><li><a href="/services-digitaux.html">Services</a></li><li><a href="/echange/index.html">Échange</a></li></ul></div>
-                <div class="footer-col"><h4>Support</h4><ul><li><a href="/support/help.html">Centre d'aide</a></li><li><a href="/legal/conditions-utilisation.html">Conditions</a></li></ul></div>
-                <div class="footer-col"><h4>Contact</h4><ul><li><i class="fa-regular fa-envelope"></i> contact@digitalpay.ht</li><li><i class="fa-solid fa-phone"></i> +509 3399 0578</li><li><i class="fa-brands fa-whatsapp"></i> +509 3653 5649</li></ul></div>
+                <div class="footer-col">
+                    <h4>Liens rapides</h4>
+                    <ul>
+                        <li><a href="/index.html">Accueil</a></li>
+                        <li><a href="/gaming.html">Gaming</a></li>
+                        <li><a href="/streaming.html">Streaming</a></li>
+                        <li><a href="/services-digitaux.html">Services</a></li>
+                        <li><a href="/echange/index.html">Échange</a></li>
+                        <li><a href="/giftcard/index.html">Gift Card</a></li>
+                        <li><a href="/digitalpaycard/index.html">DigitalPay Card</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Support</h4>
+                    <ul>
+                        <li><a href="/support/help.html">Centre d'aide</a></li>
+                        <li><a href="/legal/conditions-utilisation.html">Conditions</a></li>
+                        <li><a href="/legal/politique-confidentialite.html">Confidentialité</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Contact</h4>
+                    <ul>
+                        <li><i class="fa-regular fa-envelope"></i> contact@digitalpay.ht</li>
+                        <li><i class="fa-solid fa-phone"></i> +509 3399 0578</li>
+                        <li><i class="fa-brands fa-whatsapp"></i> +509 3653 5649</li>
+                    </ul>
+                </div>
             </div>
         </div>
-        <div class="footer-bottom"><span>&copy; 2026 DigitalPay. Tous droits réservés.</span></div>
+        <div class="footer-bottom">
+            <span>&copy; 2026 DigitalPay. Tous droits réservés.</span>
+            <span>Paiements sécurisés • Support WhatsApp</span>
+        </div>
     </footer>
 
+    <!-- ============================================================
+    FIREBASE
+    ============================================================ -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js">
+    </script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js">
+    </script>
+
     <script>
-        // SIDEBAR
-        document.getElementById('menu-open').addEventListener('click', () => {
-            document.getElementById('sidebar-overlay').classList.add('active');
-            document.getElementById('sidebar').classList.add('active');
-            document.body.style.overflow = 'hidden';
-        });
-        document.getElementById('sidebar-close-btn').addEventListener('click', () => {
-            document.getElementById('sidebar-overlay').classList.remove('active');
-            document.getElementById('sidebar').classList.remove('active');
-            document.body.style.overflow = '';
-        });
-        document.getElementById('sidebar-overlay').addEventListener('click', () => {
-            document.getElementById('sidebar-overlay').classList.remove('active');
-            document.getElementById('sidebar').classList.remove('active');
-            document.body.style.overflow = '';
+        // ============================================================
+        // 1. FIREBASE CONFIG
+        // ============================================================
+        const firebaseConfig = {
+  apiKey: "AIzaSyDCj6vyMXsdEMlH-vYOWdwcfoD2VI622Uc",
+  authDomain: "digitalpayhaiti-509.firebaseapp.com",
+  projectId: "digitalpayhaiti-509",
+  storageBucket: "digitalpayhaiti-509.firebasestorage.app",
+  messagingSenderId: "987271970971",
+  appId: "1:987271970971:web:482635fb1202dc575ac63e",
+};
+
+        if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+
+        // ============================================================
+        // 2. PARTICULES
+        // ============================================================
+        (function() {
+            const container = document.getElementById('particles-container');
+            for (let i = 0; i < 60; i++) {
+                const p = document.createElement('div');
+                p.className = 'particle';
+                const size = 2 + Math.random() * 3;
+                p.style.width = size + 'px';
+                p.style.height = size + 'px';
+                p.style.left = Math.random() * 100 + '%';
+                p.style.top = Math.random() * 100 + '%';
+                p.style.animationDuration = (15 + Math.random() * 35) + 's';
+                p.style.animationDelay = (Math.random() * 25) + 's';
+                p.style.opacity = 0.1 + Math.random() * 0.25;
+                container.appendChild(p);
+            }
+        })();
+
+        // ============================================================
+        // 3. LOADER
+        // ============================================================
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(function() {
+                document.getElementById('page-loader').classList.add('hidden');
+            }, 1200);
         });
 
-        // PANIER BADGE
-        function updateBadge() {
+        // ============================================================
+        // 4. AUTH STATE (pour adapter les boutons dans le header ? on garde les liens statiques)
+        // Mais on peut afficher le nom si connecté, etc. On garde simple.
+        // ============================================================
+        const authBtn = document.querySelector('.header-actions .auth-btn.primary'); // connexion
+        const registerBtn = document.querySelector('.header-actions .auth-btn:not(.primary)'); // inscription
+        // On peut les modifier si connecté, mais on ne gère pas le changement ici.
+        // On garde le comportement existant pour le sidebar.
+
+        // On gère l'état de connexion pour le sidebar
+        const sidebarName = document.querySelector('.sidebar-profile .name');
+        const sidebarEmail = document.querySelector('.sidebar-profile .email');
+        const sidebarBadge = document.querySelector('.sidebar-profile .badge');
+        const logoutBtn = document.getElementById('sidebar-logout');
+
+        firebase.auth().onAuthStateChanged(function(user) {
+            if (user) {
+                // Mise à jour du sidebar
+                sidebarName.textContent = user.displayName || 'Utilisateur';
+                sidebarEmail.textContent = user.email || 'connecté';
+                sidebarBadge.textContent = 'Premium';
+                if (logoutBtn) {
+                    logoutBtn.style.display = 'flex';
+                    logoutBtn.onclick = function() {
+                        firebase.auth().signOut().then(function() {
+                            localStorage.removeItem('paynova_user');
+                            location.reload();
+                        });
+                    };
+                }
+                // On peut aussi changer les boutons du header, mais on garde les liens pour rester simple
+                // Optionnel : afficher "Mon Compte" à la place de Connexion ?
+                // On laisse tel quel pour l'instant.
+            } else {
+                sidebarName.textContent = 'Visiteur';
+                sidebarEmail.textContent = 'connectez-vous';
+                sidebarBadge.textContent = 'Gratuit';
+                if (logoutBtn) logoutBtn.style.display = 'none';
+            }
+        });
+
+        // ============================================================
+        // 5. PANIER
+        // ============================================================
+        function updateCart() {
+            const floatBadge = document.getElementById('cart-float-badge');
             try {
                 const cart = JSON.parse(localStorage.getItem('cart')) || [];
-                document.getElementById('cart-float-badge').textContent = cart.length;
-            } catch { document.getElementById('cart-float-badge').textContent = '0'; }
+                const count = cart.length;
+                if (floatBadge) floatBadge.textContent = count;
+            } catch (e) {
+                if (floatBadge) floatBadge.textContent = '0';
+            }
         }
-        updateBadge();
+        updateCart();
+
+        // ============================================================
+        // 6. SIDEBAR
+        // ============================================================
+        const menuOpen = document.getElementById('menu-open');
+        const sidebarCloseBtn = document.getElementById('sidebar-close-btn');
+        const sidebarOverlay = document.getElementById('sidebar-overlay');
+        const sidebar = document.getElementById('sidebar');
+
+        function toggleSidebar(open) {
+            if (open) {
+                sidebarOverlay.classList.add('active');
+                sidebar.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            } else {
+                sidebarOverlay.classList.remove('active');
+                sidebar.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        }
+
+        menuOpen.addEventListener('click', function() { toggleSidebar(true); });
+        sidebarCloseBtn.addEventListener('click', function() { toggleSidebar(false); });
+        sidebarOverlay.addEventListener('click', function() { toggleSidebar(false); });
+
+        // ============================================================
+        // 7. FAQ
+        // ============================================================
+        document.querySelectorAll('.faq-btn').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                const item = this.parentElement;
+                const isOpen = item.classList.contains('active');
+                document.querySelectorAll('.faq-item').forEach(function(el) { el.classList.remove('active'); });
+                if (!isOpen) item.classList.add('active');
+            });
+        });
+
+        // ============================================================
+        // 8. FLYERS (redirection vers gaming)
+        // ============================================================
+        (function() {
+            const track = document.getElementById('flyers-track');
+            const flyers = [
+                { img: '/flyerslive/flyers-gaming.png', label: 'Netflix – Streaming' },
+                { img: '/flyerslive/flyers-streaming.png', label: 'Free Fire – Gaming' },
+                { img: '/flyerslive/flyers-digital.png', label: 'PUBG Mobile – Battle Royale' },
+                { img: '/flyerslive/flyer-other.png', label: 'Free Fire – FPS' }
+            ];
+            let html = '';
+            flyers.forEach(function(f) {
+                html += `
+                    <div class="flyer-item" onclick="location.href='/gaming.html'">
+                        <img src="${f.img}" alt="${f.label}" loading="lazy" />
+                        <div class="label">${f.label}</div>
+                    </div>
+                `;
+            });
+            track.innerHTML = html + html + html;
+        })();
+
+        // ============================================================
+        // 9. TOAST REDIRECTION (vers gaming)
+        // ============================================================
+        const ctaBtn = document.getElementById('main-cta');
+        const toast = document.getElementById('redirect-toast');
+        const toastBar = document.getElementById('toast-bar');
+
+        ctaBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            toast.style.display = 'flex';
+            toast.classList.add('show');
+            let start = null;
+            const duration = 2500;
+
+            function animate(timestamp) {
+                if (!start) start = timestamp;
+                const pct = Math.min(((timestamp - start) / duration) * 100, 100);
+                toastBar.style.width = pct + '%';
+                if (timestamp - start < duration) {
+                    requestAnimationFrame(animate);
+                } else {
+                    window.location.href = '/gaming.html';
+                }
+            }
+            requestAnimationFrame(animate);
+        });
+
+        console.log('DigitalPay — Logo multiplié par 1.5 (84px), deux boutons auth (Inscription/Connexion)');
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+    <title>Inscription – DigitalPay HT</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Orbitron:wght@500;600;700;900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+    <style>
+        /* ============================================================
+           VARIABLES
+           ============================================================ */
+        :root {
+            --font-title: 'Orbitron', sans-serif;
+            --font-body: 'Inter', sans-serif;
+            --bg: #0a0a16;
+            --bg-card: rgba(20, 20, 40, 0.6);
+            --bg-card-hover: rgba(30, 30, 60, 0.8);
+            --text: #ffffff;
+            --text-sec: #a0a0c0;
+            --text-tert: #6a6a8a;
+            --blue: #1a6bc4;
+            --orange: #f97316;
+            --gradient: linear-gradient(135deg, #1a6bc4, #f97316);
+            --shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+            --radius: 16px;
+            --transition: 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+            font-size: 16px;
+            -webkit-font-smoothing: antialiased;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+        img {
+            display: block;
+            max-width: 100%;
+            height: auto;
+        }
+
+        /* ============================================================
+           FOND DYNAMIQUE
+           ============================================================ */
+        .bg-container {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .bg-gradient {
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(ellipse at 20% 50%, rgba(26, 107, 196, 0.20), transparent 50%),
+                radial-gradient(ellipse at 80% 20%, rgba(249, 115, 22, 0.15), transparent 40%),
+                radial-gradient(ellipse at 50% 80%, rgba(26, 107, 196, 0.08), transparent 50%),
+                radial-gradient(ellipse at 70% 70%, rgba(139, 92, 246, 0.06), transparent 50%);
+            animation: gradientShift 20s ease-in-out infinite alternate;
+        }
+        @keyframes gradientShift {
+            0% { transform: scale(1) rotate(0deg); }
+            100% { transform: scale(1.15) rotate(2deg); }
+        }
+
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(100px);
+            opacity: 0.25;
+            animation: orbFloat 25s ease-in-out infinite alternate;
+            will-change: transform;
+        }
+        .orb-1 {
+            width: 500px;
+            height: 500px;
+            background: var(--blue);
+            top: -15%;
+            left: -10%;
+            animation-duration: 30s;
+        }
+        .orb-2 {
+            width: 400px;
+            height: 400px;
+            background: var(--orange);
+            bottom: -15%;
+            right: -10%;
+            animation-duration: 25s;
+            animation-delay: 4s;
+        }
+        @keyframes orbFloat {
+            0% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(40px, -50px) scale(1.15); }
+            66% { transform: translate(-30px, 40px) scale(0.85); }
+            100% { transform: translate(20px, -20px) scale(1.05); }
+        }
+
+        .particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: rgba(255, 255, 255, 0.12);
+            border-radius: 50%;
+            animation: particleDrift linear infinite;
+            will-change: transform;
+        }
+        @keyframes particleDrift {
+            0% { transform: translateY(0) translateX(0) scale(1); opacity: 0.2; }
+            100% { transform: translateY(-100vh) translateX(30px) scale(0.2); opacity: 0; }
+        }
+
+        /* ============================================================
+           SCROLLBAR
+           ============================================================ */
+        ::-webkit-scrollbar {
+            width: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--orange);
+            border-radius: 10px;
+        }
+
+        /* ============================================================
+           CARTE D'INSCRIPTION
+           ============================================================ */
+        .register-card {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            max-width: 440px;
+            margin: 1.5rem;
+            background: var(--bg-card);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border-radius: 24px;
+            padding: 2.5rem 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+
+        .logo-container {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+        .logo-container img {
+            height: 96px;  /* 48px × 2 = 96px */
+            width: auto;
+            display: inline-block;
+        }
+
+        .register-title {
+            font-family: var(--font-title);
+            font-size: 1.5rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 0.3rem;
+        }
+        .register-sub {
+            font-size: 0.9rem;
+            color: var(--text-sec);
+            text-align: center;
+            margin-bottom: 1.8rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.2rem;
+        }
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            font-size: 0.8rem;
+            color: var(--text-sec);
+            margin-bottom: 0.3rem;
+        }
+        .form-group label i {
+            margin-right: 0.4rem;
+            color: var(--orange);
+        }
+        .form-group input {
+            width: 100%;
+            padding: 0.7rem 0.9rem;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            background: rgba(255, 255, 255, 0.02);
+            color: var(--text);
+            font-size: 0.95rem;
+            transition: var(--transition);
+            outline: none;
+            font-family: var(--font-body);
+        }
+        .form-group input:focus {
+            border-color: var(--orange);
+            background: rgba(255, 255, 255, 0.04);
+            box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.05);
+        }
+        .form-group input::placeholder {
+            color: var(--text-tert);
+        }
+
+        .form-group .input-hint {
+            font-size: 0.7rem;
+            color: var(--text-tert);
+            margin-top: 0.2rem;
+        }
+
+        .btn-primary {
+            width: 100%;
+            padding: 0.8rem;
+            background: var(--gradient);
+            border: none;
+            border-radius: 12px;
+            color: #fff;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            margin-top: 0.5rem;
+            font-family: var(--font-body);
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(249, 115, 22, 0.2);
+        }
+        .btn-primary:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin: 1.5rem 0;
+            color: var(--text-tert);
+            font-size: 0.8rem;
+        }
+        .divider::before, .divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: rgba(255, 255, 255, 0.04);
+        }
+
+        .btn-google {
+            width: 100%;
+            padding: 0.7rem;
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            color: var(--text);
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.6rem;
+            font-family: var(--font-body);
+        }
+        .btn-google:hover {
+            background: rgba(255, 255, 255, 0.02);
+            border-color: rgba(255, 255, 255, 0.12);
+        }
+        .btn-google i {
+            font-size: 1.2rem;
+            color: #ea4335;
+        }
+
+        .login-link {
+            text-align: center;
+            margin-top: 1.2rem;
+            font-size: 0.85rem;
+            color: var(--text-sec);
+        }
+        .login-link a {
+            color: var(--orange);
+            font-weight: 600;
+            transition: color 0.2s ease;
+        }
+        .login-link a:hover {
+            color: var(--orange);
+            text-decoration: underline;
+        }
+
+        /* Toast */
+        .toast-container {
+            position: fixed;
+            bottom: 1.5rem;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 9999;
+            width: 90%;
+            max-width: 400px;
+            pointer-events: none;
+        }
+        .toast {
+            padding: 0.8rem 1.2rem;
+            border-radius: 12px;
+            background: var(--bg-card);
+            backdrop-filter: blur(14px);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            color: var(--text);
+            font-weight: 500;
+            font-size: 0.9rem;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+            opacity: 0;
+            transform: translateY(20px) scale(0.95);
+            transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+            pointer-events: auto;
+            text-align: center;
+        }
+        .toast.show {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+        .toast.error {
+            border-color: rgba(239, 68, 68, 0.3);
+        }
+        .toast.success {
+            border-color: rgba(34, 197, 94, 0.3);
+        }
+        .toast i {
+            margin-right: 0.5rem;
+        }
+
+        /* ============================================================
+           RESPONSIVE
+           ============================================================ */
+        @media (min-width: 768px) {
+            .register-card {
+                padding: 3rem 2.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ============================================================
+    FOND DYNAMIQUE
+    ============================================================ -->
+    <div class="bg-container">
+        <div class="bg-gradient"></div>
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div id="particles-container"></div>
+    </div>
+
+    <!-- ============================================================
+    CARTE INSCRIPTION
+    ============================================================ -->
+    <div class="register-card">
+        <div class="logo-container">
+            <img src="/assets/logo.png" alt="DigitalPay HT" />
+        </div>
+
+        <div class="register-title">Créer un compte</div>
+        <div class="register-sub">Rejoignez la révolution digitale</div>
+
+        <form id="registerForm" novalidate>
+            <!-- Email -->
+            <div class="form-group">
+                <label for="email"><i class="fa-regular fa-envelope"></i> Adresse email</label>
+                <input type="email" id="email" placeholder="exemple@email.com" required />
+            </div>
+
+            <!-- Numéro WhatsApp -->
+            <div class="form-group">
+                <label for="whatsapp"><i class="fa-brands fa-whatsapp"></i> Numéro WhatsApp</label>
+                <input type="tel" id="whatsapp" placeholder="509 36 53 56 49" required />
+                <div class="input-hint">Utilisé pour les confirmations et le support</div>
+            </div>
+
+            <!-- Mot de passe -->
+            <div class="form-group">
+                <label for="password"><i class="fa-solid fa-lock"></i> Mot de passe</label>
+                <input type="password" id="password" placeholder="Minimum 6 caractères" required minlength="6" />
+            </div>
+
+            <!-- Confirmation mot de passe -->
+            <div class="form-group">
+                <label for="confirm"><i class="fa-solid fa-check"></i> Confirmer le mot de passe</label>
+                <input type="password" id="confirm" placeholder="Retapez votre mot de passe" required />
+            </div>
+
+            <button type="submit" class="btn-primary" id="registerBtn">
+                <i class="fa-solid fa-user-plus"></i> S'inscrire
+            </button>
+        </form>
+
+        <div class="divider">ou</div>
+
+        <button class="btn-google" id="googleBtn">
+            <i class="fa-brands fa-google"></i> Continuer avec Google
+        </button>
+
+        <div class="login-link">
+            Déjà un compte ? <a href="/authentification/login.html">Connectez-vous</a>
+        </div>
+    </div>
+
+    <!-- ============================================================
+    TOAST
+    ============================================================ -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- ============================================================
+    FIREBASE SDK
+    ============================================================ -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js">
+    </script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js">
+    </script>
+
+    <script>
+        // ============================================================
+        // 1. FIREBASE CONFIG (nouvelle)
+        // ============================================================
+        const firebaseConfig = {
+            apiKey: "AIzaSyDCj6vyMXsdEMlH-vYOWdwcfoD2VI622Uc",
+            authDomain: "digitalpayhaiti-509.firebaseapp.com",
+            projectId: "digitalpayhaiti-509",
+            storageBucket: "digitalpayhaiti-509.firebasestorage.app",
+            messagingSenderId: "987271970971",
+            appId: "1:987271970971:web:482635fb1202dc575ac63e"
+        };
+
+        if (!firebase.apps.length) {
+            firebase.initializeApp(firebaseConfig);
+        }
+
+        const auth = firebase.auth();
+        const provider = new firebase.auth.GoogleAuthProvider();
+
+        // ============================================================
+        // 2. PARTICULES
+        // ============================================================
+        (function() {
+            const container = document.getElementById('particles-container');
+            for (let i = 0; i < 40; i++) {
+                const p = document.createElement('div');
+                p.className = 'particle';
+                const size = 2 + Math.random() * 3;
+                p.style.width = size + 'px';
+                p.style.height = size + 'px';
+                p.style.left = Math.random() * 100 + '%';
+                p.style.top = Math.random() * 100 + '%';
+                p.style.animationDuration = (15 + Math.random() * 35) + 's';
+                p.style.animationDelay = (Math.random() * 25) + 's';
+                p.style.opacity = 0.1 + Math.random() * 0.25;
+                container.appendChild(p);
+            }
+        })();
+
+        // ============================================================
+        // 3. TOAST
+        // ============================================================
+        function showToast(message, type = 'info') {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = 'toast ' + type;
+            const icon = type === 'error' ? 'fa-circle-exclamation' :
+                type === 'success' ? 'fa-circle-check' : 'fa-circle-info';
+            toast.innerHTML = `<i class="fa-solid ${icon}"></i> ${message}`;
+            container.appendChild(toast);
+
+            requestAnimationFrame(() => {
+                toast.classList.add('show');
+            });
+
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => toast.remove(), 400);
+            }, 3500);
+        }
+
+        // ============================================================
+        // 4. FORMULAIRE EMAIL / PASSWORD
+        // ============================================================
+        const form = document.getElementById('registerForm');
+        const emailInput = document.getElementById('email');
+        const whatsappInput = document.getElementById('whatsapp');
+        const passwordInput = document.getElementById('password');
+        const confirmInput = document.getElementById('confirm');
+        const registerBtn = document.getElementById('registerBtn');
+
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const email = emailInput.value.trim();
+            const whatsapp = whatsappInput.value.trim();
+            const password = passwordInput.value;
+            const confirm = confirmInput.value;
+
+            // Validations
+            if (!email) {
+                showToast('Veuillez entrer votre adresse email.', 'error');
+                emailInput.focus();
+                return;
+            }
+            if (!whatsapp) {
+                showToast('Veuillez entrer votre numéro WhatsApp.', 'error');
+                whatsappInput.focus();
+                return;
+            }
+            if (password.length < 6) {
+                showToast('Le mot de passe doit contenir au moins 6 caractères.', 'error');
+                passwordInput.focus();
+                return;
+            }
+            if (password !== confirm) {
+                showToast('Les mots de passe ne correspondent pas.', 'error');
+                confirmInput.focus();
+                return;
+            }
+
+            registerBtn.disabled = true;
+            registerBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Inscription...';
+
+            try {
+                const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+                const user = userCredential.user;
+
+                await user.sendEmailVerification();
+
+                showToast('Inscription réussie ! Un email de vérification a été envoyé.', 'success');
+
+                setTimeout(() => {
+                    window.location.href = '/home.html';
+                }, 1500);
+            } catch (error) {
+                let msg = 'Erreur lors de l\'inscription.';
+                if (error.code === 'auth/email-already-in-use') {
+                    msg = 'Cette adresse email est déjà utilisée.';
+                } else if (error.code === 'auth/invalid-email') {
+                    msg = 'Adresse email invalide.';
+                } else if (error.code === 'auth/weak-password') {
+                    msg = 'Mot de passe trop faible (minimum 6 caractères).';
+                } else {
+                    msg = error.message || msg;
+                }
+                showToast(msg, 'error');
+            }
+
+            registerBtn.disabled = false;
+            registerBtn.innerHTML = '<i class="fa-solid fa-user-plus"></i> S\'inscrire';
+        });
+
+        // ============================================================
+        // 5. CONNEXION GOOGLE
+        // ============================================================
+        document.getElementById('googleBtn').addEventListener('click', async function() {
+            try {
+                const result = await auth.signInWithPopup(provider);
+                const user = result.user;
+
+                showToast('Connexion avec Google réussie !', 'success');
+
+                setTimeout(() => {
+                    window.location.href = '/home.html';
+                }, 1500);
+            } catch (error) {
+                let msg = 'Erreur lors de la connexion Google.';
+                if (error.code === 'auth/popup-closed-by-user') {
+                    msg = 'La fenêtre popup a été fermée. Veuillez réessayer.';
+                } else {
+                    msg = error.message || msg;
+                }
+                showToast(msg, 'error');
+            }
+        });
+
+        // ============================================================
+        // 6. GESTION DES ERREURS DE CONNEXION
+        // ============================================================
+        auth.onAuthStateChanged((user) => {
+            if (user) {
+                // Optionnel : on peut rediriger si déjà connecté, mais on laisse l'utilisateur s'inscrire
+            }
+        });
+
+        console.log('DigitalPay — Inscription (logo seul, taille ×2)');
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+    <title>Connexion – DigitalPay HT</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Orbitron:wght@500;600;700;900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+    <style>
+        /* ============================================================
+           VARIABLES
+           ============================================================ */
+        :root {
+            --font-title: 'Orbitron', sans-serif;
+            --font-body: 'Inter', sans-serif;
+            --bg: #0a0a16;
+            --bg-card: rgba(20, 20, 40, 0.6);
+            --bg-card-hover: rgba(30, 30, 60, 0.8);
+            --text: #ffffff;
+            --text-sec: #a0a0c0;
+            --text-tert: #6a6a8a;
+            --blue: #1a6bc4;
+            --orange: #f97316;
+            --gradient: linear-gradient(135deg, #1a6bc4, #f97316);
+            --shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+            --radius: 16px;
+            --transition: 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+            font-size: 16px;
+            -webkit-font-smoothing: antialiased;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+        img {
+            display: block;
+            max-width: 100%;
+            height: auto;
+        }
+
+        /* ============================================================
+           FOND DYNAMIQUE
+           ============================================================ */
+        .bg-container {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .bg-gradient {
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(ellipse at 20% 50%, rgba(26, 107, 196, 0.20), transparent 50%),
+                radial-gradient(ellipse at 80% 20%, rgba(249, 115, 22, 0.15), transparent 40%),
+                radial-gradient(ellipse at 50% 80%, rgba(26, 107, 196, 0.08), transparent 50%),
+                radial-gradient(ellipse at 70% 70%, rgba(139, 92, 246, 0.06), transparent 50%);
+            animation: gradientShift 20s ease-in-out infinite alternate;
+        }
+        @keyframes gradientShift {
+            0% { transform: scale(1) rotate(0deg); }
+            100% { transform: scale(1.15) rotate(2deg); }
+        }
+
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(100px);
+            opacity: 0.25;
+            animation: orbFloat 25s ease-in-out infinite alternate;
+            will-change: transform;
+        }
+        .orb-1 {
+            width: 500px;
+            height: 500px;
+            background: var(--blue);
+            top: -15%;
+            left: -10%;
+            animation-duration: 30s;
+        }
+        .orb-2 {
+            width: 400px;
+            height: 400px;
+            background: var(--orange);
+            bottom: -15%;
+            right: -10%;
+            animation-duration: 25s;
+            animation-delay: 4s;
+        }
+        @keyframes orbFloat {
+            0% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(40px, -50px) scale(1.15); }
+            66% { transform: translate(-30px, 40px) scale(0.85); }
+            100% { transform: translate(20px, -20px) scale(1.05); }
+        }
+
+        .particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: rgba(255, 255, 255, 0.12);
+            border-radius: 50%;
+            animation: particleDrift linear infinite;
+            will-change: transform;
+        }
+        @keyframes particleDrift {
+            0% { transform: translateY(0) translateX(0) scale(1); opacity: 0.2; }
+            100% { transform: translateY(-100vh) translateX(30px) scale(0.2); opacity: 0; }
+        }
+
+        /* ============================================================
+           SCROLLBAR
+           ============================================================ */
+        ::-webkit-scrollbar {
+            width: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--orange);
+            border-radius: 10px;
+        }
+
+        /* ============================================================
+           CARTE DE CONNEXION
+           ============================================================ */
+        .login-card {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            max-width: 440px;
+            margin: 1.5rem;
+            background: var(--bg-card);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border-radius: 24px;
+            padding: 2.5rem 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+
+        .logo-container {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+        .logo-container img {
+            height: 96px;
+            width: auto;
+            display: inline-block;
+        }
+
+        .login-title {
+            font-family: var(--font-title);
+            font-size: 1.5rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 0.3rem;
+        }
+        .login-sub {
+            font-size: 0.9rem;
+            color: var(--text-sec);
+            text-align: center;
+            margin-bottom: 1.8rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.2rem;
+        }
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            font-size: 0.8rem;
+            color: var(--text-sec);
+            margin-bottom: 0.3rem;
+        }
+        .form-group label i {
+            margin-right: 0.4rem;
+            color: var(--orange);
+        }
+        .form-group input {
+            width: 100%;
+            padding: 0.7rem 0.9rem;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            background: rgba(255, 255, 255, 0.02);
+            color: var(--text);
+            font-size: 0.95rem;
+            transition: var(--transition);
+            outline: none;
+            font-family: var(--font-body);
+        }
+        .form-group input:focus {
+            border-color: var(--orange);
+            background: rgba(255, 255, 255, 0.04);
+            box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.05);
+        }
+        .form-group input::placeholder {
+            color: var(--text-tert);
+        }
+
+        .forgot-link {
+            text-align: right;
+            margin-top: -0.2rem;
+            margin-bottom: 0.2rem;
+        }
+        .forgot-link a {
+            font-size: 0.75rem;
+            color: var(--text-tert);
+            transition: color 0.2s ease;
+        }
+        .forgot-link a:hover {
+            color: var(--orange);
+            text-decoration: underline;
+        }
+
+        .btn-primary {
+            width: 100%;
+            padding: 0.8rem;
+            background: var(--gradient);
+            border: none;
+            border-radius: 12px;
+            color: #fff;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            margin-top: 0.5rem;
+            font-family: var(--font-body);
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(249, 115, 22, 0.2);
+        }
+        .btn-primary:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin: 1.5rem 0;
+            color: var(--text-tert);
+            font-size: 0.8rem;
+        }
+        .divider::before, .divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: rgba(255, 255, 255, 0.04);
+        }
+
+        .btn-google {
+            width: 100%;
+            padding: 0.7rem;
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            color: var(--text);
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.6rem;
+            font-family: var(--font-body);
+        }
+        .btn-google:hover {
+            background: rgba(255, 255, 255, 0.02);
+            border-color: rgba(255, 255, 255, 0.12);
+        }
+        .btn-google i {
+            font-size: 1.2rem;
+            color: #ea4335;
+        }
+
+        .register-link {
+            text-align: center;
+            margin-top: 1.2rem;
+            font-size: 0.85rem;
+            color: var(--text-sec);
+        }
+        .register-link a {
+            color: var(--orange);
+            font-weight: 600;
+            transition: color 0.2s ease;
+        }
+        .register-link a:hover {
+            color: var(--orange);
+            text-decoration: underline;
+        }
+
+        /* Toast */
+        .toast-container {
+            position: fixed;
+            bottom: 1.5rem;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 9999;
+            width: 90%;
+            max-width: 400px;
+            pointer-events: none;
+        }
+        .toast {
+            padding: 0.8rem 1.2rem;
+            border-radius: 12px;
+            background: var(--bg-card);
+            backdrop-filter: blur(14px);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            color: var(--text);
+            font-weight: 500;
+            font-size: 0.9rem;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+            opacity: 0;
+            transform: translateY(20px) scale(0.95);
+            transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+            pointer-events: auto;
+            text-align: center;
+        }
+        .toast.show {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+        .toast.error {
+            border-color: rgba(239, 68, 68, 0.3);
+        }
+        .toast.success {
+            border-color: rgba(34, 197, 94, 0.3);
+        }
+        .toast i {
+            margin-right: 0.5rem;
+        }
+
+        /* ============================================================
+           RESPONSIVE
+           ============================================================ */
+        @media (min-width: 768px) {
+            .login-card {
+                padding: 3rem 2.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ============================================================
+    FOND DYNAMIQUE
+    ============================================================ -->
+    <div class="bg-container">
+        <div class="bg-gradient"></div>
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div id="particles-container"></div>
+    </div>
+
+    <!-- ============================================================
+    CARTE DE CONNEXION
+    ============================================================ -->
+    <div class="login-card">
+        <div class="logo-container">
+            <img src="/assets/logo.png" alt="DigitalPay HT" />
+        </div>
+
+        <div class="login-title">Connexion</div>
+        <div class="login-sub">Retrouvez votre espace sécurisé</div>
+
+        <form id="loginForm" novalidate>
+            <!-- Email -->
+            <div class="form-group">
+                <label for="email"><i class="fa-regular fa-envelope"></i> Adresse email</label>
+                <input type="email" id="email" placeholder="exemple@email.com" required />
+            </div>
+
+            <!-- Mot de passe -->
+            <div class="form-group">
+                <label for="password"><i class="fa-solid fa-lock"></i> Mot de passe</label>
+                <input type="password" id="password" placeholder="Votre mot de passe" required />
+            </div>
+
+            <div class="forgot-link">
+                <a href="/authentification/forgot-password.html">Mot de passe oublié ?</a>
+            </div>
+
+            <button type="submit" class="btn-primary" id="loginBtn">
+                <i class="fa-solid fa-arrow-right-to-bracket"></i> Se connecter
+            </button>
+        </form>
+
+        <div class="divider">ou</div>
+
+        <button class="btn-google" id="googleBtn">
+            <i class="fa-brands fa-google"></i> Continuer avec Google
+        </button>
+
+        <div class="register-link">
+            Pas encore de compte ? <a href="/authentification/register.html">Inscrivez-vous</a>
+        </div>
+    </div>
+
+    <!-- ============================================================
+    TOAST
+    ============================================================ -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- ============================================================
+    FIREBASE SDK
+    ============================================================ -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js">
+    </script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js">
+    </script>
+
+    <script>
+        // ============================================================
+        // 1. FIREBASE CONFIG
+        // ============================================================
+        const firebaseConfig = {
+            apiKey: "AIzaSyDCj6vyMXsdEMlH-vYOWdwcfoD2VI622Uc",
+            authDomain: "digitalpayhaiti-509.firebaseapp.com",
+            projectId: "digitalpayhaiti-509",
+            storageBucket: "digitalpayhaiti-509.firebasestorage.app",
+            messagingSenderId: "987271970971",
+            appId: "1:987271970971:web:482635fb1202dc575ac63e"
+        };
+
+        if (!firebase.apps.length) {
+            firebase.initializeApp(firebaseConfig);
+        }
+
+        const auth = firebase.auth();
+        const provider = new firebase.auth.GoogleAuthProvider();
+
+        // ============================================================
+        // 2. PARTICULES
+        // ============================================================
+        (function() {
+            const container = document.getElementById('particles-container');
+            for (let i = 0; i < 40; i++) {
+                const p = document.createElement('div');
+                p.className = 'particle';
+                const size = 2 + Math.random() * 3;
+                p.style.width = size + 'px';
+                p.style.height = size + 'px';
+                p.style.left = Math.random() * 100 + '%';
+                p.style.top = Math.random() * 100 + '%';
+                p.style.animationDuration = (15 + Math.random() * 35) + 's';
+                p.style.animationDelay = (Math.random() * 25) + 's';
+                p.style.opacity = 0.1 + Math.random() * 0.25;
+                container.appendChild(p);
+            }
+        })();
+
+        // ============================================================
+        // 3. TOAST
+        // ============================================================
+        function showToast(message, type = 'info') {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = 'toast ' + type;
+            const icon = type === 'error' ? 'fa-circle-exclamation' :
+                type === 'success' ? 'fa-circle-check' : 'fa-circle-info';
+            toast.innerHTML = `<i class="fa-solid ${icon}"></i> ${message}`;
+            container.appendChild(toast);
+
+            requestAnimationFrame(() => {
+                toast.classList.add('show');
+            });
+
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => toast.remove(), 400);
+            }, 3500);
+        }
+
+        // ============================================================
+        // 4. CONNEXION EMAIL / PASSWORD
+        // ============================================================
+        const form = document.getElementById('loginForm');
+        const emailInput = document.getElementById('email');
+        const passwordInput = document.getElementById('password');
+        const loginBtn = document.getElementById('loginBtn');
+
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const email = emailInput.value.trim();
+            const password = passwordInput.value;
+
+            if (!email) {
+                showToast('Veuillez entrer votre adresse email.', 'error');
+                emailInput.focus();
+                return;
+            }
+            if (!password) {
+                showToast('Veuillez entrer votre mot de passe.', 'error');
+                passwordInput.focus();
+                return;
+            }
+
+            loginBtn.disabled = true;
+            loginBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Connexion...';
+
+            try {
+                const userCredential = await auth.signInWithEmailAndPassword(email, password);
+                const user = userCredential.user;
+
+                // Vérifier si l'email est vérifié (optionnel)
+                // if (!user.emailVerified) {
+                //     showToast('Veuillez vérifier votre email avant de vous connecter.', 'error');
+                //     loginBtn.disabled = false;
+                //     loginBtn.innerHTML = '<i class="fa-solid fa-arrow-right-to-bracket"></i> Se connecter';
+                //     return;
+                // }
+
+                showToast('Connexion réussie ! Bienvenue.', 'success');
+
+                setTimeout(() => {
+                    window.location.href = '/home.html';
+                }, 1500);
+            } catch (error) {
+                let msg = 'Erreur de connexion.';
+                if (error.code === 'auth/user-not-found') {
+                    msg = 'Aucun compte associé à cet email.';
+                } else if (error.code === 'auth/wrong-password') {
+                    msg = 'Mot de passe incorrect.';
+                } else if (error.code === 'auth/invalid-email') {
+                    msg = 'Adresse email invalide.';
+                } else if (error.code === 'auth/too-many-requests') {
+                    msg = 'Trop de tentatives. Veuillez réessayer plus tard.';
+                } else {
+                    msg = error.message || msg;
+                }
+                showToast(msg, 'error');
+            }
+
+            loginBtn.disabled = false;
+            loginBtn.innerHTML = '<i class="fa-solid fa-arrow-right-to-bracket"></i> Se connecter';
+        });
+
+        // ============================================================
+        // 5. CONNEXION GOOGLE
+        // ============================================================
+        document.getElementById('googleBtn').addEventListener('click', async function() {
+            try {
+                const result = await auth.signInWithPopup(provider);
+                const user = result.user;
+
+                showToast('Connexion Google réussie !', 'success');
+
+                setTimeout(() => {
+                    window.location.href = '/home.html';
+                }, 1500);
+            } catch (error) {
+                let msg = 'Erreur lors de la connexion Google.';
+                if (error.code === 'auth/popup-closed-by-user') {
+                    msg = 'La fenêtre popup a été fermée. Veuillez réessayer.';
+                } else {
+                    msg = error.message || msg;
+                }
+                showToast(msg, 'error');
+            }
+        });
+
+        // ============================================================
+        // 6. REDIRECTION SI DÉJÀ CONNECTÉ
+        // ============================================================
+        auth.onAuthStateChanged((user) => {
+            if (user) {
+                // Si l'utilisateur est déjà connecté, on le redirige vers home
+                // On laisse un court délai pour éviter les boucles
+                // Mais on ne redirige pas automatiquement pour permettre de se déconnecter si besoin
+                // On peut afficher un message
+                // showToast('Vous êtes déjà connecté.', 'info');
+                // window.location.href = '/home.html';
+            }
+        });
+
+        console.log('DigitalPay — Login prêt avec Firebase.');
     </script>
 </body>
 </html>
