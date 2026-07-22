@@ -33,11 +33,12 @@
         ::-webkit-scrollbar { width:4px; }
         ::-webkit-scrollbar-thumb { background:var(--orange); border-radius:4px; }
 
-        /* HEADER */
+        /* ===== HEADER – Full Width ===== */
         header {
             position:sticky; top:0; z-index:1000;
             background:var(--bg-card); border-bottom:1px solid var(--border-light);
             padding:0 1.2rem; height:64px; display:flex; align-items:center; justify-content:space-between;
+            width:100%;
         }
         .logo img { height:70px; width:auto; }
         .nav-links { display:none; }
@@ -111,19 +112,33 @@
         .menu-section .section-items li a:hover i { color:var(--orange); }
         .menu-section .section-items li a.active i { color:var(--orange); }
 
-        /* Pas de bouton Logout pour l'index */
+        /* ===== MAIN – Full Width ===== */
+        main {
+            width:100%; 
+            padding:0; 
+            margin:0 auto;
+            position:relative; 
+            z-index:1;
+        }
 
-        /* ===== MAIN ===== */
-        main { padding:0 1.2rem; max-width:1200px; margin:0 auto; position:relative; z-index:1; }
-        .hero { text-align:center; padding:2rem 0 1rem; }
+        /* Conteneur interne pour le contenu centré */
+        .app-container {
+            max-width:1200px; 
+            margin:0 auto; 
+            padding:0 1.2rem; 
+            width:100%;
+        }
+
+        /* ===== HERO ===== */
+        .hero { text-align:center; padding:2rem 0 1rem; width:100%; }
         .hero h1 { font-family:var(--font-title); font-size:2rem; font-weight:700; text-transform:uppercase; letter-spacing:1px; }
         .hero h1 span { background:var(--gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
         .hero p { font-size:0.95rem; color:var(--text-sec); max-width:450px; margin:0.5rem auto 1rem; }
         .hero .cta { background:var(--gradient); color:#fff; padding:0.7rem 2rem; border-radius:30px; font-family:var(--font-title); font-weight:700; border:none; cursor:pointer; font-size:0.85rem; transition:opacity 0.2s; }
         .hero .cta:hover { opacity:0.9; }
 
-        /* FLYERS */
-        .flyers-section { padding:0.5rem 0 1.5rem; overflow:hidden; position:relative; }
+        /* ===== FLYERS – Full Width ===== */
+        .flyers-section { padding:0.5rem 0 1.5rem; overflow:hidden; position:relative; width:100%; }
         .flyers-track { display:flex; gap:1.2rem; width:max-content; animation:scrollFlyers 40s linear infinite; }
         .flyers-track:hover { animation-play-state:paused; }
         @keyframes scrollFlyers { 0% { transform:translateX(0); } 100% { transform:translateX(-50%); } }
@@ -132,10 +147,11 @@
         .flyer-item img { width:100%; height:160px; object-fit:cover; }
         .flyer-item .label { padding:0.5rem 0.7rem; font-size:0.8rem; color:var(--text-sec); text-align:center; font-weight:500; }
 
-        /* CATÉGORIES */
+        /* ===== CATÉGORIES & PRODUITS ===== */
         .section-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:0.8rem; }
         .section-header h2 { font-family:var(--font-title); font-size:1rem; font-weight:700; text-transform:uppercase; letter-spacing:0.5px; }
         .section-header a { font-size:0.7rem; color:var(--orange); font-weight:600; }
+
         .categories-grid { display:grid; grid-template-columns:1fr 1fr; gap:0.8rem; padding-bottom:1.5rem; }
         .category-card { background:var(--bg-card); border-radius:var(--radius); padding:1.2rem 0.8rem; text-align:center; border:1px solid var(--border-light); cursor:pointer; transition:background 0.2s, border-color 0.2s; }
         .category-card:hover { background:var(--bg-sidebar); border-color:rgba(249,115,22,0.3); }
@@ -143,7 +159,6 @@
         .category-card h3 { font-family:var(--font-title); font-size:0.8rem; font-weight:600; text-transform:uppercase; }
         .category-card p { font-size:0.65rem; color:var(--text-sec); }
 
-        /* PRODUITS */
         .products-grid { display:grid; grid-template-columns:1fr 1fr; gap:1rem; padding-bottom:2rem; }
         .product-card { background:var(--bg-card); border-radius:var(--radius); padding:1.2rem 0.8rem; text-align:center; border:1px solid var(--border-light); cursor:pointer; transition:background 0.2s, border-color 0.2s; }
         .product-card:hover { background:var(--bg-sidebar); border-color:rgba(249,115,22,0.3); }
@@ -155,8 +170,8 @@
         .product-card .btn { background:transparent; border:1px solid var(--orange); color:var(--orange); padding:0.3rem 1rem; border-radius:20px; font-size:0.65rem; font-weight:600; cursor:pointer; transition:background 0.2s, color 0.2s; }
         .product-card .btn:hover { background:var(--orange); color:#fff; }
 
-        /* SECTION WHATSAPP */
-        .community-section { text-align:center; padding:1.5rem 0 1rem; border-top:1px solid var(--border-light); border-bottom:1px solid var(--border-light); margin-bottom:1.5rem; }
+        /* ===== SECTION WHATSAPP ===== */
+        .community-section { text-align:center; padding:1.5rem 0 1rem; border-top:1px solid var(--border-light); border-bottom:1px solid var(--border-light); margin-bottom:1.5rem; width:100%; }
         .community-section h2 { font-family:var(--font-title); font-size:1.1rem; font-weight:700; text-transform:uppercase; margin-bottom:0.3rem; }
         .community-section p { font-size:0.85rem; color:var(--text-sec); max-width:400px; margin:0 auto 1rem; }
         .community-links { display:flex; flex-direction:column; gap:0.6rem; align-items:center; }
@@ -165,13 +180,13 @@
         .community-links .btn-whatsapp.green { background:#25d366; color:#fff; }
         .community-links .btn-whatsapp.dark { background:#1a7a3a; color:#fff; }
 
-        /* PANIER FLOTTANT */
+        /* ===== PANIER FLOTTANT ===== */
         .cart-float { position:fixed; bottom:1.5rem; right:1.5rem; z-index:500; background:var(--gradient); color:#fff; width:48px; height:48px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:1.1rem; box-shadow:0 4px 12px rgba(0,0,0,0.4); cursor:pointer; border:none; transition:transform 0.2s; }
         .cart-float:hover { transform:scale(1.05); }
         .cart-float .badge { position:absolute; top:-4px; right:-4px; background:#ef4444; color:#fff; font-size:0.5rem; font-weight:700; width:18px; height:18px; border-radius:50%; display:flex; align-items:center; justify-content:center; }
 
-        /* FOOTER */
-        footer { background:var(--bg-sidebar); padding:2rem 1.2rem 1rem; margin:0 -1.2rem; border-top:2px solid rgba(255,255,255,0.04); }
+        /* ===== FOOTER – Full Width ===== */
+        footer { background:var(--bg-sidebar); padding:2rem 1.2rem 1rem; width:100%; border-top:2px solid rgba(255,255,255,0.04); margin:0; }
         .footer-grid { display:grid; grid-template-columns:1fr; gap:1.5rem; max-width:1200px; margin:0 auto; }
         .footer-brand .logo-footer { height:50px; width:auto; display:block; margin-bottom:0.3rem; }
         .footer-brand p { font-size:0.8rem; color:var(--text-sec); max-width:300px; }
@@ -187,13 +202,13 @@
         .footer-social a:hover { color:var(--orange); }
         .footer-bottom { text-align:center; font-size:0.65rem; color:var(--text-muted); border-top:1px solid var(--border-light); padding-top:0.8rem; margin-top:1.2rem; display:flex; flex-direction:column; gap:0.2rem; }
 
+        /* ===== RESPONSIVE ===== */
         @media (min-width:768px) {
             header { padding:0 2.5rem; }
             .menu-toggle { display:none; }
             .nav-links { display:flex; gap:1.8rem; }
             .nav-links a { font-size:0.8rem; color:var(--text-sec); font-weight:500; transition:color 0.2s; }
             .nav-links a:hover { color:var(--text); }
-            main { padding:0 2.5rem; }
             .hero h1 { font-size:3rem; }
             .categories-grid { grid-template-columns:repeat(3,1fr); gap:1.2rem; }
             .products-grid { grid-template-columns:repeat(4,1fr); gap:1.2rem; }
@@ -224,11 +239,10 @@
         </div>
     </header>
 
-    <!-- ===== SIDEBAR (Version Invité) ===== -->
+    <!-- ===== SIDEBAR ===== -->
     <div class="sidebar-overlay" id="sidebar-overlay"></div>
     <div class="sidebar" id="sidebar">
         <button class="sidebar-close-btn" id="sidebar-close-btn"><i class="fa-solid fa-xmark"></i></button>
-        
         <div class="sidebar-scroll">
             <!-- Logo dans le sidebar -->
             <div class="sidebar-logo">
@@ -248,7 +262,7 @@
                 </div>
             </div>
 
-            <!-- 2. MENU (Seulement l'essentiel pour les visiteurs) -->
+            <!-- 2. MENU -->
             <div class="menu-section">
                 <div class="section-label">Général</div>
                 <ul class="section-items">
@@ -292,142 +306,145 @@
         </div>
     </div>
 
-    <!-- MAIN -->
+    <!-- ===== MAIN ===== -->
     <main>
-        <section class="hero">
-            <h1>L'accès <span>premium</span> aux services digitaux</h1>
-            <p>Recharges gaming, streaming, services financiers, gift cards et cartes virtuelles en Haïti.</p>
-            <button class="cta" onclick="window.location.href='/authentification/register.html'">Commencer</button>
-        </section>
+        <div class="app-container">
+            <!-- HERO -->
+            <section class="hero">
+                <h1>L'accès <span>premium</span> aux services digitaux</h1>
+                <p>Recharges gaming, streaming, services financiers, gift cards et cartes virtuelles en Haïti.</p>
+                <button class="cta" onclick="window.location.href='/authentification/register.html'">Commencer</button>
+            </section>
 
-        <!-- FLYERS -->
-        <section class="flyers-section">
-            <div class="flyers-track" id="flyersTrack">
-                <div class="flyer-item" onclick="location.href='/gaming.html'">
-                    <img src="/flyerslive/flyers-gaming.png" alt="Gaming" loading="lazy" />
-                    <div class="label">Free Fire – Gaming</div>
+            <!-- FLYERS -->
+            <section class="flyers-section">
+                <div class="flyers-track" id="flyersTrack">
+                    <div class="flyer-item" onclick="location.href='/gaming.html'">
+                        <img src="/flyerslive/flyers-gaming.png" alt="Gaming" loading="lazy" />
+                        <div class="label">Free Fire – Gaming</div>
+                    </div>
+                    <div class="flyer-item" onclick="location.href='/streaming.html'">
+                        <img src="/flyerslive/flyers-streaming.png" alt="Streaming" loading="lazy" />
+                        <div class="label">Netflix – Streaming</div>
+                    </div>
+                    <div class="flyer-item" onclick="location.href='/services-digitaux.html'">
+                        <img src="/flyerslive/flyers-digital.png" alt="Services" loading="lazy" />
+                        <div class="label">Wise & MERU – Services</div>
+                    </div>
+                    <div class="flyer-item" onclick="location.href='/gaming.html'">
+                        <img src="/flyerslive/flyer-other.png" alt="COD Mobile" loading="lazy" />
+                        <div class="label">COD Mobile – Gaming</div>
+                    </div>
+                    <!-- Duplication infini -->
+                    <div class="flyer-item" onclick="location.href='/gaming.html'">
+                        <img src="/flyerslive/flyers-gaming.png" alt="Gaming" loading="lazy" />
+                        <div class="label">Free Fire – Gaming</div>
+                    </div>
+                    <div class="flyer-item" onclick="location.href='/streaming.html'">
+                        <img src="/flyerslive/flyers-streaming.png" alt="Streaming" loading="lazy" />
+                        <div class="label">Netflix – Streaming</div>
+                    </div>
+                    <div class="flyer-item" onclick="location.href='/services-digitaux.html'">
+                        <img src="/flyerslive/flyers-digital.png" alt="Services" loading="lazy" />
+                        <div class="label">Wise & MERU – Services</div>
+                    </div>
+                    <div class="flyer-item" onclick="location.href='/gaming.html'">
+                        <img src="/flyerslive/flyer-other.png" alt="COD Mobile" loading="lazy" />
+                        <div class="label">COD Mobile – Gaming</div>
+                    </div>
                 </div>
-                <div class="flyer-item" onclick="location.href='/streaming.html'">
-                    <img src="/flyerslive/flyers-streaming.png" alt="Streaming" loading="lazy" />
-                    <div class="label">Netflix – Streaming</div>
-                </div>
-                <div class="flyer-item" onclick="location.href='/services-digitaux.html'">
-                    <img src="/flyerslive/flyers-digital.png" alt="Services" loading="lazy" />
-                    <div class="label">Wise & MERU – Services</div>
-                </div>
-                <div class="flyer-item" onclick="location.href='/gaming.html'">
-                    <img src="/flyerslive/flyer-other.png" alt="COD Mobile" loading="lazy" />
-                    <div class="label">COD Mobile – Gaming</div>
-                </div>
-                <!-- Duplication infini -->
-                <div class="flyer-item" onclick="location.href='/gaming.html'">
-                    <img src="/flyerslive/flyers-gaming.png" alt="Gaming" loading="lazy" />
-                    <div class="label">Free Fire – Gaming</div>
-                </div>
-                <div class="flyer-item" onclick="location.href='/streaming.html'">
-                    <img src="/flyerslive/flyers-streaming.png" alt="Streaming" loading="lazy" />
-                    <div class="label">Netflix – Streaming</div>
-                </div>
-                <div class="flyer-item" onclick="location.href='/services-digitaux.html'">
-                    <img src="/flyerslive/flyers-digital.png" alt="Services" loading="lazy" />
-                    <div class="label">Wise & MERU – Services</div>
-                </div>
-                <div class="flyer-item" onclick="location.href='/gaming.html'">
-                    <img src="/flyerslive/flyer-other.png" alt="COD Mobile" loading="lazy" />
-                    <div class="label">COD Mobile – Gaming</div>
-                </div>
-            </div>
-        </section>
+            </section>
 
-        <!-- CATÉGORIES -->
-        <div class="section-header"><h2>Catégories</h2><a href="/gaming.html">Voir tout →</a></div>
-        <div class="categories-grid">
-            <div class="category-card" onclick="location.href='/gaming.html'">
-                <span class="category-icon"><i class="fa-solid fa-gamepad"></i></span>
-                <h3>Gaming</h3>
-                <p>Diamants, UC, Robux</p>
+            <!-- CATÉGORIES -->
+            <div class="section-header"><h2>Catégories</h2><a href="/gaming.html">Voir tout →</a></div>
+            <div class="categories-grid">
+                <div class="category-card" onclick="location.href='/gaming.html'">
+                    <span class="category-icon"><i class="fa-solid fa-gamepad"></i></span>
+                    <h3>Gaming</h3>
+                    <p>Diamants, UC, Robux</p>
+                </div>
+                <div class="category-card" onclick="location.href='/streaming.html'">
+                    <span class="category-icon"><i class="fa-solid fa-film"></i></span>
+                    <h3>Streaming</h3>
+                    <p>Netflix, Disney+, Prime</p>
+                </div>
+                <div class="category-card" onclick="location.href='/services-digitaux.html'">
+                    <span class="category-icon"><i class="fa-solid fa-wallet"></i></span>
+                    <h3>Services</h3>
+                    <p>Wise, PayPal, MERU</p>
+                </div>
+                <div class="category-card" onclick="location.href='/echange/index.html'">
+                    <span class="category-icon"><i class="fa-solid fa-arrows-left-right"></i></span>
+                    <h3>Échange</h3>
+                    <p>Moncash, Natcash, Wise</p>
+                </div>
+                <div class="category-card" onclick="location.href='/giftcard/index.html'">
+                    <span class="category-icon"><i class="fa-solid fa-gift"></i></span>
+                    <h3>Gift Card</h3>
+                    <p>PlayStation, Netflix, Apple</p>
+                </div>
+                <div class="category-card" onclick="location.href='/digitalpaycard/index.html'">
+                    <span class="category-icon"><i class="fa-solid fa-credit-card"></i></span>
+                    <h3>DigitalPay Card</h3>
+                    <p>Carte virtuelle instantanée</p>
+                </div>
             </div>
-            <div class="category-card" onclick="location.href='/streaming.html'">
-                <span class="category-icon"><i class="fa-solid fa-film"></i></span>
-                <h3>Streaming</h3>
-                <p>Netflix, Disney+, Prime</p>
-            </div>
-            <div class="category-card" onclick="location.href='/services-digitaux.html'">
-                <span class="category-icon"><i class="fa-solid fa-wallet"></i></span>
-                <h3>Services</h3>
-                <p>Wise, PayPal, MERU</p>
-            </div>
-            <div class="category-card" onclick="location.href='/echange/index.html'">
-                <span class="category-icon"><i class="fa-solid fa-arrows-left-right"></i></span>
-                <h3>Échange</h3>
-                <p>Moncash, Natcash, Wise</p>
-            </div>
-            <div class="category-card" onclick="location.href='/giftcard/index.html'">
-                <span class="category-icon"><i class="fa-solid fa-gift"></i></span>
-                <h3>Gift Card</h3>
-                <p>PlayStation, Netflix, Apple</p>
-            </div>
-            <div class="category-card" onclick="location.href='/digitalpaycard/index.html'">
-                <span class="category-icon"><i class="fa-solid fa-credit-card"></i></span>
-                <h3>DigitalPay Card</h3>
-                <p>Carte virtuelle instantanée</p>
-            </div>
-        </div>
 
-        <!-- PRODUITS -->
-        <div class="section-header"><h2>Top ventes</h2><a href="/gaming.html">Voir tout →</a></div>
-        <div class="products-grid">
-            <div class="product-card" onclick="location.href='/gaming/freefire.html'">
-                <div class="logo-wrap"><img src="/assets/freefire-logo.png" alt="Free Fire" loading="lazy" /></div>
-                <h4>Free Fire</h4>
-                <div class="genre">Battle Royale</div>
-                <div class="price">À partir de 157 HTG</div>
-                <button class="btn">Voir</button>
+            <!-- PRODUITS -->
+            <div class="section-header"><h2>Top ventes</h2><a href="/gaming.html">Voir tout →</a></div>
+            <div class="products-grid">
+                <div class="product-card" onclick="location.href='/gaming/freefire.html'">
+                    <div class="logo-wrap"><img src="/assets/freefire-logo.png" alt="Free Fire" loading="lazy" /></div>
+                    <h4>Free Fire</h4>
+                    <div class="genre">Battle Royale</div>
+                    <div class="price">À partir de 157 HTG</div>
+                    <button class="btn">Voir</button>
+                </div>
+                <div class="product-card" onclick="location.href='/gaming/fcmobile.html'">
+                    <div class="logo-wrap"><img src="/assets/fcmobile-logo.png" alt="COD Mobile" loading="lazy" /></div>
+                    <h4>COD Mobile</h4>
+                    <div class="genre">FPS</div>
+                    <div class="price">À partir de 95 Gdes</div>
+                    <button class="btn">Voir</button>
+                </div>
+                <div class="product-card" onclick="location.href='/streaming/netflix.html'">
+                    <div class="logo-wrap"><img src="/assets/netflix-logo.png" alt="Netflix" loading="lazy" /></div>
+                    <h4>Netflix</h4>
+                    <div class="genre">Streaming</div>
+                    <div class="price">À partir de 400 Gdes</div>
+                    <button class="btn">Voir</button>
+                </div>
+                <div class="product-card" onclick="location.href='/services-digitaux.html'">
+                    <div class="logo-wrap"><img src="/assets/wise-logo.png" alt="Wise" loading="lazy" /></div>
+                    <h4>Wise</h4>
+                    <div class="genre">Transfert</div>
+                    <div class="price">5 – 5000 $</div>
+                    <button class="btn">Voir</button>
+                </div>
+                <div class="product-card" onclick="location.href='/services-digitaux.html'">
+                    <div class="logo-wrap"><img src="/assets/meru-logo.png" alt="MERU" loading="lazy" /></div>
+                    <h4>MERU</h4>
+                    <div class="genre">Finances</div>
+                    <div class="price">5 – 5000 $</div>
+                    <button class="btn">Voir</button>
+                </div>
             </div>
-            <div class="product-card" onclick="location.href='/gaming/fcmobile.html'">
-                <div class="logo-wrap"><img src="/assets/fcmobile-logo.png" alt="COD Mobile" loading="lazy" /></div>
-                <h4>COD Mobile</h4>
-                <div class="genre">FPS</div>
-                <div class="price">À partir de 95 Gdes</div>
-                <button class="btn">Voir</button>
-            </div>
-            <div class="product-card" onclick="location.href='/streaming/netflix.html'">
-                <div class="logo-wrap"><img src="/assets/netflix-logo.png" alt="Netflix" loading="lazy" /></div>
-                <h4>Netflix</h4>
-                <div class="genre">Streaming</div>
-                <div class="price">À partir de 400 Gdes</div>
-                <button class="btn">Voir</button>
-            </div>
-            <div class="product-card" onclick="location.href='/services-digitaux.html'">
-                <div class="logo-wrap"><img src="/assets/wise-logo.png" alt="Wise" loading="lazy" /></div>
-                <h4>Wise</h4>
-                <div class="genre">Transfert</div>
-                <div class="price">5 – 5000 $</div>
-                <button class="btn">Voir</button>
-            </div>
-            <div class="product-card" onclick="location.href='/services-digitaux.html'">
-                <div class="logo-wrap"><img src="/assets/meru-logo.png" alt="MERU" loading="lazy" /></div>
-                <h4>MERU</h4>
-                <div class="genre">Finances</div>
-                <div class="price">5 – 5000 $</div>
-                <button class="btn">Voir</button>
-            </div>
+
+            <!-- SECTION WHATSAPP -->
+            <section class="community-section">
+                <h2>Rejoignez notre communauté</h2>
+                <p>Restez connecté pour ne manquer aucune promo et offre exclusive !</p>
+                <div class="community-links">
+                    <a href="https://whatsapp.com/channel/0029VbAcGmCGufIrRej1sR04" class="btn-whatsapp green" target="_blank">
+                        <i class="fa-brands fa-whatsapp"></i> Chaîne WhatsApp
+                    </a>
+                    <a href="https://chat.whatsapp.com/FV6m1fFoFYMERC34UyQyVZ" class="btn-whatsapp dark" target="_blank">
+                        <i class="fa-solid fa-users"></i> Groupe WhatsApp
+                    </a>
+                </div>
+            </section>
         </div>
     </main>
-
-    <!-- SECTION WHATSAPP -->
-    <section class="community-section">
-        <h2>Rejoignez notre communauté</h2>
-        <p>Restez connecté pour ne manquer aucune promo et offre exclusive !</p>
-        <div class="community-links">
-            <a href="https://whatsapp.com/channel/0029VbAcGmCGufIrRej1sR04" class="btn-whatsapp green" target="_blank">
-                <i class="fa-brands fa-whatsapp"></i> Chaîne WhatsApp
-            </a>
-            <a href="https://chat.whatsapp.com/FV6m1fFoFYMERC34UyQyVZ" class="btn-whatsapp dark" target="_blank">
-                <i class="fa-solid fa-users"></i> Groupe WhatsApp
-            </a>
-        </div>
-    </section>
 
     <!-- PANIER FLOTTANT -->
     <button class="cart-float" onclick="window.location.href='/panier.html'" aria-label="Panier">
@@ -480,6 +497,7 @@
         </div>
     </footer>
 
+    <!-- SCRIPTS -->
     <script>
         // ===== SIDEBAR =====
         const overlay = document.getElementById('sidebar-overlay');
