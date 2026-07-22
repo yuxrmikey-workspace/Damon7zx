@@ -46,7 +46,7 @@
         .auth-btn.primary { background:var(--gradient); color:#fff; padding:0.3rem 0.8rem; border-radius:6px; font-size:0.7rem; font-weight:600; border:none; cursor:pointer; text-decoration:none; }
         .menu-toggle { background:transparent; border:1px solid var(--border-light); color:var(--text); font-size:1.2rem; cursor:pointer; padding:6px 10px; border-radius:6px; }
 
-        /* SIDEBAR (UNIQUE) */
+        /* SIDEBAR UNIQUE */
         .sidebar-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.6); z-index:2000; display:none; backdrop-filter:blur(4px); }
         .sidebar-overlay.active { display:block; }
         .sidebar {
@@ -109,6 +109,16 @@
         .product-card .btn { background:transparent; border:1px solid var(--orange); color:var(--orange); padding:0.3rem 1rem; border-radius:20px; font-size:0.65rem; font-weight:600; cursor:pointer; transition:all 0.2s; }
         .product-card .btn:hover { background:var(--orange); color:#fff; }
 
+        /* SECTION WHATSAPP */
+        .community-section { text-align:center; padding:1.5rem 0 1rem; border-top:1px solid var(--border-light); border-bottom:1px solid var(--border-light); margin-bottom:1.5rem; }
+        .community-section h2 { font-family:var(--font-title); font-size:1.1rem; font-weight:700; text-transform:uppercase; margin-bottom:0.3rem; }
+        .community-section p { font-size:0.85rem; color:var(--text-sec); max-width:400px; margin:0 auto 1rem; }
+        .community-links { display:flex; flex-direction:column; gap:0.6rem; align-items:center; }
+        .community-links .btn-whatsapp { display:inline-flex; align-items:center; gap:0.6rem; padding:0.6rem 1.5rem; border-radius:30px; font-weight:600; font-size:0.85rem; text-decoration:none; transition:opacity 0.2s; width:100%; max-width:280px; justify-content:center; }
+        .community-links .btn-whatsapp:hover { opacity:0.85; }
+        .community-links .btn-whatsapp.green { background:#25d366; color:#fff; }
+        .community-links .btn-whatsapp.dark { background:#1a7a3a; color:#fff; }
+
         /* FOOTER */
         footer { background:var(--bg-sidebar); padding:2rem 1.2rem 1rem; width:100%; border-top:2px solid rgba(255,255,255,0.04); margin:0; }
         .footer-grid { display:grid; grid-template-columns:1fr; gap:1.5rem; max-width:1200px; margin:0 auto; }
@@ -132,6 +142,8 @@
             .nav-links a:hover { color:var(--text); }
             .hero h1 { font-size:3rem; }
             .products-grid { grid-template-columns:repeat(4,1fr); gap:1.2rem; }
+            .community-links { flex-direction:row; justify-content:center; }
+            .community-links .btn-whatsapp { width:auto; min-width:200px; }
             .footer-grid { grid-template-columns:1fr 2fr; gap:2rem; }
             .footer-links-grid { grid-template-columns:repeat(3,1fr); }
             .footer-bottom { flex-direction:row; justify-content:space-between; }
@@ -241,7 +253,63 @@
         </div>
     </main>
 
-    <footer> [Footer identique à celui du code précédent] </footer>
+    <!-- SECTION WHATSAPP -->
+    <section class="community-section">
+        <h2>Rejoignez notre communauté</h2>
+        <p>Restez connecté pour ne manquer aucune promo et offre exclusive !</p>
+        <div class="community-links">
+            <a href="https://whatsapp.com/channel/0029VbAcGmCGufIrRej1sR04" class="btn-whatsapp green" target="_blank">
+                <i class="fa-brands fa-whatsapp"></i> Chaîne WhatsApp
+            </a>
+            <a href="https://chat.whatsapp.com/FV6m1fFoFYMERC34UyQyVZ" class="btn-whatsapp dark" target="_blank">
+                <i class="fa-solid fa-users"></i> Groupe WhatsApp
+            </a>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <img src="/assets/logo.png" alt="DigitalPay" class="logo-footer" />
+                <p>Votre plateforme de recharge gaming, streaming, services financiers, gift cards et cartes virtuelles en Haïti.</p>
+                <div class="footer-social">
+                    <a href="https://wa.me/50936535649" target="_blank"><i class="fa-brands fa-whatsapp"></i></a>
+                    <a href="https://www.facebook.com/digitalpayht" target="_blank"><i class="fa-brands fa-facebook"></i></a>
+                    <a href="mailto:contact@digitalpay.ht"><i class="fa-regular fa-envelope"></i></a>
+                </div>
+            </div>
+            <div class="footer-links-grid">
+                <div class="footer-col">
+                    <h4>Services</h4>
+                    <ul>
+                        <li><a href="/gaming.html">Gaming</a></li>
+                        <li><a href="/streaming.html">Streaming</a></li>
+                        <li><a href="/services-digitaux.html">Services Financiers</a></li>
+                        <li><a href="/echange/index.html">Échange</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Cartes</h4>
+                    <ul>
+                        <li><a href="/giftcard/index.html">Gift Card</a></li>
+                        <li><a href="/digitalpaycard/index.html">DigitalPay Card</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Support</h4>
+                    <ul>
+                        <li><a href="/support/help.html">Centre d'aide</a></li>
+                        <li><a href="/legal/conditions-utilisation.html">Conditions</a></li>
+                        <li><a href="/legal/politique-confidentialite.html">Confidentialité</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span>&copy; 2026 DigitalPay. Tous droits réservés.</span>
+            <span>Paiements sécurisés • Support WhatsApp</span>
+        </div>
+    </footer>
 
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
@@ -257,7 +325,6 @@
         if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
 
-        // PROTECTION : Redirection vers login si non connecté
         auth.onAuthStateChanged((user) => {
             if (!user) {
                 window.location.href = '/authentification/login.html';
@@ -267,12 +334,10 @@
             }
         });
 
-        // LOGOUT
         document.getElementById('sidebar-logout').addEventListener('click', () => {
             auth.signOut().then(() => window.location.href = '/index.html');
         });
 
-        // SIDEBAR TOGGLE
         const overlay = document.getElementById('sidebar-overlay');
         const sidebar = document.getElementById('sidebar');
         document.getElementById('menu-open').addEventListener('click', () => {
