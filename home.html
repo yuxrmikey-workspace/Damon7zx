@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+    <title>Tableau de bord – DigitalPay HT</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Orbitron:wght@500;600;700;900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+    <style>
+        :root {
+            --font-title: 'Orbitron', sans-serif;
+            --font-body: 'Inter', sans-serif;
+            --bg: #000000;
+            --bg-card: rgba(20, 20, 40, 0.6);
+            --bg-card-hover: rgba(30, 30, 60, 0.8);
+            --bg-sidebar: #0c0c18;
+            --text: #ffffff;
+            --text-sec: #a0a0c0;
+            --text-tert: #6a6a8a;
+            --orange: #f97316;
+            --gradient: linear-gradient(135deg, #1a6bc4, #f97316);
+            --shadow: 0 8px 30px rgba(0,0,0,0.4);
+            --radius: 16px;
+            --radius-lg: 24px;
+        }
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body { font-family:var(--font-body); background:var(--bg); color:var(--text); line-height:1.6; min-height:100vh; }
+        a { text-decoration:none; color:inherit; }
+        img { max-width:100%; display:block; }
+
+        ::-webkit-scrollbar { width:4px; }
+        ::-webkit-scrollbar-track { background:var(--bg); }
+        ::-webkit-scrollbar-thumb { background:var(--orange); border-radius:10px; }
+
+        /* HEADER – version connectée */
+        header {
+            position:sticky; top:0; z-index:1000;
+            background:var(--bg-card); backdrop-filter:blur(14px); border-bottom:1px solid rgba(255,255,255,0.06);
+            padding:0 1.2rem; height:64px; display:flex; align-items:center; justify-content:space-between;
+        }
+        .logo img { height:84px; width:auto; }
+        .nav-links { display:none; }
+        .header-actions { display:flex; align-items:center; gap:0.5rem; }
+        .auth-btn {
+            background:var(--bg-card); backdrop-filter:blur(10px); border:1px solid var(--orange);
+            color:var(--orange); padding:0.3rem 0.8rem; border-radius:8px; font-size:0.7rem; font-weight:600;
+            cursor:pointer; transition:0.2s; text-decoration:none; display:inline-flex; align-items:center; gap:0.3rem;
+        }
+        .auth-btn:hover { transform:translateY(-2px); box-shadow:0 4px 16px rgba(249,115,22,0.2); }
+        .auth-btn.primary { background:var(--gradient); color:#fff; border-color:transparent; }
+        .auth-btn.danger { border-color:#ef4444; color:#ef4444; }
+        .menu-toggle {
+            background:var(--bg-card); backdrop-filter:blur(10px); border:1px solid rgba(255,255,255,0.06);
+            color:var(--text); font-size:1.3rem; cursor:pointer; padding:8px 10px; border-radius:12px;
+        }
+
+        /* SIDEBAR */
+        .sidebar-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.6); backdrop-filter:blur(6px); z-index:2000; opacity:0; visibility:hidden; transition:0.3s; }
+        .sidebar-overlay.active { opacity:1; visibility:visible; }
+        .sidebar {
+            position:fixed; top:0; right:-340px; width:320px; max-width:88vw; height:100vh;
+            background:var(--bg-sidebar); z-index:2001; padding:1.2rem 0.8rem; transition:right 0.4s;
+            border-left:1px solid rgba(255,255,255,0.03); border-radius:24px 0 0 24px;
+        }
+        .sidebar.active { right:0; }
+        .sidebar-close-btn { position:absolute; top:0.6rem; right:0.8rem; background:none; border:none; color:var(--text-tert); font-size:1.3rem; cursor:pointer; }
+        .sidebar-scroll { overflow-y:auto; max-height:calc(100vh - 120px); }
+        .sidebar-header { display:flex; align-items:center; gap:0.6rem; padding-bottom:0.8rem; border-bottom:1px solid rgba(255,255,255,0.04); margin-bottom:0.8rem; }
+        .sidebar-profile .avatar { width:40px; height:40px; border-radius:50%; background:var(--gradient); display:flex; align-items:center; justify-content:center; font-weight:700; color:#fff; }
+        .sidebar-profile .info .name { font-weight:600; font-size:0.9rem; }
+        .sidebar-footer .logout { background:none; border:none; color:#ef4444; font-size:0.8rem; cursor:pointer; padding:0.5rem 0.7rem; width:100%; text-align:left; border-radius:10px; display:flex; align-items:center; gap:0.7rem; }
+
+        /* MAIN */
+        main { padding:0 1.2rem; max-width:1200px; margin:0 auto; position:relative; z-index:1; }
+        .hero { text-align:center; padding:2rem 0 1.5rem; }
+        .hero h1 { font-family:var(--font-title); font-size:2rem; font-weight:900; text-transform:uppercase; }
+        .hero h1 span { background:var(--gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+        .hero p { font-size:0.9rem; color:var(--text-sec); max-width:440px; margin:0.5rem auto 1rem; }
+
+        .section-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:0.8rem; }
+        .section-header h2 { font-family:var(--font-title); font-size:1.1rem; font-weight:700; text-transform:uppercase; }
+        .section-header a { font-size:0.7rem; color:var(--orange); font-weight:600; }
+
+        .categories-grid { display:grid; grid-template-columns:1fr 1fr; gap:0.8rem; padding-bottom:1.5rem; }
+        .category-card {
+            background:var(--bg-card); border-radius:var(--radius); padding:1.2rem 0.8rem; text-align:center;
+            border:1px solid rgba(255,255,255,0.04); transition:0.3s; cursor:pointer; backdrop-filter:blur(12px);
+        }
+        .category-card:hover { transform:translateY(-4px); background:var(--bg-card-hover); border-color:rgba(249,115,22,0.08); }
+        .category-icon { font-size:1.8rem; background:var(--gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent; display:block; margin-bottom:0.3rem; }
+        .category-card h3 { font-family:var(--font-title); font-size:0.85rem; font-weight:600; text-transform:uppercase; }
+        .category-card p { font-size:0.65rem; color:var(--text-sec); }
+
+        .cart-float { position:fixed; bottom:1.2rem; right:1.2rem; z-index:500; background:var(--gradient); color:#fff; width:48px; height:48px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:1.1rem; box-shadow:0 4px 16px rgba(249,115,22,0.15); cursor:pointer; border:none; transition:0.3s; }
+        .cart-float:hover { transform:scale(1.08); }
+        .cart-float .badge { position:absolute; top:-4px; right:-4px; background:#ef4444; color:#fff; font-size:0.5rem; font-weight:700; width:16px; height:16px; border-radius:50%; display:flex; align-items:center; justify-content:center; }
+
+        /* FOOTER */
+        footer { background:var(--bg-sidebar); padding:2rem 1.2rem; margin:0 -1.2rem; border-top:1px solid rgba(255,255,255,0.02); }
+        .footer-grid { display:grid; grid-template-columns:1fr; gap:1.5rem; max-width:1200px; margin:0 auto; }
+        .footer-brand .brand { font-family:var(--font-title); font-size:1rem; font-weight:900; background:var(--gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+        .footer-brand p { font-size:0.8rem; color:var(--text-sec); }
+        .footer-links-grid { display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
+        .footer-col h4 { font-family:var(--font-title); font-size:0.7rem; text-transform:uppercase; letter-spacing:1px; margin-bottom:0.4rem; }
+        .footer-col ul { list-style:none; display:flex; flex-direction:column; gap:0.3rem; }
+        .footer-col ul a { font-size:0.75rem; color:var(--text-tert); transition:0.3s; }
+        .footer-col ul a:hover { color:var(--orange); }
+        .footer-col ul li { font-size:0.75rem; color:var(--text-tert); display:flex; align-items:center; gap:0.4rem; }
+        .footer-col ul li i { color:var(--orange); width:16px; }
+        .footer-bottom { text-align:center; font-size:0.6rem; color:var(--text-tert); border-top:1px solid rgba(255,255,255,0.02); padding-top:0.8rem; margin-top:1rem; }
+
+        @media (min-width:768px) {
+            header { padding:0 2.5rem; }
+            .menu-toggle { display:none; }
+            .nav-links { display:flex; gap:1.8rem; }
+            .nav-links a { font-weight:500; font-size:0.8rem; color:var(--text-sec); transition:0.3s; position:relative; }
+            .nav-links a::after { content:''; position:absolute; bottom:-2px; left:0; width:0; height:2px; background:var(--gradient); transition:width 0.3s; border-radius:10px; }
+            .nav-links a:hover { color:var(--text); }
+            .nav-links a:hover::after { width:100%; }
+            main { padding:0 2.5rem; }
+            .categories-grid { grid-template-columns:repeat(3,1fr); gap:1.2rem; }
+            .footer-grid { grid-template-columns:1fr 2fr; gap:2rem; }
+            .footer-links-grid { grid-template-columns:repeat(3,1fr); }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/home.html" class="logo"><img src="/assets/logo.png" alt="DigitalPay HT" /></a>
+        <nav class="nav-links">
+            <a href="/home.html">Accueil</a>
+            <a href="/gaming.html">Gaming</a>
+            <a href="/streaming.html">Streaming</a>
+            <a href="/services-digitaux.html">Services</a>
+            <a href="/echange/index.html">Échange</a>
+            <a href="/giftcard/index.html">Gift Card</a>
+            <a href="/digitalpaycard/index.html">DigitalPay Card</a>
+        </nav>
+        <div class="header-actions">
+            <a href="/compte/index.html" class="auth-btn primary"><i class="fa-solid fa-user"></i> Mon compte</a>
+            <button class="auth-btn danger" id="header-logout"><i class="fa-solid fa-arrow-right-from-bracket"></i> Déconnexion</button>
+            <button class="menu-toggle" id="menu-open"><i class="fa-solid fa-bars"></i></button>
+        </div>
+    </header>
+
+    <div class="sidebar-overlay" id="sidebar-overlay"></div>
+    <div class="sidebar" id="sidebar">
+        <button class="sidebar-close-btn" id="sidebar-close-btn"><i class="fa-solid fa-xmark"></i></button>
+        <div class="sidebar-scroll">
+            <div class="sidebar-header">
+                <div class="sidebar-profile">
+                    <div class="avatar"><i class="fa-regular fa-user"></i></div>
+                    <div class="info"><div class="name" id="sidebar-name">Utilisateur</div></div>
+                </div>
+            </div>
+            <div class="menu-section"><div class="section-label">Général</div><ul class="section-items"><li><a href="/home.html" class="active"><i class="fa-solid fa-house"></i> Accueil</a></li><li><a href="/commandes/commandes.html"><i class="fa-solid fa-receipt"></i> Mes commandes</a></li><li><a href="/wallet/home.html"><i class="fa-solid fa-coins"></i> Wallet</a></li></ul></div>
+            <div class="menu-section"><div class="section-label">Services</div><ul class="section-items"><li><a href="/gaming.html"><i class="fa-solid fa-gamepad"></i> Gaming</a></li><li><a href="/streaming.html"><i class="fa-solid fa-film"></i> Streaming</a></li><li><a href="/services-digitaux.html"><i class="fa-solid fa-wallet"></i> Services</a></li><li><a href="/echange/index.html"><i class="fa-solid fa-arrows-left-right"></i> Échange</a></li></ul></div>
+            <div class="menu-section"><div class="section-label">Cartes</div><ul class="section-items"><li><a href="/giftcard/index.html"><i class="fa-solid fa-gift"></i> Gift Card</a></li><li><a href="/digitalpaycard/index.html"><i class="fa-solid fa-credit-card"></i> DigitalPay Card</a></li></ul></div>
+        </div>
+        <div class="sidebar-footer"><button class="logout" id="sidebar-logout"><i class="fa-solid fa-arrow-right-from-bracket"></i> Se déconnecter</button></div>
+    </div>
+
+    <main>
+        <section class="hero">
+            <h1>Bienvenue, <span id="user-name">Utilisateur</span> !</h1>
+            <p>Votre portefeuille digital, vos recharges et vos commandes à portée de clic.</p>
+        </section>
+
+        <div class="section-header"><h2>Catégories</h2><a href="/gaming.html">Voir tout →</a></div>
+        <div class="categories-grid">
+            <div class="category-card" onclick="location.href='/gaming.html'">
+                <span class="category-icon"><i class="fa-solid fa-gamepad"></i></span>
+                <h3>Gaming</h3>
+                <p>Diamants, UC, Robux</p>
+            </div>
+            <div class="category-card" onclick="location.href='/streaming.html'">
+                <span class="category-icon"><i class="fa-solid fa-film"></i></span>
+                <h3>Streaming</h3>
+                <p>Netflix, Disney+, Prime</p>
+            </div>
+            <div class="category-card" onclick="location.href='/services-digitaux.html'">
+                <span class="category-icon"><i class="fa-solid fa-wallet"></i></span>
+                <h3>Services</h3>
+                <p>Wise, PayPal, MERU</p>
+            </div>
+            <div class="category-card" onclick="location.href='/echange/index.html'">
+                <span class="category-icon"><i class="fa-solid fa-arrows-left-right"></i></span>
+                <h3>Échange</h3>
+                <p>Moncash, Natcash, Wise</p>
+            </div>
+            <div class="category-card" onclick="location.href='/giftcard/index.html'">
+                <span class="category-icon"><i class="fa-solid fa-gift"></i></span>
+                <h3>Gift Card</h3>
+                <p>PlayStation, Netflix, Apple</p>
+            </div>
+            <div class="category-card" onclick="location.href='/digitalpaycard/index.html'">
+                <span class="category-icon"><i class="fa-solid fa-credit-card"></i></span>
+                <h3>DigitalPay Card</h3>
+                <p>Carte virtuelle instantanée</p>
+            </div>
+        </div>
+    </main>
+
+    <button class="cart-float" onclick="window.location.href='/panier.html'" aria-label="Panier">
+        <i class="fa-solid fa-bag-shopping"></i>
+        <span class="badge" id="cart-float-badge">0</span>
+    </button>
+
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <div class="brand">DIGITALPAY</div>
+                <p>Votre plateforme de recharge gaming, streaming, services financiers, gift cards et cartes virtuelles en Haïti.</p>
+            </div>
+            <div class="footer-links-grid">
+                <div class="footer-col"><h4>Liens rapides</h4><ul><li><a href="/home.html">Accueil</a></li><li><a href="/gaming.html">Gaming</a></li><li><a href="/streaming.html">Streaming</a></li><li><a href="/services-digitaux.html">Services</a></li><li><a href="/echange/index.html">Échange</a></li></ul></div>
+                <div class="footer-col"><h4>Support</h4><ul><li><a href="/support/help.html">Centre d'aide</a></li><li><a href="/legal/conditions-utilisation.html">Conditions</a></li></ul></div>
+                <div class="footer-col"><h4>Contact</h4><ul><li><i class="fa-regular fa-envelope"></i> contact@digitalpay.ht</li><li><i class="fa-solid fa-phone"></i> +509 3399 0578</li><li><i class="fa-brands fa-whatsapp"></i> +509 3653 5649</li></ul></div>
+            </div>
+        </div>
+        <div class="footer-bottom"><span>&copy; 2026 DigitalPay. Tous droits réservés.</span></div>
+    </footer>
+
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyDCj6vyMXsdEMlH-vYOWdwcfoD2VI622Uc",
+            authDomain: "digitalpayhaiti-509.firebaseapp.com",
+            projectId: "digitalpayhaiti-509",
+            storageBucket: "digitalpayhaiti-509.firebasestorage.app",
+            messagingSenderId: "987271970971",
+            appId: "1:987271970971:web:482635fb1202dc575ac63e"
+        };
+        if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+
+        auth.onAuthStateChanged((user) => {
+            if (!user) {
+                window.location.href = '/authentification/login.html';
+            } else {
+                document.getElementById('user-name').textContent = user.displayName || user.email || 'Utilisateur';
+                document.getElementById('sidebar-name').textContent = user.displayName || user.email || 'Utilisateur';
+            }
+        });
+
+        function logout() {
+            auth.signOut().then(() => {
+                localStorage.removeItem('paynova_user');
+                window.location.href = '/index.html';
+            });
+        }
+        document.getElementById('header-logout').addEventListener('click', logout);
+        document.getElementById('sidebar-logout').addEventListener('click', logout);
+
+        // SIDEBAR
+        document.getElementById('menu-open').addEventListener('click', () => {
+            document.getElementById('sidebar-overlay').classList.add('active');
+            document.getElementById('sidebar').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+        document.getElementById('sidebar-close-btn').addEventListener('click', () => {
+            document.getElementById('sidebar-overlay').classList.remove('active');
+            document.getElementById('sidebar').classList.remove('active');
+            document.body.style.overflow = '';
+        });
+        document.getElementById('sidebar-overlay').addEventListener('click', () => {
+            document.getElementById('sidebar-overlay').classList.remove('active');
+            document.getElementById('sidebar').classList.remove('active');
+            document.body.style.overflow = '';
+        });
+
+        // PANIER BADGE
+        function updateBadge() {
+            try {
+                const cart = JSON.parse(localStorage.getItem('cart')) || [];
+                document.getElementById('cart-float-badge').textContent = cart.length;
+            } catch { document.getElementById('cart-float-badge').textContent = '0'; }
+        }
+        updateBadge();
+    </script>
+</body>
+</html>
