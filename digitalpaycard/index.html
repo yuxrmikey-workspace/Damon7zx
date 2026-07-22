@@ -23,6 +23,8 @@
             --gradient: linear-gradient(135deg, #1a6bc4, #f97316);
             --radius: 8px;
             --border-light: rgba(255,255,255,0.05);
+            --glass: rgba(20, 20, 40, 0.6);
+            --glass-hover: rgba(30, 30, 60, 0.8);
         }
 
         * { margin:0; padding:0; box-sizing:border-box; }
@@ -90,56 +92,90 @@
         /* MAIN */
         main { width:100%; padding:0; margin:0 auto; position:relative; z-index:1; }
         .app-container { max-width:1200px; margin:0 auto; padding:0 1.2rem; width:100%; }
-        .hero { text-align:center; padding:2rem 0 1rem; width:100%; }
-        .hero h1 { font-family:var(--font-title); font-size:2rem; font-weight:700; text-transform:uppercase; }
-        .hero h1 span { background:var(--gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
-        .hero p { font-size:0.95rem; color:var(--text-sec); max-width:450px; margin:0.5rem auto; }
 
-        .section-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:0.8rem; }
-        .section-header h2 { font-family:var(--font-title); font-size:1rem; font-weight:700; text-transform:uppercase; letter-spacing:0.5px; }
-        .section-header a { font-size:0.7rem; color:var(--orange); font-weight:600; }
+        /* ===== HERO ===== */
+        .hero { text-align:center; padding:2rem 0 1rem; width:100%; }
+        .hero .badge { display:inline-block; background:rgba(249,115,22,0.08); color:var(--orange); font-size:0.55rem; font-weight:700; text-transform:uppercase; letter-spacing:2px; padding:0.15rem 0.7rem; border-radius:30px; margin-bottom:0.6rem; }
+        .hero h1 { font-family:var(--font-title); font-size:2rem; font-weight:900; line-height:1.1; text-transform:uppercase; }
+        .hero h1 span { background:var(--gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+        .hero p { font-size:0.95rem; color:var(--text-sec); max-width:550px; margin:0.5rem auto 1rem; }
 
         /* ===== CARTE DE CRÉDIT ===== */
-        .card-container {
-            display:flex; justify-content:center; padding:1rem 0 2rem;
-        }
+        .card-container { display:flex; justify-content:center; padding:1rem 0 2rem; }
         .credit-card {
-            width:100%; max-width:400px; height:240px; background:linear-gradient(135deg, #1a1a2e, #16213e);
-            border-radius:20px; padding:1.5rem; position:relative; box-shadow:0 20px 60px rgba(0,0,0,0.6);
-            border:1px solid rgba(255,255,255,0.1); display:flex; flex-direction:column; justify-content:space-between;
-            color:#fff; font-family:var(--font-body);
+            width:100%; max-width:420px; height:250px; background:linear-gradient(135deg, #1a1a2e, #16213e, #1a1a2e);
+            border-radius:24px; padding:1.8rem; position:relative; box-shadow:0 30px 80px rgba(0,0,0,0.7);
+            border:1px solid rgba(255,255,255,0.08); display:flex; flex-direction:column; justify-content:space-between;
+            color:#fff; font-family:var(--font-body); backdrop-filter:blur(8px);
         }
         .credit-card .card-logo { display:flex; justify-content:space-between; align-items:flex-start; }
-        .credit-card .card-logo img { height:30px; width:auto; }
-        .credit-card .card-number { font-family:var(--font-title); font-size:1.6rem; letter-spacing:2px; text-align:center; margin:1rem 0; color:#fff; text-shadow:0 2px 4px rgba(0,0,0,0.3); }
+        .credit-card .card-logo img { height:32px; width:auto; }
+        .credit-card .card-logo .premium-badge { font-family:var(--font-title); font-size:0.7rem; background:var(--gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent; font-weight:700; }
+        .credit-card .card-chip { position:absolute; top:90px; left:1.8rem; width:50px; height:35px; background:linear-gradient(135deg, #ffd700, #f0c040); border-radius:6px; opacity:0.5; }
+        .credit-card .card-number { font-family:var(--font-title); font-size:1.6rem; letter-spacing:3px; text-align:center; margin:0.5rem 0; color:#fff; text-shadow:0 2px 8px rgba(0,0,0,0.4); }
         .credit-card .card-details { display:flex; justify-content:space-between; font-size:0.8rem; color:var(--text-sec); }
         .credit-card .card-details span { display:block; }
-        .credit-card .card-details .label { font-size:0.55rem; text-transform:uppercase; opacity:0.6; }
+        .credit-card .card-details .label { font-size:0.5rem; text-transform:uppercase; opacity:0.6; letter-spacing:1px; }
+        .credit-card .card-details .value { color:#fff; font-weight:500; }
         .credit-card .card-cvc { text-align:right; }
-        .credit-card .card-chip { position:absolute; top:80px; left:1.5rem; width:50px; height:35px; background:linear-gradient(135deg, #ffd700, #f0c040); border-radius:6px; opacity:0.6; }
+        .credit-card .card-holder-name { font-size:0.9rem; font-weight:500; letter-spacing:1px; color:#fff; margin-top:0.2rem; }
+
+        /* ===== AVANTAGES ===== */
+        .features { padding:1.5rem 0 2rem; border-top:1px solid var(--border-light); border-bottom:1px solid var(--border-light); }
+        .features h2 { font-family:var(--font-title); font-size:1.3rem; font-weight:700; text-transform:uppercase; text-align:center; margin-bottom:1.5rem; }
+        .features-grid { display:grid; grid-template-columns:1fr; gap:1rem; }
+        .feature-card { background:var(--glass); border-radius:var(--radius); padding:1.5rem 1rem; text-align:center; border:1px solid var(--border-light); transition:all 0.2s; backdrop-filter:blur(6px); }
+        .feature-card:hover { background:var(--glass-hover); border-color:rgba(249,115,22,0.2); }
+        .feature-card i { font-size:2.2rem; background:var(--gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent; margin-bottom:0.5rem; }
+        .feature-card h3 { font-size:1rem; font-weight:600; }
+        .feature-card p { font-size:0.8rem; color:var(--text-sec); }
+
+        /* ===== COMMENT ÇA MARCHE ===== */
+        .steps { padding:2rem 0; }
+        .steps h2 { font-family:var(--font-title); font-size:1.3rem; font-weight:700; text-transform:uppercase; text-align:center; margin-bottom:1.5rem; }
+        .steps-grid { display:grid; grid-template-columns:1fr; gap:1.5rem; }
+        .step { display:flex; align-items:flex-start; gap:1rem; background:var(--glass); border-radius:var(--radius); padding:1.2rem; border:1px solid var(--border-light); }
+        .step .number { width:40px; height:40px; border-radius:50%; background:var(--gradient); display:flex; align-items:center; justify-content:center; font-weight:700; font-size:1rem; color:#fff; flex-shrink:0; }
+        .step .content h4 { font-weight:600; font-size:1rem; }
+        .step .content p { font-size:0.85rem; color:var(--text-sec); }
 
         /* ===== FORMULAIRE ===== */
-        .card-form { max-width:600px; margin:0 auto; padding-bottom:2rem; }
-        .form-group { margin-bottom:1.2rem; }
-        .form-group label { display:block; font-weight:600; font-size:0.85rem; color:var(--text-sec); margin-bottom:0.3rem; }
-        .form-group label i { color:var(--orange); margin-right:0.4rem; }
-        .form-group input {
+        .order-section { padding:2rem 0; border-top:1px solid var(--border-light); }
+        .order-section h2 { font-family:var(--font-title); font-size:1.3rem; font-weight:700; text-transform:uppercase; text-align:center; margin-bottom:1.5rem; }
+        .order-wrapper { display:grid; grid-template-columns:1fr; gap:2rem; max-width:800px; margin:0 auto; }
+        .card-preview { display:flex; justify-content:center; }
+        .order-form { background:var(--glass); border-radius:var(--radius); padding:1.5rem; border:1px solid var(--border-light); backdrop-filter:blur(6px); }
+        .order-form .price-display { text-align:center; font-size:1.3rem; font-weight:700; color:var(--orange); margin-bottom:1rem; }
+        .order-form .form-group { margin-bottom:1rem; }
+        .order-form .form-group label { display:block; font-weight:600; font-size:0.85rem; color:var(--text-sec); margin-bottom:0.3rem; }
+        .order-form .form-group label i { color:var(--orange); margin-right:0.4rem; }
+        .order-form .form-group input {
             width:100%; padding:0.7rem 0.9rem; border-radius:10px;
             border:1px solid rgba(255,255,255,0.06); background:rgba(255,255,255,0.02);
             color:var(--text); font-size:0.95rem; outline:none; font-family:var(--font-body);
         }
-        .form-group input:focus { border-color:var(--orange); background:rgba(255,255,255,0.04); }
-        .price-display { text-align:center; font-size:1.2rem; font-weight:700; color:var(--orange); margin:1rem 0; }
-
-        .btn-order {
+        .order-form .form-group input:focus { border-color:var(--orange); background:rgba(255,255,255,0.04); }
+        .order-form .btn-order {
             display:flex; align-items:center; justify-content:center; gap:0.6rem;
-            width:100%; max-width:400px; margin:0 auto; padding:0.8rem;
+            width:100%; padding:0.8rem;
             background:var(--gradient); border:none; border-radius:50px; color:#fff;
             font-weight:700; font-size:1rem; cursor:pointer; transition:all 0.2s; font-family:var(--font-body);
         }
-        .btn-order:hover { transform:scale(1.02); box-shadow:0 8px 30px rgba(249,115,22,0.2); }
+        .order-form .btn-order:hover { transform:scale(1.02); box-shadow:0 8px 30px rgba(249,115,22,0.2); }
 
-        /* SECTION WHATSAPP */
+        /* ===== FAQ ===== */
+        .faq-section { padding:2rem 0; border-top:1px solid var(--border-light); }
+        .faq-section h2 { font-family:var(--font-title); font-size:1.3rem; font-weight:700; text-transform:uppercase; text-align:center; margin-bottom:1.5rem; }
+        .faq-list { max-width:700px; margin:0 auto; }
+        .faq-item { border-bottom:1px solid var(--border-light); padding:0.8rem 0; }
+        .faq-item:last-child { border-bottom:none; }
+        .faq-question { display:flex; justify-content:space-between; align-items:center; cursor:pointer; font-weight:600; font-size:0.95rem; background:none; border:none; color:var(--text); width:100%; text-align:left; padding:0; }
+        .faq-question i { color:var(--orange); transition:transform 0.3s; }
+        .faq-item.active .faq-question i { transform:rotate(180deg); }
+        .faq-answer { max-height:0; overflow:hidden; transition:max-height 0.3s ease; color:var(--text-sec); font-size:0.85rem; }
+        .faq-item.active .faq-answer { max-height:200px; padding-top:0.5rem; }
+
+        /* ===== SECTION WHATSAPP ===== */
         .community-section { text-align:center; padding:1.5rem 0 1rem; border-top:1px solid var(--border-light); border-bottom:1px solid var(--border-light); margin-bottom:1.5rem; }
         .community-section h2 { font-family:var(--font-title); font-size:1.1rem; font-weight:700; text-transform:uppercase; margin-bottom:0.3rem; }
         .community-section p { font-size:0.85rem; color:var(--text-sec); max-width:400px; margin:0 auto 1rem; }
@@ -149,7 +185,12 @@
         .community-links .btn-whatsapp.green { background:#25d366; color:#fff; }
         .community-links .btn-whatsapp.dark { background:#1a7a3a; color:#fff; }
 
-        /* FOOTER */
+        /* ===== PANIER FLOTTANT ===== */
+        .cart-float { position:fixed; bottom:1.5rem; right:1.5rem; z-index:500; background:var(--gradient); color:#fff; width:48px; height:48px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:1.1rem; box-shadow:0 4px 12px rgba(0,0,0,0.4); cursor:pointer; border:none; transition:transform 0.2s; }
+        .cart-float:hover { transform:scale(1.05); }
+        .cart-float .badge { position:absolute; top:-4px; right:-4px; background:#ef4444; color:#fff; font-size:0.5rem; font-weight:700; width:18px; height:18px; border-radius:50%; display:flex; align-items:center; justify-content:center; }
+
+        /* ===== FOOTER ===== */
         footer { background:var(--bg-sidebar); padding:2rem 1.2rem 1rem; width:100%; border-top:2px solid rgba(255,255,255,0.04); margin:0; }
         .footer-grid { display:grid; grid-template-columns:1fr; gap:1.5rem; max-width:1200px; margin:0 auto; }
         .footer-brand .logo-footer { height:50px; width:auto; display:block; margin-bottom:0.3rem; }
@@ -164,7 +205,13 @@
         .footer-social a:hover { color:var(--orange); }
         .footer-bottom { text-align:center; font-size:0.65rem; color:var(--text-muted); border-top:1px solid var(--border-light); padding-top:0.8rem; margin-top:1.2rem; display:flex; flex-direction:column; gap:0.2rem; }
 
-        @media (min-width:768px) {
+        /* ===== RESPONSIVE ===== */
+        @media (min-width: 480px) {
+            .features-grid { grid-template-columns:1fr 1fr; }
+            .steps-grid { grid-template-columns:1fr 1fr; }
+        }
+
+        @media (min-width: 768px) {
             header { padding:0 2.5rem; }
             .menu-toggle { display:none; }
             .nav-links { display:flex; gap:1.8rem; }
@@ -173,11 +220,19 @@
             .hero h1 { font-size:3rem; }
             .credit-card { max-width:500px; height:280px; padding:2rem; }
             .credit-card .card-number { font-size:2rem; }
+            .features-grid { grid-template-columns:repeat(3,1fr); }
+            .steps-grid { grid-template-columns:1fr 1fr 1fr; }
+            .order-wrapper { grid-template-columns:1fr 1fr; align-items:start; }
+            .card-preview { position:sticky; top:2rem; }
             .community-links { flex-direction:row; justify-content:center; }
             .community-links .btn-whatsapp { width:auto; min-width:200px; }
             .footer-grid { grid-template-columns:1fr 2fr; gap:2rem; }
             .footer-links-grid { grid-template-columns:repeat(3,1fr); }
             .footer-bottom { flex-direction:row; justify-content:space-between; }
+        }
+
+        @media (min-width: 1024px) {
+            .hero h1 { font-size:3.5rem; }
         }
     </style>
 </head>
@@ -266,9 +321,11 @@
 
     <main>
         <div class="app-container">
+            <!-- HERO -->
             <section class="hero">
+                <div class="badge">⚡ Nouveau</div>
                 <h1>DigitalPay <span>Card</span></h1>
-                <p>Votre carte de crédit virtuelle en quelques secondes. Utilisez-la pour vos achats en ligne, recharges et abonnements.</p>
+                <p>Votre carte de crédit virtuelle, instantanée et sécurisée. Utilisez-la pour vos achats en ligne, recharges gaming, abonnements streaming et services digitaux.</p>
             </section>
 
             <!-- CARTE DE CRÉDIT -->
@@ -276,48 +333,147 @@
                 <div class="credit-card">
                     <div class="card-logo">
                         <img src="/assets/logo.png" alt="DigitalPay" />
-                        <span style="font-family:var(--font-title); font-size:0.7rem; background:var(--gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent;">PREMIUM</span>
+                        <span class="premium-badge">PREMIUM</span>
                     </div>
                     <div class="card-chip"></div>
                     <div class="card-number">XXXX XXXX XXXX XXXX</div>
                     <div class="card-details">
                         <div>
                             <span class="label">Titulaire</span>
-                            <span id="card-holder">VOTRE NOM</span>
+                            <span class="value" id="card-holder">VOTRE NOM</span>
                         </div>
                         <div>
                             <span class="label">Expire</span>
-                            <span>MM/AA</span>
+                            <span class="value">MM/AA</span>
                         </div>
                         <div class="card-cvc">
                             <span class="label">CVC</span>
-                            <span>***</span>
+                            <span class="value">***</span>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- FORMULAIRE -->
-            <div class="card-form">
-                <div class="price-display">Prix : 750 Gdes</div>
-                <form id="cardForm">
-                    <div class="form-group">
-                        <label for="fullName"><i class="fa-solid fa-user"></i> Nom complet</label>
-                        <input type="text" id="fullName" placeholder="Exemple : Jean Dupont" required />
+            <!-- AVANTAGES -->
+            <section class="features">
+                <h2>Pourquoi choisir DigitalPay Card ?</h2>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <i class="fa-solid fa-bolt"></i>
+                        <h3>Instantané</h3>
+                        <p>Créez votre carte en quelques secondes et utilisez-la immédiatement.</p>
                     </div>
-                    <div class="form-group">
-                        <label for="birthDate"><i class="fa-solid fa-calendar"></i> Date de naissance</label>
-                        <input type="date" id="birthDate" required />
+                    <div class="feature-card">
+                        <i class="fa-solid fa-shield-halved"></i>
+                        <h3>Sécurisé</h3>
+                        <p>Vos données sont protégées par les technologies les plus avancées.</p>
                     </div>
-                    <div class="form-group">
-                        <label for="whatsapp"><i class="fa-brands fa-whatsapp"></i> Numéro WhatsApp</label>
-                        <input type="tel" id="whatsapp" placeholder="Exemple : 50936535649" required />
+                    <div class="feature-card">
+                        <i class="fa-solid fa-globe"></i>
+                        <h3>Universel</h3>
+                        <p>Utilisable pour tous vos achats en ligne, recharges et abonnements.</p>
                     </div>
-                    <button type="button" class="btn-order" id="orderBtn">
-                        <i class="fa-solid fa-cart-plus"></i> Commander ma carte (750 Gdes)
-                    </button>
-                </form>
-            </div>
+                </div>
+            </section>
+
+            <!-- ÉTAPES -->
+            <section class="steps">
+                <h2>Comment ça marche ?</h2>
+                <div class="steps-grid">
+                    <div class="step">
+                        <div class="number">1</div>
+                        <div class="content">
+                            <h4>Remplissez le formulaire</h4>
+                            <p>Indiquez votre nom, date de naissance et numéro WhatsApp.</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="number">2</div>
+                        <div class="content">
+                            <h4>Commandez votre carte</h4>
+                            <p>Cliquez sur "Commander" et ajoutez-la à votre panier.</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="number">3</div>
+                        <div class="content">
+                            <h4>Recevez votre carte</h4>
+                            <p>Vous recevrez tous les détails de votre carte par WhatsApp.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- FORMULAIRE DE COMMANDE -->
+            <section class="order-section">
+                <h2>Commandez votre DigitalPay Card</h2>
+                <div class="order-wrapper">
+                    <div class="card-preview">
+                        <!-- Carte déjà affichée plus haut, on la laisse visible -->
+                        <div class="credit-card" style="max-width:400px; height:230px;">
+                            <div class="card-logo">
+                                <img src="/assets/logo.png" alt="DigitalPay" />
+                                <span class="premium-badge">PREMIUM</span>
+                            </div>
+                            <div class="card-chip"></div>
+                            <div class="card-number">XXXX XXXX XXXX XXXX</div>
+                            <div class="card-details">
+                                <div><span class="label">Titulaire</span><span class="value" id="card-holder-form">VOTRE NOM</span></div>
+                                <div><span class="label">Expire</span><span class="value">MM/AA</span></div>
+                                <div class="card-cvc"><span class="label">CVC</span><span class="value">***</span></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="order-form">
+                        <div class="price-display">Prix : <span style="color:#fff; font-weight:400;">750</span> Gdes</div>
+                        <form id="cardForm">
+                            <div class="form-group">
+                                <label for="fullName"><i class="fa-solid fa-user"></i> Nom complet</label>
+                                <input type="text" id="fullName" placeholder="Exemple : Jean Dupont" required />
+                            </div>
+                            <div class="form-group">
+                                <label for="birthDate"><i class="fa-solid fa-calendar"></i> Date de naissance</label>
+                                <input type="date" id="birthDate" required />
+                            </div>
+                            <div class="form-group">
+                                <label for="whatsapp"><i class="fa-brands fa-whatsapp"></i> Numéro WhatsApp</label>
+                                <input type="tel" id="whatsapp" placeholder="Exemple : 50936535649" required />
+                            </div>
+                            <button type="button" class="btn-order" id="orderBtn">
+                                <i class="fa-solid fa-cart-plus"></i> Commander ma carte (750 Gdes)
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </section>
+
+            <!-- FAQ -->
+            <section class="faq-section">
+                <h2>Questions fréquentes</h2>
+                <div class="faq-list">
+                    <div class="faq-item active">
+                        <button class="faq-question">
+                            <span>Comment recevrai-je ma carte ?</span>
+                            <i class="fa-solid fa-chevron-down"></i>
+                        </button>
+                        <div class="faq-answer">Vous recevrez tous les détails de votre carte virtuelle directement sur WhatsApp après validation de votre commande.</div>
+                    </div>
+                    <div class="faq-item">
+                        <button class="faq-question">
+                            <span>Où puis-je utiliser ma carte ?</span>
+                            <i class="fa-solid fa-chevron-down"></i>
+                        </button>
+                        <div class="faq-answer">Vous pouvez l'utiliser pour tous vos achats en ligne, recharges gaming, abonnements streaming et services digitaux acceptant les cartes de crédit.</div>
+                    </div>
+                    <div class="faq-item">
+                        <button class="faq-question">
+                            <span>La carte est-elle sécurisée ?</span>
+                            <i class="fa-solid fa-chevron-down"></i>
+                        </button>
+                        <div class="faq-answer">Absolument. Vos données sont protégées par des technologies de cryptage avancées et nous ne partageons jamais vos informations.</div>
+                    </div>
+                </div>
+            </section>
         </div>
     </main>
 
@@ -335,6 +491,13 @@
         </div>
     </section>
 
+    <!-- PANIER FLOTTANT -->
+    <button class="cart-float" onclick="window.location.href='/panier.html'" aria-label="Panier">
+        <i class="fa-solid fa-bag-shopping"></i>
+        <span class="badge" id="cart-float-badge">0</span>
+    </button>
+
+    <!-- FOOTER -->
     <footer>
         <div class="footer-grid">
             <div class="footer-brand">
@@ -379,6 +542,7 @@
         </div>
     </footer>
 
+    <!-- SCRIPTS -->
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
     <script>
@@ -393,7 +557,6 @@
         if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
 
-        // PROTECTION
         auth.onAuthStateChanged((user) => {
             if (!user) {
                 window.location.href = '/authentification/login.html';
@@ -403,12 +566,10 @@
             }
         });
 
-        // LOGOUT
         document.getElementById('sidebar-logout').addEventListener('click', () => {
             auth.signOut().then(() => window.location.href = '/index.html');
         });
 
-        // SIDEBAR TOGGLE
         const overlay = document.getElementById('sidebar-overlay');
         const sidebar = document.getElementById('sidebar');
         document.getElementById('menu-open').addEventListener('click', () => {
@@ -423,12 +584,20 @@
 
         // PANIER
         function getCart() { try { return JSON.parse(localStorage.getItem('cart')) || []; } catch { return []; } }
-        function saveCart(cart) { localStorage.setItem('cart', JSON.stringify(cart)); }
+        function saveCart(cart) { localStorage.setItem('cart', JSON.stringify(cart)); updateBadge(); }
+
+        function updateBadge() {
+            const badge = document.getElementById('cart-float-badge');
+            if (badge) {
+                const cart = getCart();
+                badge.textContent = cart.length;
+            }
+        }
+        updateBadge();
 
         function showToast(msg, type = 'success') {
             const container = document.getElementById('toastContainer');
             if (!container) {
-                // Créer un conteneur si absent
                 const div = document.createElement('div');
                 div.id = 'toastContainer';
                 div.style.position = 'fixed';
@@ -497,33 +666,19 @@
             saveCart(cart);
             showToast('✅ DigitalPay Card ajoutée au panier !', 'success');
             document.getElementById('cardForm').reset();
-            // Mise à jour du badge panier
-            const badge = document.getElementById('cart-float-badge');
-            if (badge) {
-                const cartCount = getCart().length;
-                badge.textContent = cartCount;
-            }
+            // Mise à jour du badge
+            updateBadge();
         });
 
-        // Créer le badge panier s'il n'existe pas
-        if (!document.getElementById('cart-float-badge')) {
-            const floatBtn = document.createElement('button');
-            floatBtn.className = 'cart-float';
-            floatBtn.onclick = () => window.location.href = '/panier.html';
-            floatBtn.innerHTML = `<i class="fa-solid fa-bag-shopping"></i><span class="badge" id="cart-float-badge">0</span>`;
-            document.body.appendChild(floatBtn);
-            // Ajouter le style pour le bouton flottant
-            const style = document.createElement('style');
-            style.textContent = `
-                .cart-float { position:fixed; bottom:1.5rem; right:1.5rem; z-index:500; background:var(--gradient); color:#fff; width:48px; height:48px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:1.1rem; box-shadow:0 4px 12px rgba(0,0,0,0.4); cursor:pointer; border:none; transition:transform 0.2s; }
-                .cart-float:hover { transform:scale(1.05); }
-                .cart-float .badge { position:absolute; top:-4px; right:-4px; background:#ef4444; color:#fff; font-size:0.5rem; font-weight:700; width:18px; height:18px; border-radius:50%; display:flex; align-items:center; justify-content:center; }
-            `;
-            document.head.appendChild(style);
-            // Initialiser le badge
-            const cart = getCart();
-            document.getElementById('cart-float-badge').textContent = cart.length;
-        }
+        // FAQ toggle
+        document.querySelectorAll('.faq-question').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const item = this.parentElement;
+                const isActive = item.classList.contains('active');
+                document.querySelectorAll('.faq-item').forEach(el => el.classList.remove('active'));
+                if (!isActive) item.classList.add('active');
+            });
+        });
     </script>
 </body>
 </html>
