@@ -100,8 +100,16 @@
         .hero h1 span { background:var(--gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
         .hero p { font-size:0.95rem; color:var(--text-sec); max-width:550px; margin:0.5rem auto 1rem; }
 
-        /* ===== CARTE DE CRÉDIT UNIQUE ET RÉALISTE ===== */
-        .card-container { display:flex; justify-content:center; padding:1rem 0 2rem; }
+        /* ===== SOLDE & CARTE ===== */
+        .card-container { display:flex; justify-content:center; padding:1rem 0 2rem; flex-direction:column; align-items:center; }
+        .balance-display {
+            display:flex; justify-content:center; align-items:center; gap:0.5rem;
+            background:var(--glass); border:1px solid var(--border-light); padding:0.5rem 1.2rem;
+            border-radius:30px; margin-bottom:1rem; backdrop-filter:blur(6px); font-weight:600;
+        }
+        .balance-display i { color:var(--orange); }
+        .balance-display .amount { font-size:1.2rem; color:var(--text); }
+
         .credit-card {
             width:100%; max-width:440px; height:260px;
             background: linear-gradient(145deg, #1e1e2f, #141422, #0f0f1a);
@@ -125,6 +133,22 @@
         .credit-card .card-cvc { text-align:right; }
         .credit-card .card-holder { font-size:0.9rem; font-weight:500; letter-spacing:1px; color:#fff; margin-top:0.2rem; }
 
+        /* ===== POURQUOI CRÉER LA CARTE ? (visible au clic) ===== */
+        .reasons-wrapper { text-align:center; padding:1rem 0 0.5rem; }
+        .reasons-toggle {
+            background:var(--glass); border:1px solid var(--border-light); color:var(--text);
+            padding:0.6rem 1.5rem; border-radius:30px; cursor:pointer; font-weight:600; transition:all 0.2s; backdrop-filter:blur(6px);
+        }
+        .reasons-toggle:hover { background:var(--glass-hover); border-color:var(--orange); }
+        .reasons-toggle i { margin-right:0.5rem; color:var(--orange); }
+        .reasons-content { max-height:0; overflow:hidden; transition:max-height 0.5s ease; }
+        .reasons-content.open { max-height:600px; }
+        .reasons-grid { display:grid; grid-template-columns:1fr; gap:0.8rem; padding:1.5rem 0; }
+        .reason-card { background:var(--glass); border-radius:var(--radius); padding:1rem; border:1px solid var(--border-light); text-align:left; backdrop-filter:blur(6px); }
+        .reason-card i { color:var(--orange); margin-right:0.5rem; width:20px; }
+        .reason-card h4 { display:inline-block; font-weight:600; font-size:0.95rem; }
+        .reason-card p { font-size:0.8rem; color:var(--text-sec); margin-top:0.2rem; }
+
         /* ===== AVANTAGES ===== */
         .features { padding:1.5rem 0 2rem; border-top:1px solid var(--border-light); border-bottom:1px solid var(--border-light); }
         .features h2 { font-family:var(--font-title); font-size:1.3rem; font-weight:700; text-transform:uppercase; text-align:center; margin-bottom:1.5rem; }
@@ -135,16 +159,29 @@
         .feature-card h3 { font-size:1rem; font-weight:600; }
         .feature-card p { font-size:0.8rem; color:var(--text-sec); }
 
-        /* ===== COMMENT ÇA MARCHE ===== */
-        .steps { padding:2rem 0; }
-        .steps h2 { font-family:var(--font-title); font-size:1.3rem; font-weight:700; text-transform:uppercase; text-align:center; margin-bottom:1.5rem; }
-        .steps-grid { display:grid; grid-template-columns:1fr; gap:1.5rem; }
-        .step { display:flex; align-items:flex-start; gap:1rem; background:var(--glass); border-radius:var(--radius); padding:1.2rem; border:1px solid var(--border-light); }
-        .step .number { width:40px; height:40px; border-radius:50%; background:var(--gradient); display:flex; align-items:center; justify-content:center; font-weight:700; font-size:1rem; color:#fff; flex-shrink:0; }
-        .step .content h4 { font-weight:600; font-size:1rem; }
-        .step .content p { font-size:0.85rem; color:var(--text-sec); }
+        /* ===== RECHARGE ===== */
+        .recharge-section { padding:2rem 0; border-top:1px solid var(--border-light); }
+        .recharge-section h2 { font-family:var(--font-title); font-size:1.3rem; font-weight:700; text-transform:uppercase; text-align:center; margin-bottom:1.5rem; }
+        .recharge-wrapper { max-width:600px; margin:0 auto; background:var(--glass); border-radius:var(--radius); padding:1.5rem; border:1px solid var(--border-light); backdrop-filter:blur(6px); }
+        .recharge-wrapper .form-group { margin-bottom:1rem; }
+        .recharge-wrapper .form-group label { display:block; font-weight:600; font-size:0.85rem; color:var(--text-sec); margin-bottom:0.3rem; }
+        .recharge-wrapper .form-group label i { color:var(--orange); margin-right:0.4rem; }
+        .recharge-wrapper .form-group input, .recharge-wrapper .form-group select {
+            width:100%; padding:0.7rem 0.9rem; border-radius:10px;
+            border:1px solid rgba(255,255,255,0.06); background:rgba(255,255,255,0.02);
+            color:var(--text); font-size:0.95rem; outline:none; font-family:var(--font-body);
+        }
+        .recharge-wrapper .form-group select option { background:var(--bg-sidebar); color:var(--text); }
+        .recharge-wrapper .form-group input:focus, .recharge-wrapper .form-group select:focus { border-color:var(--orange); background:rgba(255,255,255,0.04); }
+        .btn-recharge {
+            display:flex; align-items:center; justify-content:center; gap:0.6rem;
+            width:100%; padding:0.8rem;
+            background:var(--gradient); border:none; border-radius:50px; color:#fff;
+            font-weight:700; font-size:1rem; cursor:pointer; transition:all 0.2s; font-family:var(--font-body);
+        }
+        .btn-recharge:hover { transform:scale(1.02); box-shadow:0 8px 30px rgba(249,115,22,0.2); }
 
-        /* ===== FORMULAIRE ===== */
+        /* ===== COMMANDE DE LA CARTE ===== */
         .order-section { padding:2rem 0; border-top:1px solid var(--border-light); }
         .order-section h2 { font-family:var(--font-title); font-size:1.3rem; font-weight:700; text-transform:uppercase; text-align:center; margin-bottom:1.5rem; }
         .order-wrapper { display:grid; grid-template-columns:1fr; gap:2rem; max-width:800px; margin:0 auto; }
@@ -212,7 +249,7 @@
         /* ===== RESPONSIVE ===== */
         @media (min-width: 480px) {
             .features-grid { grid-template-columns:1fr 1fr; }
-            .steps-grid { grid-template-columns:1fr 1fr; }
+            .reasons-grid { grid-template-columns:1fr 1fr; }
         }
 
         @media (min-width: 768px) {
@@ -226,7 +263,7 @@
             .credit-card .card-number { font-size:1.6rem; }
             .credit-card .card-logo img { height:48px; }
             .features-grid { grid-template-columns:repeat(3,1fr); }
-            .steps-grid { grid-template-columns:1fr 1fr 1fr; }
+            .reasons-grid { grid-template-columns:1fr 1fr 1fr; }
             .order-wrapper { grid-template-columns:1fr 1fr; align-items:start; }
             .community-links { flex-direction:row; justify-content:center; }
             .community-links .btn-whatsapp { width:auto; min-width:200px; }
@@ -238,6 +275,7 @@
         @media (min-width: 1024px) {
             .hero h1 { font-size:3.5rem; }
             .credit-card { max-width:540px; height:300px; }
+            .reasons-grid { grid-template-columns:1fr 1fr 1fr; }
         }
     </style>
 </head>
@@ -333,8 +371,13 @@
                 <p>Votre carte de crédit virtuelle, instantanée et sécurisée. Utilisez-la pour vos achats en ligne, recharges gaming, abonnements streaming et services digitaux.</p>
             </section>
 
-            <!-- CARTE DE CRÉDIT UNIQUE -->
-            <div class="card-container">
+            <!-- SOLDE & CARTE -->
+            <section class="card-container">
+                <div class="balance-display">
+                    <i class="fa-solid fa-coins"></i>
+                    <span>Solde :</span>
+                    <span class="amount" id="card-balance">0 Gdes</span>
+                </div>
                 <div class="credit-card">
                     <div class="card-logo">
                         <img src="/assets/logo.png" alt="DigitalPay" />
@@ -359,7 +402,48 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </section>
+
+            <!-- POURQUOI CRÉER LA CARTE ? (visible au clic) -->
+            <section class="reasons-wrapper">
+                <button class="reasons-toggle" id="reasonsToggle">
+                    <i class="fa-solid fa-plus-circle"></i> Pourquoi créer votre DigitalPay Card ?
+                </button>
+                <div class="reasons-content" id="reasonsContent">
+                    <div class="reasons-grid">
+                        <div class="reason-card">
+                            <i class="fa-solid fa-shield-halved"></i>
+                            <h4>Sécurité maximale</h4>
+                            <p>Vos transactions sont protégées par un cryptage avancé et vous contrôlez tout depuis votre compte.</p>
+                        </div>
+                        <div class="reason-card">
+                            <i class="fa-solid fa-bolt"></i>
+                            <h4>Instantanée</h4>
+                            <p>Pas d’attente. Créez votre carte en quelques secondes et commencez à l’utiliser immédiatement.</p>
+                        </div>
+                        <div class="reason-card">
+                            <i class="fa-solid fa-globe"></i>
+                            <h4>Utilisation universelle</h4>
+                            <p>Utilisez votre carte pour le gaming, le streaming, les services financiers et vos achats en ligne.</p>
+                        </div>
+                        <div class="reason-card">
+                            <i class="fa-solid fa-arrow-trend-up"></i>
+                            <h4>Rechargeable</h4>
+                            <p>Ajoutez des fonds quand vous voulez, depuis le site, avec plusieurs méthodes de paiement disponibles.</p>
+                        </div>
+                        <div class="reason-card">
+                            <i class="fa-solid fa-whatsapp"></i>
+                            <h4>Support WhatsApp</h4>
+                            <p>Une assistance dédiée et rapide via WhatsApp pour toutes vos questions sur votre carte.</p>
+                        </div>
+                        <div class="reason-card">
+                            <i class="fa-solid fa-gem"></i>
+                            <h4>100 % digitale</h4>
+                            <p>Pas de carte physique à perdre. Tout est géré en ligne, en toute simplicité.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
 
             <!-- AVANTAGES -->
             <section class="features">
@@ -383,39 +467,35 @@
                 </div>
             </section>
 
-            <!-- ÉTAPES -->
-            <section class="steps">
-                <h2>Comment ça marche ?</h2>
-                <div class="steps-grid">
-                    <div class="step">
-                        <div class="number">1</div>
-                        <div class="content">
-                            <h4>Remplissez le formulaire</h4>
-                            <p>Indiquez votre nom, date de naissance et numéro WhatsApp.</p>
-                        </div>
+            <!-- RECHARGE -->
+            <section class="recharge-section">
+                <h2>Recharger votre carte</h2>
+                <div class="recharge-wrapper">
+                    <div class="form-group">
+                        <label for="rechargeAmount"><i class="fa-solid fa-coins"></i> Montant à recharger (Gdes)</label>
+                        <input type="number" id="rechargeAmount" placeholder="Exemple : 500" min="50" step="50" required />
                     </div>
-                    <div class="step">
-                        <div class="number">2</div>
-                        <div class="content">
-                            <h4>Commandez votre carte</h4>
-                            <p>Cliquez sur "Commander" et ajoutez-la à votre panier.</p>
-                        </div>
+                    <div class="form-group">
+                        <label for="rechargeMethod"><i class="fa-solid fa-credit-card"></i> Méthode de paiement</label>
+                        <select id="rechargeMethod">
+                            <option value="">-- Choisissez une méthode --</option>
+                            <option value="Moncash">Moncash</option>
+                            <option value="Natcash">Natcash</option>
+                            <option value="Wise">Wise</option>
+                            <option value="PayPal">PayPal</option>
+                            <option value="USDT">USDT</option>
+                        </select>
                     </div>
-                    <div class="step">
-                        <div class="number">3</div>
-                        <div class="content">
-                            <h4>Recevez votre carte</h4>
-                            <p>Vous recevrez tous les détails de votre carte par WhatsApp.</p>
-                        </div>
-                    </div>
+                    <button class="btn-recharge" id="rechargeBtn">
+                        <i class="fa-solid fa-arrow-up"></i> Recharger maintenant
+                    </button>
                 </div>
             </section>
 
-            <!-- FORMULAIRE DE COMMANDE -->
+            <!-- COMMANDE DE LA CARTE -->
             <section class="order-section">
                 <h2>Commandez votre DigitalPay Card</h2>
                 <div class="order-wrapper">
-                    <!-- La carte est déjà affichée plus haut, on n'en ajoute pas une deuxième -->
                     <div class="order-form">
                         <div class="price-display">Prix : <span style="color:#fff; font-weight:400;">750</span> Gdes</div>
                         <form id="cardForm">
@@ -574,19 +654,51 @@
             overlay.classList.remove('active'); sidebar.classList.remove('active'); document.body.style.overflow = '';
         });
 
-        // PANIER
-        function getCart() { try { return JSON.parse(localStorage.getItem('cart')) || []; } catch { return []; } }
-        function saveCart(cart) { localStorage.setItem('cart', JSON.stringify(cart)); updateBadge(); }
-
-        function updateBadge() {
-            const badge = document.getElementById('cart-float-badge');
-            if (badge) {
-                const cart = getCart();
-                badge.textContent = cart.length;
+        // ===== GESTION SOLDE (localStorage) =====
+        function getBalance() {
+            try {
+                return parseInt(localStorage.getItem('digitalpay_balance')) || 0;
+            } catch { return 0; }
+        }
+        function setBalance(amount) {
+            localStorage.setItem('digitalpay_balance', amount.toString());
+            updateBalanceDisplay();
+        }
+        function updateBalanceDisplay() {
+            const balanceEl = document.getElementById('card-balance');
+            if (balanceEl) {
+                balanceEl.textContent = getBalance() + ' Gdes';
             }
         }
-        updateBadge();
+        updateBalanceDisplay();
 
+        // ===== RECHARGE =====
+        document.getElementById('rechargeBtn').addEventListener('click', function() {
+            const amount = parseInt(document.getElementById('rechargeAmount').value);
+            const method = document.getElementById('rechargeMethod').value;
+
+            if (!amount || amount < 50) {
+                showToast('Veuillez entrer un montant valide (minimum 50 Gdes).', 'error');
+                return;
+            }
+            if (!method) {
+                showToast('Veuillez choisir une méthode de paiement.', 'error');
+                return;
+            }
+
+            const currentBalance = getBalance();
+            const newBalance = currentBalance + amount;
+            setBalance(newBalance);
+
+            // Notification
+            showToast(`✅ Recharge de ${amount} Gdes effectuée via ${method} ! Nouveau solde : ${newBalance} Gdes`, 'success');
+
+            // Réinitialiser le formulaire
+            document.getElementById('rechargeAmount').value = '';
+            document.getElementById('rechargeMethod').value = '';
+        });
+
+        // ===== TOAST =====
         function showToast(msg, type = 'success') {
             const container = document.getElementById('toastContainer');
             if (!container) {
@@ -604,7 +716,6 @@
             }
             const container2 = document.getElementById('toastContainer');
             const toast = document.createElement('div');
-            toast.className = 'toast ' + type;
             const icon = type === 'success' ? 'fa-circle-check' : 'fa-circle-exclamation';
             toast.innerHTML = `<i class="fa-solid ${icon}"></i> ${msg}`;
             toast.style.padding = '0.8rem 1.2rem';
@@ -630,8 +741,21 @@
                 toast.style.opacity = '0';
                 toast.style.transform = 'translateY(20px) scale(0.95)';
                 setTimeout(() => toast.remove(), 400);
-            }, 3000);
+            }, 3500);
         }
+
+        // ===== COMMANDE DE LA CARTE =====
+        function getCart() { try { return JSON.parse(localStorage.getItem('cart')) || []; } catch { return []; } }
+        function saveCart(cart) { localStorage.setItem('cart', JSON.stringify(cart)); updateBadge(); }
+
+        function updateBadge() {
+            const badge = document.getElementById('cart-float-badge');
+            if (badge) {
+                const cart = getCart();
+                badge.textContent = cart.length;
+            }
+        }
+        updateBadge();
 
         document.getElementById('orderBtn').addEventListener('click', () => {
             const fullName = document.getElementById('fullName').value.trim();
@@ -661,7 +785,7 @@
             updateBadge();
         });
 
-        // FAQ toggle
+        // ===== FAQ TOGGLE =====
         document.querySelectorAll('.faq-question').forEach(btn => {
             btn.addEventListener('click', function() {
                 const item = this.parentElement;
@@ -670,6 +794,23 @@
                 if (!isActive) item.classList.add('active');
             });
         });
+
+        // ===== RAISONS TOGGLE =====
+        document.getElementById('reasonsToggle').addEventListener('click', function() {
+            const content = document.getElementById('reasonsContent');
+            content.classList.toggle('open');
+            const icon = this.querySelector('i');
+            if (content.classList.contains('open')) {
+                icon.className = 'fa-solid fa-minus-circle';
+                this.innerHTML = `<i class="fa-solid fa-minus-circle"></i> Masquer les avantages`;
+            } else {
+                icon.className = 'fa-solid fa-plus-circle';
+                this.innerHTML = `<i class="fa-solid fa-plus-circle"></i> Pourquoi créer votre DigitalPay Card ?`;
+            }
+        });
+
+        // Initialiser le solde au chargement
+        updateBalanceDisplay();
     </script>
 </body>
 </html>
