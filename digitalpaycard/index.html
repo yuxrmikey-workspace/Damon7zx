@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>DigitalPay Card – DigitalPay HT</title>
+    <title>DigitalPay Card – Commander</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Orbitron:wght@600;700&display=swap" rel="stylesheet" />
@@ -93,24 +93,14 @@
         main { width:100%; padding:0; margin:0 auto; position:relative; z-index:1; }
         .app-container { max-width:1200px; margin:0 auto; padding:0 1.2rem; width:100%; }
 
-        /* ===== HERO ===== */
+        /* HERO */
         .hero { text-align:center; padding:2rem 0 1rem; width:100%; }
-        .hero .badge { display:inline-block; background:rgba(249,115,22,0.08); color:var(--orange); font-size:0.55rem; font-weight:700; text-transform:uppercase; letter-spacing:2px; padding:0.15rem 0.7rem; border-radius:30px; margin-bottom:0.6rem; }
         .hero h1 { font-family:var(--font-title); font-size:2rem; font-weight:900; line-height:1.1; text-transform:uppercase; }
         .hero h1 span { background:var(--gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
         .hero p { font-size:0.95rem; color:var(--text-sec); max-width:550px; margin:0.5rem auto 1rem; }
 
-        /* ===== SOLDE & CARTE (affichage conditionnel) ===== */
+        /* CARTE FICTIVE */
         .card-container { display:flex; justify-content:center; padding:1rem 0 2rem; flex-direction:column; align-items:center; }
-
-        .balance-display {
-            display:flex; justify-content:center; align-items:center; gap:0.5rem;
-            background:var(--glass); border:1px solid var(--border-light); padding:0.5rem 1.2rem;
-            border-radius:30px; margin-bottom:1rem; backdrop-filter:blur(6px); font-weight:600;
-        }
-        .balance-display i { color:var(--orange); }
-        .balance-display .amount { font-size:1.2rem; color:var(--text); }
-
         .credit-card {
             width:100%; max-width:440px; height:260px;
             background: linear-gradient(145deg, #1e1e2f, #141422, #0f0f1a);
@@ -134,60 +124,9 @@
         .credit-card .card-cvc { text-align:right; }
         .credit-card .card-holder { font-size:0.9rem; font-weight:500; letter-spacing:1px; color:#fff; margin-top:0.2rem; }
 
-        .card-status { text-align:center; margin-top:0.5rem; font-size:0.9rem; }
-        .card-status.pending { color:var(--orange); }
-        .card-status.active { color:#4ade80; }
+        .card-status { text-align:center; margin-top:0.5rem; font-size:0.9rem; color:var(--text-sec); }
 
-        /* ===== POURQUOI CRÉER LA CARTE ? (visible au clic) ===== */
-        .reasons-wrapper { text-align:center; padding:1rem 0 0.5rem; }
-        .reasons-toggle {
-            background:var(--glass); border:1px solid var(--border-light); color:var(--text);
-            padding:0.6rem 1.5rem; border-radius:30px; cursor:pointer; font-weight:600; transition:all 0.2s; backdrop-filter:blur(6px);
-        }
-        .reasons-toggle:hover { background:var(--glass-hover); border-color:var(--orange); }
-        .reasons-toggle i { margin-right:0.5rem; color:var(--orange); }
-        .reasons-content { max-height:0; overflow:hidden; transition:max-height 0.5s ease; }
-        .reasons-content.open { max-height:600px; }
-        .reasons-grid { display:grid; grid-template-columns:1fr; gap:0.8rem; padding:1.5rem 0; }
-        .reason-card { background:var(--glass); border-radius:var(--radius); padding:1rem; border:1px solid var(--border-light); text-align:left; backdrop-filter:blur(6px); }
-        .reason-card i { color:var(--orange); margin-right:0.5rem; width:20px; }
-        .reason-card h4 { display:inline-block; font-weight:600; font-size:0.95rem; }
-        .reason-card p { font-size:0.8rem; color:var(--text-sec); margin-top:0.2rem; }
-
-        /* ===== AVANTAGES ===== */
-        .features { padding:1.5rem 0 2rem; border-top:1px solid var(--border-light); border-bottom:1px solid var(--border-light); }
-        .features h2 { font-family:var(--font-title); font-size:1.3rem; font-weight:700; text-transform:uppercase; text-align:center; margin-bottom:1.5rem; }
-        .features-grid { display:grid; grid-template-columns:1fr; gap:1rem; }
-        .feature-card { background:var(--glass); border-radius:var(--radius); padding:1.5rem 1rem; text-align:center; border:1px solid var(--border-light); transition:all 0.2s; backdrop-filter:blur(6px); }
-        .feature-card:hover { background:var(--glass-hover); border-color:rgba(249,115,22,0.2); }
-        .feature-card i { font-size:2.2rem; background:var(--gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent; margin-bottom:0.5rem; }
-        .feature-card h3 { font-size:1rem; font-weight:600; }
-        .feature-card p { font-size:0.8rem; color:var(--text-sec); }
-
-        /* ===== RECHARGE (visible seulement si la carte est active) ===== */
-        .recharge-section { padding:2rem 0; border-top:1px solid var(--border-light); display:none; }
-        .recharge-section.visible { display:block; }
-        .recharge-section h2 { font-family:var(--font-title); font-size:1.3rem; font-weight:700; text-transform:uppercase; text-align:center; margin-bottom:1.5rem; }
-        .recharge-wrapper { max-width:600px; margin:0 auto; background:var(--glass); border-radius:var(--radius); padding:1.5rem; border:1px solid var(--border-light); backdrop-filter:blur(6px); }
-        .recharge-wrapper .form-group { margin-bottom:1rem; }
-        .recharge-wrapper .form-group label { display:block; font-weight:600; font-size:0.85rem; color:var(--text-sec); margin-bottom:0.3rem; }
-        .recharge-wrapper .form-group label i { color:var(--orange); margin-right:0.4rem; }
-        .recharge-wrapper .form-group input, .recharge-wrapper .form-group select {
-            width:100%; padding:0.7rem 0.9rem; border-radius:10px;
-            border:1px solid rgba(255,255,255,0.06); background:rgba(255,255,255,0.02);
-            color:var(--text); font-size:0.95rem; outline:none; font-family:var(--font-body);
-        }
-        .recharge-wrapper .form-group select option { background:var(--bg-sidebar); color:var(--text); }
-        .recharge-wrapper .form-group input:focus, .recharge-wrapper .form-group select:focus { border-color:var(--orange); background:rgba(255,255,255,0.04); }
-        .btn-recharge {
-            display:flex; align-items:center; justify-content:center; gap:0.6rem;
-            width:100%; padding:0.8rem;
-            background:var(--gradient); border:none; border-radius:50px; color:#fff;
-            font-weight:700; font-size:1rem; cursor:pointer; transition:all 0.2s; font-family:var(--font-body);
-        }
-        .btn-recharge:hover { transform:scale(1.02); box-shadow:0 8px 30px rgba(249,115,22,0.2); }
-
-        /* ===== COMMANDE DE LA CARTE ===== */
+        /* FORMULAIRE DE COMMANDE */
         .order-section { padding:2rem 0; border-top:1px solid var(--border-light); }
         .order-section h2 { font-family:var(--font-title); font-size:1.3rem; font-weight:700; text-transform:uppercase; text-align:center; margin-bottom:1.5rem; }
         .order-wrapper { display:grid; grid-template-columns:1fr; gap:2rem; max-width:800px; margin:0 auto; }
@@ -210,40 +149,12 @@
         }
         .order-form .btn-order:hover { transform:scale(1.02); box-shadow:0 8px 30px rgba(249,115,22,0.2); }
 
-        /* ===== BOUTON DE VALIDATION ADMIN (SIMULATION) ===== */
-        .admin-sim { text-align:center; margin:1rem 0; display:none; }
-        .admin-sim button {
-            background:var(--orange); color:#fff; padding:0.5rem 1.5rem; border:none; border-radius:30px; cursor:pointer; font-weight:600;
-        }
-
-        /* ===== FAQ ===== */
-        .faq-section { padding:2rem 0; border-top:1px solid var(--border-light); }
-        .faq-section h2 { font-family:var(--font-title); font-size:1.3rem; font-weight:700; text-transform:uppercase; text-align:center; margin-bottom:1.5rem; }
-        .faq-list { max-width:700px; margin:0 auto; }
-        .faq-item { border-bottom:1px solid var(--border-light); padding:0.8rem 0; }
-        .faq-item:last-child { border-bottom:none; }
-        .faq-question { display:flex; justify-content:space-between; align-items:center; cursor:pointer; font-weight:600; font-size:0.95rem; background:none; border:none; color:var(--text); width:100%; text-align:left; padding:0; }
-        .faq-question i { color:var(--orange); transition:transform 0.3s; }
-        .faq-item.active .faq-question i { transform:rotate(180deg); }
-        .faq-answer { max-height:0; overflow:hidden; transition:max-height 0.3s ease; color:var(--text-sec); font-size:0.85rem; }
-        .faq-item.active .faq-answer { max-height:200px; padding-top:0.5rem; }
-
-        /* ===== SECTION WHATSAPP ===== */
-        .community-section { text-align:center; padding:1.5rem 0 1rem; border-top:1px solid var(--border-light); border-bottom:1px solid var(--border-light); margin-bottom:1.5rem; }
-        .community-section h2 { font-family:var(--font-title); font-size:1.1rem; font-weight:700; text-transform:uppercase; margin-bottom:0.3rem; }
-        .community-section p { font-size:0.85rem; color:var(--text-sec); max-width:400px; margin:0 auto 1rem; }
-        .community-links { display:flex; flex-direction:column; gap:0.6rem; align-items:center; }
-        .community-links .btn-whatsapp { display:inline-flex; align-items:center; gap:0.6rem; padding:0.6rem 1.5rem; border-radius:30px; font-weight:600; font-size:0.85rem; text-decoration:none; transition:opacity 0.2s; width:100%; max-width:280px; justify-content:center; }
-        .community-links .btn-whatsapp:hover { opacity:0.85; }
-        .community-links .btn-whatsapp.green { background:#25d366; color:#fff; }
-        .community-links .btn-whatsapp.dark { background:#1a7a3a; color:#fff; }
-
-        /* ===== PANIER FLOTTANT ===== */
+        /* PANIER FLOTTANT */
         .cart-float { position:fixed; bottom:1.5rem; right:1.5rem; z-index:500; background:var(--gradient); color:#fff; width:48px; height:48px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:1.1rem; box-shadow:0 4px 12px rgba(0,0,0,0.4); cursor:pointer; border:none; transition:transform 0.2s; }
         .cart-float:hover { transform:scale(1.05); }
         .cart-float .badge { position:absolute; top:-4px; right:-4px; background:#ef4444; color:#fff; font-size:0.5rem; font-weight:700; width:18px; height:18px; border-radius:50%; display:flex; align-items:center; justify-content:center; }
 
-        /* ===== FOOTER ===== */
+        /* FOOTER */
         footer { background:var(--bg-sidebar); padding:2rem 1.2rem 1rem; width:100%; border-top:2px solid rgba(255,255,255,0.04); margin:0; }
         .footer-grid { display:grid; grid-template-columns:1fr; gap:1.5rem; max-width:1200px; margin:0 auto; }
         .footer-brand .logo-footer { height:50px; width:auto; display:block; margin-bottom:0.3rem; }
@@ -258,13 +169,7 @@
         .footer-social a:hover { color:var(--orange); }
         .footer-bottom { text-align:center; font-size:0.65rem; color:var(--text-muted); border-top:1px solid var(--border-light); padding-top:0.8rem; margin-top:1.2rem; display:flex; flex-direction:column; gap:0.2rem; }
 
-        /* ===== RESPONSIVE ===== */
-        @media (min-width: 480px) {
-            .features-grid { grid-template-columns:1fr 1fr; }
-            .reasons-grid { grid-template-columns:1fr 1fr; }
-        }
-
-        @media (min-width: 768px) {
+        @media (min-width:768px) {
             header { padding:0 2.5rem; }
             .menu-toggle { display:none; }
             .nav-links { display:flex; gap:1.8rem; }
@@ -274,20 +179,10 @@
             .credit-card { max-width:500px; height:280px; padding:2rem; }
             .credit-card .card-number { font-size:1.6rem; }
             .credit-card .card-logo img { height:48px; }
-            .features-grid { grid-template-columns:repeat(3,1fr); }
-            .reasons-grid { grid-template-columns:1fr 1fr 1fr; }
             .order-wrapper { grid-template-columns:1fr 1fr; align-items:start; }
-            .community-links { flex-direction:row; justify-content:center; }
-            .community-links .btn-whatsapp { width:auto; min-width:200px; }
             .footer-grid { grid-template-columns:1fr 2fr; gap:2rem; }
             .footer-links-grid { grid-template-columns:repeat(3,1fr); }
             .footer-bottom { flex-direction:row; justify-content:space-between; }
-        }
-
-        @media (min-width: 1024px) {
-            .hero h1 { font-size:3.5rem; }
-            .credit-card { max-width:540px; height:300px; }
-            .reasons-grid { grid-template-columns:1fr 1fr 1fr; }
         }
     </style>
 </head>
@@ -309,15 +204,12 @@
         </div>
     </header>
 
-    <!-- SIDEBAR UNIQUE -->
+    <!-- SIDEBAR -->
     <div class="sidebar-overlay" id="sidebar-overlay"></div>
     <div class="sidebar" id="sidebar">
         <button class="sidebar-close-btn" id="sidebar-close-btn"><i class="fa-solid fa-xmark"></i></button>
         <div class="sidebar-scroll">
-            <div class="sidebar-logo">
-                <img src="/assets/logo.png" alt="DigitalPay" />
-                <span>DigitalPay</span>
-            </div>
+            <div class="sidebar-logo"><img src="/assets/logo.png" alt="DigitalPay" /><span>DigitalPay</span></div>
             <div class="sidebar-header">
                 <div class="sidebar-profile">
                     <div class="avatar" id="sidebar-avatar"><i class="fa-regular fa-user"></i></div>
@@ -368,9 +260,7 @@
             </div>
         </div>
         <div class="sidebar-footer">
-            <button class="logout-btn" id="sidebar-logout">
-                <i class="fa-solid fa-arrow-right-from-bracket"></i> Se déconnecter
-            </button>
+            <button class="logout-btn" id="sidebar-logout"><i class="fa-solid fa-arrow-right-from-bracket"></i> Se déconnecter</button>
         </div>
     </div>
 
@@ -378,141 +268,29 @@
         <div class="app-container">
             <!-- HERO -->
             <section class="hero">
-                <div class="badge">⚡ Nouveau</div>
                 <h1>DigitalPay <span>Card</span></h1>
-                <p>Votre carte de crédit virtuelle, instantanée et sécurisée. Utilisez-la pour vos achats en ligne, recharges gaming, abonnements streaming et services digitaux.</p>
+                <p>Commandez votre carte de crédit virtuelle, instantanée et sécurisée.</p>
             </section>
 
-            <!-- SOLDE & CARTE (affichage conditionnel) -->
+            <!-- CARTE FICTIVE -->
             <section class="card-container">
-                <!-- Solde (visible seulement si carte active) -->
-                <div class="balance-display" id="balanceDisplay" style="display:none;">
-                    <i class="fa-solid fa-coins"></i>
-                    <span>Solde :</span>
-                    <span class="amount" id="card-balance">0 Gdes</span>
-                </div>
-
-                <!-- Carte de crédit -->
                 <div class="credit-card">
                     <div class="card-logo">
                         <img src="/assets/logo.png" alt="DigitalPay" />
                         <span class="premium-badge">PREMIUM</span>
                     </div>
                     <div class="card-chip"></div>
-                    <div class="card-number" id="card-number-display">
-                        <span>XXXX XXXX XXXX XXXX</span>
-                    </div>
+                    <div class="card-number"><span>XXXX XXXX XXXX XXXX</span></div>
                     <div class="card-details">
-                        <div>
-                            <span class="label">Titulaire</span>
-                            <span class="value" id="card-holder">VOTRE NOM</span>
-                        </div>
-                        <div>
-                            <span class="label">Expire</span>
-                            <span class="value" id="card-expiry">MM/AA</span>
-                        </div>
-                        <div class="card-cvc">
-                            <span class="label">CVC</span>
-                            <span class="value" id="card-cvc">***</span>
-                        </div>
+                        <div><span class="label">Titulaire</span><span class="value" id="card-holder">VOTRE NOM</span></div>
+                        <div><span class="label">Expire</span><span class="value">MM/AA</span></div>
+                        <div class="card-cvc"><span class="label">CVC</span><span class="value">***</span></div>
                     </div>
                 </div>
-
-                <!-- Statut de la carte -->
-                <div class="card-status" id="cardStatus">
-                    <!-- sera rempli par JS -->
-                </div>
+                <div class="card-status">💳 Commandez votre carte ci-dessous</div>
             </section>
 
-            <!-- POURQUOI CRÉER LA CARTE ? -->
-            <section class="reasons-wrapper">
-                <button class="reasons-toggle" id="reasonsToggle">
-                    <i class="fa-solid fa-plus-circle"></i> Pourquoi créer votre DigitalPay Card ?
-                </button>
-                <div class="reasons-content" id="reasonsContent">
-                    <div class="reasons-grid">
-                        <div class="reason-card">
-                            <i class="fa-solid fa-shield-halved"></i>
-                            <h4>Sécurité maximale</h4>
-                            <p>Vos transactions sont protégées par un cryptage avancé et vous contrôlez tout depuis votre compte.</p>
-                        </div>
-                        <div class="reason-card">
-                            <i class="fa-solid fa-bolt"></i>
-                            <h4>Instantanée</h4>
-                            <p>Pas d'attente. Créez votre carte en quelques secondes et commencez à l'utiliser immédiatement.</p>
-                        </div>
-                        <div class="reason-card">
-                            <i class="fa-solid fa-globe"></i>
-                            <h4>Utilisation universelle</h4>
-                            <p>Utilisez votre carte pour le gaming, le streaming, les services financiers et vos achats en ligne.</p>
-                        </div>
-                        <div class="reason-card">
-                            <i class="fa-solid fa-arrow-trend-up"></i>
-                            <h4>Rechargeable</h4>
-                            <p>Ajoutez des fonds quand vous voulez, depuis le site, avec plusieurs méthodes de paiement disponibles.</p>
-                        </div>
-                        <div class="reason-card">
-                            <i class="fa-solid fa-whatsapp"></i>
-                            <h4>Support WhatsApp</h4>
-                            <p>Une assistance dédiée et rapide via WhatsApp pour toutes vos questions sur votre carte.</p>
-                        </div>
-                        <div class="reason-card">
-                            <i class="fa-solid fa-gem"></i>
-                            <h4>100 % digitale</h4>
-                            <p>Pas de carte physique à perdre. Tout est géré en ligne, en toute simplicité.</p>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- AVANTAGES -->
-            <section class="features">
-                <h2>Pourquoi choisir DigitalPay Card ?</h2>
-                <div class="features-grid">
-                    <div class="feature-card">
-                        <i class="fa-solid fa-bolt"></i>
-                        <h3>Instantané</h3>
-                        <p>Créez votre carte en quelques secondes et utilisez-la immédiatement.</p>
-                    </div>
-                    <div class="feature-card">
-                        <i class="fa-solid fa-shield-halved"></i>
-                        <h3>Sécurisé</h3>
-                        <p>Vos données sont protégées par les technologies les plus avancées.</p>
-                    </div>
-                    <div class="feature-card">
-                        <i class="fa-solid fa-globe"></i>
-                        <h3>Universel</h3>
-                        <p>Utilisable pour tous vos achats en ligne, recharges et abonnements.</p>
-                    </div>
-                </div>
-            </section>
-
-            <!-- RECHARGE (visible seulement si carte active) -->
-            <section class="recharge-section" id="rechargeSection">
-                <h2>Recharger votre carte</h2>
-                <div class="recharge-wrapper">
-                    <div class="form-group">
-                        <label for="rechargeAmount"><i class="fa-solid fa-coins"></i> Montant à recharger (Gdes)</label>
-                        <input type="number" id="rechargeAmount" placeholder="Exemple : 500" min="50" step="50" required />
-                    </div>
-                    <div class="form-group">
-                        <label for="rechargeMethod"><i class="fa-solid fa-credit-card"></i> Méthode de paiement</label>
-                        <select id="rechargeMethod">
-                            <option value="">-- Choisissez une méthode --</option>
-                            <option value="Moncash">Moncash</option>
-                            <option value="Natcash">Natcash</option>
-                            <option value="Wise">Wise</option>
-                            <option value="PayPal">PayPal</option>
-                            <option value="USDT">USDT</option>
-                        </select>
-                    </div>
-                    <button class="btn-recharge" id="rechargeBtn">
-                        <i class="fa-solid fa-arrow-up"></i> Recharger maintenant
-                    </button>
-                </div>
-            </section>
-
-            <!-- COMMANDE DE LA CARTE -->
+            <!-- FORMULAIRE DE COMMANDE -->
             <section class="order-section">
                 <h2>Commandez votre DigitalPay Card</h2>
                 <div class="order-wrapper">
@@ -538,63 +316,14 @@
                     </div>
                 </div>
             </section>
-
-            <!-- BOUTON DE SIMULATION ADMIN (pour tester la validation) -->
-            <div class="admin-sim" id="adminSim">
-                <button id="simulateValidation">🚀 Simuler la validation de la carte (Admin)</button>
-            </div>
-
-            <!-- FAQ -->
-            <section class="faq-section">
-                <h2>Questions fréquentes</h2>
-                <div class="faq-list">
-                    <div class="faq-item active">
-                        <button class="faq-question">
-                            <span>Comment recevrai-je ma carte ?</span>
-                            <i class="fa-solid fa-chevron-down"></i>
-                        </button>
-                        <div class="faq-answer">Vous recevrez tous les détails de votre carte virtuelle directement sur WhatsApp après validation de votre commande.</div>
-                    </div>
-                    <div class="faq-item">
-                        <button class="faq-question">
-                            <span>Où puis-je utiliser ma carte ?</span>
-                            <i class="fa-solid fa-chevron-down"></i>
-                        </button>
-                        <div class="faq-answer">Vous pouvez l'utiliser pour tous vos achats en ligne, recharges gaming, abonnements streaming et services digitaux acceptant les cartes de crédit.</div>
-                    </div>
-                    <div class="faq-item">
-                        <button class="faq-question">
-                            <span>La carte est-elle sécurisée ?</span>
-                            <i class="fa-solid fa-chevron-down"></i>
-                        </button>
-                        <div class="faq-answer">Absolument. Vos données sont protégées par des technologies de cryptage avancées et nous ne partageons jamais vos informations.</div>
-                    </div>
-                </div>
-            </section>
         </div>
     </main>
 
-    <!-- SECTION WHATSAPP -->
-    <section class="community-section">
-        <h2>Rejoignez notre communauté</h2>
-        <p>Restez connecté pour ne manquer aucune promo et offre exclusive !</p>
-        <div class="community-links">
-            <a href="https://whatsapp.com/channel/0029VbAcGmCGufIrRej1sR04" class="btn-whatsapp green" target="_blank">
-                <i class="fa-brands fa-whatsapp"></i> Chaîne WhatsApp
-            </a>
-            <a href="https://chat.whatsapp.com/FV6m1fFoFYMERC34UyQyVZ" class="btn-whatsapp dark" target="_blank">
-                <i class="fa-solid fa-users"></i> Groupe WhatsApp
-            </a>
-        </div>
-    </section>
-
-    <!-- PANIER FLOTTANT -->
     <button class="cart-float" onclick="window.location.href='/panier.html'" aria-label="Panier">
         <i class="fa-solid fa-bag-shopping"></i>
         <span class="badge" id="cart-float-badge">0</span>
     </button>
 
-    <!-- FOOTER -->
     <footer>
         <div class="footer-grid">
             <div class="footer-brand">
@@ -607,43 +336,17 @@
                 </div>
             </div>
             <div class="footer-links-grid">
-                <div class="footer-col">
-                    <h4>Services</h4>
-                    <ul>
-                        <li><a href="/gaming.html">Gaming</a></li>
-                        <li><a href="/streaming.html">Streaming</a></li>
-                        <li><a href="/services-digitaux.html">Services Financiers</a></li>
-                        <li><a href="/echange/index.html">Échange</a></li>
-                    </ul>
-                </div>
-                <div class="footer-col">
-                    <h4>Cartes</h4>
-                    <ul>
-                        <li><a href="/giftcard/index.html">Gift Card</a></li>
-                        <li><a href="/digitalpaycard/index.html">DigitalPay Card</a></li>
-                    </ul>
-                </div>
-                <div class="footer-col">
-                    <h4>Support</h4>
-                    <ul>
-                        <li><a href="/support/help.html">Centre d'aide</a></li>
-                        <li><a href="/legal/conditions-utilisation.html">Conditions</a></li>
-                        <li><a href="/legal/politique-confidentialite.html">Confidentialité</a></li>
-                    </ul>
-                </div>
+                <div class="footer-col"><h4>Services</h4><ul><li><a href="/gaming.html">Gaming</a></li><li><a href="/streaming.html">Streaming</a></li><li><a href="/services-digitaux.html">Services Financiers</a></li><li><a href="/echange/index.html">Échange</a></li></ul></div>
+                <div class="footer-col"><h4>Cartes</h4><ul><li><a href="/giftcard/index.html">Gift Card</a></li><li><a href="/digitalpaycard/index.html">DigitalPay Card</a></li></ul></div>
+                <div class="footer-col"><h4>Support</h4><ul><li><a href="/support/help.html">Centre d'aide</a></li><li><a href="/legal/conditions-utilisation.html">Conditions</a></li><li><a href="/legal/politique-confidentialite.html">Confidentialité</a></li></ul></div>
             </div>
         </div>
-        <div class="footer-bottom">
-            <span>&copy; 2026 DigitalPay. Tous droits réservés.</span>
-            <span>Paiements sécurisés • Support WhatsApp</span>
-        </div>
+        <div class="footer-bottom"><span>&copy; 2026 DigitalPay. Tous droits réservés.</span><span>Paiements sécurisés • Support WhatsApp</span></div>
     </footer>
 
-    <!-- SCRIPTS -->
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
     <script>
-        // Firebase
         const firebaseConfig = {
             apiKey: "AIzaSyDCj6vyMXsdEMlH-vYOWdwcfoD2VI622Uc",
             authDomain: "digitalpayhaiti-509.firebaseapp.com",
@@ -656,9 +359,8 @@
         const auth = firebase.auth();
 
         auth.onAuthStateChanged((user) => {
-            if (!user) {
-                window.location.href = '/authentification/login.html';
-            } else {
+            if (!user) { window.location.href = '/authentification/login.html'; }
+            else {
                 document.getElementById('sidebar-name').textContent = user.displayName || user.email || 'Utilisateur';
                 document.getElementById('sidebar-email').textContent = user.email || 'Connecté';
             }
@@ -668,6 +370,7 @@
             auth.signOut().then(() => window.location.href = '/index.html');
         });
 
+        // Sidebar toggle
         const overlay = document.getElementById('sidebar-overlay');
         const sidebar = document.getElementById('sidebar');
         document.getElementById('menu-open').addEventListener('click', () => {
@@ -680,96 +383,9 @@
             overlay.classList.remove('active'); sidebar.classList.remove('active'); document.body.style.overflow = '';
         });
 
-        // ===== GESTION DES DONNÉES DE LA CARTE (simulé avec localStorage) =====
-        // Dans une vraie application, les informations de la carte viendraient de Firestore
-        const cardKey = 'digitalpay_card_data';
-        const balanceKey = 'digitalpay_balance';
-
-        // Données par défaut (carte fictive)
-        const defaultCard = {
-            status: 'none', // 'none' | 'pending' | 'active'
-            holder: 'VOTRE NOM',
-            number: 'XXXX XXXX XXXX XXXX',
-            expiry: 'MM/AA',
-            cvc: '***',
-            balance: 0
-        };
-
-        function getCardData() {
-            try {
-                const data = JSON.parse(localStorage.getItem(cardKey));
-                if (data && data.status) {
-                    return data;
-                }
-            } catch (e) {}
-            return { ...defaultCard };
-        }
-
-        function saveCardData(data) {
-            localStorage.setItem(cardKey, JSON.stringify(data));
-            // Mettre à jour le solde séparément pour compatibilité
-            localStorage.setItem(balanceKey, data.balance.toString());
-            updateUI(data);
-        }
-
-        function getBalance() {
-            try {
-                return parseInt(localStorage.getItem(balanceKey)) || 0;
-            } catch { return 0; }
-        }
-
-        // ===== MISE À JOUR DE L'INTERFACE =====
-        function updateUI(cardData) {
-            const status = cardData.status;
-
-            // Mise à jour des éléments de la carte
-            document.getElementById('card-holder').textContent = cardData.holder;
-            document.getElementById('card-number-display').innerHTML = `<span>${cardData.number}</span>`;
-            document.getElementById('card-expiry').textContent = cardData.expiry;
-            document.getElementById('card-cvc').textContent = cardData.cvc;
-
-            // Affichage du solde et de la recharge
-            const balanceDisplay = document.getElementById('balanceDisplay');
-            const rechargeSection = document.getElementById('rechargeSection');
-            const statusEl = document.getElementById('cardStatus');
-            const orderSection = document.querySelector('.order-section');
-            const adminSim = document.getElementById('adminSim');
-
-            if (status === 'active') {
-                balanceDisplay.style.display = 'flex';
-                rechargeSection.classList.add('visible');
-                statusEl.textContent = '✅ Carte active';
-                statusEl.className = 'card-status active';
-                orderSection.style.display = 'none'; // masquer le formulaire de commande
-                adminSim.style.display = 'none'; // masquer le bouton admin
-                // Mettre à jour le solde affiché
-                document.getElementById('card-balance').textContent = cardData.balance + ' Gdes';
-            } else if (status === 'pending') {
-                balanceDisplay.style.display = 'none';
-                rechargeSection.classList.remove('visible');
-                statusEl.textContent = '⏳ En attente de validation par l\'administrateur';
-                statusEl.className = 'card-status pending';
-                orderSection.style.display = 'block';
-                adminSim.style.display = 'block';
-            } else {
-                // 'none' (pas encore commandé)
-                balanceDisplay.style.display = 'none';
-                rechargeSection.classList.remove('visible');
-                statusEl.textContent = '💳 Commandez votre carte ci-dessous';
-                statusEl.className = 'card-status';
-                orderSection.style.display = 'block';
-                adminSim.style.display = 'block'; // pour tester
-            }
-        }
-
-        // Initialisation
-        let cardData = getCardData();
-        updateUI(cardData);
-
-        // ===== COMMANDE DE LA CARTE =====
+        // Panier badge
         function getCart() { try { return JSON.parse(localStorage.getItem('cart')) || []; } catch { return []; } }
         function saveCart(cart) { localStorage.setItem('cart', JSON.stringify(cart)); updateBadge(); }
-
         function updateBadge() {
             const badge = document.getElementById('cart-float-badge');
             if (badge) {
@@ -779,89 +395,9 @@
         }
         updateBadge();
 
-        document.getElementById('orderBtn').addEventListener('click', () => {
-            const fullName = document.getElementById('fullName').value.trim();
-            const birthDate = document.getElementById('birthDate').value;
-            const whatsapp = document.getElementById('whatsapp').value.trim();
-
-            if (!fullName) { showToast('Veuillez entrer votre nom complet.', 'error'); return; }
-            if (!birthDate) { showToast('Veuillez entrer votre date de naissance.', 'error'); return; }
-            if (!whatsapp) { showToast('Veuillez entrer votre numéro WhatsApp.', 'error'); return; }
-
-            // Ajouter au panier
-            const cart = getCart();
-            cart.push({
-                id: 'digitalpay_card_' + Date.now(),
-                productId: 'digitalpay_card',
-                name: 'DigitalPay Card Virtuelle',
-                price: 750,
-                quantity: 1,
-                fullName,
-                birthDate,
-                whatsapp,
-                image: '/assets/digitalpaycard-logo.png',
-                source: 'DigitalPay Card'
-            });
-            saveCart(cart);
-            showToast('✅ Commande passée ! En attente de validation par l\'admin.', 'success');
-            document.getElementById('cardForm').reset();
-            updateBadge();
-
-            // Passer le statut à 'pending'
-            cardData.status = 'pending';
-            cardData.holder = fullName.toUpperCase();
-            saveCardData(cardData);
-        });
-
-        // ===== RECHARGE =====
-        document.getElementById('rechargeBtn').addEventListener('click', function() {
-            const amount = parseInt(document.getElementById('rechargeAmount').value);
-            const method = document.getElementById('rechargeMethod').value;
-
-            if (!amount || amount < 50) {
-                showToast('Veuillez entrer un montant valide (minimum 50 Gdes).', 'error');
-                return;
-            }
-            if (!method) {
-                showToast('Veuillez choisir une méthode de paiement.', 'error');
-                return;
-            }
-
-            const currentBalance = getBalance();
-            const newBalance = currentBalance + amount;
-            cardData.balance = newBalance;
-            saveCardData(cardData);
-
-            showToast(`✅ Recharge de ${amount} Gdes effectuée via ${method} ! Nouveau solde : ${newBalance} Gdes`, 'success');
-
-            document.getElementById('rechargeAmount').value = '';
-            document.getElementById('rechargeMethod').value = '';
-        });
-
-        // ===== SIMULATION ADMIN (VALIDATION) =====
-        document.getElementById('simulateValidation').addEventListener('click', function() {
-            if (cardData.status === 'pending') {
-                // Générer des informations de carte réelles
-                const randomNumber = () => Math.floor(1000 + Math.random() * 9000).toString();
-                const number = `${randomNumber()} ${randomNumber()} ${randomNumber()} ${randomNumber()}`;
-                const expiryMonth = String(Math.floor(1 + Math.random() * 12)).padStart(2, '0');
-                const expiryYear = String(2026 + Math.floor(Math.random() * 5)).slice(-2);
-                const cvc = String(Math.floor(100 + Math.random() * 900));
-
-                cardData.status = 'active';
-                cardData.number = number;
-                cardData.expiry = `${expiryMonth}/${expiryYear}`;
-                cardData.cvc = cvc;
-                cardData.balance = 0; // solde initial
-                saveCardData(cardData);
-                showToast('✅ Carte validée par l\'admin ! Les vraies informations sont maintenant affichées.', 'success');
-            } else {
-                showToast('Aucune commande en attente de validation.', 'error');
-            }
-        });
-
-        // ===== TOAST =====
+        // Toast
         function showToast(msg, type = 'success') {
+            // (même fonction que précédemment)
             const container = document.getElementById('toastContainer');
             if (!container) {
                 const div = document.createElement('div');
@@ -906,28 +442,38 @@
             }, 3500);
         }
 
-        // ===== FAQ TOGGLE =====
-        document.querySelectorAll('.faq-question').forEach(btn => {
-            btn.addEventListener('click', function() {
-                const item = this.parentElement;
-                const isActive = item.classList.contains('active');
-                document.querySelectorAll('.faq-item').forEach(el => el.classList.remove('active'));
-                if (!isActive) item.classList.add('active');
-            });
-        });
+        document.getElementById('orderBtn').addEventListener('click', () => {
+            const fullName = document.getElementById('fullName').value.trim();
+            const birthDate = document.getElementById('birthDate').value;
+            const whatsapp = document.getElementById('whatsapp').value.trim();
 
-        // ===== RAISONS TOGGLE =====
-        document.getElementById('reasonsToggle').addEventListener('click', function() {
-            const content = document.getElementById('reasonsContent');
-            content.classList.toggle('open');
-            const icon = this.querySelector('i');
-            if (content.classList.contains('open')) {
-                icon.className = 'fa-solid fa-minus-circle';
-                this.innerHTML = `<i class="fa-solid fa-minus-circle"></i> Masquer les avantages`;
-            } else {
-                icon.className = 'fa-solid fa-plus-circle';
-                this.innerHTML = `<i class="fa-solid fa-plus-circle"></i> Pourquoi créer votre DigitalPay Card ?`;
-            }
+            if (!fullName) { showToast('Veuillez entrer votre nom complet.', 'error'); return; }
+            if (!birthDate) { showToast('Veuillez entrer votre date de naissance.', 'error'); return; }
+            if (!whatsapp) { showToast('Veuillez entrer votre numéro WhatsApp.', 'error'); return; }
+
+            // Ajouter au panier
+            const cart = getCart();
+            cart.push({
+                id: 'digitalpay_card_' + Date.now(),
+                productId: 'digitalpay_card',
+                name: 'DigitalPay Card Virtuelle',
+                price: 750,
+                quantity: 1,
+                fullName,
+                birthDate,
+                whatsapp,
+                image: '/assets/digitalpaycard-logo.png',
+                source: 'DigitalPay Card'
+            });
+            saveCart(cart);
+            showToast('✅ Commande passée ! En attente de validation par l\'admin.', 'success');
+            document.getElementById('cardForm').reset();
+            updateBadge();
+
+            // Redirection vers la page d'attente
+            setTimeout(() => {
+                window.location.href = '/digitalpaycard/commande-en-attente.html';
+            }, 1500);
         });
     </script>
 </body>
