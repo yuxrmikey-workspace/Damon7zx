@@ -88,18 +88,42 @@
         .sidebar-footer .logout-btn:hover { background:rgba(239,68,68,0.1); }
         .sidebar-footer .logout-btn i { width:18px; }
 
-        /* MAIN */
+        /* MAIN – PENDING PAGE STYLED */
         main { width:100%; padding:0; margin:0 auto; position:relative; z-index:1; }
         .app-container { max-width:1200px; margin:0 auto; padding:0 1.2rem; width:100%; }
-        .pending-message {
-            text-align:center; padding:4rem 0; background:var(--glass); border-radius:var(--radius);
-            border:1px solid var(--border-light); backdrop-filter:blur(6px); max-width:700px; margin:4rem auto;
+        .pending-wrapper { display:flex; justify-content:center; align-items:center; min-height:60vh; padding:2rem 0; }
+        .pending-card {
+            max-width:600px; width:100%; background:var(--glass); backdrop-filter:blur(16px);
+            border-radius:24px; padding:3rem 2rem; text-align:center;
+            border:1px solid var(--border-light); box-shadow:0 30px 60px rgba(0,0,0,0.6);
+            position:relative; overflow:hidden;
         }
-        .pending-message i { font-size:4rem; color:var(--orange); margin-bottom:1rem; }
-        .pending-message h2 { font-family:var(--font-title); font-size:1.8rem; text-transform:uppercase; margin-bottom:0.5rem; }
-        .pending-message p { font-size:1rem; color:var(--text-sec); max-width:500px; margin:0 auto; }
-        .pending-message .btn-home { display:inline-block; margin-top:1.5rem; padding:0.7rem 2rem; background:var(--gradient); color:#fff; border-radius:30px; font-weight:600; text-decoration:none; transition:transform 0.2s; }
-        .pending-message .btn-home:hover { transform:scale(1.05); }
+        .pending-card::before {
+            content:''; position:absolute; top:-50%; left:-50%; width:200%; height:200%;
+            background:conic-gradient(from 0deg, transparent, rgba(249,115,22,0.05), transparent 60%);
+            animation:rotateGlow 10s linear infinite; z-index:0;
+        }
+        @keyframes rotateGlow { 100% { transform:rotate(360deg); } }
+        
+        .pending-content { position:relative; z-index:1; }
+        .pending-icon-wrapper { display:inline-block; margin-bottom:1.5rem; }
+        .pending-icon-wrapper i { font-size:4rem; color:var(--orange); animation:pulseLive 2s ease-in-out infinite; }
+        @keyframes pulseLive {
+            0% { transform:scale(1); opacity:0.7; }
+            50% { transform:scale(1.1); opacity:1; }
+            100% { transform:scale(1); opacity:0.7; }
+        }
+        .pending-card h2 { font-family:var(--font-title); font-size:2rem; text-transform:uppercase; margin-bottom:0.5rem; background:var(--gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+        .pending-card p { font-size:1rem; color:var(--text-sec); max-width:450px; margin:0 auto 1.5rem; line-height:1.6; }
+        .pending-card .btn-home {
+            display:inline-block; padding:0.7rem 2.5rem; background:var(--gradient); color:#fff;
+            border-radius:50px; font-weight:600; text-decoration:none; transition:transform 0.2s, box-shadow 0.2s;
+            border:none; cursor:pointer;
+        }
+        .pending-card .btn-home:hover { transform:scale(1.05); box-shadow:0 8px 30px rgba(249,115,22,0.2); }
+        .live-indicator { display:inline-flex; align-items:center; gap:0.5rem; margin-top:1rem; font-size:0.8rem; color:var(--text-muted); }
+        .live-dot { width:8px; height:8px; border-radius:50%; background:#4ade80; animation:pulseDot 1.5s ease-in-out infinite; }
+        @keyframes pulseDot { 0%,100% { opacity:0.3; } 50% { opacity:1; } }
 
         /* FOOTER */
         footer { background:var(--bg-sidebar); padding:2rem 1.2rem 1rem; width:100%; border-top:2px solid rgba(255,255,255,0.04); margin:0; }
@@ -122,6 +146,8 @@
             .nav-links { display:flex; gap:1.8rem; }
             .nav-links a { font-size:0.8rem; color:var(--text-sec); font-weight:500; }
             .nav-links a:hover { color:var(--text); }
+            .pending-card { padding:4rem 3rem; }
+            .pending-card h2 { font-size:2.5rem; }
             .footer-grid { grid-template-columns:1fr 2fr; gap:2rem; }
             .footer-links-grid { grid-template-columns:repeat(3,1fr); }
             .footer-bottom { flex-direction:row; justify-content:space-between; }
@@ -151,10 +177,7 @@
     <div class="sidebar" id="sidebar">
         <button class="sidebar-close-btn" id="sidebar-close-btn"><i class="fa-solid fa-xmark"></i></button>
         <div class="sidebar-scroll">
-            <div class="sidebar-logo">
-                <img src="/assets/logo.png" alt="DigitalPay" />
-                <span>DigitalPay</span>
-            </div>
+            <div class="sidebar-logo"><img src="/assets/logo.png" alt="DigitalPay" /><span>DigitalPay</span></div>
             <div class="sidebar-header">
                 <div class="sidebar-profile">
                     <div class="avatar" id="sidebar-avatar"><i class="fa-regular fa-user"></i></div>
@@ -205,19 +228,27 @@
             </div>
         </div>
         <div class="sidebar-footer">
-            <button class="logout-btn" id="sidebar-logout">
-                <i class="fa-solid fa-arrow-right-from-bracket"></i> Se déconnecter
-            </button>
+            <button class="logout-btn" id="sidebar-logout"><i class="fa-solid fa-arrow-right-from-bracket"></i> Se déconnecter</button>
         </div>
     </div>
 
     <main>
         <div class="app-container">
-            <div class="pending-message">
-                <i class="fa-solid fa-clock"></i>
-                <h2>Commande en attente</h2>
-                <p>Votre commande de DigitalPay Card a bien été reçue. Elle est actuellement en cours de validation par notre administrateur. Vous serez notifié dès que votre carte sera active.</p>
-                <a href="/home.html" class="btn-home">Retour à l'accueil</a>
+            <div class="pending-wrapper">
+                <div class="pending-card">
+                    <div class="pending-content">
+                        <div class="pending-icon-wrapper">
+                            <i class="fa-solid fa-clock"></i>
+                        </div>
+                        <h2>En attente</h2>
+                        <p>Votre commande de DigitalPay Card a été reçue. L'administrateur est en train de valider votre carte. Vous serez redirigé automatiquement dès qu'elle sera active.</p>
+                        <a href="/home.html" class="btn-home">Retour à l'accueil</a>
+                        <div class="live-indicator">
+                            <span class="live-dot"></span>
+                            <span>Vérification en temps réel...</span>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </main>
@@ -234,36 +265,12 @@
                 </div>
             </div>
             <div class="footer-links-grid">
-                <div class="footer-col">
-                    <h4>Services</h4>
-                    <ul>
-                        <li><a href="/gaming.html">Gaming</a></li>
-                        <li><a href="/streaming.html">Streaming</a></li>
-                        <li><a href="/services-digitaux.html">Services Financiers</a></li>
-                        <li><a href="/echange/index.html">Échange</a></li>
-                    </ul>
-                </div>
-                <div class="footer-col">
-                    <h4>Cartes</h4>
-                    <ul>
-                        <li><a href="/giftcard/index.html">Gift Card</a></li>
-                        <li><a href="/digitalpaycard/index.html">DigitalPay Card</a></li>
-                    </ul>
-                </div>
-                <div class="footer-col">
-                    <h4>Support</h4>
-                    <ul>
-                        <li><a href="/support/help.html">Centre d'aide</a></li>
-                        <li><a href="/legal/conditions-utilisation.html">Conditions</a></li>
-                        <li><a href="/legal/politique-confidentialite.html">Confidentialité</a></li>
-                    </ul>
-                </div>
+                <div class="footer-col"><h4>Services</h4><ul><li><a href="/gaming.html">Gaming</a></li><li><a href="/streaming.html">Streaming</a></li><li><a href="/services-digitaux.html">Services Financiers</a></li><li><a href="/echange/index.html">Échange</a></li></ul></div>
+                <div class="footer-col"><h4>Cartes</h4><ul><li><a href="/giftcard/index.html">Gift Card</a></li><li><a href="/digitalpaycard/index.html">DigitalPay Card</a></li></ul></div>
+                <div class="footer-col"><h4>Support</h4><ul><li><a href="/support/help.html">Centre d'aide</a></li><li><a href="/legal/conditions-utilisation.html">Conditions</a></li><li><a href="/legal/politique-confidentialite.html">Confidentialité</a></li></ul></div>
             </div>
         </div>
-        <div class="footer-bottom">
-            <span>&copy; 2026 DigitalPay. Tous droits réservés.</span>
-            <span>Paiements sécurisés • Support WhatsApp</span>
-        </div>
+        <div class="footer-bottom"><span>&copy; 2026 DigitalPay. Tous droits réservés.</span><span>Paiements sécurisés • Support WhatsApp</span></div>
     </footer>
 
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
@@ -281,9 +288,8 @@
         const auth = firebase.auth();
 
         auth.onAuthStateChanged((user) => {
-            if (!user) {
-                window.location.href = '/authentification/login.html';
-            } else {
+            if (!user) { window.location.href = '/authentification/login.html'; }
+            else {
                 document.getElementById('sidebar-name').textContent = user.displayName || user.email || 'Utilisateur';
                 document.getElementById('sidebar-email').textContent = user.email || 'Connecté';
             }
@@ -304,6 +310,97 @@
         overlay.addEventListener('click', () => {
             overlay.classList.remove('active'); sidebar.classList.remove('active'); document.body.style.overflow = '';
         });
+
+        // ===== LIVE STATUS CHECK =====
+        function checkCardStatus() {
+            try {
+                const data = JSON.parse(localStorage.getItem('digitalpay_card_data'));
+                if (data && data.status === 'active') {
+                    // Redirection vers la page de la carte active
+                    window.location.href = '/digitalpaycard/ma-carte.html';
+                }
+            } catch (e) {}
+        }
+
+        // Vérifier toutes les 4 secondes si la carte est devenue active (validation admin)
+        setInterval(checkCardStatus, 4000);
+
+        // ===== TOAST PROFESSIONNEL (Réutilisable sur toutes les pages) =====
+        function showToast(message, type = 'info') {
+            let container = document.getElementById('toast-container');
+            if (!container) {
+                container = document.createElement('div');
+                container.id = 'toast-container';
+                container.style.cssText = `
+                    position: fixed; bottom: 2rem; right: 2rem; z-index: 9999;
+                    display: flex; flex-direction: column; gap: 0.8rem; max-width: 400px; width: 90%;
+                    pointer-events: none;
+                `;
+                document.body.appendChild(container);
+            }
+
+            const toast = document.createElement('div');
+            const icons = { success: 'fa-circle-check', error: 'fa-circle-exclamation', info: 'fa-circle-info' };
+            const colors = { success: '#4ade80', error: '#ef4444', info: '#f97316' };
+
+            toast.style.cssText = `
+                pointer-events: auto;
+                padding: 1rem 1.2rem;
+                background: rgba(20, 20, 40, 0.92);
+                backdrop-filter: blur(12px);
+                border: 1px solid rgba(255, 255, 255, 0.08);
+                border-radius: 16px;
+                box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+                color: #fff;
+                font-weight: 500;
+                font-size: 0.95rem;
+                display: flex;
+                align-items: center;
+                gap: 0.8rem;
+                transform: translateX(100%);
+                opacity: 0;
+                animation: slideInToast 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+                max-width: 100%;
+            `;
+
+            // Injecter la keyframe pour l'animation
+            if (!document.getElementById('toast-keyframes')) {
+                const style = document.createElement('style');
+                style.id = 'toast-keyframes';
+                style.textContent = `
+                    @keyframes slideInToast {
+                        0% { transform: translateX(100%); opacity: 0; }
+                        100% { transform: translateX(0); opacity: 1; }
+                    }
+                    @keyframes slideOutToast {
+                        0% { transform: translateX(0); opacity: 1; }
+                        100% { transform: translateX(100%); opacity: 0; }
+                    }
+                `;
+                document.head.appendChild(style);
+            }
+
+            const icon = document.createElement('i');
+            icon.className = `fa-solid ${icons[type] || icons.info}`;
+            icon.style.color = colors[type] || colors.info;
+            icon.style.fontSize = '1.2rem';
+            toast.appendChild(icon);
+
+            const text = document.createElement('span');
+            text.textContent = message;
+            toast.appendChild(text);
+
+            container.appendChild(toast);
+
+            // Auto dismiss after 3.5 seconds
+            setTimeout(() => {
+                toast.style.animation = 'slideOutToast 0.3s ease-in forwards';
+                setTimeout(() => toast.remove(), 400);
+            }, 3500);
+        }
+
+        // Exemple de toast test (peut être supprimé plus tard)
+        // showToast("Commande en attente de validation...", "info");
     </script>
 </body>
 </html>
