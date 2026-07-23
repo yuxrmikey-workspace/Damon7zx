@@ -100,8 +100,9 @@
         .hero h1 span { background:var(--gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
         .hero p { font-size:0.95rem; color:var(--text-sec); max-width:550px; margin:0.5rem auto 1rem; }
 
-        /* ===== SOLDE & CARTE ===== */
+        /* ===== SOLDE & CARTE (affichage conditionnel) ===== */
         .card-container { display:flex; justify-content:center; padding:1rem 0 2rem; flex-direction:column; align-items:center; }
+
         .balance-display {
             display:flex; justify-content:center; align-items:center; gap:0.5rem;
             background:var(--glass); border:1px solid var(--border-light); padding:0.5rem 1.2rem;
@@ -133,6 +134,10 @@
         .credit-card .card-cvc { text-align:right; }
         .credit-card .card-holder { font-size:0.9rem; font-weight:500; letter-spacing:1px; color:#fff; margin-top:0.2rem; }
 
+        .card-status { text-align:center; margin-top:0.5rem; font-size:0.9rem; }
+        .card-status.pending { color:var(--orange); }
+        .card-status.active { color:#4ade80; }
+
         /* ===== POURQUOI CRÉER LA CARTE ? (visible au clic) ===== */
         .reasons-wrapper { text-align:center; padding:1rem 0 0.5rem; }
         .reasons-toggle {
@@ -159,8 +164,9 @@
         .feature-card h3 { font-size:1rem; font-weight:600; }
         .feature-card p { font-size:0.8rem; color:var(--text-sec); }
 
-        /* ===== RECHARGE ===== */
-        .recharge-section { padding:2rem 0; border-top:1px solid var(--border-light); }
+        /* ===== RECHARGE (visible seulement si la carte est active) ===== */
+        .recharge-section { padding:2rem 0; border-top:1px solid var(--border-light); display:none; }
+        .recharge-section.visible { display:block; }
         .recharge-section h2 { font-family:var(--font-title); font-size:1.3rem; font-weight:700; text-transform:uppercase; text-align:center; margin-bottom:1.5rem; }
         .recharge-wrapper { max-width:600px; margin:0 auto; background:var(--glass); border-radius:var(--radius); padding:1.5rem; border:1px solid var(--border-light); backdrop-filter:blur(6px); }
         .recharge-wrapper .form-group { margin-bottom:1rem; }
@@ -203,6 +209,12 @@
             font-weight:700; font-size:1rem; cursor:pointer; transition:all 0.2s; font-family:var(--font-body);
         }
         .order-form .btn-order:hover { transform:scale(1.02); box-shadow:0 8px 30px rgba(249,115,22,0.2); }
+
+        /* ===== BOUTON DE VALIDATION ADMIN (SIMULATION) ===== */
+        .admin-sim { text-align:center; margin:1rem 0; display:none; }
+        .admin-sim button {
+            background:var(--orange); color:#fff; padding:0.5rem 1.5rem; border:none; border-radius:30px; cursor:pointer; font-weight:600;
+        }
 
         /* ===== FAQ ===== */
         .faq-section { padding:2rem 0; border-top:1px solid var(--border-light); }
@@ -371,20 +383,23 @@
                 <p>Votre carte de crédit virtuelle, instantanée et sécurisée. Utilisez-la pour vos achats en ligne, recharges gaming, abonnements streaming et services digitaux.</p>
             </section>
 
-            <!-- SOLDE & CARTE -->
+            <!-- SOLDE & CARTE (affichage conditionnel) -->
             <section class="card-container">
-                <div class="balance-display">
+                <!-- Solde (visible seulement si carte active) -->
+                <div class="balance-display" id="balanceDisplay" style="display:none;">
                     <i class="fa-solid fa-coins"></i>
                     <span>Solde :</span>
                     <span class="amount" id="card-balance">0 Gdes</span>
                 </div>
+
+                <!-- Carte de crédit -->
                 <div class="credit-card">
                     <div class="card-logo">
                         <img src="/assets/logo.png" alt="DigitalPay" />
                         <span class="premium-badge">PREMIUM</span>
                     </div>
                     <div class="card-chip"></div>
-                    <div class="card-number">
+                    <div class="card-number" id="card-number-display">
                         <span>XXXX XXXX XXXX XXXX</span>
                     </div>
                     <div class="card-details">
@@ -394,17 +409,22 @@
                         </div>
                         <div>
                             <span class="label">Expire</span>
-                            <span class="value">MM/AA</span>
+                            <span class="value" id="card-expiry">MM/AA</span>
                         </div>
                         <div class="card-cvc">
                             <span class="label">CVC</span>
-                            <span class="value">***</span>
+                            <span class="value" id="card-cvc">***</span>
                         </div>
                     </div>
                 </div>
+
+                <!-- Statut de la carte -->
+                <div class="card-status" id="cardStatus">
+                    <!-- sera rempli par JS -->
+                </div>
             </section>
 
-            <!-- POURQUOI CRÉER LA CARTE ? (visible au clic) -->
+            <!-- POURQUOI CRÉER LA CARTE ? -->
             <section class="reasons-wrapper">
                 <button class="reasons-toggle" id="reasonsToggle">
                     <i class="fa-solid fa-plus-circle"></i> Pourquoi créer votre DigitalPay Card ?
@@ -419,7 +439,7 @@
                         <div class="reason-card">
                             <i class="fa-solid fa-bolt"></i>
                             <h4>Instantanée</h4>
-                            <p>Pas d’attente. Créez votre carte en quelques secondes et commencez à l’utiliser immédiatement.</p>
+                            <p>Pas d'attente. Créez votre carte en quelques secondes et commencez à l'utiliser immédiatement.</p>
                         </div>
                         <div class="reason-card">
                             <i class="fa-solid fa-globe"></i>
@@ -467,8 +487,8 @@
                 </div>
             </section>
 
-            <!-- RECHARGE -->
-            <section class="recharge-section">
+            <!-- RECHARGE (visible seulement si carte active) -->
+            <section class="recharge-section" id="rechargeSection">
                 <h2>Recharger votre carte</h2>
                 <div class="recharge-wrapper">
                     <div class="form-group">
@@ -518,6 +538,11 @@
                     </div>
                 </div>
             </section>
+
+            <!-- BOUTON DE SIMULATION ADMIN (pour tester la validation) -->
+            <div class="admin-sim" id="adminSim">
+                <button id="simulateValidation">🚀 Simuler la validation de la carte (Admin)</button>
+            </div>
 
             <!-- FAQ -->
             <section class="faq-section">
@@ -618,6 +643,7 @@
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
     <script>
+        // Firebase
         const firebaseConfig = {
             apiKey: "AIzaSyDCj6vyMXsdEMlH-vYOWdwcfoD2VI622Uc",
             authDomain: "digitalpayhaiti-509.firebaseapp.com",
@@ -654,23 +680,138 @@
             overlay.classList.remove('active'); sidebar.classList.remove('active'); document.body.style.overflow = '';
         });
 
-        // ===== GESTION SOLDE (localStorage) =====
+        // ===== GESTION DES DONNÉES DE LA CARTE (simulé avec localStorage) =====
+        // Dans une vraie application, les informations de la carte viendraient de Firestore
+        const cardKey = 'digitalpay_card_data';
+        const balanceKey = 'digitalpay_balance';
+
+        // Données par défaut (carte fictive)
+        const defaultCard = {
+            status: 'none', // 'none' | 'pending' | 'active'
+            holder: 'VOTRE NOM',
+            number: 'XXXX XXXX XXXX XXXX',
+            expiry: 'MM/AA',
+            cvc: '***',
+            balance: 0
+        };
+
+        function getCardData() {
+            try {
+                const data = JSON.parse(localStorage.getItem(cardKey));
+                if (data && data.status) {
+                    return data;
+                }
+            } catch (e) {}
+            return { ...defaultCard };
+        }
+
+        function saveCardData(data) {
+            localStorage.setItem(cardKey, JSON.stringify(data));
+            // Mettre à jour le solde séparément pour compatibilité
+            localStorage.setItem(balanceKey, data.balance.toString());
+            updateUI(data);
+        }
+
         function getBalance() {
             try {
-                return parseInt(localStorage.getItem('digitalpay_balance')) || 0;
+                return parseInt(localStorage.getItem(balanceKey)) || 0;
             } catch { return 0; }
         }
-        function setBalance(amount) {
-            localStorage.setItem('digitalpay_balance', amount.toString());
-            updateBalanceDisplay();
-        }
-        function updateBalanceDisplay() {
-            const balanceEl = document.getElementById('card-balance');
-            if (balanceEl) {
-                balanceEl.textContent = getBalance() + ' Gdes';
+
+        // ===== MISE À JOUR DE L'INTERFACE =====
+        function updateUI(cardData) {
+            const status = cardData.status;
+
+            // Mise à jour des éléments de la carte
+            document.getElementById('card-holder').textContent = cardData.holder;
+            document.getElementById('card-number-display').innerHTML = `<span>${cardData.number}</span>`;
+            document.getElementById('card-expiry').textContent = cardData.expiry;
+            document.getElementById('card-cvc').textContent = cardData.cvc;
+
+            // Affichage du solde et de la recharge
+            const balanceDisplay = document.getElementById('balanceDisplay');
+            const rechargeSection = document.getElementById('rechargeSection');
+            const statusEl = document.getElementById('cardStatus');
+            const orderSection = document.querySelector('.order-section');
+            const adminSim = document.getElementById('adminSim');
+
+            if (status === 'active') {
+                balanceDisplay.style.display = 'flex';
+                rechargeSection.classList.add('visible');
+                statusEl.textContent = '✅ Carte active';
+                statusEl.className = 'card-status active';
+                orderSection.style.display = 'none'; // masquer le formulaire de commande
+                adminSim.style.display = 'none'; // masquer le bouton admin
+                // Mettre à jour le solde affiché
+                document.getElementById('card-balance').textContent = cardData.balance + ' Gdes';
+            } else if (status === 'pending') {
+                balanceDisplay.style.display = 'none';
+                rechargeSection.classList.remove('visible');
+                statusEl.textContent = '⏳ En attente de validation par l\'administrateur';
+                statusEl.className = 'card-status pending';
+                orderSection.style.display = 'block';
+                adminSim.style.display = 'block';
+            } else {
+                // 'none' (pas encore commandé)
+                balanceDisplay.style.display = 'none';
+                rechargeSection.classList.remove('visible');
+                statusEl.textContent = '💳 Commandez votre carte ci-dessous';
+                statusEl.className = 'card-status';
+                orderSection.style.display = 'block';
+                adminSim.style.display = 'block'; // pour tester
             }
         }
-        updateBalanceDisplay();
+
+        // Initialisation
+        let cardData = getCardData();
+        updateUI(cardData);
+
+        // ===== COMMANDE DE LA CARTE =====
+        function getCart() { try { return JSON.parse(localStorage.getItem('cart')) || []; } catch { return []; } }
+        function saveCart(cart) { localStorage.setItem('cart', JSON.stringify(cart)); updateBadge(); }
+
+        function updateBadge() {
+            const badge = document.getElementById('cart-float-badge');
+            if (badge) {
+                const cart = getCart();
+                badge.textContent = cart.length;
+            }
+        }
+        updateBadge();
+
+        document.getElementById('orderBtn').addEventListener('click', () => {
+            const fullName = document.getElementById('fullName').value.trim();
+            const birthDate = document.getElementById('birthDate').value;
+            const whatsapp = document.getElementById('whatsapp').value.trim();
+
+            if (!fullName) { showToast('Veuillez entrer votre nom complet.', 'error'); return; }
+            if (!birthDate) { showToast('Veuillez entrer votre date de naissance.', 'error'); return; }
+            if (!whatsapp) { showToast('Veuillez entrer votre numéro WhatsApp.', 'error'); return; }
+
+            // Ajouter au panier
+            const cart = getCart();
+            cart.push({
+                id: 'digitalpay_card_' + Date.now(),
+                productId: 'digitalpay_card',
+                name: 'DigitalPay Card Virtuelle',
+                price: 750,
+                quantity: 1,
+                fullName,
+                birthDate,
+                whatsapp,
+                image: '/assets/digitalpaycard-logo.png',
+                source: 'DigitalPay Card'
+            });
+            saveCart(cart);
+            showToast('✅ Commande passée ! En attente de validation par l\'admin.', 'success');
+            document.getElementById('cardForm').reset();
+            updateBadge();
+
+            // Passer le statut à 'pending'
+            cardData.status = 'pending';
+            cardData.holder = fullName.toUpperCase();
+            saveCardData(cardData);
+        });
 
         // ===== RECHARGE =====
         document.getElementById('rechargeBtn').addEventListener('click', function() {
@@ -688,14 +829,35 @@
 
             const currentBalance = getBalance();
             const newBalance = currentBalance + amount;
-            setBalance(newBalance);
+            cardData.balance = newBalance;
+            saveCardData(cardData);
 
-            // Notification
             showToast(`✅ Recharge de ${amount} Gdes effectuée via ${method} ! Nouveau solde : ${newBalance} Gdes`, 'success');
 
-            // Réinitialiser le formulaire
             document.getElementById('rechargeAmount').value = '';
             document.getElementById('rechargeMethod').value = '';
+        });
+
+        // ===== SIMULATION ADMIN (VALIDATION) =====
+        document.getElementById('simulateValidation').addEventListener('click', function() {
+            if (cardData.status === 'pending') {
+                // Générer des informations de carte réelles
+                const randomNumber = () => Math.floor(1000 + Math.random() * 9000).toString();
+                const number = `${randomNumber()} ${randomNumber()} ${randomNumber()} ${randomNumber()}`;
+                const expiryMonth = String(Math.floor(1 + Math.random() * 12)).padStart(2, '0');
+                const expiryYear = String(2026 + Math.floor(Math.random() * 5)).slice(-2);
+                const cvc = String(Math.floor(100 + Math.random() * 900));
+
+                cardData.status = 'active';
+                cardData.number = number;
+                cardData.expiry = `${expiryMonth}/${expiryYear}`;
+                cardData.cvc = cvc;
+                cardData.balance = 0; // solde initial
+                saveCardData(cardData);
+                showToast('✅ Carte validée par l\'admin ! Les vraies informations sont maintenant affichées.', 'success');
+            } else {
+                showToast('Aucune commande en attente de validation.', 'error');
+            }
         });
 
         // ===== TOAST =====
@@ -744,47 +906,6 @@
             }, 3500);
         }
 
-        // ===== COMMANDE DE LA CARTE =====
-        function getCart() { try { return JSON.parse(localStorage.getItem('cart')) || []; } catch { return []; } }
-        function saveCart(cart) { localStorage.setItem('cart', JSON.stringify(cart)); updateBadge(); }
-
-        function updateBadge() {
-            const badge = document.getElementById('cart-float-badge');
-            if (badge) {
-                const cart = getCart();
-                badge.textContent = cart.length;
-            }
-        }
-        updateBadge();
-
-        document.getElementById('orderBtn').addEventListener('click', () => {
-            const fullName = document.getElementById('fullName').value.trim();
-            const birthDate = document.getElementById('birthDate').value;
-            const whatsapp = document.getElementById('whatsapp').value.trim();
-
-            if (!fullName) { showToast('Veuillez entrer votre nom complet.', 'error'); return; }
-            if (!birthDate) { showToast('Veuillez entrer votre date de naissance.', 'error'); return; }
-            if (!whatsapp) { showToast('Veuillez entrer votre numéro WhatsApp.', 'error'); return; }
-
-            const cart = getCart();
-            cart.push({
-                id: 'digitalpay_card_' + Date.now(),
-                productId: 'digitalpay_card',
-                name: 'DigitalPay Card Virtuelle',
-                price: 750,
-                quantity: 1,
-                fullName,
-                birthDate,
-                whatsapp,
-                image: '/assets/digitalpaycard-logo.png',
-                source: 'DigitalPay Card'
-            });
-            saveCart(cart);
-            showToast('✅ DigitalPay Card ajoutée au panier !', 'success');
-            document.getElementById('cardForm').reset();
-            updateBadge();
-        });
-
         // ===== FAQ TOGGLE =====
         document.querySelectorAll('.faq-question').forEach(btn => {
             btn.addEventListener('click', function() {
@@ -808,9 +929,6 @@
                 this.innerHTML = `<i class="fa-solid fa-plus-circle"></i> Pourquoi créer votre DigitalPay Card ?`;
             }
         });
-
-        // Initialiser le solde au chargement
-        updateBalanceDisplay();
     </script>
 </body>
 </html>
