@@ -48,7 +48,7 @@
         .auth-btn.primary { background:var(--gradient); color:#fff; padding:0.3rem 0.8rem; border-radius:6px; font-size:0.7rem; font-weight:600; border:none; cursor:pointer; text-decoration:none; }
         .menu-toggle { background:transparent; border:1px solid var(--border-light); color:var(--text); font-size:1.2rem; cursor:pointer; padding:6px 10px; border-radius:6px; }
 
-        /* SIDEBAR */
+        /* SIDEBAR (Identique) */
         .sidebar-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.6); z-index:2000; display:none; backdrop-filter:blur(4px); }
         .sidebar-overlay.active { display:block; }
         .sidebar {
@@ -213,10 +213,7 @@
     <div class="sidebar" id="sidebar">
         <button class="sidebar-close-btn" id="sidebar-close-btn"><i class="fa-solid fa-xmark"></i></button>
         <div class="sidebar-scroll">
-            <div class="sidebar-logo">
-                <img src="/assets/logo.png" alt="DigitalPay" />
-                <span>DigitalPay</span>
-            </div>
+            <div class="sidebar-logo"><img src="/assets/logo.png" alt="DigitalPay" /><span>DigitalPay</span></div>
             <div class="sidebar-header">
                 <div class="sidebar-profile">
                     <div class="avatar" id="sidebar-avatar"><i class="fa-regular fa-user"></i></div>
@@ -267,9 +264,7 @@
             </div>
         </div>
         <div class="sidebar-footer">
-            <button class="logout-btn" id="sidebar-logout">
-                <i class="fa-solid fa-arrow-right-from-bracket"></i> Se déconnecter
-            </button>
+            <button class="logout-btn" id="sidebar-logout"><i class="fa-solid fa-arrow-right-from-bracket"></i> Se déconnecter</button>
         </div>
     </div>
 
@@ -358,36 +353,12 @@
                 </div>
             </div>
             <div class="footer-links-grid">
-                <div class="footer-col">
-                    <h4>Services</h4>
-                    <ul>
-                        <li><a href="/gaming.html">Gaming</a></li>
-                        <li><a href="/streaming.html">Streaming</a></li>
-                        <li><a href="/services-digitaux.html">Services Financiers</a></li>
-                        <li><a href="/echange/index.html">Échange</a></li>
-                    </ul>
-                </div>
-                <div class="footer-col">
-                    <h4>Cartes</h4>
-                    <ul>
-                        <li><a href="/giftcard/index.html">Gift Card</a></li>
-                        <li><a href="/digitalpaycard/index.html">DigitalPay Card</a></li>
-                    </ul>
-                </div>
-                <div class="footer-col">
-                    <h4>Support</h4>
-                    <ul>
-                        <li><a href="/support/help.html">Centre d'aide</a></li>
-                        <li><a href="/legal/conditions-utilisation.html">Conditions</a></li>
-                        <li><a href="/legal/politique-confidentialite.html">Confidentialité</a></li>
-                    </ul>
-                </div>
+                <div class="footer-col"><h4>Services</h4><ul><li><a href="/gaming.html">Gaming</a></li><li><a href="/streaming.html">Streaming</a></li><li><a href="/services-digitaux.html">Services Financiers</a></li><li><a href="/echange/index.html">Échange</a></li></ul></div>
+                <div class="footer-col"><h4>Cartes</h4><ul><li><a href="/giftcard/index.html">Gift Card</a></li><li><a href="/digitalpaycard/index.html">DigitalPay Card</a></li></ul></div>
+                <div class="footer-col"><h4>Support</h4><ul><li><a href="/support/help.html">Centre d'aide</a></li><li><a href="/legal/conditions-utilisation.html">Conditions</a></li><li><a href="/legal/politique-confidentialite.html">Confidentialité</a></li></ul></div>
             </div>
         </div>
-        <div class="footer-bottom">
-            <span>&copy; 2026 DigitalPay. Tous droits réservés.</span>
-            <span>Paiements sécurisés • Support WhatsApp</span>
-        </div>
+        <div class="footer-bottom"><span>&copy; 2026 DigitalPay. Tous droits réservés.</span><span>Paiements sécurisés • Support WhatsApp</span></div>
     </footer>
 
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
@@ -405,9 +376,8 @@
         const auth = firebase.auth();
 
         auth.onAuthStateChanged((user) => {
-            if (!user) {
-                window.location.href = '/authentification/login.html';
-            } else {
+            if (!user) { window.location.href = '/authentification/login.html'; }
+            else {
                 document.getElementById('sidebar-name').textContent = user.displayName || user.email || 'Utilisateur';
                 document.getElementById('sidebar-email').textContent = user.email || 'Connecté';
             }
@@ -429,53 +399,101 @@
             overlay.classList.remove('active'); sidebar.classList.remove('active'); document.body.style.overflow = '';
         });
 
-        // ===== GESTION DES DONNÉES DE LA CARTE (stockées dans localStorage) =====
+        // ===== GESTION DES DONNÉES DE LA CARTE =====
         const cardKey = 'digitalpay_card_data';
         const balanceKey = 'digitalpay_balance';
 
         function getCardData() {
             try {
                 const data = JSON.parse(localStorage.getItem(cardKey));
-                if (data && data.status === 'active') {
-                    return data;
-                }
+                if (data && data.status === 'active') { return data; }
             } catch (e) {}
             return null;
         }
 
         function getBalance() {
-            try {
-                return parseInt(localStorage.getItem(balanceKey)) || 0;
-            } catch { return 0; }
+            try { return parseInt(localStorage.getItem(balanceKey)) || 0; }
+            catch { return 0; }
         }
 
         function updateUI() {
             const cardData = getCardData();
             if (!cardData || cardData.status !== 'active') {
-                // Si pas de carte active, rediriger vers la page de commande
                 window.location.href = '/digitalpaycard/index.html';
                 return;
             }
-
-            // Mise à jour des éléments de la carte
             document.getElementById('card-holder').textContent = cardData.holder || 'VOTRE NOM';
             document.getElementById('card-number-display').innerHTML = `<span>${cardData.number || 'XXXX XXXX XXXX XXXX'}</span>`;
             document.getElementById('card-expiry').textContent = cardData.expiry || 'MM/AA';
             document.getElementById('card-cvc').textContent = cardData.cvc || '***';
-
-            // Mise à jour du solde
             const balance = getBalance();
             document.getElementById('card-balance').textContent = balance + ' Gdes';
         }
-
-        // Initialisation
         updateUI();
+
+        // ===== TOAST PROFESSIONNEL (Réutilisable) =====
+        function showToast(message, type = 'info') {
+            let container = document.getElementById('toast-container');
+            if (!container) {
+                container = document.createElement('div');
+                container.id = 'toast-container';
+                container.style.cssText = `
+                    position: fixed; bottom: 2rem; right: 2rem; z-index: 9999;
+                    display: flex; flex-direction: column; gap: 0.8rem; max-width: 400px; width: 90%;
+                    pointer-events: none;
+                `;
+                document.body.appendChild(container);
+            }
+            const toast = document.createElement('div');
+            const icons = { success: 'fa-circle-check', error: 'fa-circle-exclamation', info: 'fa-circle-info' };
+            const colors = { success: '#4ade80', error: '#ef4444', info: '#f97316' };
+            toast.style.cssText = `
+                pointer-events: auto;
+                padding: 1rem 1.2rem;
+                background: rgba(20, 20, 40, 0.92);
+                backdrop-filter: blur(12px);
+                border: 1px solid rgba(255, 255, 255, 0.08);
+                border-radius: 16px;
+                box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+                color: #fff;
+                font-weight: 500;
+                font-size: 0.95rem;
+                display: flex;
+                align-items: center;
+                gap: 0.8rem;
+                transform: translateX(100%);
+                opacity: 0;
+                animation: slideInToast 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+                max-width: 100%;
+            `;
+            if (!document.getElementById('toast-keyframes')) {
+                const style = document.createElement('style');
+                style.id = 'toast-keyframes';
+                style.textContent = `
+                    @keyframes slideInToast { 0% { transform: translateX(100%); opacity: 0; } 100% { transform: translateX(0); opacity: 1; } }
+                    @keyframes slideOutToast { 0% { transform: translateX(0); opacity: 1; } 100% { transform: translateX(100%); opacity: 0; } }
+                `;
+                document.head.appendChild(style);
+            }
+            const icon = document.createElement('i');
+            icon.className = `fa-solid ${icons[type] || icons.info}`;
+            icon.style.color = colors[type] || colors.info;
+            icon.style.fontSize = '1.2rem';
+            toast.appendChild(icon);
+            const text = document.createElement('span');
+            text.textContent = message;
+            toast.appendChild(text);
+            container.appendChild(toast);
+            setTimeout(() => {
+                toast.style.animation = 'slideOutToast 0.3s ease-in forwards';
+                setTimeout(() => toast.remove(), 400);
+            }, 3500);
+        }
 
         // ===== RECHARGE =====
         document.getElementById('rechargeBtn').addEventListener('click', function() {
             const amount = parseInt(document.getElementById('rechargeAmount').value);
             const method = document.getElementById('rechargeMethod').value;
-
             if (!amount || amount < 50) {
                 showToast('Veuillez entrer un montant valide (minimum 50 Gdes).', 'error');
                 return;
@@ -484,63 +502,14 @@
                 showToast('Veuillez choisir une méthode de paiement.', 'error');
                 return;
             }
-
             const currentBalance = getBalance();
             const newBalance = currentBalance + amount;
             localStorage.setItem(balanceKey, newBalance.toString());
             updateUI();
-
             showToast(`✅ Recharge de ${amount} Gdes effectuée via ${method} ! Nouveau solde : ${newBalance} Gdes`, 'success');
-
             document.getElementById('rechargeAmount').value = '';
             document.getElementById('rechargeMethod').value = '';
         });
-
-        // ===== TOAST =====
-        function showToast(msg, type = 'success') {
-            const container = document.getElementById('toastContainer');
-            if (!container) {
-                const div = document.createElement('div');
-                div.id = 'toastContainer';
-                div.style.position = 'fixed';
-                div.style.bottom = '1.5rem';
-                div.style.left = '50%';
-                div.style.transform = 'translateX(-50%)';
-                div.style.zIndex = '9999';
-                div.style.width = '90%';
-                div.style.maxWidth = '400px';
-                div.style.pointerEvents = 'none';
-                document.body.appendChild(div);
-            }
-            const container2 = document.getElementById('toastContainer');
-            const toast = document.createElement('div');
-            const icon = type === 'success' ? 'fa-circle-check' : 'fa-circle-exclamation';
-            toast.innerHTML = `<i class="fa-solid ${icon}"></i> ${msg}`;
-            toast.style.padding = '0.8rem 1.2rem';
-            toast.style.borderRadius = '12px';
-            toast.style.background = 'var(--bg-card)';
-            toast.style.backdropFilter = 'blur(14px)';
-            toast.style.border = '1px solid rgba(255,255,255,0.04)';
-            toast.style.color = 'var(--text)';
-            toast.style.fontWeight = '500';
-            toast.style.fontSize = '0.9rem';
-            toast.style.boxShadow = '0 8px 30px rgba(0,0,0,0.4)';
-            toast.style.opacity = '0';
-            toast.style.transform = 'translateY(20px) scale(0.95)';
-            toast.style.transition = 'all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1)';
-            toast.style.pointerEvents = 'auto';
-            toast.style.textAlign = 'center';
-            container2.appendChild(toast);
-            requestAnimationFrame(() => {
-                toast.style.opacity = '1';
-                toast.style.transform = 'translateY(0) scale(1)';
-            });
-            setTimeout(() => {
-                toast.style.opacity = '0';
-                toast.style.transform = 'translateY(20px) scale(0.95)';
-                setTimeout(() => toast.remove(), 400);
-            }, 3500);
-        }
     </script>
 </body>
 </html>
