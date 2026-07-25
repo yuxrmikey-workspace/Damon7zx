@@ -8,8 +8,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&family=Orbitron:wght@600;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
     <style>
-        /* Même CSS que les fichiers précédents */
         :root {
             --font-title: 'Orbitron', sans-serif;
             --font-body: 'Inter', sans-serif;
@@ -29,7 +29,104 @@
             --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.4);
             --transition: 0.3s ease;
         }
-        /* ... (copier tout le CSS de index.html ici) ... */
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: var(--font-body);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.5;
+            overflow-x: hidden;
+            position: relative;
+        }
+        a { text-decoration: none !important; color: inherit; }
+        img { max-width: 100%; display: block; }
+
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            background-image: linear-gradient(rgba(255, 255, 255, 0.008) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.008) 1px, transparent 1px);
+            background-size: 60px 60px;
+        }
+        .orb-1 { position: fixed; width: 500px; height: 500px; background: var(--accent-orange); filter: blur(120px); opacity: 0.15; top: -150px; left: -150px; z-index: -1; animation: float1 20s ease-in-out infinite alternate; }
+        .orb-2 { position: fixed; width: 400px; height: 400px; background: var(--accent-cyan); filter: blur(100px); opacity: 0.15; bottom: -100px; right: -100px; z-index: -1; animation: float2 25s ease-in-out infinite alternate; }
+        @keyframes float1 { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(80px, 100px) scale(1.2); } }
+        @keyframes float2 { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(-60px, -80px) scale(1.1); } }
+
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: var(--bg-primary); }
+        ::-webkit-scrollbar-thumb { background: var(--accent-orange); }
+
+        /* HEADER */
+        header {
+            position: sticky; top: 1rem; z-index: 1000;
+            background: var(--bg-glass); backdrop-filter: blur(16px);
+            border: 1px solid var(--border-glass); border-radius: var(--radius);
+            margin: 0 1.2rem; padding: 0 1.5rem; height: 68px;
+            display: flex; align-items: center; justify-content: space-between;
+        }
+        .brand-logo { height: 40px; width: auto; }
+        .menu-btn {
+            background: transparent; border: 1px solid var(--border-glass);
+            color: var(--text-primary); width: 40px; height: 40px;
+            border-radius: 12px; font-size: 1.2rem; cursor: pointer; transition: var(--transition);
+            display: flex; align-items: center; justify-content: center;
+        }
+        .menu-btn:hover { background: var(--gradient-main); border-color: transparent; box-shadow: 0 0 20px rgba(249, 115, 22, 0.3); }
+
+        /* SIDEBAR */
+        .sidebar-overlay { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(4px); z-index: 2000; opacity: 0; visibility: hidden; transition: 0.3s; }
+        .sidebar-overlay.active { opacity: 1; visibility: visible; }
+        .sidebar {
+            position: fixed; top: 0; right: -340px; width: 320px; max-width: 90vw; height: 100vh;
+            background: rgba(11, 11, 18, 0.98); z-index: 2001; padding: 2rem 1.2rem;
+            transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex; flex-direction: column; border-left: 1px solid var(--border-glass);
+            backdrop-filter: blur(20px);
+        }
+        .sidebar.active { right: 0; }
+        .sidebar-close { position: absolute; top: 1.2rem; right: 1.2rem; background: none; border: none; color: var(--text-muted); font-size: 1.2rem; cursor: pointer; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+        .sidebar-close:hover { color: #fff; background: rgba(255, 255, 255, 0.05); }
+        
+        .sidebar-brand { display: flex; align-items: center; gap: 1rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border-glass); margin-bottom: 1.5rem; }
+        .sidebar-brand .brand-icon { width: 56px; height: 56px; background: transparent; display: flex; align-items: center; justify-content: center; }
+        .sidebar-brand .brand-icon img { width: 100%; height: 100%; object-fit: contain; }
+        .sidebar-brand .brand-text h2 { font-family: var(--font-title); font-size: 1.1rem; font-weight: 700; color: #fff; margin-bottom: -2px; }
+        .sidebar-brand .brand-text span { font-size: 0.65rem; color: var(--text-secondary); letter-spacing: 1px; text-transform: uppercase; }
+
+        .sidebar-menu { list-style: none; display: flex; flex-direction: column; gap: 0.4rem; flex: 1; overflow-y: auto; padding-right: 0.3rem; }
+        .sidebar-menu li a {
+            display: flex; align-items: center; gap: 1rem;
+            padding: 0.85rem 1rem; border-radius: var(--radius);
+            font-size: 0.9rem; color: var(--text-secondary);
+            transition: var(--transition); border: 1px solid transparent;
+            height: 52px;
+        }
+        .sidebar-menu li a:hover { background: var(--bg-glass); color: var(--text-primary); border-color: var(--border-glass); }
+        .sidebar-menu li a i { width: 24px; font-size: 1.1rem; color: var(--accent-blue); text-align: center; }
+        .sidebar-menu li a:hover i { color: var(--accent-orange); }
+        .sidebar-menu li a.active {
+            background: rgba(59, 130, 246, 0.1); border-color: rgba(59, 130, 246, 0.3); color: #fff;
+        }
+        .sidebar-menu li a.active i { color: var(--accent-blue); }
+        
+        .sidebar-menu .divider { height: 1px; background: var(--border-glass); margin: 0.5rem 0; }
+
+        .sidebar-footer { margin-top: auto; padding-top: 1.2rem; border-top: 1px solid var(--border-glass); display: flex; flex-direction: column; gap: 0.8rem; }
+        .sidebar-footer .btn-logout { width: 100%; background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.15); color: #ef4444; padding: 0.8rem; border-radius: var(--radius); font-weight: 600; font-size: 0.9rem; cursor: pointer; transition: var(--transition); display: flex; align-items: center; justify-content: center; gap: 0.5rem; height: 52px; }
+        .sidebar-footer .btn-logout:hover { background: rgba(239, 68, 68, 0.2); }
+        .sidebar-footer .btn-login { width: 100%; background: rgba(59, 130, 246, 0.1); border: 1px solid rgba(59, 130, 246, 0.15); color: #3b82f6; padding: 0.8rem; border-radius: var(--radius); font-weight: 600; font-size: 0.9rem; cursor: pointer; transition: var(--transition); display: flex; align-items: center; justify-content: center; gap: 0.5rem; height: 52px; }
+        .sidebar-footer .btn-login:hover { background: rgba(59, 130, 246, 0.2); }
+
+        /* MAIN */
+        main { padding: 0 1.2rem 3rem; max-width: 1200px; margin: 0 auto; margin-top: 1rem; }
+        .page-hero { text-align: center; padding: 2.5rem 0 1.5rem; }
+        .page-hero h1 { font-family: var(--font-title); font-size: 2.2rem; font-weight: 900; line-height: 1.1; }
+        .page-hero h1 span { background: var(--gradient-main); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .page-hero p { font-size: 1.05rem; color: var(--text-secondary); max-width: 520px; margin: 0.5rem auto 1.5rem; }
 
         .confirmation-container { max-width: 700px; margin: 0 auto 2.5rem; }
         .bank-info { background: var(--bg-glass); backdrop-filter: blur(4px); border: 1px solid var(--border-glass); border-radius: var(--radius-lg); padding: 1.5rem; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
@@ -57,22 +154,51 @@
         .preview-img { max-width: 200px; max-height: 200px; border-radius: var(--radius); margin-top: 0.5rem; border: 1px solid var(--border-glass); display: none; }
         .btn-submit { width: 100%; background: var(--gradient-main); color: #fff; padding: 0.9rem; border-radius: var(--radius); border: none; font-weight: 700; font-size: 1rem; cursor: pointer; transition: var(--transition); box-shadow: 0 0 20px rgba(249, 115, 22, 0.1); margin-top: 1rem; }
         .btn-submit:hover { transform: scale(1.02); box-shadow: 0 0 40px rgba(249, 115, 22, 0.3); }
+
+        .whatsapp-float { position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 500; background: #25d366; color: #fff; width: 56px; height: 56px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2rem; box-shadow: 0 4px 20px rgba(37, 211, 102, 0.3); cursor: pointer; border: none; transition: var(--transition); text-decoration: none; }
+        .whatsapp-float:hover { transform: scale(1.08); box-shadow: 0 8px 30px rgba(37, 211, 102, 0.4); }
+
+        footer { background: var(--bg-glass); backdrop-filter: blur(8px); border-top: 1px solid var(--border-glass); padding: 3rem 1.2rem 1.5rem; margin-top: 1rem; }
+        .footer-grid { display: grid; grid-template-columns: 1fr; gap: 2rem; max-width: 1200px; margin: 0 auto; }
+        .footer-brand { text-align: center; } .footer-brand img { height: 36px; width: auto; margin-bottom: 0.6rem; }
+        .footer-brand p { font-size: 0.85rem; color: var(--text-secondary); max-width: 300px; line-height: 1.7; margin: 0 auto; }
+        .footer-links { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+        .footer-col h4 { font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 1rem; color: var(--text-primary); }
+        .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; }
+        .footer-col ul a { font-size: 0.8rem; color: var(--text-secondary); transition: var(--transition); }
+        .footer-col ul a:hover { color: var(--accent-orange); transform: translateX(4px); }
+        .footer-social { display: flex; gap: 0.8rem; justify-content: center; margin-top: 1rem; }
+        .footer-social a { color: var(--text-secondary); font-size: 1.1rem; transition: var(--transition); }
+        .footer-social a:hover { color: var(--accent-orange); transform: scale(1.1); }
+        .footer-bottom { text-align: center; font-size: 0.65rem; color: var(--text-muted); border-top: 1px solid var(--border-glass); padding-top: 0.8rem; margin-top: 1.5rem; display: flex; flex-direction: column; gap: 0.3rem; }
+
+        @media (min-width: 768px) {
+            header { margin: 1rem 2rem; height: 76px; padding: 0 2rem; }
+            .page-hero h1 { font-size: 3rem; }
+            .footer-grid { grid-template-columns: 1fr 2fr; gap: 2.5rem; } .footer-brand { text-align: left; } .footer-brand p { margin: 0; }
+            .footer-links { grid-template-columns: repeat(3, 1fr); } .footer-social { justify-content: flex-start; }
+            .footer-bottom { flex-direction: row; justify-content: space-between; }
+        }
     </style>
 </head>
 <body>
-    <!-- Même header, sidebar, footer que les fichiers précédents -->
     <div class="orb-1"></div>
     <div class="orb-2"></div>
+
     <header>
         <a href="/index.html" class="logo-container"><img src="/assets/logo.png" alt="DigitalPay" class="brand-logo" /></a>
         <div class="header-actions"><button class="menu-btn" id="menu-open"><i class="fa-solid fa-bars"></i></button></div>
     </header>
+
     <div class="sidebar-overlay" id="sidebar-overlay"></div>
     <div class="sidebar" id="sidebar">
         <button class="sidebar-close" id="sidebar-close"><i class="fa-solid fa-xmark"></i></button>
         <div class="sidebar-brand">
             <div class="brand-icon"><img src="/assets/logo.png" alt="DigitalPay" /></div>
-            <div class="brand-text"><h2>DigitalPay</h2><span>SOCIETY</span></div>
+            <div class="brand-text">
+                <h2>DigitalPay</h2>
+                <span>SOCIETY</span>
+            </div>
         </div>
         <ul class="sidebar-menu">
             <li><a href="/index.html"><i class="fa-solid fa-house"></i> Accueil</a></li>
@@ -93,11 +219,13 @@
             <button class="btn-logout" id="sidebar-auth-btn"><i class="fa-solid fa-arrow-right-from-bracket"></i> Se Connecter</button>
         </div>
     </div>
+
     <main>
         <section class="page-hero">
             <h1>Confirmation <span>de paiement</span></h1>
             <p>Vérifiez les coordonnées et envoyez votre preuve de paiement.</p>
         </section>
+
         <div class="confirmation-container">
             <div id="bankInfoContainer" class="bank-info">
                 <!-- Rempli par JS -->
@@ -126,7 +254,9 @@
             </div>
         </div>
     </main>
+
     <a href="https://wa.me/50936535649" class="whatsapp-float" target="_blank"><i class="fa-brands fa-whatsapp"></i></a>
+
     <footer>
         <div class="footer-grid">
             <div class="footer-brand"><img src="/assets/logo.png" alt="DigitalPay" /><p>Votre plateforme de recharge gaming, streaming, services financiers, gift cards et cartes virtuelles en Haïti.</p></div>
@@ -138,6 +268,7 @@
         </div>
         <div class="footer-bottom"><span>&copy; 2026 DigitalPay. Tous droits réservés.</span><span>Paiements sécurisés • Support WhatsApp</span></div>
     </footer>
+
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
@@ -153,33 +284,88 @@
         if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
         const db = firebase.firestore();
-        // ... (sidebar toggle et auth guard comme avant) ...
 
+        const overlay = document.getElementById('sidebar-overlay');
+        const sidebar = document.getElementById('sidebar');
+        const menuOpen = document.getElementById('menu-open');
+        const menuClose = document.getElementById('sidebar-close');
+        const authBtn = document.getElementById('sidebar-auth-btn');
+
+        function toggleSidebar(open) {
+            if (open) { overlay.classList.add('active'); sidebar.classList.add('active'); document.body.style.overflow = 'hidden'; }
+            else { overlay.classList.remove('active'); sidebar.classList.remove('active'); document.body.style.overflow = ''; }
+        }
+        menuOpen.addEventListener('click', () => toggleSidebar(true));
+        menuClose.addEventListener('click', () => toggleSidebar(false));
+        overlay.addEventListener('click', () => toggleSidebar(false));
+
+        auth.onAuthStateChanged((user) => {
+            if (!user) {
+                const currentPath = window.location.pathname;
+                window.location.href = '/authentification/login.html?redirect=' + encodeURIComponent(currentPath);
+                return;
+            }
+            const nameEl = document.querySelector('.sidebar-brand .brand-text h2');
+            const subEl = document.querySelector('.sidebar-brand .brand-text span');
+            if (nameEl) nameEl.textContent = user.displayName || user.email || 'DigitalPay';
+            if (subEl) subEl.textContent = 'CONNECTÉ';
+            authBtn.innerHTML = '<i class="fa-solid fa-arrow-right-from-bracket"></i> Se Déconnecter';
+            authBtn.className = 'btn-logout';
+            authBtn.onclick = () => { auth.signOut().then(() => { window.location.href = '/index.html'; }); };
+        });
+
+        // ============================================================
+        // CONFIGURATION DES BANQUES
+        // ============================================================
         const method = localStorage.getItem('paymentMethod') || 'Moncash';
         const bankData = {
-            'Moncash': { name: 'Jinolyse Pierre Louis', number: '+50936535649', fields: ['Nom', 'Numéro'] },
-            'Natcash': { name: 'Jinolyse Pierre Louis', number: '+50935669814', fields: ['Nom', 'Numéro'] },
-            'Wise': { name: 'Bien Aimé Marcco', number: 'bmarcco4412@gmail.com', fields: ['Email Wise ou @wisetag'] },
-            'MERU': { name: 'Bien Aimé Marcco', number: 'lemarquis3844@gmail.com', fields: ['Email MERU ou $merutag'] }
+            'Moncash': {
+                name: 'Jinolyse Pierre Louis',
+                number: '+50936535649',
+                logo: '/assets/moncash-logo.png',
+                fields: ['Nom', 'Numéro']
+            },
+            'Natcash': {
+                name: 'Jinolyse Pierre Louis',
+                number: '+50935669814',
+                logo: '/assets/natcash-logo.png',
+                fields: ['Nom', 'Numéro']
+            },
+            'Wise': {
+                name: 'Bien Aimé Marcco',
+                number: 'bmarcco4412@gmail.com',
+                logo: '/assets/wise-logo.png',
+                fields: ['Email Wise ou @wisetag']
+            },
+            'MERU': {
+                name: 'Bien Aimé Marcco',
+                number: 'lemarquis3844@gmail.com',
+                logo: '/assets/meru-logo.png',
+                fields: ['Email MERU ou $merutag']
+            }
         };
 
         document.addEventListener('DOMContentLoaded', function() {
             const data = bankData[method];
             if (data) {
+                // Affichage des coordonnées bancaires
                 document.getElementById('bankInfoContainer').innerHTML = `
-                    <div class="logo"><img src="/assets/${method.toLowerCase()}-logo.png" alt="${method}" /></div>
+                    <div class="logo"><img src="${data.logo}" alt="${method}" /></div>
                     <div class="details">
                         <div class="name">${data.name}</div>
                         <div class="info">${data.number}</div>
                     </div>
                     <button class="btn-copy" onclick="copyToClipboard('${data.number}')"><i class="fa-regular fa-copy"></i> Copier</button>
                 `;
+
+                // Génération des champs dynamiques
                 let fieldsHTML = '';
                 data.fields.forEach(f => {
+                    const fieldId = 'field_' + f.replace(/ /g,'_');
                     fieldsHTML += `
                         <div class="form-group">
                             <label>${f}</label>
-                            <input type="text" id="field_${f.replace(/ /g,'_')}" placeholder="Ex: ${f}" required />
+                            <input type="text" id="${fieldId}" placeholder="Ex: ${f}" required />
                         </div>
                     `;
                 });
@@ -189,7 +375,7 @@
 
         function copyToClipboard(text) {
             navigator.clipboard.writeText(text);
-            alert('Copié !');
+            alert('📋 Coordonnées copiées dans le presse-papiers !');
         }
 
         function previewImage(event) {
@@ -207,8 +393,13 @@
 
         document.getElementById('paymentForm').addEventListener('submit', async function(e) {
             e.preventDefault();
-            const formData = new FormData(this);
+            
+            // Récupération des données
+            const amountSent = document.getElementById('amountSent').value;
+            const whatsapp = document.getElementById('whatsapp').value;
             const file = document.getElementById('proofImage').files[0];
+            
+            // Conversion de l'image en Base64
             let base64Image = '';
             if (file) {
                 base64Image = await new Promise((resolve) => {
@@ -217,24 +408,33 @@
                     reader.readAsDataURL(file);
                 });
             }
+
+            // Récupération des champs dynamiques
+            const data = bankData[method];
+            const dynamicFields = {};
+            data.fields.forEach(f => {
+                const fieldId = 'field_' + f.replace(/ /g,'_');
+                dynamicFields[f] = document.getElementById(fieldId).value;
+            });
+
+            // Création de l'objet de paiement
             const paymentData = {
                 method: method,
-                bankName: bankData[method].name,
-                bankNumber: bankData[method].number,
-                amountSent: document.getElementById('amountSent').value,
-                whatsapp: document.getElementById('whatsapp').value,
+                bankName: data.name,
+                bankNumber: data.number,
+                amountSent: amountSent,
+                whatsapp: whatsapp,
                 imageBase64: base64Image,
+                dynamicFields: dynamicFields,
                 status: 'en_attente',
                 createdAt: firebase.firestore.FieldValue.serverTimestamp(),
                 userId: auth.currentUser ? auth.currentUser.uid : 'anonymous'
             };
-            // Ajouter les champs dynamiques
-            bankData[method].fields.forEach(f => {
-                const key = 'field_' + f.replace(/ /g,'_');
-                paymentData[f] = document.getElementById(key).value;
-            });
+
+            // Envoi vers Firestore (admin/user/paiement-demandes)
             await db.collection('paiement-demandes').add(paymentData);
-            localStorage.setItem('lastPaymentId', paymentData.id);
+
+            // Redirection vers la page de statut
             window.location.href = '/paiement/status.html';
         });
     </script>
