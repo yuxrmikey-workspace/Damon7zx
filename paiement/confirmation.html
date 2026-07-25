@@ -14,8 +14,8 @@
             --font-title: 'Orbitron', sans-serif;
             --font-body: 'Inter', sans-serif;
             --bg-primary: #0b0b12;
-            --bg-glass: rgba(255, 255, 255, 0.05);
-            --border-glass: rgba(255, 255, 255, 0.08);
+            --bg-glass: rgba(255, 255, 255, 0.06);
+            --border-glass: rgba(255, 255, 255, 0.10);
             --text-primary: #ffffff;
             --text-secondary: #a0a0c0;
             --text-muted: #6a6a8a;
@@ -26,7 +26,7 @@
             --gradient-blue: linear-gradient(135deg, #3b82f6, #8b5cf6);
             --radius: 16px;
             --radius-lg: 24px;
-            --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.4);
+            --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.5);
             --transition: 0.3s ease;
         }
 
@@ -51,16 +51,13 @@
             background-image: linear-gradient(rgba(255, 255, 255, 0.008) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.008) 1px, transparent 1px);
             background-size: 60px 60px;
         }
-        .orb-1 { position: fixed; width: 500px; height: 500px; background: var(--accent-orange); filter: blur(120px); opacity: 0.15; top: -150px; left: -150px; z-index: -1; animation: float1 20s ease-in-out infinite alternate; }
-        .orb-2 { position: fixed; width: 400px; height: 400px; background: var(--accent-cyan); filter: blur(100px); opacity: 0.15; bottom: -100px; right: -100px; z-index: -1; animation: float2 25s ease-in-out infinite alternate; }
-        @keyframes float1 { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(80px, 100px) scale(1.2); } }
-        @keyframes float2 { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(-60px, -80px) scale(1.1); } }
+        .orb-1 { position: fixed; width: 600px; height: 600px; background: var(--accent-orange); filter: blur(140px); opacity: 0.12; top: -200px; left: -200px; z-index: -1; }
+        .orb-2 { position: fixed; width: 500px; height: 500px; background: var(--accent-cyan); filter: blur(120px); opacity: 0.12; bottom: -150px; right: -150px; z-index: -1; }
 
         ::-webkit-scrollbar { width: 4px; }
         ::-webkit-scrollbar-track { background: var(--bg-primary); }
         ::-webkit-scrollbar-thumb { background: var(--accent-orange); }
 
-        /* HEADER */
         header {
             position: sticky; top: 1rem; z-index: 1000;
             background: var(--bg-glass); backdrop-filter: blur(16px);
@@ -77,7 +74,6 @@
         }
         .menu-btn:hover { background: var(--gradient-main); border-color: transparent; box-shadow: 0 0 20px rgba(249, 115, 22, 0.3); }
 
-        /* SIDEBAR */
         .sidebar-overlay { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(4px); z-index: 2000; opacity: 0; visibility: hidden; transition: 0.3s; }
         .sidebar-overlay.active { opacity: 1; visibility: visible; }
         .sidebar {
@@ -98,21 +94,12 @@
         .sidebar-brand .brand-text span { font-size: 0.65rem; color: var(--text-secondary); letter-spacing: 1px; text-transform: uppercase; }
 
         .sidebar-menu { list-style: none; display: flex; flex-direction: column; gap: 0.4rem; flex: 1; overflow-y: auto; padding-right: 0.3rem; }
-        .sidebar-menu li a {
-            display: flex; align-items: center; gap: 1rem;
-            padding: 0.85rem 1rem; border-radius: var(--radius);
-            font-size: 0.9rem; color: var(--text-secondary);
-            transition: var(--transition); border: 1px solid transparent;
-            height: 52px;
-        }
+        .sidebar-menu li a { display: flex; align-items: center; gap: 1rem; padding: 0.85rem 1rem; border-radius: var(--radius); font-size: 0.9rem; color: var(--text-secondary); transition: var(--transition); border: 1px solid transparent; height: 52px; }
         .sidebar-menu li a:hover { background: var(--bg-glass); color: var(--text-primary); border-color: var(--border-glass); }
         .sidebar-menu li a i { width: 24px; font-size: 1.1rem; color: var(--accent-blue); text-align: center; }
         .sidebar-menu li a:hover i { color: var(--accent-orange); }
-        .sidebar-menu li a.active {
-            background: rgba(59, 130, 246, 0.1); border-color: rgba(59, 130, 246, 0.3); color: #fff;
-        }
+        .sidebar-menu li a.active { background: rgba(59, 130, 246, 0.1); border-color: rgba(59, 130, 246, 0.3); color: #fff; }
         .sidebar-menu li a.active i { color: var(--accent-blue); }
-        
         .sidebar-menu .divider { height: 1px; background: var(--border-glass); margin: 0.5rem 0; }
 
         .sidebar-footer { margin-top: auto; padding-top: 1.2rem; border-top: 1px solid var(--border-glass); display: flex; flex-direction: column; gap: 0.8rem; }
@@ -121,10 +108,9 @@
         .sidebar-footer .btn-login { width: 100%; background: rgba(59, 130, 246, 0.1); border: 1px solid rgba(59, 130, 246, 0.15); color: #3b82f6; padding: 0.8rem; border-radius: var(--radius); font-weight: 600; font-size: 0.9rem; cursor: pointer; transition: var(--transition); display: flex; align-items: center; justify-content: center; gap: 0.5rem; height: 52px; }
         .sidebar-footer .btn-login:hover { background: rgba(59, 130, 246, 0.2); }
 
-        /* MAIN */
         main { padding: 0 1.2rem 3rem; max-width: 1200px; margin: 0 auto; margin-top: 1rem; }
         .page-hero { text-align: center; padding: 2.5rem 0 1.5rem; }
-        .page-hero h1 { font-family: var(--font-title); font-size: 2.2rem; font-weight: 900; line-height: 1.1; }
+        .page-hero h1 { font-family: var(--font-title); font-size: 2.5rem; font-weight: 900; line-height: 1.1; }
         .page-hero h1 span { background: var(--gradient-main); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .page-hero p { font-size: 1.05rem; color: var(--text-secondary); max-width: 520px; margin: 0.5rem auto 1.5rem; }
 
@@ -133,13 +119,13 @@
         .bank-info .logo { width: 60px; height: 60px; border-radius: 16px; overflow: hidden; background: rgba(0, 0, 0, 0.3); display: flex; align-items: center; justify-content: center; }
         .bank-info .logo img { width: 100%; height: 100%; object-fit: cover; }
         .bank-info .details { flex: 1; }
-        .bank-info .details .name { font-weight: 600; font-size: 1rem; }
-        .bank-info .details .info { color: var(--text-secondary); font-size: 0.9rem; }
+        .bank-info .details .name { font-weight: 600; font-size: 1rem; color: var(--text-primary); }
+        .bank-info .details .info { color: var(--text-secondary); font-size: 0.9rem; margin-top: 0.2rem; }
         .btn-copy { background: rgba(59, 130, 246, 0.1); border: 1px solid rgba(59, 130, 246, 0.2); color: #3b82f6; padding: 0.4rem 1rem; border-radius: var(--radius); cursor: pointer; transition: var(--transition); font-size: 0.8rem; font-weight: 600; }
         .btn-copy:hover { background: rgba(59, 130, 246, 0.2); }
 
         .form-card { background: var(--bg-glass); backdrop-filter: blur(4px); border: 1px solid var(--border-glass); border-radius: var(--radius-lg); padding: 2rem 1.5rem; }
-        .form-card h2 { font-family: var(--font-title); font-size: 1.2rem; margin-bottom: 1.5rem; }
+        .form-card h2 { font-family: var(--font-title); font-size: 1.2rem; margin-bottom: 1.5rem; color: var(--text-primary); }
         .form-group { margin-bottom: 1.2rem; }
         .form-group label { display: block; font-size: 0.8rem; font-weight: 600; color: var(--text-secondary); margin-bottom: 0.3rem; text-transform: uppercase; letter-spacing: 0.5px; }
         .form-group input, .form-group textarea {
@@ -154,6 +140,18 @@
         .preview-img { max-width: 200px; max-height: 200px; border-radius: var(--radius); margin-top: 0.5rem; border: 1px solid var(--border-glass); display: none; }
         .btn-submit { width: 100%; background: var(--gradient-main); color: #fff; padding: 0.9rem; border-radius: var(--radius); border: none; font-weight: 700; font-size: 1rem; cursor: pointer; transition: var(--transition); box-shadow: 0 0 20px rgba(249, 115, 22, 0.1); margin-top: 1rem; }
         .btn-submit:hover { transform: scale(1.02); box-shadow: 0 0 40px rgba(249, 115, 22, 0.3); }
+
+        #toast-container { position: fixed; top: 1.5rem; right: 1.5rem; z-index: 9999; display: flex; flex-direction: column; gap: 0.8rem; }
+        .toast { background: rgba(11, 11, 18, 0.95); backdrop-filter: blur(12px); border: 1px solid var(--border-glass); border-radius: var(--radius); padding: 1rem 1.5rem; min-width: 280px; max-width: 400px; display: flex; align-items: center; gap: 0.8rem; animation: slideIn 0.4s ease; box-shadow: var(--shadow-card); }
+        .toast.success { border-left: 4px solid #22c55e; }
+        .toast.error { border-left: 4px solid #ef4444; }
+        .toast.info { border-left: 4px solid var(--accent-cyan); }
+        .toast .icon { font-size: 1.2rem; }
+        .toast.success .icon { color: #22c55e; }
+        .toast.error .icon { color: #ef4444; }
+        .toast.info .icon { color: var(--accent-cyan); }
+        .toast .msg { font-size: 0.9rem; color: var(--text-primary); flex: 1; }
+        @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
 
         .whatsapp-float { position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 500; background: #25d366; color: #fff; width: 56px; height: 56px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2rem; box-shadow: 0 4px 20px rgba(37, 211, 102, 0.3); cursor: pointer; border: none; transition: var(--transition); text-decoration: none; }
         .whatsapp-float:hover { transform: scale(1.08); box-shadow: 0 8px 30px rgba(37, 211, 102, 0.4); }
@@ -195,10 +193,7 @@
         <button class="sidebar-close" id="sidebar-close"><i class="fa-solid fa-xmark"></i></button>
         <div class="sidebar-brand">
             <div class="brand-icon"><img src="/assets/logo.png" alt="DigitalPay" /></div>
-            <div class="brand-text">
-                <h2>DigitalPay</h2>
-                <span>SOCIETY</span>
-            </div>
+            <div class="brand-text"><h2>DigitalPay</h2><span>SOCIETY</span></div>
         </div>
         <ul class="sidebar-menu">
             <li><a href="/index.html"><i class="fa-solid fa-house"></i> Accueil</a></li>
@@ -219,6 +214,8 @@
             <button class="btn-logout" id="sidebar-auth-btn"><i class="fa-solid fa-arrow-right-from-bracket"></i> Se Connecter</button>
         </div>
     </div>
+
+    <div id="toast-container"></div>
 
     <main>
         <section class="page-hero">
@@ -348,7 +345,6 @@
         document.addEventListener('DOMContentLoaded', function() {
             const data = bankData[method];
             if (data) {
-                // Affichage des coordonnées bancaires
                 document.getElementById('bankInfoContainer').innerHTML = `
                     <div class="logo"><img src="${data.logo}" alt="${method}" /></div>
                     <div class="details">
@@ -358,7 +354,6 @@
                     <button class="btn-copy" onclick="copyToClipboard('${data.number}')"><i class="fa-regular fa-copy"></i> Copier</button>
                 `;
 
-                // Génération des champs dynamiques
                 let fieldsHTML = '';
                 data.fields.forEach(f => {
                     const fieldId = 'field_' + f.replace(/ /g,'_');
@@ -375,7 +370,7 @@
 
         function copyToClipboard(text) {
             navigator.clipboard.writeText(text);
-            alert('📋 Coordonnées copiées dans le presse-papiers !');
+            showToast('📋 Coordonnées copiées !', 'success');
         }
 
         function previewImage(event) {
@@ -394,12 +389,15 @@
         document.getElementById('paymentForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             
-            // Récupération des données
             const amountSent = document.getElementById('amountSent').value;
             const whatsapp = document.getElementById('whatsapp').value;
             const file = document.getElementById('proofImage').files[0];
             
-            // Conversion de l'image en Base64
+            if (!amountSent || !whatsapp || !file) {
+                showToast('Veuillez remplir tous les champs.', 'error');
+                return;
+            }
+
             let base64Image = '';
             if (file) {
                 base64Image = await new Promise((resolve) => {
@@ -409,7 +407,6 @@
                 });
             }
 
-            // Récupération des champs dynamiques
             const data = bankData[method];
             const dynamicFields = {};
             data.fields.forEach(f => {
@@ -417,7 +414,6 @@
                 dynamicFields[f] = document.getElementById(fieldId).value;
             });
 
-            // Création de l'objet de paiement
             const paymentData = {
                 method: method,
                 bankName: data.name,
@@ -431,12 +427,31 @@
                 userId: auth.currentUser ? auth.currentUser.uid : 'anonymous'
             };
 
-            // Envoi vers Firestore (admin/user/paiement-demandes)
-            await db.collection('paiement-demandes').add(paymentData);
-
-            // Redirection vers la page de statut
-            window.location.href = '/paiement/status.html';
+            try {
+                await db.collection('paiement-demandes').add(paymentData);
+                showToast('✅ Demande envoyée avec succès !', 'success');
+                setTimeout(() => {
+                    window.location.href = '/paiement/status.html';
+                }, 1500);
+            } catch (error) {
+                showToast('❌ Erreur lors de l\'envoi. Veuillez réessayer.', 'error');
+            }
         });
+
+        // TOAST SYSTEM
+        function showToast(message, type = 'info') {
+            const container = document.getElementById('toast-container');
+            const icons = { success: 'fa-circle-check', error: 'fa-circle-xmark', info: 'fa-circle-info' };
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.innerHTML = `<div class="icon"><i class="fa-solid ${icons[type] || icons.info}"></i></div><div class="msg">${message}</div>`;
+            container.appendChild(toast);
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateX(100%)';
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
     </script>
 </body>
 </html>
