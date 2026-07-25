@@ -8,7 +8,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&family=Orbitron:wght@600;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-
     <style>
         :root {
             --font-title: 'Orbitron', sans-serif;
@@ -29,7 +28,6 @@
             --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.4);
             --transition: 0.3s ease;
         }
-
         * { margin: 0; padding: 0; box-sizing: border-box; }
         html { scroll-behavior: smooth; }
         body {
@@ -42,7 +40,6 @@
         }
         a { text-decoration: none !important; color: inherit; }
         img { max-width: 100%; display: block; }
-
         body::before {
             content: '';
             position: fixed;
@@ -55,12 +52,10 @@
         .orb-2 { position: fixed; width: 400px; height: 400px; background: var(--accent-cyan); filter: blur(100px); opacity: 0.15; bottom: -100px; right: -100px; z-index: -1; animation: float2 25s ease-in-out infinite alternate; }
         @keyframes float1 { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(80px, 100px) scale(1.2); } }
         @keyframes float2 { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(-60px, -80px) scale(1.1); } }
-
         ::-webkit-scrollbar { width: 4px; }
         ::-webkit-scrollbar-track { background: var(--bg-primary); }
         ::-webkit-scrollbar-thumb { background: var(--accent-orange); }
 
-        /* HEADER */
         header {
             position: sticky; top: 1rem; z-index: 1000;
             background: var(--bg-glass); backdrop-filter: blur(16px);
@@ -77,7 +72,6 @@
         }
         .menu-btn:hover { background: var(--gradient-main); border-color: transparent; box-shadow: 0 0 20px rgba(249, 115, 22, 0.3); }
 
-        /* SIDEBAR */
         .sidebar-overlay { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(4px); z-index: 2000; opacity: 0; visibility: hidden; transition: 0.3s; }
         .sidebar-overlay.active { opacity: 1; visibility: visible; }
         .sidebar {
@@ -90,7 +84,6 @@
         .sidebar.active { right: 0; }
         .sidebar-close { position: absolute; top: 1.2rem; right: 1.2rem; background: none; border: none; color: var(--text-muted); font-size: 1.2rem; cursor: pointer; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
         .sidebar-close:hover { color: #fff; background: rgba(255, 255, 255, 0.05); }
-        
         .sidebar-brand { display: flex; align-items: center; gap: 1rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border-glass); margin-bottom: 1.5rem; }
         .sidebar-brand .brand-icon { width: 56px; height: 56px; background: transparent; display: flex; align-items: center; justify-content: center; }
         .sidebar-brand .brand-icon img { width: 100%; height: 100%; object-fit: contain; }
@@ -98,21 +91,12 @@
         .sidebar-brand .brand-text span { font-size: 0.65rem; color: var(--text-secondary); letter-spacing: 1px; text-transform: uppercase; }
 
         .sidebar-menu { list-style: none; display: flex; flex-direction: column; gap: 0.4rem; flex: 1; overflow-y: auto; padding-right: 0.3rem; }
-        .sidebar-menu li a {
-            display: flex; align-items: center; gap: 1rem;
-            padding: 0.85rem 1rem; border-radius: var(--radius);
-            font-size: 0.9rem; color: var(--text-secondary);
-            transition: var(--transition); border: 1px solid transparent;
-            height: 52px;
-        }
+        .sidebar-menu li a { display: flex; align-items: center; gap: 1rem; padding: 0.85rem 1rem; border-radius: var(--radius); font-size: 0.9rem; color: var(--text-secondary); transition: var(--transition); border: 1px solid transparent; height: 52px; }
         .sidebar-menu li a:hover { background: var(--bg-glass); color: var(--text-primary); border-color: var(--border-glass); }
         .sidebar-menu li a i { width: 24px; font-size: 1.1rem; color: var(--accent-blue); text-align: center; }
         .sidebar-menu li a:hover i { color: var(--accent-orange); }
-        .sidebar-menu li a.active {
-            background: rgba(59, 130, 246, 0.1); border-color: rgba(59, 130, 246, 0.3); color: #fff;
-        }
+        .sidebar-menu li a.active { background: rgba(59, 130, 246, 0.1); border-color: rgba(59, 130, 246, 0.3); color: #fff; }
         .sidebar-menu li a.active i { color: var(--accent-blue); }
-        
         .sidebar-menu .divider { height: 1px; background: var(--border-glass); margin: 0.5rem 0; }
 
         .sidebar-footer { margin-top: auto; padding-top: 1.2rem; border-top: 1px solid var(--border-glass); display: flex; flex-direction: column; gap: 0.8rem; }
@@ -121,31 +105,19 @@
         .sidebar-footer .btn-login { width: 100%; background: rgba(59, 130, 246, 0.1); border: 1px solid rgba(59, 130, 246, 0.15); color: #3b82f6; padding: 0.8rem; border-radius: var(--radius); font-weight: 600; font-size: 0.9rem; cursor: pointer; transition: var(--transition); display: flex; align-items: center; justify-content: center; gap: 0.5rem; height: 52px; }
         .sidebar-footer .btn-login:hover { background: rgba(59, 130, 246, 0.2); }
 
-        /* MAIN */
         main { padding: 0 1.2rem 3rem; max-width: 1200px; margin: 0 auto; margin-top: 1rem; }
         .page-hero { text-align: center; padding: 2.5rem 0 1.5rem; }
         .page-hero h1 { font-family: var(--font-title); font-size: 2.2rem; font-weight: 900; line-height: 1.1; }
         .page-hero h1 span { background: var(--gradient-main); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .page-hero p { font-size: 1.05rem; color: var(--text-secondary); max-width: 520px; margin: 0.5rem auto 1.5rem; }
 
-        /* PAIEMENT */
-        .payment-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; max-width: 700px; margin: 0 auto 2.5rem; }
-        @media (min-width: 768px) { .payment-grid { grid-template-columns: repeat(3, 1fr); } }
-
-        .payment-card {
-            background: var(--bg-glass); backdrop-filter: blur(4px);
-            border: 1px solid var(--border-glass); border-radius: var(--radius-lg);
-            padding: 1.5rem 1rem; text-align: center; cursor: pointer; transition: var(--transition);
-        }
-        .payment-card:hover { background: rgba(255, 255, 255, 0.1); border-color: var(--accent-orange); transform: translateY(-4px); }
-        
-        .payment-card .logo-wrap { width: 80px; height: 80px; margin: 0 auto 0.8rem; border-radius: 20px; overflow: hidden; background: rgba(0, 0, 0, 0.3); display: flex; align-items: center; justify-content: center; }
-        .payment-card .logo-wrap img { width: 100%; height: 100%; object-fit: cover; display: block; }
-        .payment-card h4 { font-size: 1rem; font-weight: 600; }
-        .payment-card .sub { font-size: 0.75rem; color: var(--text-muted); }
-
-        .amount-display { text-align: center; margin-bottom: 2rem; font-size: 1.2rem; color: var(--text-secondary); }
-        .amount-display strong { color: var(--accent-orange); font-size: 1.6rem; }
+        .payment-summary { max-width: 700px; margin: 0 auto 2.5rem; }
+        .summary-card { background: var(--bg-glass); backdrop-filter: blur(4px); border: 1px solid var(--border-glass); border-radius: var(--radius-lg); padding: 2.5rem 2rem; text-align: center; }
+        .summary-card h2 { font-family: var(--font-title); font-size: 1.3rem; margin-bottom: 0.5rem; }
+        .summary-card .amount { font-size: 2.5rem; font-weight: 700; color: var(--accent-orange); margin: 1rem 0; }
+        .summary-card .product { font-size: 1rem; color: var(--text-secondary); margin-bottom: 1.5rem; }
+        .btn-pay { display: inline-block; padding: 0.9rem 3rem; background: var(--gradient-main); color: #fff; border-radius: var(--radius); font-weight: 700; font-size: 1rem; transition: var(--transition); border: none; cursor: pointer; box-shadow: 0 0 20px rgba(249, 115, 22, 0.1); }
+        .btn-pay:hover { transform: scale(1.02); box-shadow: 0 0 40px rgba(249, 115, 22, 0.3); }
 
         .whatsapp-float { position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 500; background: #25d366; color: #fff; width: 56px; height: 56px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2rem; box-shadow: 0 4px 20px rgba(37, 211, 102, 0.3); cursor: pointer; border: none; transition: var(--transition); text-decoration: none; }
         .whatsapp-float:hover { transform: scale(1.08); box-shadow: 0 8px 30px rgba(37, 211, 102, 0.4); }
@@ -176,21 +148,16 @@
 <body>
     <div class="orb-1"></div>
     <div class="orb-2"></div>
-
     <header>
         <a href="/index.html" class="logo-container"><img src="/assets/logo.png" alt="DigitalPay" class="brand-logo" /></a>
         <div class="header-actions"><button class="menu-btn" id="menu-open"><i class="fa-solid fa-bars"></i></button></div>
     </header>
-
     <div class="sidebar-overlay" id="sidebar-overlay"></div>
     <div class="sidebar" id="sidebar">
         <button class="sidebar-close" id="sidebar-close"><i class="fa-solid fa-xmark"></i></button>
         <div class="sidebar-brand">
             <div class="brand-icon"><img src="/assets/logo.png" alt="DigitalPay" /></div>
-            <div class="brand-text">
-                <h2>DigitalPay</h2>
-                <span>SOCIETY</span>
-            </div>
+            <div class="brand-text"><h2>DigitalPay</h2><span>SOCIETY</span></div>
         </div>
         <ul class="sidebar-menu">
             <li><a href="/index.html"><i class="fa-solid fa-house"></i> Accueil</a></li>
@@ -211,48 +178,26 @@
             <button class="btn-logout" id="sidebar-auth-btn"><i class="fa-solid fa-arrow-right-from-bracket"></i> Se Connecter</button>
         </div>
     </div>
-
     <main>
         <section class="page-hero">
-            <h1>Choisissez votre <span>mode de paiement</span></h1>
-            <p>Sélectionnez la méthode qui vous convient pour finaliser votre commande.</p>
+            <h1>Paiement <span>sécurisé</span></h1>
+            <p>Finalisez votre commande en toute sécurité.</p>
         </section>
-
-        <div class="amount-display">
-            Montant à payer : <strong id="displayAmount">0 Gdes</strong>
-        </div>
-
-        <div class="payment-grid">
-            <div class="payment-card" onclick="selectPayment('Moncash')">
-                <div class="logo-wrap"><img src="/assets/moncash-logo.png" alt="Moncash" loading="lazy" /></div>
-                <h4>Moncash</h4>
-                <div class="sub">Paiement mobile</div>
-            </div>
-            <div class="payment-card" onclick="selectPayment('Natcash')">
-                <div class="logo-wrap"><img src="/assets/natcash-logo.png" alt="Natcash" loading="lazy" /></div>
-                <h4>Natcash</h4>
-                <div class="sub">Paiement mobile</div>
-            </div>
-            <div class="payment-card" onclick="selectPayment('Wise')">
-                <div class="logo-wrap"><img src="/assets/wise-logo.png" alt="Wise" loading="lazy" /></div>
-                <h4>Wise</h4>
-                <div class="sub">Transfert international</div>
-            </div>
-            <div class="payment-card" onclick="selectPayment('PayPal')">
-                <div class="logo-wrap"><img src="/assets/paypal-logo.png" alt="PayPal" loading="lazy" /></div>
-                <h4>PayPal</h4>
-                <div class="sub">Paiement en ligne</div>
-            </div>
-            <div class="payment-card" onclick="selectPayment('USDT')">
-                <div class="logo-wrap"><img src="/assets/usdt-logo.png" alt="USDT" loading="lazy" /></div>
-                <h4>USDT</h4>
-                <div class="sub">Crypto (TRC20)</div>
+        <div class="payment-summary">
+            <div class="summary-card">
+                <h2>Résumé de votre commande</h2>
+                <div class="product" id="productName">DigitalPay Card</div>
+                <div class="amount" id="amountDisplay">750 Gdes</div>
+                <p style="color:var(--text-secondary); font-size:0.9rem; margin-bottom:1.5rem;">
+                    Vous allez être redirigé vers le choix du mode de paiement.
+                </p>
+                <button class="btn-pay" onclick="proceedToMethods()">
+                    <i class="fa-solid fa-arrow-right"></i> Procéder au paiement
+                </button>
             </div>
         </div>
     </main>
-
     <a href="https://wa.me/50936535649" class="whatsapp-float" target="_blank"><i class="fa-brands fa-whatsapp"></i></a>
-
     <footer>
         <div class="footer-grid">
             <div class="footer-brand"><img src="/assets/logo.png" alt="DigitalPay" /><p>Votre plateforme de recharge gaming, streaming, services financiers, gift cards et cartes virtuelles en Haïti.</p></div>
@@ -264,7 +209,6 @@
         </div>
         <div class="footer-bottom"><span>&copy; 2026 DigitalPay. Tous droits réservés.</span><span>Paiements sécurisés • Support WhatsApp</span></div>
     </footer>
-
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
     <script>
@@ -278,7 +222,6 @@
         };
         if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
-
         const overlay = document.getElementById('sidebar-overlay');
         const sidebar = document.getElementById('sidebar');
         const menuOpen = document.getElementById('menu-open');
@@ -293,16 +236,12 @@
         menuClose.addEventListener('click', () => toggleSidebar(false));
         overlay.addEventListener('click', () => toggleSidebar(false));
 
-        // ============================================================
-        // PROTECTION DE PAGE (AUTH GUARD)
-        // ============================================================
         auth.onAuthStateChanged((user) => {
             if (!user) {
                 const currentPath = window.location.pathname;
                 window.location.href = '/authentification/login.html?redirect=' + encodeURIComponent(currentPath);
                 return;
             }
-
             const nameEl = document.querySelector('.sidebar-brand .brand-text h2');
             const subEl = document.querySelector('.sidebar-brand .brand-text span');
             if (nameEl) nameEl.textContent = user.displayName || user.email || 'DigitalPay';
@@ -311,35 +250,17 @@
             authBtn.className = 'btn-logout';
             authBtn.onclick = () => { auth.signOut().then(() => { window.location.href = '/index.html'; }); };
 
-            // Charger le montant
+            // Charger le montant depuis le panier
             const checkoutData = localStorage.getItem('checkoutTotal');
             if (checkoutData) {
                 const data = JSON.parse(checkoutData);
-                document.getElementById('displayAmount').textContent = data.total + ' ' + (data.currency || 'Gdes');
-            } else {
-                document.getElementById('displayAmount').textContent = '0 Gdes';
+                document.getElementById('productName').textContent = data.product || 'Commande';
+                document.getElementById('amountDisplay').textContent = data.total + ' ' + (data.currency || 'Gdes');
             }
         });
 
-        // ============================================================
-        // SÉLECTION DU MODE DE PAIEMENT
-        // ============================================================
-        function selectPayment(method) {
-            const checkoutData = localStorage.getItem('checkoutTotal');
-            if (!checkoutData) {
-                alert('Aucune commande à payer. Veuillez ajouter des produits au panier.');
-                return;
-            }
-
-            const data = JSON.parse(checkoutData);
-            // Sauvegarder le mode de paiement
-            localStorage.setItem('paymentMethod', method);
-            localStorage.setItem('paymentAmount', data.total);
-            localStorage.setItem('paymentCurrency', data.currency || 'Gdes');
-            localStorage.setItem('paymentProduct', data.product || 'Commande');
-
-            // Redirection vers la page "en cours"
-            window.location.href = '/paiement/en-cours.html';
+        function proceedToMethods() {
+            window.location.href = '/paiement/methode.html';
         }
     </script>
 </body>
