@@ -266,9 +266,13 @@
         <div class="footer-bottom"><span>&copy; 2026 DigitalPay. Tous droits réservés.</span><span>Paiements sécurisés • Support WhatsApp</span></div>
     </footer>
 
+    <!-- ============================================ -->
+    <!-- SCRIPTS FIREBASE (APP + AUTH + FIRESTORE) -->
+    <!-- ============================================ -->
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+
     <script>
         const firebaseConfig = {
             apiKey: "AIzaSyDCj6vyMXsdEMlH-vYOWdwcfoD2VI622Uc",
@@ -434,6 +438,7 @@
                     window.location.href = '/paiement/status.html';
                 }, 1500);
             } catch (error) {
+                console.error(error);
                 showToast('❌ Erreur lors de l\'envoi. Veuillez réessayer.', 'error');
             }
         });
