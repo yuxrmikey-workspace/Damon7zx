@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+    <title>Statut – DigitalPay HT</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&family=Orbitron:wght@600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <style>
+        :root {
+            --font-title: 'Orbitron', sans-serif;
+            --font-body: 'Inter', sans-serif;
+            --bg-primary: #0b0b12;
+            --bg-glass: rgba(255, 255, 255, 0.05);
+            --border-glass: rgba(255, 255, 255, 0.08);
+            --text-primary: #ffffff;
+            --text-secondary: #a0a0c0;
+            --text-muted: #6a6a8a;
+            --accent-orange: #f97316;
+            --accent-cyan: #0ea5e9;
+            --accent-blue: #3b82f6;
+            --gradient-main: linear-gradient(135deg, #f97316, #0ea5e9);
+            --gradient-blue: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            --radius: 16px;
+            --radius-lg: 24px;
+            --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.4);
+            --transition: 0.3s ease;
+        }
+        /* ... (copier tout le CSS de index.html ici) ... */
+        .status-container { max-width: 600px; margin: 0 auto 2.5rem; text-align: center; }
+        .status-card { background: var(--bg-glass); backdrop-filter: blur(4px); border: 1px solid var(--border-glass); border-radius: var(--radius-lg); padding: 3rem 2rem; }
+        .status-card .icon { font-size: 4rem; margin-bottom: 1rem; }
+        .status-card .icon.pending { color: var(--accent-orange); animation: pulse 1.5s ease-in-out infinite; }
+        .status-card .icon.validated { color: #22c55e; }
+        .status-card .icon.rejected { color: #ef4444; }
+        .status-card h2 { font-family: var(--font-title); font-size: 1.5rem; margin-bottom: 0.5rem; }
+        .status-card p { color: var(--text-secondary); font-size: 0.95rem; margin-bottom: 1.5rem; }
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
+    </style>
+</head>
+<body>
+    <!-- Même header, sidebar, footer -->
+    <div class="orb-1"></div>
+    <div class="orb-2"></div>
+    <header>
+        <a href="/index.html" class="logo-container"><img src="/assets/logo.png" alt="DigitalPay" class="brand-logo" /></a>
+        <div class="header-actions"><button class="menu-btn" id="menu-open"><i class="fa-solid fa-bars"></i></button></div>
+    </header>
+    <div class="sidebar-overlay" id="sidebar-overlay"></div>
+    <div class="sidebar" id="sidebar">
+        <button class="sidebar-close" id="sidebar-close"><i class="fa-solid fa-xmark"></i></button>
+        <div class="sidebar-brand">
+            <div class="brand-icon"><img src="/assets/logo.png" alt="DigitalPay" /></div>
+            <div class="brand-text"><h2>DigitalPay</h2><span>SOCIETY</span></div>
+        </div>
+        <ul class="sidebar-menu">
+            <li><a href="/index.html"><i class="fa-solid fa-house"></i> Accueil</a></li>
+            <li class="divider"></li>
+            <li><a href="/gaming.html"><i class="fa-solid fa-gamepad"></i> Gaming</a></li>
+            <li><a href="/streaming.html"><i class="fa-solid fa-film"></i> Streaming</a></li>
+            <li><a href="/services-digitaux.html"><i class="fa-solid fa-wallet"></i> Services financiers</a></li>
+            <li><a href="/echange/index.html"><i class="fa-solid fa-arrows-left-right"></i> Échange</a></li>
+            <li><a href="/giftcard/index.html"><i class="fa-solid fa-gift"></i> Gift Card</a></li>
+            <li><a href="/digitalpaycard/index.html"><i class="fa-solid fa-credit-card"></i> DigitalPay Card</a></li>
+            <li><a href="/wallet/home.html"><i class="fa-solid fa-wallet"></i> Wallet</a></li>
+            <li class="divider"></li>
+            <li><a href="/commandes/commandes.html"><i class="fa-solid fa-cart-shopping"></i> Commandes</a></li>
+            <li><a href="/compte/profil.html"><i class="fa-solid fa-user"></i> Profil</a></li>
+            <li><a href="/support/help.html"><i class="fa-solid fa-circle-question"></i> Aide &amp; Support</a></li>
+        </ul>
+        <div class="sidebar-footer">
+            <button class="btn-logout" id="sidebar-auth-btn"><i class="fa-solid fa-arrow-right-from-bracket"></i> Se Connecter</button>
+        </div>
+    </div>
+    <main>
+        <section class="page-hero">
+            <h1>Statut de votre <span>demande</span></h1>
+            <p>Suivez l'évolution de votre paiement.</p>
+        </section>
+        <div class="status-container">
+            <div class="status-card">
+                <div class="icon pending" id="statusIcon"><i class="fa-solid fa-clock"></i></div>
+                <h2 id="statusTitle">En attente de validation</h2>
+                <p id="statusMessage">Votre demande a été envoyée à l'administrateur. Veuillez patienter.</p>
+                <div style="margin-top:1.5rem;">
+                    <a href="/index.html" class="btn-pay" style="background:var(--bg-glass); border:1px solid var(--border-glass); color:var(--text-secondary); padding:0.7rem 2rem; border-radius:var(--radius); text-decoration:none; display:inline-block;">
+                        Retour à l'accueil
+                    </a>
+                </div>
+            </div>
+        </div>
+    </main>
+    <a href="https://wa.me/50936535649" class="whatsapp-float" target="_blank"><i class="fa-brands fa-whatsapp"></i></a>
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-brand"><img src="/assets/logo.png" alt="DigitalPay" /><p>Votre plateforme de recharge gaming, streaming, services financiers, gift cards et cartes virtuelles en Haïti.</p></div>
+            <div class="footer-links">
+                <div class="footer-col"><h4>Services</h4><ul><li><a href="/gaming.html">Gaming</a></li><li><a href="/streaming.html">Streaming</a></li><li><a href="/services-digitaux.html">Services financiers</a></li><li><a href="/echange/index.html">Échange</a></li></ul></div>
+                <div class="footer-col"><h4>Cartes</h4><ul><li><a href="/giftcard/index.html">Gift Card</a></li><li><a href="/digitalpaycard/index.html">DigitalPay Card</a></li></ul></div>
+                <div class="footer-col"><h4>Support</h4><ul><li><a href="/support/help.html">Centre d'aide</a></li><li><a href="/legal/conditions-utilisation.html">Conditions</a></li><li><a href="/legal/politique-confidentialite.html">Confidentialité</a></li></ul></div>
+            </div>
+        </div>
+        <div class="footer-bottom"><span>&copy; 2026 DigitalPay. Tous droits réservés.</span><span>Paiements sécurisés • Support WhatsApp</span></div>
+    </footer>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyDCj6vyMXsdEMlH-vYOWdwcfoD2VI622Uc",
+            authDomain: "digitalpayhaiti-509.firebaseapp.com",
+            projectId: "digitalpayhaiti-509",
+            storageBucket: "digitalpayhaiti-509.firebasestorage.app",
+            messagingSenderId: "987271970971",
+            appId: "1:987271970971:web:482635fb1202dc575ac63e"
+        };
+        if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+        // ... (sidebar toggle et auth guard) ...
+
+        async function checkStatus() {
+            // Récupérer la dernière demande de l'utilisateur
+            const userId = auth.currentUser ? auth.currentUser.uid : 'anonymous';
+            const snapshot = await db.collection('paiement-demandes')
+                .where('userId', '==', userId)
+                .orderBy('createdAt', 'desc')
+                .limit(1)
+                .get();
+            if (!snapshot.empty) {
+                const data = snapshot.docs[0].data();
+                const status = data.status || 'en_attente';
+                const icon = document.getElementById('statusIcon');
+                const title = document.getElementById('statusTitle');
+                const message = document.getElementById('statusMessage');
+                if (status === 'en_attente') {
+                    icon.className = 'icon pending';
+                    icon.innerHTML = '<i class="fa-solid fa-clock"></i>';
+                    title.textContent = 'En attente de validation';
+                    message.textContent = 'Votre demande a été envoyée à l\'administrateur. Veuillez patienter.';
+                } else if (status === 'valide') {
+                    icon.className = 'icon validated';
+                    icon.innerHTML = '<i class="fa-solid fa-circle-check"></i>';
+                    title.textContent = 'Paiement validé ✅';
+                    message.textContent = 'Votre paiement a été confirmé. Vous recevrez vos produits sous peu.';
+                } else if (status === 'rejete') {
+                    icon.className = 'icon rejected';
+                    icon.innerHTML = '<i class="fa-solid fa-circle-xmark"></i>';
+                    title.textContent = 'Paiement rejeté ❌';
+                    message.textContent = 'Votre paiement a été rejeté. Veuillez vérifier les informations et réessayer.';
+                }
+            }
+        }
+        document.addEventListener('DOMContentLoaded', checkStatus);
+        setInterval(checkStatus, 4000);
+    </script>
+</body>
+</html>
