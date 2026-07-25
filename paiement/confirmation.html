@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+    <title>Confirmation – DigitalPay HT</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&family=Orbitron:wght@600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <style>
+        /* Même CSS que les fichiers précédents */
+        :root {
+            --font-title: 'Orbitron', sans-serif;
+            --font-body: 'Inter', sans-serif;
+            --bg-primary: #0b0b12;
+            --bg-glass: rgba(255, 255, 255, 0.05);
+            --border-glass: rgba(255, 255, 255, 0.08);
+            --text-primary: #ffffff;
+            --text-secondary: #a0a0c0;
+            --text-muted: #6a6a8a;
+            --accent-orange: #f97316;
+            --accent-cyan: #0ea5e9;
+            --accent-blue: #3b82f6;
+            --gradient-main: linear-gradient(135deg, #f97316, #0ea5e9);
+            --gradient-blue: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            --radius: 16px;
+            --radius-lg: 24px;
+            --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.4);
+            --transition: 0.3s ease;
+        }
+        /* ... (copier tout le CSS de index.html ici) ... */
+
+        .confirmation-container { max-width: 700px; margin: 0 auto 2.5rem; }
+        .bank-info { background: var(--bg-glass); backdrop-filter: blur(4px); border: 1px solid var(--border-glass); border-radius: var(--radius-lg); padding: 1.5rem; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
+        .bank-info .logo { width: 60px; height: 60px; border-radius: 16px; overflow: hidden; background: rgba(0, 0, 0, 0.3); display: flex; align-items: center; justify-content: center; }
+        .bank-info .logo img { width: 100%; height: 100%; object-fit: cover; }
+        .bank-info .details { flex: 1; }
+        .bank-info .details .name { font-weight: 600; font-size: 1rem; }
+        .bank-info .details .info { color: var(--text-secondary); font-size: 0.9rem; }
+        .btn-copy { background: rgba(59, 130, 246, 0.1); border: 1px solid rgba(59, 130, 246, 0.2); color: #3b82f6; padding: 0.4rem 1rem; border-radius: var(--radius); cursor: pointer; transition: var(--transition); font-size: 0.8rem; font-weight: 600; }
+        .btn-copy:hover { background: rgba(59, 130, 246, 0.2); }
+
+        .form-card { background: var(--bg-glass); backdrop-filter: blur(4px); border: 1px solid var(--border-glass); border-radius: var(--radius-lg); padding: 2rem 1.5rem; }
+        .form-card h2 { font-family: var(--font-title); font-size: 1.2rem; margin-bottom: 1.5rem; }
+        .form-group { margin-bottom: 1.2rem; }
+        .form-group label { display: block; font-size: 0.8rem; font-weight: 600; color: var(--text-secondary); margin-bottom: 0.3rem; text-transform: uppercase; letter-spacing: 0.5px; }
+        .form-group input, .form-group textarea {
+            width: 100%; padding: 0.8rem 1rem; background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-glass); border-radius: var(--radius);
+            color: var(--text-primary); font-size: 0.95rem; transition: var(--transition);
+            outline: none; font-family: var(--font-body);
+        }
+        .form-group input:focus, .form-group textarea:focus { border-color: var(--accent-orange); box-shadow: 0 0 20px rgba(249, 115, 22, 0.1); }
+        .form-group input::placeholder, .form-group textarea::placeholder { color: var(--text-muted); }
+        .form-group input[type="file"] { padding: 0.5rem; }
+        .preview-img { max-width: 200px; max-height: 200px; border-radius: var(--radius); margin-top: 0.5rem; border: 1px solid var(--border-glass); display: none; }
+        .btn-submit { width: 100%; background: var(--gradient-main); color: #fff; padding: 0.9rem; border-radius: var(--radius); border: none; font-weight: 700; font-size: 1rem; cursor: pointer; transition: var(--transition); box-shadow: 0 0 20px rgba(249, 115, 22, 0.1); margin-top: 1rem; }
+        .btn-submit:hover { transform: scale(1.02); box-shadow: 0 0 40px rgba(249, 115, 22, 0.3); }
+    </style>
+</head>
+<body>
+    <!-- Même header, sidebar, footer que les fichiers précédents -->
+    <div class="orb-1"></div>
+    <div class="orb-2"></div>
+    <header>
+        <a href="/index.html" class="logo-container"><img src="/assets/logo.png" alt="DigitalPay" class="brand-logo" /></a>
+        <div class="header-actions"><button class="menu-btn" id="menu-open"><i class="fa-solid fa-bars"></i></button></div>
+    </header>
+    <div class="sidebar-overlay" id="sidebar-overlay"></div>
+    <div class="sidebar" id="sidebar">
+        <button class="sidebar-close" id="sidebar-close"><i class="fa-solid fa-xmark"></i></button>
+        <div class="sidebar-brand">
+            <div class="brand-icon"><img src="/assets/logo.png" alt="DigitalPay" /></div>
+            <div class="brand-text"><h2>DigitalPay</h2><span>SOCIETY</span></div>
+        </div>
+        <ul class="sidebar-menu">
+            <li><a href="/index.html"><i class="fa-solid fa-house"></i> Accueil</a></li>
+            <li class="divider"></li>
+            <li><a href="/gaming.html"><i class="fa-solid fa-gamepad"></i> Gaming</a></li>
+            <li><a href="/streaming.html"><i class="fa-solid fa-film"></i> Streaming</a></li>
+            <li><a href="/services-digitaux.html"><i class="fa-solid fa-wallet"></i> Services financiers</a></li>
+            <li><a href="/echange/index.html"><i class="fa-solid fa-arrows-left-right"></i> Échange</a></li>
+            <li><a href="/giftcard/index.html"><i class="fa-solid fa-gift"></i> Gift Card</a></li>
+            <li><a href="/digitalpaycard/index.html"><i class="fa-solid fa-credit-card"></i> DigitalPay Card</a></li>
+            <li><a href="/wallet/home.html"><i class="fa-solid fa-wallet"></i> Wallet</a></li>
+            <li class="divider"></li>
+            <li><a href="/commandes/commandes.html"><i class="fa-solid fa-cart-shopping"></i> Commandes</a></li>
+            <li><a href="/compte/profil.html"><i class="fa-solid fa-user"></i> Profil</a></li>
+            <li><a href="/support/help.html"><i class="fa-solid fa-circle-question"></i> Aide &amp; Support</a></li>
+        </ul>
+        <div class="sidebar-footer">
+            <button class="btn-logout" id="sidebar-auth-btn"><i class="fa-solid fa-arrow-right-from-bracket"></i> Se Connecter</button>
+        </div>
+    </div>
+    <main>
+        <section class="page-hero">
+            <h1>Confirmation <span>de paiement</span></h1>
+            <p>Vérifiez les coordonnées et envoyez votre preuve de paiement.</p>
+        </section>
+        <div class="confirmation-container">
+            <div id="bankInfoContainer" class="bank-info">
+                <!-- Rempli par JS -->
+            </div>
+            <div class="form-card">
+                <h2>Formulaire de paiement</h2>
+                <form id="paymentForm">
+                    <div id="dynamicFields">
+                        <!-- Rempli par JS -->
+                    </div>
+                    <div class="form-group">
+                        <label>Montant envoyé (Gdes)</label>
+                        <input type="number" id="amountSent" placeholder="Ex: 750" required />
+                    </div>
+                    <div class="form-group">
+                        <label>Numéro WhatsApp</label>
+                        <input type="tel" id="whatsapp" placeholder="Ex: 509XXXXXXXX" required />
+                    </div>
+                    <div class="form-group">
+                        <label>Preuve de paiement (Image)</label>
+                        <input type="file" id="proofImage" accept="image/*" onchange="previewImage(event)" required />
+                        <img id="preview" class="preview-img" />
+                    </div>
+                    <button type="submit" class="btn-submit"><i class="fa-solid fa-paper-plane"></i> Envoyer la demande</button>
+                </form>
+            </div>
+        </div>
+    </main>
+    <a href="https://wa.me/50936535649" class="whatsapp-float" target="_blank"><i class="fa-brands fa-whatsapp"></i></a>
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-brand"><img src="/assets/logo.png" alt="DigitalPay" /><p>Votre plateforme de recharge gaming, streaming, services financiers, gift cards et cartes virtuelles en Haïti.</p></div>
+            <div class="footer-links">
+                <div class="footer-col"><h4>Services</h4><ul><li><a href="/gaming.html">Gaming</a></li><li><a href="/streaming.html">Streaming</a></li><li><a href="/services-digitaux.html">Services financiers</a></li><li><a href="/echange/index.html">Échange</a></li></ul></div>
+                <div class="footer-col"><h4>Cartes</h4><ul><li><a href="/giftcard/index.html">Gift Card</a></li><li><a href="/digitalpaycard/index.html">DigitalPay Card</a></li></ul></div>
+                <div class="footer-col"><h4>Support</h4><ul><li><a href="/support/help.html">Centre d'aide</a></li><li><a href="/legal/conditions-utilisation.html">Conditions</a></li><li><a href="/legal/politique-confidentialite.html">Confidentialité</a></li></ul></div>
+            </div>
+        </div>
+        <div class="footer-bottom"><span>&copy; 2026 DigitalPay. Tous droits réservés.</span><span>Paiements sécurisés • Support WhatsApp</span></div>
+    </footer>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyDCj6vyMXsdEMlH-vYOWdwcfoD2VI622Uc",
+            authDomain: "digitalpayhaiti-509.firebaseapp.com",
+            projectId: "digitalpayhaiti-509",
+            storageBucket: "digitalpayhaiti-509.firebasestorage.app",
+            messagingSenderId: "987271970971",
+            appId: "1:987271970971:web:482635fb1202dc575ac63e"
+        };
+        if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+        // ... (sidebar toggle et auth guard comme avant) ...
+
+        const method = localStorage.getItem('paymentMethod') || 'Moncash';
+        const bankData = {
+            'Moncash': { name: 'Jinolyse Pierre Louis', number: '+50936535649', fields: ['Nom', 'Numéro'] },
+            'Natcash': { name: 'Jinolyse Pierre Louis', number: '+50935669814', fields: ['Nom', 'Numéro'] },
+            'Wise': { name: 'Bien Aimé Marcco', number: 'bmarcco4412@gmail.com', fields: ['Email Wise ou @wisetag'] },
+            'MERU': { name: 'Bien Aimé Marcco', number: 'lemarquis3844@gmail.com', fields: ['Email MERU ou $merutag'] }
+        };
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const data = bankData[method];
+            if (data) {
+                document.getElementById('bankInfoContainer').innerHTML = `
+                    <div class="logo"><img src="/assets/${method.toLowerCase()}-logo.png" alt="${method}" /></div>
+                    <div class="details">
+                        <div class="name">${data.name}</div>
+                        <div class="info">${data.number}</div>
+                    </div>
+                    <button class="btn-copy" onclick="copyToClipboard('${data.number}')"><i class="fa-regular fa-copy"></i> Copier</button>
+                `;
+                let fieldsHTML = '';
+                data.fields.forEach(f => {
+                    fieldsHTML += `
+                        <div class="form-group">
+                            <label>${f}</label>
+                            <input type="text" id="field_${f.replace(/ /g,'_')}" placeholder="Ex: ${f}" required />
+                        </div>
+                    `;
+                });
+                document.getElementById('dynamicFields').innerHTML = fieldsHTML;
+            }
+        });
+
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text);
+            alert('Copié !');
+        }
+
+        function previewImage(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const preview = document.getElementById('preview');
+                    preview.src = e.target.result;
+                    preview.style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        document.getElementById('paymentForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const formData = new FormData(this);
+            const file = document.getElementById('proofImage').files[0];
+            let base64Image = '';
+            if (file) {
+                base64Image = await new Promise((resolve) => {
+                    const reader = new FileReader();
+                    reader.onload = (e) => resolve(e.target.result);
+                    reader.readAsDataURL(file);
+                });
+            }
+            const paymentData = {
+                method: method,
+                bankName: bankData[method].name,
+                bankNumber: bankData[method].number,
+                amountSent: document.getElementById('amountSent').value,
+                whatsapp: document.getElementById('whatsapp').value,
+                imageBase64: base64Image,
+                status: 'en_attente',
+                createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                userId: auth.currentUser ? auth.currentUser.uid : 'anonymous'
+            };
+            // Ajouter les champs dynamiques
+            bankData[method].fields.forEach(f => {
+                const key = 'field_' + f.replace(/ /g,'_');
+                paymentData[f] = document.getElementById(key).value;
+            });
+            await db.collection('paiement-demandes').add(paymentData);
+            localStorage.setItem('lastPaymentId', paymentData.id);
+            window.location.href = '/paiement/status.html';
+        });
+    </script>
+</body>
+</html>
