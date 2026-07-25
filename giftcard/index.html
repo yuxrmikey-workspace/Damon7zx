@@ -21,7 +21,9 @@
             --text-muted: #6a6a8a;
             --accent-orange: #f97316;
             --accent-cyan: #0ea5e9;
+            --accent-blue: #3b82f6;
             --gradient-main: linear-gradient(135deg, #f97316, #0ea5e9);
+            --gradient-blue: linear-gradient(135deg, #3b82f6, #8b5cf6);
             --radius: 16px;
             --radius-lg: 24px;
             --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.4);
@@ -75,37 +77,49 @@
         }
         .menu-btn:hover { background: var(--gradient-main); border-color: transparent; box-shadow: 0 0 20px rgba(249, 115, 22, 0.3); }
 
-        /* SIDEBAR */
+        /* SIDEBAR (Style NextPlay - adapté) */
         .sidebar-overlay { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(4px); z-index: 2000; opacity: 0; visibility: hidden; transition: 0.3s; }
         .sidebar-overlay.active { opacity: 1; visibility: visible; }
         .sidebar {
-            position: fixed; top: 0; right: -300px; width: 280px; max-width: 85vw; height: 100vh;
-            background: rgba(18, 18, 30, 0.95); z-index: 2001; padding: 2rem 1.2rem;
-            transition: right 0.4s; display: flex; flex-direction: column; border-left: 1px solid var(--border-glass);
+            position: fixed; top: 0; right: -340px; width: 320px; max-width: 90vw; height: 100vh;
+            background: rgba(11, 11, 18, 0.98); z-index: 2001; padding: 2rem 1.2rem;
+            transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex; flex-direction: column; border-left: 1px solid var(--border-glass);
+            backdrop-filter: blur(20px);
         }
         .sidebar.active { right: 0; }
         .sidebar-close { position: absolute; top: 1.2rem; right: 1.2rem; background: none; border: none; color: var(--text-muted); font-size: 1.2rem; cursor: pointer; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
         .sidebar-close:hover { color: #fff; background: rgba(255, 255, 255, 0.05); }
-        .sidebar-brand { padding-bottom: 1.5rem; border-bottom: 1px solid var(--border-glass); margin-bottom: 1.5rem; }
-        .sidebar-brand img { height: 36px; width: auto; }
-        .sidebar-profile {
-            display: flex; align-items: center; gap: 0.8rem; padding: 0.8rem 0; margin-bottom: 2rem;
-            background: var(--bg-glass); border-radius: var(--radius); padding: 1rem; backdrop-filter: blur(4px);
+        
+        .sidebar-brand { display: flex; align-items: center; gap: 1rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border-glass); margin-bottom: 1.5rem; }
+        .sidebar-brand .brand-icon { width: 56px; height: 56px; background: transparent; display: flex; align-items: center; justify-content: center; }
+        .sidebar-brand .brand-icon img { width: 100%; height: 100%; object-fit: contain; }
+        .sidebar-brand .brand-text h2 { font-family: var(--font-title); font-size: 1.1rem; font-weight: 700; color: #fff; margin-bottom: -2px; }
+        .sidebar-brand .brand-text span { font-size: 0.65rem; color: var(--text-secondary); letter-spacing: 1px; text-transform: uppercase; }
+
+        .sidebar-menu { list-style: none; display: flex; flex-direction: column; gap: 0.4rem; flex: 1; overflow-y: auto; padding-right: 0.3rem; }
+        .sidebar-menu li a {
+            display: flex; align-items: center; gap: 1rem;
+            padding: 0.85rem 1rem; border-radius: var(--radius);
+            font-size: 0.9rem; color: var(--text-secondary);
+            transition: var(--transition); border: 1px solid transparent;
+            height: 52px;
         }
-        .sidebar-profile .avatar { width: 44px; height: 44px; border-radius: 50%; background: var(--gradient-main); display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 1.1rem; color: #fff; }
-        .sidebar-profile .info { flex: 1; }
-        .sidebar-profile .info .name { font-weight: 600; font-size: 0.95rem; }
-        .sidebar-profile .info .email { font-size: 0.7rem; color: var(--text-muted); }
-        .sidebar-menu { list-style: none; display: flex; flex-direction: column; gap: 0.2rem; flex: 1; }
-        .sidebar-menu li a { display: flex; align-items: center; gap: 0.8rem; padding: 0.7rem 0.8rem; border-radius: var(--radius); font-size: 0.9rem; color: var(--text-secondary); transition: var(--transition); }
         .sidebar-menu li a:hover { background: var(--bg-glass); color: var(--text-primary); border-color: var(--border-glass); }
-        .sidebar-menu li a i { width: 22px; color: var(--accent-cyan); }
+        .sidebar-menu li a i { width: 24px; font-size: 1.1rem; color: var(--accent-blue); text-align: center; }
         .sidebar-menu li a:hover i { color: var(--accent-orange); }
-        .sidebar-menu li a.active { background: var(--gradient-main); color: #fff; opacity: 0.9; box-shadow: 0 0 20px rgba(249, 115, 22, 0.2); }
-        .sidebar-menu li a.active i { color: #fff; }
-        .sidebar-footer { margin-top: auto; padding-top: 1.2rem; border-top: 1px solid var(--border-glass); }
-        .sidebar-footer button { width: 100%; background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.15); color: #ef4444; padding: 0.7rem; border-radius: var(--radius); cursor: pointer; font-weight: 600; transition: var(--transition); display: flex; align-items: center; justify-content: center; gap: 0.5rem; }
-        .sidebar-footer button:hover { background: rgba(239, 68, 68, 0.2); }
+        .sidebar-menu li a.active {
+            background: rgba(59, 130, 246, 0.1); border-color: rgba(59, 130, 246, 0.3); color: #fff;
+        }
+        .sidebar-menu li a.active i { color: var(--accent-blue); }
+        
+        .sidebar-menu .divider { height: 1px; background: var(--border-glass); margin: 0.5rem 0; }
+
+        .sidebar-footer { margin-top: auto; padding-top: 1.2rem; border-top: 1px solid var(--border-glass); display: flex; flex-direction: column; gap: 0.8rem; }
+        .sidebar-footer .btn-logout { width: 100%; background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.15); color: #ef4444; padding: 0.8rem; border-radius: var(--radius); font-weight: 600; font-size: 0.9rem; cursor: pointer; transition: var(--transition); display: flex; align-items: center; justify-content: center; gap: 0.5rem; height: 52px; }
+        .sidebar-footer .btn-logout:hover { background: rgba(239, 68, 68, 0.2); }
+        .sidebar-footer .btn-login { width: 100%; background: rgba(59, 130, 246, 0.1); border: 1px solid rgba(59, 130, 246, 0.15); color: #3b82f6; padding: 0.8rem; border-radius: var(--radius); font-weight: 600; font-size: 0.9rem; cursor: pointer; transition: var(--transition); display: flex; align-items: center; justify-content: center; gap: 0.5rem; height: 52px; }
+        .sidebar-footer .btn-login:hover { background: rgba(59, 130, 246, 0.2); }
 
         /* MAIN */
         main { padding: 0 1.2rem 3rem; max-width: 1200px; margin: 0 auto; margin-top: 1rem; }
@@ -122,34 +136,12 @@
         .grid-3 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 2.5rem; }
         @media (min-width: 768px) { .grid-3 { grid-template-columns: repeat(3, 1fr); gap: 1.2rem; } }
 
-        .card-cat {
-            background: var(--bg-glass); backdrop-filter: blur(4px);
-            border: 1px solid var(--border-glass); border-radius: var(--radius-lg);
-            padding: 1.5rem 1rem; text-align: center; cursor: pointer; transition: var(--transition);
-        }
+        .card-cat { background: var(--bg-glass); backdrop-filter: blur(4px); border: 1px solid var(--border-glass); border-radius: var(--radius-lg); padding: 1.5rem 1rem; text-align: center; cursor: pointer; transition: var(--transition); }
         .card-cat:hover { background: rgba(255, 255, 255, 0.1); border-color: var(--accent-orange); transform: translateY(-4px); }
         
-        /* LOGO CARRÉ + BORDS ARRONDIS + PLEIN ÉCRAN */
-        .card-cat .logo-wrap {
-            width: 100%;
-            aspect-ratio: 1 / 1;
-            border-radius: 20px;
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: rgba(0, 0, 0, 0.2);
-            margin-bottom: 0.6rem;
-        }
-        .card-cat .logo-wrap img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-            transition: var(--transition);
-        }
+        .card-cat .logo-wrap { width: 100%; aspect-ratio: 1 / 1; border-radius: 20px; overflow: hidden; display: flex; align-items: center; justify-content: center; background: rgba(0, 0, 0, 0.2); margin-bottom: 0.6rem; }
+        .card-cat .logo-wrap img { width: 100%; height: 100%; object-fit: cover; display: block; transition: var(--transition); }
         .card-cat:hover .logo-wrap img { transform: scale(1.08); }
-        
         .card-cat h4 { font-size: 0.95rem; font-weight: 600; }
         .card-cat .sub { font-size: 0.7rem; color: var(--text-muted); }
 
@@ -191,21 +183,31 @@
     <div class="sidebar-overlay" id="sidebar-overlay"></div>
     <div class="sidebar" id="sidebar">
         <button class="sidebar-close" id="sidebar-close"><i class="fa-solid fa-xmark"></i></button>
-        <div class="sidebar-brand"><img src="/assets/logo.png" alt="DigitalPay" /></div>
-        <div class="sidebar-profile">
-            <div class="avatar"><i class="fa-regular fa-user"></i></div>
-            <div class="info"><div class="name" id="sidebar-name">Visiteur</div><div class="email" id="sidebar-email">connectez-vous</div></div>
+        <div class="sidebar-brand">
+            <div class="brand-icon"><img src="/assets/logo.png" alt="DigitalPay" /></div>
+            <div class="brand-text">
+                <h2>DigitalPay</h2>
+                <span>SOCIETY</span>
+            </div>
         </div>
         <ul class="sidebar-menu">
             <li><a href="/index.html"><i class="fa-solid fa-house"></i> Accueil</a></li>
+            <li class="divider"></li>
             <li><a href="/gaming.html"><i class="fa-solid fa-gamepad"></i> Gaming</a></li>
             <li><a href="/streaming.html"><i class="fa-solid fa-film"></i> Streaming</a></li>
             <li><a href="/services-digitaux.html"><i class="fa-solid fa-wallet"></i> Services financiers</a></li>
             <li><a href="/echange/index.html"><i class="fa-solid fa-arrows-left-right"></i> Échange</a></li>
             <li><a href="/giftcard/index.html" class="active"><i class="fa-solid fa-gift"></i> Gift Card</a></li>
             <li><a href="/digitalpaycard/index.html"><i class="fa-solid fa-credit-card"></i> DigitalPay Card</a></li>
+            <li><a href="/wallet/home.html"><i class="fa-solid fa-wallet"></i> Wallet</a></li>
+            <li class="divider"></li>
+            <li><a href="/commandes/commandes.html"><i class="fa-solid fa-cart-shopping"></i> Commandes</a></li>
+            <li><a href="/compte/profil.html"><i class="fa-solid fa-user"></i> Profil</a></li>
+            <li><a href="/support/help.html"><i class="fa-solid fa-circle-question"></i> Aide &amp; Support</a></li>
         </ul>
-        <div class="sidebar-footer"><button id="sidebar-login-btn"><i class="fa-solid fa-arrow-right-from-bracket"></i> Se connecter</button></div>
+        <div class="sidebar-footer">
+            <button class="btn-logout" id="sidebar-auth-btn"><i class="fa-solid fa-arrow-right-from-bracket"></i> Se Connecter</button>
+        </div>
     </div>
 
     <main>
@@ -271,6 +273,7 @@
         const sidebar = document.getElementById('sidebar');
         const menuOpen = document.getElementById('menu-open');
         const menuClose = document.getElementById('sidebar-close');
+        const authBtn = document.getElementById('sidebar-auth-btn');
 
         function toggleSidebar(open) {
             if (open) { overlay.classList.add('active'); sidebar.classList.add('active'); document.body.style.overflow = 'hidden'; }
@@ -281,20 +284,20 @@
         overlay.addEventListener('click', () => toggleSidebar(false));
 
         auth.onAuthStateChanged((user) => {
-            const nameEl = document.getElementById('sidebar-name');
-            const emailEl = document.getElementById('sidebar-email');
-            const loginBtn = document.getElementById('sidebar-login-btn');
-
+            const nameEl = document.querySelector('.sidebar-brand .brand-text h2');
+            const subEl = document.querySelector('.sidebar-brand .brand-text span');
             if (user) {
-                nameEl.textContent = user.displayName || user.email || 'Utilisateur';
-                emailEl.textContent = user.email || 'Connecté';
-                loginBtn.innerHTML = '<i class="fa-solid fa-arrow-right-from-bracket"></i> Se déconnecter';
-                loginBtn.onclick = () => { auth.signOut().then(() => { window.location.href = '/index.html'; }); };
+                if (nameEl) nameEl.textContent = user.displayName || user.email || 'DigitalPay';
+                if (subEl) subEl.textContent = 'CONNECTÉ';
+                authBtn.innerHTML = '<i class="fa-solid fa-arrow-right-from-bracket"></i> Se Déconnecter';
+                authBtn.className = 'btn-logout';
+                authBtn.onclick = () => { auth.signOut().then(() => { window.location.href = '/index.html'; }); };
             } else {
-                nameEl.textContent = 'Visiteur';
-                emailEl.textContent = 'connectez-vous';
-                loginBtn.innerHTML = '<i class="fa-solid fa-arrow-right-from-bracket"></i> Se connecter';
-                loginBtn.onclick = () => { window.location.href = '/authentification/login.html'; };
+                if (nameEl) nameEl.textContent = 'DigitalPay';
+                if (subEl) subEl.textContent = 'SOCIETY';
+                authBtn.innerHTML = '<i class="fa-solid fa-arrow-right-from-bracket"></i> Se Connecter';
+                authBtn.className = 'btn-login';
+                authBtn.onclick = () => { window.location.href = '/authentification/login.html'; };
             }
         });
     </script>
