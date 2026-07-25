@@ -202,7 +202,7 @@
             try {
                 await auth.signInWithPopup(googleProvider);
                 showToast('Connexion Google réussie !', 'success');
-                setTimeout(() => { window.location.href = '/index.html'; }, 1500);
+                setTimeout(() => { window.location.href = 'index.html'; }, 1500);
             } catch (error) {
                 let msg = 'Erreur lors de la connexion Google.';
                 if (error.code === 'auth/popup-closed-by-user') msg = 'La fenêtre popup a été fermée.';
