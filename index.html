@@ -1,1 +1,779 @@
-Authentification Register.html maintenant 
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>DigitalPay – Services Premium</title>
+    <meta name="description" content="DigitalPay – Recharges Free Fire, abonnements Streaming, transferts financiers et Gift Cards.">
+
+    <!-- FontAwesome + Orbitron -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Firebase (Auth, Database) -->
+    <script defer src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+    <script defer src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+    <script defer src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
+
+    <style>
+        /* ============================================================
+           1. VARIABLES (Conformes à la spec)
+           ============================================================ */
+        :root {
+            --bg-primary: #0b0b12;
+            --bg-glass: rgba(255, 255, 255, 0.04);
+            --bg-soft: rgba(255, 255, 255, 0.02);
+            --bg-card: rgba(26, 29, 44, 0.6);
+            --border-glass: rgba(255, 255, 255, 0.08);
+            --navy-50:  #1E3050;
+            --navy-100: #2A4068;
+            --navy-400: #60A5FA;
+            --navy-600: #2563EB;
+            --navy-700: #1D4ED8;
+            --navy-900: #0B132B;
+            --text:      #F8FAFC;
+            --text-soft: #94A3B8;
+            --text-muted: #64748B;
+            --whatsapp:  #25D366;
+            --radius:    16px;
+            --radius-lg: 24px;
+            --radius-xl: 28px;
+            --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.6);
+            --shadow-float: 0 12px 40px rgba(0, 0, 0, 0.8);
+            --container: 1180px;
+            --gap: 16px;
+        }
+
+        /* ============================================================
+           2. RESET ET BASE (inchangé)
+           ============================================================ */
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Inter', system-ui, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text);
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+            position: relative;
+        }
+        a { color: inherit; text-decoration: none; }
+        img { max-width: 100%; display: block; }
+        button { font-family: inherit; cursor: pointer; border: none; background: none; }
+        .container { max-width: var(--container); margin: 0 auto; padding: 0 20px; }
+
+        /* ============================================================
+           3. ORBES ET BACKGROUND (inchangé)
+           ============================================================ */
+        body::before {
+            content: ''; position: fixed; inset: 0; z-index: -1;
+            background-image: 
+                linear-gradient(rgba(255, 255, 255, 0.006) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.006) 1px, transparent 1px);
+            background-size: 50px 50px;
+        }
+        .orb-1 {
+            position: fixed; width: 600px; height: 600px;
+            background: var(--navy-600); filter: blur(140px); opacity: 0.12;
+            top: -200px; left: -200px; z-index: -1; pointer-events: none;
+            animation: float1 15s ease-in-out infinite alternate;
+        }
+        .orb-2 {
+            position: fixed; width: 500px; height: 500px;
+            background: var(--navy-400); filter: blur(120px); opacity: 0.10;
+            bottom: -150px; right: -150px; z-index: -1; pointer-events: none;
+            animation: float2 20s ease-in-out infinite alternate;
+        }
+        @keyframes float1 { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(100px, 150px) scale(1.3); } }
+        @keyframes float2 { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(-80px, -120px) scale(1.2); } }
+
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: var(--bg-primary); }
+        ::-webkit-scrollbar-thumb { background: var(--navy-600); border-radius: 10px; }
+
+        /* ============================================================
+           4. HEADER (inchangé, sauf renommage des variables)
+           ============================================================ */
+        header.site-header {
+            position: sticky; top: 1rem; z-index: 10;
+            background: var(--bg-glass);
+            backdrop-filter: blur(16px) saturate(150%);
+            -webkit-backdrop-filter: blur(16px) saturate(150%);
+            border: 1px solid var(--border-glass);
+            border-radius: var(--radius-xl);
+            margin: 0 1.2rem; padding: 0 1.8rem; height: 68px;
+            display: flex; align-items: center; justify-content: space-between;
+            transition: all 0.3s ease;
+        }
+        header.site-header.is-scrolled {
+            background: rgba(11, 11, 18, 0.8);
+            box-shadow: var(--shadow-float);
+            backdrop-filter: blur(20px);
+        }
+        .nav { display: flex; align-items: center; justify-content: space-between; width: 100%; }
+        .brand img { height: 44px; width: auto; display: block; }
+
+        .header-actions { display: flex; align-items: center; gap: 10px; }
+        .header-avatar {
+            width: 38px; height: 38px; border-radius: 50%;
+            background: var(--navy-600); color: #fff;
+            display: none; align-items: center; justify-content: center;
+            font-size: 15px; font-weight: 700;
+            cursor: default;
+        }
+        .hamburger {
+            width: 42px; height: 42px; border-radius: 12px;
+            background: rgba(255,255,255,0.03); border: 1px solid var(--border-glass);
+            display: inline-flex; align-items: center; justify-content: center;
+            color: var(--text); transition: all 0.2s ease;
+        }
+        .hamburger:hover { background: var(--navy-600); border-color: transparent; transform: scale(0.95); }
+
+        /* ============================================================
+           5. SIDEBAR (inchangé, sauf les liens)
+           ============================================================ */
+        .sidebar-overlay {
+            position: fixed; inset: 0; z-index: 1999;
+            background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(6px);
+            opacity: 0; visibility: hidden; transition: opacity 0.3s ease;
+        }
+        .sidebar-overlay.is-open { opacity: 1; visibility: visible; }
+
+        .sidebar {
+            position: fixed; top: 0; right: -360px;
+            width: 340px; max-width: 90vw; height: 100vh;
+            background: rgba(14, 15, 22, 0.98); z-index: 2000;
+            padding: 1.8rem 1.5rem;
+            transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex; flex-direction: column;
+            border-left: 1px solid var(--border-glass);
+            backdrop-filter: blur(24px);
+            box-shadow: -10px 0 40px rgba(0, 0, 0, 0.9);
+        }
+        .sidebar.is-open { right: 0; }
+        body.menu-open { overflow: hidden; }
+
+        .sidebar-head {
+            display: flex; align-items: center; justify-content: space-between;
+            padding-bottom: 1.5rem; border-bottom: 1px solid var(--border-glass);
+            margin-bottom: 1.5rem;
+        }
+        .sidebar-head-left { display: flex; align-items: center; gap: 10px; }
+        .sidebar-head-left img { width: 36px; height: 36px; }
+        .sidebar-head-left .brand-text { display: flex; flex-direction: column; }
+        .sidebar-head-left .brand-name {
+            font-family: 'Orbitron', sans-serif; font-weight: 800; font-size: 1.1rem; color: var(--text);
+            letter-spacing: .5px;
+        }
+        .sidebar-head-left .brand-sub {
+            font-size: 0.65rem; letter-spacing: 1.6px; color: var(--text-soft);
+            font-weight: 600; text-transform: uppercase;
+        }
+        .sidebar-close {
+            width: 42px; height: 42px; border-radius: 12px;
+            background: var(--navy-600);
+            display: inline-flex; align-items: center; justify-content: center;
+            color: #fff; transition: all 0.2s ease;
+            font-size: 1.2rem;
+        }
+        .sidebar-close:hover { background: var(--navy-700); transform: scale(1.05); }
+
+        .sidebar-profile {
+            display: flex; align-items: center; gap: 14px;
+            margin-bottom: 20px; padding: 14px 16px;
+            border-radius: 20px;
+            background: var(--bg-glass); border: 1px solid var(--border-glass);
+            flex-shrink: 0;
+        }
+        .profile-icon {
+            width: 48px; height: 48px; border-radius: 50%;
+            background: var(--navy-600); color: #fff;
+            display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: 700; flex-shrink: 0;
+        }
+        .profile-name { font-weight: 700; font-size: 15px; color: var(--text); }
+        .profile-email { font-size: 12px; color: var(--text-soft); }
+
+        .sidebar-nav {
+            display: flex; flex-direction: column; gap: 8px;
+            flex: 1; overflow-y: auto; padding-right: 0.3rem;
+        }
+        .sidebar-nav a {
+            display: flex; align-items: center; gap: 14px; padding: 12px 16px;
+            border-radius: 16px; color: var(--text-soft);
+            font-weight: 500; font-size: 14px; transition: all 0.2s ease;
+            border: 1px solid transparent;
+        }
+        .sidebar-nav a:hover { background: rgba(255, 255, 255, 0.05); color: var(--text); transform: translateX(2px); }
+        .sidebar-nav a i {
+            width: 36px; height: 36px; border-radius: 50%;
+            background: rgba(255, 255, 255, 0.05);
+            display: inline-flex; align-items: center; justify-content: center;
+            color: var(--text-soft); font-size: 15px; transition: all 0.2s ease;
+        }
+        .sidebar-nav a:hover i { background: var(--navy-600); color: #fff; }
+        .sidebar-nav a.is-active {
+            background: rgba(37, 99, 235, 0.10);
+            border: 1px solid rgba(37, 99, 235, 0.15);
+            color: var(--text);
+        }
+        .sidebar-nav a.is-active i { background: var(--navy-600); color: #fff; }
+
+        .sidebar-foot {
+            padding-top: 16px; border-top: 1px solid var(--border-glass);
+            display: flex; flex-direction: column; gap: 10px;
+        }
+        .btn-register {
+            display: flex; align-items: center; justify-content: center; gap: 10px;
+            padding: 14px; border-radius: 16px;
+            background: rgba(37, 99, 235, 0.08);
+            color: var(--navy-600); border: 1px solid transparent;
+            font-weight: 600; font-size: 14px; transition: all 0.2s ease;
+            width: 100%;
+        }
+        .btn-register:hover { background: rgba(37, 99, 235, 0.15); }
+
+        .btn-logout {
+            display: flex; align-items: center; justify-content: center; gap: 10px;
+            padding: 14px; border-radius: 16px;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            color: #ef4444; background: transparent;
+            font-weight: 600; font-size: 14px; transition: all 0.2s ease;
+            width: 100%;
+        }
+        .btn-logout:hover { background: rgba(239, 68, 68, 0.05); }
+        .btn-logout.is-danger { border-color: rgba(239, 68, 68, 0.3) !important; color: #ef4444; }
+
+        .hide-when-logged { display: inline-flex; }
+        body.is-logged .hide-when-logged { display: none !important; }
+
+        /* ============================================================
+           6. HERO (inchangé)
+           ============================================================ */
+        .hero { padding: calc(68px + 30px) 0 20px; position: relative; }
+        .hero-content { max-width: 800px; margin: 0 auto; animation: fadeUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; opacity: 0; }
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .flyer-container { border-radius: var(--radius-xl); overflow: hidden; background: var(--bg-glass); position: relative; aspect-ratio: 16 / 9; border: 1px solid var(--border-glass); box-shadow: 0 20px 50px rgba(37, 99, 235, 0.15); transition: box-shadow 0.3s ease; }
+        .flyer-container:hover { box-shadow: 0 25px 60px rgba(37, 99, 235, 0.25); }
+        .flyer-container .single-flyer { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+        /* ============================================================
+           7. CATÉGORIES (inchangé, mais liens en dossiers)
+           ============================================================ */
+        .cat-scroll-container { padding: 16px 0 28px; overflow-x: auto; white-space: nowrap; -webkit-overflow-scrolling: touch; }
+        .cat-scroll-container::-webkit-scrollbar { display: none; }
+        .cat-pill {
+            display: inline-flex; align-items: center; gap: 8px;
+            background: var(--bg-glass); border: 1px solid var(--border-glass);
+            border-radius: 999px; padding: 10px 20px; color: var(--text);
+            font-weight: 600; font-size: 14px; margin-right: 14px; transition: all 0.2s ease; text-decoration: none;
+        }
+        .cat-pill:hover { border-color: var(--navy-600); background: rgba(37, 99, 235, 0.1); transform: translateY(-2px); }
+        .cat-pill i { font-size: 16px; color: var(--navy-600); }
+
+        /* ============================================================
+           8. SECTIONS PRODUITS (inchangé, liens en dossiers)
+           ============================================================ */
+        section.block { padding: 28px 0; }
+        .block-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+        .block-title { font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 20px; color: var(--text); position: relative; display: inline-block; }
+        .block-title::after { content: ''; position: absolute; left: 0; bottom: -4px; width: 30px; height: 3px; background: var(--navy-600); }
+        .see-all { font-weight: 600; font-size: 14px; color: var(--navy-600); display: inline-flex; align-items: center; gap: 4px; transition: all 0.2s ease; }
+        .see-all:hover { color: #fff; gap: 8px; }
+
+        .product-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+        @media (min-width: 720px) { .product-grid { grid-template-columns: repeat(4, 1fr); gap: 18px; } }
+
+        .product {
+            position: relative; border-radius: var(--radius-xl);
+            overflow: hidden; cursor: pointer; opacity: 0; transform: translateY(20px);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            background: var(--bg-glass); border: 1px solid var(--border-glass);
+        }
+        .product.is-visible { opacity: 1; transform: translateY(0); }
+        .product:hover { transform: translateY(-6px); border-color: var(--navy-600); box-shadow: 0 0 30px rgba(37, 99, 235, 0.15); }
+
+        .product .thumb { aspect-ratio: 1 / 1; background: rgba(0,0,0,0.2); display: flex; align-items: center; justify-content: center; overflow: hidden; }
+        .product .thumb img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.4s ease; }
+        .product:hover .thumb img { transform: scale(1.05); }
+        .product .thumb.skeleton { background: rgba(0,0,0,0.2) !important; }
+        .product .thumb.skeleton::after { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent); transform: translateX(-100%); animation: shimmer 1.6s infinite; }
+        @keyframes shimmer { 100% { transform: translateX(100%); } }
+
+        .product .info { padding: 12px 14px 14px; background: var(--bg-glass); border-top: 1px solid rgba(255,255,255,0.05); }
+        .product .name { font-weight: 700; color: var(--text); font-size: 14px; margin-bottom: 2px; }
+        .product .price { color: var(--navy-600); font-size: 12px; display: flex; align-items: baseline; gap: 4px; font-weight: 500; }
+        .product .price strong { font-weight: 800; color: var(--text); font-size: 14px; }
+        .badge { position: absolute; top: 12px; left: 12px; padding: 5px 10px; border-radius: 999px; font-size: 11px; font-weight: 700; background: var(--navy-600); color: #fff; z-index: 2; }
+
+        section.block.alt { background: var(--bg-soft); }
+
+        /* ============================================================
+           9. COMMUNAUTÉ WHATSAPP (inchangé)
+           ============================================================ */
+        .community { margin: 28px 0 8px; padding: 28px 22px; border-radius: var(--radius-xl); background: var(--bg-glass); border: 1px solid var(--border-glass); text-align: center; box-shadow: var(--shadow-card); transition: all 0.3s ease; }
+        .community:hover { border-color: var(--navy-600); box-shadow: 0 0 40px rgba(37, 99, 235, 0.15); }
+        .community h3 { font-family: 'Orbitron', sans-serif; font-weight: 800; color: var(--text); font-size: 22px; margin-bottom: 6px; }
+        .community p { color: var(--text-soft); margin-bottom: 18px; font-size: 14px; }
+        .btn-whatsapp { display: inline-flex; align-items: center; gap: 10px; padding: 12px 24px; border-radius: var(--radius); background: var(--whatsapp); color: #fff; font-weight: 700; font-size: 15px; transition: all 0.25s ease; box-shadow: 0 6px 18px rgba(37,211,102,0.3); }
+        .btn-whatsapp:hover { transform: scale(1.02); background: #1ebe57; }
+        .community-lock { margin-top: 12px; font-size: 12px; color: var(--text-soft); display: inline-flex; align-items: center; gap: 6px; }
+
+        /* ============================================================
+           10. TOAST (inchangé, mais icône en innerHTML)
+           ============================================================ */
+        .toast-container {
+            position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
+            background: var(--bg-glass); backdrop-filter: blur(16px);
+            border: 1px solid var(--border-glass);
+            padding: 14px 24px; border-radius: var(--radius);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
+            display: flex; align-items: center; gap: 12px;
+            opacity: 0; transform: translateX(-50%) translateY(30px);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            pointer-events: none; z-index: 9999;
+            min-width: 300px; justify-content: center;
+        }
+        .toast-container.show { opacity: 1; transform: translateX(-50%) translateY(0); pointer-events: auto; }
+        .toast-container i { font-size: 20px; }
+        .toast-container.error { border-color: #ef4444; }
+        .toast-container.error i { color: #ef4444; }
+        .toast-container.success { border-color: #22c55e; }
+        .toast-container.success i { color: #22c55e; }
+        .toast-container.info { border-color: var(--navy-600); }
+        .toast-container.info i { color: var(--navy-600); }
+        .toast-container span { font-weight: 600; font-size: 14px; color: var(--text); }
+
+        /* ============================================================
+           11. FAB WHATSAPP (inchangé)
+           ============================================================ */
+        .fab-whatsapp { position: fixed; right: 16px; bottom: 16px; width: 54px; height: 54px; border-radius: 50%; background: var(--whatsapp); color: #fff; font-size: 22px; display: inline-flex; align-items: center; justify-content: center; box-shadow: 0 8px 24px rgba(37,211,102,0.45); z-index: 90; transition: all 0.2s ease; }
+        .fab-whatsapp:hover { transform: scale(1.1); }
+
+        /* ============================================================
+           12. FOOTER (inchangé, liens en dossiers)
+           ============================================================ */
+        footer.site { margin-top: 36px; background: var(--bg-soft); border-top: 1px solid var(--border-glass); color: var(--text-soft); font-size: 14px; padding: 40px 0 20px; }
+        .footer-grid { display: grid; grid-template-columns: 1fr; gap: 30px; max-width: var(--container); margin: 0 auto; padding: 0 20px 24px; text-align: center; border-bottom: 1px solid var(--border-glass); }
+        @media (min-width: 720px) { .footer-grid { grid-template-columns: 1.5fr 1fr 1fr; gap: 40px; text-align: left; } }
+        .footer-brand { display: flex; flex-direction: column; align-items: center; gap: 10px; margin-bottom: 6px; }
+        @media (min-width: 720px) { .footer-brand { align-items: flex-start; } }
+        .footer-brand img { height: 44px; width: auto; }
+        .footer-col h4 { color: var(--text); font-weight: 700; font-size: 14px; margin-bottom: 14px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+        .footer-col a { transition: color 0.2s ease; }
+        .footer-col a:hover { color: var(--navy-600); }
+        .footer-bottom { max-width: var(--container); margin: 0 auto; padding: 16px 20px 0; display: flex; flex-direction: column; gap: 6px; text-align: center; font-size: 12px; color: var(--text-muted); }
+        @media (min-width: 720px) { .footer-bottom { flex-direction: row; justify-content: space-between; align-items: center; } }
+        .footer-bottom .pulse { color: var(--navy-600); animation: pulse 2s infinite; }
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
+
+        /* ============================================================
+           13. FALLBACK LOGO (inchangé)
+           ============================================================ */
+        .logo-fallback { height: 100%; aspect-ratio: 1; border-radius: 50%; background: var(--navy-600); display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; color: transparent; }
+        .logo-fallback::after { content: ''; width: 40%; height: 40%; background: rgba(255,255,255,0.4); border-radius: 50%; }
+        .logo-fallback.sidebar { width: 36px; height: 36px; }
+    </style>
+</head>
+<body>
+
+    <!-- ORBES LUMINEUX -->
+    <div class="orb-1"></div>
+    <div class="orb-2"></div>
+
+    <!-- TOAST NOTIFICATION CONTAINER -->
+    <div class="toast-container" id="toastContainer">
+        <span id="toastIcon"><i class="fa-solid fa-circle-info"></i></span>
+        <span id="toastMessage">Message</span>
+    </div>
+
+    <!-- ============================================================
+         HEADER + SIDEBAR
+         ============================================================ -->
+    <header class="site-header" id="siteHeader">
+        <div class="container nav">
+            <a href="/" class="brand" aria-label="DigitalPay – Accueil">
+                <img src="/assets/sidebar-logo.png" alt="DigitalPay" fetchpriority="high" onerror="this.replaceWith(makeLogoFallback(false));">
+            </a>
+            <div class="header-actions">
+                <div class="header-avatar" id="headerAvatar" title="Mon Profil"></div>
+                <button class="hamburger" id="openMenu" aria-label="Ouvrir le menu">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <aside class="sidebar" id="sidebar" aria-hidden="true">
+        
+        <!-- 1. HEADER DU MENU -->
+        <div class="sidebar-head">
+            <div class="sidebar-head-left">
+                <img src="/assets/logo.png" alt="" onerror="this.replaceWith(makeLogoFallback(true));">
+                <div class="brand-text">
+                    <div class="brand-name">DigitalPay</div>
+                    <div class="brand-sub">HAITI</div>
+                </div>
+            </div>
+            <button class="sidebar-close" id="closeMenu" aria-label="Fermer le menu">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+
+        <!-- 2. CARTE PROFIL DYNAMIQUE -->
+        <div class="sidebar-profile">
+            <div class="profile-icon" id="sidebarUserAvatar"><i class="fa-solid fa-user"></i></div>
+            <div class="profile-info">
+                <span class="profile-name" id="sidebarUserName">Nom de l'utilisateur</span>
+                <span class="profile-email" id="sidebarUserEmail">email@exemple.com</span>
+            </div>
+        </div>
+
+        <!-- 3. NAVIGATION PRINCIPALE (10 liens exacts de la spec) -->
+        <nav class="sidebar-nav" aria-label="Navigation principale">
+            <a href="/" class="is-active" aria-current="page"><i class="fa-solid fa-house"></i> <span>Accueil</span></a>
+            <a href="/gaming/"><i class="fa-solid fa-gamepad"></i> <span>Gaming</span></a>
+            <a href="/streaming/"><i class="fa-solid fa-film"></i> <span>Streaming</span></a>
+            <a href="/finance/"><i class="fa-solid fa-coins"></i> <span>Finance</span></a>
+            <a href="/giftcard/"><i class="fa-solid fa-gift"></i> <span>Gift Cards</span></a>
+            <a href="/portefeuille.html" data-auth-required="true"><i class="fa-solid fa-wallet"></i> <span>Portefeuille</span></a>
+            <a href="/commandes.html" data-auth-required="true"><i class="fa-solid fa-clock"></i> <span>Commandes</span></a>
+            <a href="/support/help.html"><i class="fa-solid fa-headset"></i> <span>Support</span></a>
+            <a href="/legal/conditions-utilisation.html"><i class="fa-solid fa-file-contract"></i> <span>Conditions</span></a>
+            <a href="/legal/politique-confidentialite.html"><i class="fa-solid fa-shield-halved"></i> <span>Confidentialité</span></a>
+        </nav>
+
+        <!-- 4. PIED DE PAGE DU MENU (Boutons) -->
+        <div class="sidebar-foot">
+            <button class="btn-register hide-when-logged" id="btnRegister"><i class="fa-solid fa-user-plus"></i> S'inscrire</button>
+            <button class="btn-logout" id="authBtn"><span id="authBtnLabel">Se Connecter</span></button>
+        </div>
+    </aside>
+
+    <main>
+        <!-- ============================================================
+             HERO
+             ============================================================ -->
+        <section class="hero">
+            <div class="container hero-content">
+                <div class="flyer-container">
+                    <img src="/assets/flyerswelcome.png" alt="Welcome Flyer" class="single-flyer" onerror="this.style.border='2px dashed #aaa'; this.style.padding='20px'; this.style.textAlign='center'; this.style.color='#fff'; this.alt='Image manquante';">
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================================
+             CATÉGORIES (Liens en dossiers)
+             ============================================================ -->
+        <section class="categories">
+            <div class="container cat-scroll-container">
+                <div class="cat-scroll">
+                    <a href="/gaming/" class="cat-pill"><i class="fa-solid fa-gamepad"></i> Gaming</a>
+                    <a href="/giftcard/" class="cat-pill"><i class="fa-solid fa-gift"></i> Gift Cards</a>
+                    <a href="/streaming/" class="cat-pill"><i class="fa-solid fa-tv"></i> Streaming</a>
+                    <a href="/finance/" class="cat-pill"><i class="fa-solid fa-wallet"></i> Finance</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================================
+             TOP RECHARGES (Section 1)
+             ============================================================ -->
+        <section class="block">
+            <div class="container">
+                <div class="block-head"><h2 class="block-title">Top Recharges</h2><a href="/gaming/" class="see-all">Voir tout <i class="fa-solid fa-arrow-right"></i></a></div>
+                <div class="product-grid">
+                    <a href="/gaming/freefire.html" class="product" data-auth-required="true">
+                        <span class="badge">#1</span>
+                        <div class="thumb skeleton"><img src="/assets/freefire-logo.png" alt="Free Fire" loading="lazy" onerror="this.replaceWith(makeThumbFallback('Free Fire'));" onload="this.parentElement.classList.remove('skeleton')"></div>
+                        <div class="info"><div class="name">Free Fire</div><div class="price"><span>110+10💎</span> <strong>= 157 HTG</strong></div></div>
+                    </a>
+                    <a href="/gaming/roblox.html" class="product" data-auth-required="true">
+                        <div class="thumb skeleton"><img src="/assets/roblox-logo.png" alt="Roblox" loading="lazy" onerror="this.replaceWith(makeThumbFallback('Roblox'));" onload="this.parentElement.classList.remove('skeleton')"></div>
+                        <div class="info"><div class="name">Roblox</div><div class="price"><span>À partir de</span> <strong>750 HTG</strong></div></div>
+                    </a>
+                    <a href="/gaming/pubgmobile.html" class="product" data-auth-required="true">
+                        <div class="thumb skeleton"><img src="/assets/pubgmobile-logo.png" alt="PUBG Mobile" loading="lazy" onerror="this.replaceWith(makeThumbFallback('PUBG'));" onload="this.parentElement.classList.remove('skeleton')"></div>
+                        <div class="info"><div class="name">PUBG Mobile</div><div class="price"><span>À partir de</span> <strong>180 Gdes</strong></div></div>
+                    </a>
+                    <a href="/gaming/minecraft.html" class="product" data-auth-required="true">
+                        <div class="thumb skeleton"><img src="/assets/minecraft-logo.png" alt="Minecraft" loading="lazy" onerror="this.replaceWith(makeThumbFallback('Minecraft'));" onload="this.parentElement.classList.remove('skeleton')"></div>
+                        <div class="info"><div class="name">Minecraft</div><div class="price"><span>À partir de</span> <strong>316 HTG</strong></div></div>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================================
+             STREAMING (Section 2)
+             ============================================================ -->
+        <section class="block alt">
+            <div class="container">
+                <div class="block-head"><h2 class="block-title">Streaming</h2><a href="/streaming/" class="see-all">Voir tout <i class="fa-solid fa-arrow-right"></i></a></div>
+                <div class="product-grid">
+                    <a href="/streaming/netflix.html" class="product" data-auth-required="true">
+                        <div class="thumb skeleton"><img src="/assets/netflix-logo.png" alt="Netflix" loading="lazy" onerror="this.replaceWith(makeThumbFallback('Netflix'));" onload="this.parentElement.classList.remove('skeleton')"></div>
+                        <div class="info"><div class="name">Netflix</div><div class="price"><span>1Mois </span> <strong>= 400 Gdes</strong></div></div>
+                    </a>
+                    <a href="/streaming/disneyplus.html" class="product" data-auth-required="true">
+                        <div class="thumb skeleton"><img src="/assets/disneyplus-logo.png" alt="Disney+" loading="lazy" onerror="this.replaceWith(makeThumbFallback('Disney+'));" onload="this.parentElement.classList.remove('skeleton')"></div>
+                        <div class="info"><div class="name">Disney+</div><div class="price"><span>1Mois</span> <strong>= 625 Gdes</strong></div></div>
+                    </a>
+                    <a href="/streaming/primevideo.html" class="product" data-auth-required="true">
+                        <div class="thumb skeleton"><img src="/assets/primevideo-logo.png" alt="Prime Video" loading="lazy" onerror="this.replaceWith(makeThumbFallback('Prime'));" onload="this.parentElement.classList.remove('skeleton')"></div>
+                        <div class="info"><div class="name">Prime Video</div><div class="price"><span>1Mois</span> <strong>= 425 Gdes</strong></div></div>
+                    </a>
+                    <a href="/streaming/crunchyroll.html" class="product" data-auth-required="true">
+                        <div class="thumb skeleton"><img src="/assets/crunchyroll-logo.png" alt="Crunchyroll" loading="lazy" onerror="this.replaceWith(makeThumbFallback('Crunchyroll'));" onload="this.parentElement.classList.remove('skeleton')"></div>
+                        <div class="info"><div class="name">Crunchyroll</div><div class="price"><span>1Mois</span> <strong>= 425 Gdes</strong></div></div>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================================
+             SERVICES FINANCIERS (Section 3)
+             ============================================================ -->
+        <section class="block">
+            <div class="container">
+                <div class="block-head"><h2 class="block-title">Services Financiers</h2><a href="/finance/" class="see-all">Voir tout <i class="fa-solid fa-arrow-right"></i></a></div>
+                <div class="product-grid">
+                    <a href="/finance/meru.html" class="product" data-auth-required="true">
+                        <div class="thumb skeleton"><img src="/assets/meru-logo.png" alt="Meru" loading="lazy" onerror="this.replaceWith(makeThumbFallback('Meru'));" onload="this.parentElement.classList.remove('skeleton')"></div>
+                        <div class="info"><div class="name">Meru</div><div class="price"><span>Transferts</span></div></div>
+                    </a>
+                    <a href="/finance/wise.html" class="product" data-auth-required="true">
+                        <div class="thumb skeleton"><img src="/assets/wise-logo.png" alt="Wise" loading="lazy" onerror="this.replaceWith(makeThumbFallback('Wise'));" onload="this.parentElement.classList.remove('skeleton')"></div>
+                        <div class="info"><div class="name">Wise</div><div class="price"><span>International</span></div></div>
+                    </a>
+                    <a href="/finance/paypal.html" class="product" data-auth-required="true">
+                        <div class="thumb skeleton"><img src="/assets/paypal-logo.png" alt="PayPal" loading="lazy" onerror="this.replaceWith(makeThumbFallback('PayPal'));" onload="this.parentElement.classList.remove('skeleton')"></div>
+                        <div class="info"><div class="name">PayPal</div><div class="price"><span>Paiements en ligne</span></div></div>
+                    </a>
+                    <a href="/finance/binance.html" class="product" data-auth-required="true">
+                        <div class="thumb skeleton"><img src="/assets/binance-logo.png" alt="Binance" loading="lazy" onerror="this.replaceWith(makeThumbFallback('Binance'));" onload="this.parentElement.classList.remove('skeleton')"></div>
+                        <div class="info"><div class="name">Binance</div><div class="price"><span>USDT (TRC20)</span></div></div>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================================
+             GIFT CARDS (Section 4)
+             ============================================================ -->
+        <section class="block alt">
+            <div class="container">
+                <div class="block-head"><h2 class="block-title">Gift Cards</h2><a href="/giftcard/" class="see-all">Voir tout <i class="fa-solid fa-arrow-right"></i></a></div>
+                <div class="product-grid">
+                    <a href="/giftcard/apple.html" class="product" data-auth-required="true">
+                        <div class="thumb skeleton"><img src="/assets/applegiftcard-logo.png" alt="Apple" loading="lazy" onerror="this.replaceWith(makeThumbFallback('Apple'));" onload="this.parentElement.classList.remove('skeleton')"></div>
+                        <div class="info"><div class="name">Apple</div><div class="price"><span>App Store &amp; iTunes</span></div></div>
+                    </a>
+                    <a href="/giftcard/googleplay.html" class="product" data-auth-required="true">
+                        <div class="thumb skeleton"><img src="/assets/googleplaycard-logo.png" alt="Google Play" loading="lazy" onerror="this.replaceWith(makeThumbFallback('Google Play'));" onload="this.parentElement.classList.remove('skeleton')"></div>
+                        <div class="info"><div class="name">Google Play</div><div class="price"><span>Cartes Android</span></div></div>
+                    </a>
+                    <a href="/giftcard/playstation.html" class="product" data-auth-required="true">
+                        <div class="thumb skeleton"><img src="/assets/playstationgiftcard-logo.png" alt="PlayStation" loading="lazy" onerror="this.replaceWith(makeThumbFallback('PlayStation'));" onload="this.parentElement.classList.remove('skeleton')"></div>
+                        <div class="info"><div class="name">PlayStation</div><div class="price"><span>PSN Store</span></div></div>
+                    </a>
+                    <a href="/giftcard/netflix.html" class="product" data-auth-required="true">
+                        <div class="thumb skeleton"><img src="/assets/netflixgiftcard-logo.png" alt="Netflix Gift Card" loading="lazy" onerror="this.replaceWith(makeThumbFallback('Netflix GC'));" onload="this.parentElement.classList.remove('skeleton')"></div>
+                        <div class="info"><div class="name">Netflix</div><div class="price"><span>Cartes cadeaux</span></div></div>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================================
+             COMMUNAUTÉ WHATSAPP
+             ============================================================ -->
+        <section class="block">
+            <div class="container">
+                <div class="community">
+                    <h3>Rejoignez notre communauté WhatsApp !</h3>
+                    <p>Restez connecté pour ne manquer aucune promo, astuce gaming et offre exclusive !</p>
+                    <a class="btn-whatsapp" href="https://whatsapp.com/channel/0029VbAcGmCGufIrRej1sR04" target="_blank"><i class="fa-brands fa-whatsapp"></i> Rejoindre la chaîne</a>
+                    <div class="community-lock"><i class="fa-solid fa-lock"></i> Redirection sécurisée</div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- BOUTON WHATSAPP FLOTTANT -->
+    <a href="https://wa.me/50936535649" class="fab-whatsapp"><i class="fa-brands fa-whatsapp"></i></a>
+
+    <!-- FOOTER PREMIUM -->
+    <footer class="site">
+        <div class="footer-grid">
+            <div><div class="footer-brand"><img src="/assets/sidebar-logo.png" alt="DigitalPay" onerror="this.replaceWith(makeLogoFallback(false));"></div><p>DigitalPay — Votre plateforme de recharges, abonnements et services financiers.</p></div>
+            <div class="footer-col"><h4>Services</h4><ul><li><a href="/gaming/">Gaming</a></li><li><a href="/streaming/">Streaming</a></li><li><a href="/finance/">Finance</a></li></ul></div>
+            <div class="footer-col"><h4>Support</h4><ul><li><a href="/support/help.html">Centre d'aide</a></li><li><a href="/legal/conditions-utilisation.html">Conditions</a></li><li><a href="/legal/politique-confidentialite.html">Confidentialité</a></li></ul></div>
+        </div>
+        <div class="footer-bottom"><span>© 2026 DigitalPay. Tous droits réservés.</span><span><span class="pulse">●</span> Paiements sécurisés • Support WhatsApp</span></div>
+    </footer>
+
+    <!-- ============================================================
+         SCRIPTS (TOAST + SIDEBAR + SECURITE + FIREBASE)
+         ============================================================ -->
+    <script>
+        /* === FALLBACKS === */
+        function makeLogoFallback(isSidebar) {
+            const span = document.createElement('span');
+            span.className = 'logo-fallback';
+            if (isSidebar) span.classList.add('sidebar');
+            return span;
+        }
+        function makeThumbFallback(text) {
+            const span = document.createElement('span');
+            span.className = 'thumb-fallback';
+            span.textContent = text || 'Logo';
+            return span;
+        }
+        window.makeLogoFallback = makeLogoFallback;
+        window.makeThumbFallback = makeThumbFallback;
+
+        /* === TOAST MANAGER (avec innerHTML) === */
+        const toastContainer = document.getElementById('toastContainer');
+        const toastMessage = document.getElementById('toastMessage');
+        const toastIcon = document.getElementById('toastIcon');
+
+        function showToast(message, type = 'info') {
+            toastMessage.textContent = message;
+            toastContainer.className = 'toast-container';
+            const icons = {
+                success: 'fa-solid fa-circle-check',
+                error: 'fa-solid fa-circle-exclamation',
+                info: 'fa-solid fa-circle-info'
+            };
+            toastIcon.innerHTML = `<i class="${icons[type] || icons.info}"></i>`;
+            toastContainer.classList.add(type);
+            toastContainer.classList.add('show');
+            clearTimeout(window.toastTimeout);
+            window.toastTimeout = setTimeout(() => { toastContainer.classList.remove('show'); }, 3500);
+        }
+        window.showToast = showToast;
+
+        /* === HEADER SCROLL === */
+        const header = document.getElementById('siteHeader');
+        window.addEventListener('scroll', () => header.classList.toggle('is-scrolled', window.scrollY > 8), { passive: true });
+
+        /* === SIDEBAR === */
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('sidebarOverlay');
+        const openMenu = document.getElementById('openMenu');
+        const closeMenu = document.getElementById('closeMenu');
+        const menuIcon = openMenu.querySelector('i');
+
+        function openSidebar() {
+            sidebar.classList.add('is-open');
+            overlay.classList.add('is-open');
+            document.body.classList.add('menu-open');
+            menuIcon.className = 'fa-solid fa-xmark';
+        }
+        function closeSidebar() {
+            sidebar.classList.remove('is-open');
+            overlay.classList.remove('is-open');
+            document.body.classList.remove('menu-open');
+            menuIcon.className = 'fa-solid fa-bars';
+        }
+        openMenu.addEventListener('click', openSidebar);
+        closeMenu.addEventListener('click', closeSidebar);
+        overlay.addEventListener('click', closeSidebar);
+        document.addEventListener('keydown', e => { if (e.key === 'Escape') closeSidebar(); });
+
+        /* === SÉCURITÉ RENFORCÉE === */
+        document.addEventListener('click', function(e) {
+            const target = e.target.closest('[data-auth-required="true"]');
+            if (target && !document.body.classList.contains('is-logged')) {
+                e.preventDefault();
+                showToast("🔒 Connexion requise pour accéder à cette page.", "error");
+                setTimeout(() => { window.location.href = '/authentification/login.html'; }, 1500);
+            }
+        });
+
+        /* === ANIMATION CARTES === */
+        const products = document.querySelectorAll('.product');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('is-visible');
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+        products.forEach(product => observer.observe(product));
+
+        /* === FIREBASE AUTH & DYNAMIQUE (Clés fictives) === */
+        (function () {
+            const cfg = {
+                apiKey: "AIzaSyDemoKey1234567890abcdefghijklm",
+                authDomain: "digitalpay-demo.firebaseapp.com",
+                projectId: "digitalpay-demo",
+                appId: "1:1234567890:web:abcdef123456"
+            };
+
+            const authBtn = document.getElementById('authBtn');
+            const authBtnLabel = document.getElementById('authBtnLabel');
+            const headerAvatar = document.getElementById('headerAvatar');
+            const sidebarAvatar = document.getElementById('sidebarUserAvatar');
+            const sidebarName = document.getElementById('sidebarUserName');
+            const sidebarEmail = document.getElementById('sidebarUserEmail');
+            const btnRegister = document.getElementById('btnRegister');
+
+            function applyLoggedIn(user) {
+                document.body.classList.add('is-logged');
+                if(btnRegister) btnRegister.style.display = 'none';
+                
+                if(headerAvatar) {
+                    headerAvatar.style.display = 'flex';
+                    const letter = (user.displayName ? user.displayName.charAt(0) : (user.email ? user.email.charAt(0) : 'U')).toUpperCase();
+                    headerAvatar.innerHTML = `<span style="font-weight:800">${letter}</span>`;
+                }
+                if(sidebarAvatar) {
+                    const letter = (user.displayName ? user.displayName.charAt(0) : (user.email ? user.email.charAt(0) : 'U')).toUpperCase();
+                    sidebarAvatar.innerHTML = `<span style="font-weight:800">${letter}</span>`;
+                }
+                if(sidebarName && user) sidebarName.textContent = user.displayName || 'Membre';
+                if(sidebarEmail && user) sidebarEmail.textContent = user.email || '';
+                
+                if (authBtnLabel) authBtnLabel.textContent = 'Déconnecter';
+                if (authBtn) {
+                    authBtn.className = 'btn-logout is-danger';
+                    authBtn.onclick = (e) => {
+                        e.preventDefault();
+                        if (window.firebase && firebase.auth) {
+                            firebase.auth().signOut().then(() => location.reload());
+                        }
+                    };
+                }
+                showToast(`Bienvenue ${user.displayName || user.email} !`, "success");
+            }
+
+            function applyLoggedOut() {
+                document.body.classList.remove('is-logged');
+                if(btnRegister) btnRegister.style.display = 'inline-flex';
+                
+                if (headerAvatar) headerAvatar.style.display = 'none';
+                if(sidebarAvatar) sidebarAvatar.innerHTML = `<i class="fa-solid fa-user"></i>`;
+                if(sidebarName) sidebarName.textContent = 'Nom de l\'utilisateur';
+                if(sidebarEmail) sidebarEmail.textContent = 'email@exemple.com';
+                
+                if (authBtnLabel) authBtnLabel.textContent = 'Se Connecter';
+                if (authBtn) {
+                    authBtn.className = 'btn-logout';
+                    authBtn.onclick = (e) => { window.location.href = '/authentification/login.html'; };
+                }
+            }
+
+            document.addEventListener('DOMContentLoaded', () => {
+                if (!window.firebase) return;
+                try { firebase.initializeApp(cfg); } catch (_) {}
+                firebase.auth().onAuthStateChanged(user => user ? applyLoggedIn(user) : applyLoggedOut());
+            });
+        })();
+    </script>
+</body>
+</html>
