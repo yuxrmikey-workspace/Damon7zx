@@ -22,7 +22,7 @@
            VARIABLES (Identiques à l'index)
            ============================================================ */
         :root {
-            --bg-primary: #0b0b12;
+            --bg-page: #0b0b12;
             --bg-glass: rgba(255, 255, 255, 0.04);
             --bg-soft: rgba(255, 255, 255, 0.02);
             --bg-card: rgba(26, 29, 44, 0.6);
@@ -35,7 +35,7 @@
             --navy-900: #0B132B;
             --text:      #F8FAFC;
             --text-soft: #94A3B8;
-            --text-muted: #64748B;
+            --muted:     #64748B;
             --whatsapp:  #25D366;
             --radius:    16px;
             --radius-lg: 24px;
@@ -43,7 +43,7 @@
             --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.6);
             --shadow-float: 0 12px 40px rgba(0, 0, 0, 0.8);
             --container: 1180px;
-            --gap: 16px;
+            --gap:        16px;
         }
 
         /* ============================================================
@@ -53,7 +53,7 @@
         html { scroll-behavior: smooth; }
         body {
             font-family: 'Inter', system-ui, sans-serif;
-            background: var(--bg-primary);
+            background: var(--bg-page);
             color: var(--text);
             line-height: 1.5;
             -webkit-font-smoothing: antialiased;
@@ -66,8 +66,15 @@
         .container { max-width: var(--container); margin: 0 auto; padding: 0 20px; }
 
         /* ============================================================
-           ORBES
+           ORBES LUMINEUX
            ============================================================ */
+        body::before {
+            content: ''; position: fixed; inset: 0; z-index: -1;
+            background-image: 
+                linear-gradient(rgba(255, 255, 255, 0.006) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.006) 1px, transparent 1px);
+            background-size: 50px 50px;
+        }
         .orb-1 {
             position: fixed; width: 600px; height: 600px;
             background: var(--navy-600); filter: blur(140px); opacity: 0.12;
@@ -82,43 +89,33 @@
         }
         @keyframes float1 { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(100px, 150px) scale(1.3); } }
         @keyframes float2 { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(-80px, -120px) scale(1.2); } }
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: var(--bg-page); }
+        ::-webkit-scrollbar-thumb { background: var(--navy-600); border-radius: 10px; }
 
         /* ============================================================
-           HEADER (avec logo)
+           HEADER (Logo uniquement – Pas de sidebar)
            ============================================================ */
         header.site-header {
-            padding: 20px 0;
-            border-bottom: 1px solid var(--border-glass);
-            background: rgba(11, 11, 18, 0.6);
-            backdrop-filter: blur(16px);
+            position: sticky; top: 1rem; z-index: 10;
+            background: var(--bg-glass);
+            backdrop-filter: blur(16px) saturate(150%);
+            -webkit-backdrop-filter: blur(16px) saturate(150%);
+            border: 1px solid var(--border-glass);
+            border-radius: var(--radius-xl);
+            margin: 0 1.2rem; padding: 0 1.8rem; height: 68px;
+            display: flex; align-items: center;
+            transition: all 0.3s ease;
         }
-        .brand img {
-            height: 44px;
-            width: auto;
-            display: block;
+        header.site-header.is-scrolled {
+            background: rgba(11, 11, 18, 0.8);
+            box-shadow: var(--shadow-float);
+            backdrop-filter: blur(20px);
         }
-        /* Fallback pour le logo */
-        .logo-fallback {
-            height: 44px;
-            aspect-ratio: 1;
-            border-radius: 50%;
-            background: var(--navy-600);
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-            color: transparent;
-        }
-        .logo-fallback::after {
-            content: '';
-            width: 40%;
-            height: 40%;
-            background: rgba(255,255,255,0.4);
-            border-radius: 50%;
-        }
+        .brand img { height: 44px; width: auto; display: block; }
 
         /* ============================================================
-           MAIN & CARTE D'AUTHENTIFICATION
+           CARTE D'AUTHENTIFICATION
            ============================================================ */
         main {
             flex: 1;
@@ -153,7 +150,7 @@
             font-size: 1rem; transition: 0.3s; outline: none;
         }
         .form-group input:focus { border-color: var(--navy-600); background: rgba(37,99,235,0.05); }
-        .form-group input::placeholder { color: var(--text-muted); }
+        .form-group input::placeholder { color: var(--muted); }
 
         .btn-primary {
             width: 100%; padding: 14px;
@@ -186,10 +183,20 @@
             min-width: 300px; justify-content: center;
         }
         .toast-container.show { opacity: 1; transform: translateX(-50%) translateY(0); pointer-events: auto; }
+        .toast-container i { font-size: 20px; }
         .toast-container.error { border-color: #ef4444; }
+        .toast-container.error i { color: #ef4444; }
         .toast-container.success { border-color: #22c55e; }
+        .toast-container.success i { color: #22c55e; }
         .toast-container.info { border-color: var(--navy-600); }
+        .toast-container.info i { color: var(--navy-600); }
         .toast-container span { font-weight: 600; font-size: 14px; color: var(--text); }
+
+        /* ============================================================
+           FALLBACK LOGO (pour le header)
+           ============================================================ */
+        .logo-fallback { height: 100%; aspect-ratio: 1; border-radius: 50%; background: var(--navy-600); display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; color: transparent; }
+        .logo-fallback::after { content: ''; width: 40%; height: 40%; background: rgba(255,255,255,0.4); border-radius: 50%; }
     </style>
 </head>
 <body>
@@ -200,15 +207,15 @@
 
     <!-- TOAST -->
     <div class="toast-container" id="toastContainer">
-        <span id="toastIcon"><i class="fa-solid fa-circle-info"></i></span>
+        <i class="fa-solid fa-circle-info" id="toastIcon"></i>
         <span id="toastMessage">Message</span>
     </div>
 
-    <!-- HEADER avec LOGO -->
-    <header class="site-header">
+    <!-- HEADER (Logo uniquement) -->
+    <header class="site-header" id="siteHeader">
         <div class="container">
             <a href="/" class="brand">
-                <img src="/assets/logo.png" alt="DigitalPay" onerror="this.replaceWith(makeLogoFallback(false));">
+                <img src="/assets/sidebar-logo.png" alt="DigitalPay" fetchpriority="high" onerror="this.replaceWith(makeLogoFallback(false));">
             </a>
         </div>
     </header>
@@ -245,10 +252,9 @@
             </div>
         </div>
     </main>
-
     <!-- SCRIPTS -->
     <script>
-        /* === FALLBACK POUR LE LOGO === */
+        /* === FALLBACK === */
         function makeLogoFallback(isSidebar) {
             const span = document.createElement('span');
             span.className = 'logo-fallback';
@@ -265,27 +271,34 @@
         function showToast(message, type = 'info') {
             toastMessage.textContent = message;
             toastContainer.className = 'toast-container';
-            const icons = {
-                success: 'fa-solid fa-circle-check',
-                error: 'fa-solid fa-circle-exclamation',
-                info: 'fa-solid fa-circle-info'
-            };
-            toastIcon.innerHTML = `<i class="${icons[type] || icons.info}"></i>`;
-            toastContainer.classList.add(type);
+            if(type === 'success') {
+                toastContainer.classList.add('success');
+                toastIcon.className = 'fa-solid fa-circle-check';
+            } else if(type === 'error') {
+                toastContainer.classList.add('error');
+                toastIcon.className = 'fa-solid fa-circle-exclamation';
+            } else {
+                toastContainer.classList.add('info');
+                toastIcon.className = 'fa-solid fa-circle-info';
+            }
             toastContainer.classList.add('show');
             clearTimeout(window.toastTimeout);
             window.toastTimeout = setTimeout(() => { toastContainer.classList.remove('show'); }, 3500);
         }
-        window.showToast = showToast;
 
-        /* === FIREBASE (Clés fictives) === */
+        /* === HEADER SCROLL === */
+        const header = document.getElementById('siteHeader');
+        window.addEventListener('scroll', () => header.classList.toggle('is-scrolled', window.scrollY > 8), { passive: true });
+
+        /* === FIREBASE AUTH === */
         (function () {
             const cfg = {
-                apiKey: "AIzaSyDemoKey1234567890abcdefghijklm",
-                authDomain: "digitalpay-demo.firebaseapp.com",
-                projectId: "digitalpay-demo",
-                appId: "1:1234567890:web:abcdef123456"
+                apiKey: "AIzaSyB9o8-LYeKrg2q84dxQM5Z1wFKHjt9yHFo",
+                authDomain: "digital-pay-haiti.firebaseapp.com",
+                projectId: "digital-pay-haiti",
+                appId: appId: "1:182015693140:web:8a2486b9446bfb791bf8c1",
             };
+
 
             document.addEventListener('DOMContentLoaded', () => {
                 if (!window.firebase) return;
@@ -294,7 +307,6 @@
 
                 document.getElementById('registerForm').addEventListener('submit', (e) => {
                     e.preventDefault();
-
                     const name = document.getElementById('name').value.trim();
                     const email = document.getElementById('email').value.trim();
                     const password = document.getElementById('password').value;
@@ -310,10 +322,8 @@
                             return userCredential.user.updateProfile({ displayName: name });
                         })
                         .then(() => {
-                            showToast('Compte créé avec succès ! Bienvenue.', 'success');
-                            setTimeout(() => {
-                                window.location.href = '/';
-                            }, 1500);
+                            showToast('Compte créé avec succès !', 'success');
+                            setTimeout(() => { window.location.href = '/'; }, 1500);
                         })
                         .catch((err) => {
                             showToast('Erreur : ' + err.message, 'error');
