@@ -1,0 +1,1461 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>Nos Jeux - DigitalPay</title>
+    <meta name="description" content="Recharges Free Fire, Roblox, Minecraft, Call of Duty et plus encore sur DigitalPay.">
+
+    <!-- ============================================================
+         FONTS ET ICÔNES (chargés depuis CDN)
+         ============================================================ -->
+    <!-- Font Awesome 6 (icônes) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Google Fonts : Orbitron (titres) + Inter (corps) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- ============================================================
+         FIREBASE (Auth + Realtime Database)
+         ============================================================ -->
+    <script defer src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+    <script defer src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+    <script defer src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
+
+    <!-- ============================================================
+         STYLES CSS (complets, organisés par section)
+         ============================================================ -->
+    <style>
+        /* ============================================================
+           1. VARIABLES GLOBALES (Design System)
+           ============================================================ */
+        :root {
+            /* --- COULEURS DE FOND --- */
+            --bg-page: #0b0b12;           /* Bleu nuit profond */
+            --bg-glass: rgba(255, 255, 255, 0.04);
+            --bg-soft: rgba(255, 255, 255, 0.02);
+            --bg-card: rgba(26, 29, 44, 0.6);
+
+            /* --- BORDURES ET SÉPARATEURS --- */
+            --border-glass: rgba(255, 255, 255, 0.08);
+
+            /* --- PALETTE BLEUE PREMIUM --- */
+            --navy-50:  #1E3050;
+            --navy-100: #2A4068;
+            --navy-400: #60A5FA;
+            --navy-600: #2563EB;          /* Bleu royal vif (boutons, icônes) */
+            --navy-700: #1D4ED8;
+            --navy-900: #0B132B;
+
+            /* --- TEXTES --- */
+            --text:      #F8FAFC;          /* Blanc pur */
+            --text-soft: #94A3B8;          /* Gris clair (secondaire) */
+            --text-muted: #64748B;         /* Gris foncé (tertiaire) */
+
+            /* --- SPÉCIAUX --- */
+            --whatsapp:  #25D366;          /* Vert WhatsApp */
+            --radius:    16px;             /* Rayon standard */
+            --radius-lg: 24px;
+            --radius-xl: 28px;             /* Rayon extra-large (cartes, header) */
+            --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.6);
+            --shadow-float: 0 12px 40px rgba(0, 0, 0, 0.8);
+            --container: 1180px;           /* Largeur max du conteneur */
+            --gap: 16px;                   /* Espacement standard */
+        }
+
+        /* ============================================================
+           2. RESET ET BASE
+           ============================================================ */
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, sans-serif;
+            background: var(--bg-page);
+            color: var(--text);
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+        img {
+            max-width: 100%;
+            display: block;
+        }
+        button {
+            font-family: inherit;
+            cursor: pointer;
+            border: none;
+            background: none;
+        }
+        .container {
+            max-width: var(--container);
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* ============================================================
+           3. ORBES LUMINEUX (ambiance premium)
+           ============================================================ */
+        /* Grille subtile en arrière-plan */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            background-image:
+                linear-gradient(rgba(255, 255, 255, 0.006) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.006) 1px, transparent 1px);
+            background-size: 50px 50px;
+        }
+
+        .orb-1,
+        .orb-2 {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(140px);
+            opacity: 0.12;
+            z-index: -1;
+            pointer-events: none;
+            animation-duration: 15s, 20s;
+            animation-timing-function: ease-in-out;
+            animation-iteration-count: infinite;
+            animation-direction: alternate;
+        }
+
+        .orb-1 {
+            width: 600px;
+            height: 600px;
+            background: var(--navy-600);
+            top: -200px;
+            left: -200px;
+            animation-name: float1;
+        }
+
+        .orb-2 {
+            width: 500px;
+            height: 500px;
+            background: var(--navy-400);
+            bottom: -150px;
+            right: -150px;
+            animation-name: float2;
+        }
+
+        @keyframes float1 {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(100px, 150px) scale(1.3); }
+        }
+
+        @keyframes float2 {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(-80px, -120px) scale(1.2); }
+        }
+
+        /* --- Barre de défilement personnalisée --- */
+        ::-webkit-scrollbar {
+            width: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-page);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--navy-600);
+            border-radius: 10px;
+        }
+
+        /* ============================================================
+           4. HEADER (flottant, effet verre)
+           ============================================================ */
+        .site-header {
+            position: sticky;
+            top: 1rem;
+            z-index: 10;
+            background: var(--bg-glass);
+            backdrop-filter: blur(16px) saturate(150%);
+            -webkit-backdrop-filter: blur(16px) saturate(150%);
+            border: 1px solid var(--border-glass);
+            border-radius: var(--radius-xl);
+            margin: 0 1.2rem;
+            padding: 0 1.8rem;
+            height: 68px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: all 0.3s ease;
+        }
+
+        .site-header.is-scrolled {
+            background: rgba(11, 11, 18, 0.8);
+            box-shadow: var(--shadow-float);
+            backdrop-filter: blur(20px);
+        }
+
+        .nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+        }
+
+        .brand img {
+            height: 44px;
+            width: auto;
+            display: block;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .header-avatar {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: var(--navy-600);
+            color: #fff;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            font-size: 15px;
+            font-weight: 700;
+        }
+
+        .hamburger {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-glass);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text);
+            transition: all 0.2s ease;
+        }
+
+        .hamburger:hover {
+            background: var(--navy-600);
+            border-color: transparent;
+            transform: scale(0.95);
+        }
+
+        /* ============================================================
+           5. SIDEBAR (menu latéral réduit)
+           ============================================================ */
+        .sidebar-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 1999;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(6px);
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease;
+        }
+
+        .sidebar-overlay.is-open {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .sidebar {
+            position: fixed;
+            top: 50%;
+            right: -290px;
+            width: 290px;
+            max-width: 90vw;
+            height: auto;
+            max-height: 80vh;
+            transform: translateY(-50%);
+            background: rgba(14, 15, 22, 0.98);
+            z-index: 2000;
+            padding: 1.2rem 1.2rem;
+            border-radius: var(--radius-xl);
+            border: 1px solid var(--border-glass);
+            backdrop-filter: blur(24px);
+            box-shadow: -10px 0 40px rgba(0, 0, 0, 0.9);
+            transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sidebar.is-open {
+            right: 0;
+        }
+
+        body.menu-open {
+            overflow: hidden;
+        }
+
+        /* --- En-tête du sidebar --- */
+        .sidebar-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border-glass);
+            margin-bottom: 1rem;
+        }
+
+        .sidebar-head-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .sidebar-head-left img {
+            width: 36px;
+            height: 36px;
+        }
+
+        .sidebar-head-left .brand-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sidebar-head-left .brand-name {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 800;
+            font-size: 1.1rem;
+            color: var(--text);
+            letter-spacing: 0.5px;
+        }
+
+        .sidebar-head-left .brand-sub {
+            font-size: 0.65rem;
+            letter-spacing: 1.6px;
+            color: var(--text-soft);
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .sidebar-close {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            background: var(--navy-600);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            transition: all 0.2s ease;
+            font-size: 1.2rem;
+        }
+
+        .sidebar-close:hover {
+            background: var(--navy-700);
+            transform: scale(1.05);
+        }
+
+        /* --- Profil utilisateur (dynamique) --- */
+        .sidebar-profile {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 14px;
+            padding: 10px 14px;
+            border-radius: 18px;
+            background: var(--bg-glass);
+            border: 1px solid var(--border-glass);
+            flex-shrink: 0;
+        }
+
+        .profile-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: var(--navy-600);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .profile-name {
+            font-weight: 700;
+            font-size: 15px;
+            color: var(--text);
+        }
+
+        .profile-email {
+            font-size: 12px;
+            color: var(--text-soft);
+        }
+
+        /* --- Navigation du sidebar --- */
+        .sidebar-nav {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            flex: 1;
+            overflow-y: auto;
+            padding-right: 0.3rem;
+        }
+
+        .sidebar-nav a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 14px;
+            border-radius: 14px;
+            color: var(--text-soft);
+            font-weight: 500;
+            font-size: 13px;
+            transition: all 0.2s ease;
+            border: 1px solid transparent;
+        }
+
+        .sidebar-nav a:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text);
+            transform: translateX(2px);
+        }
+
+        .sidebar-nav a i {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.05);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-soft);
+            font-size: 15px;
+            transition: all 0.2s ease;
+        }
+
+        .sidebar-nav a:hover i {
+            background: var(--navy-600);
+            color: #fff;
+        }
+
+        /* Lien actif */
+        .sidebar-nav a.is-active {
+            background: rgba(37, 99, 235, 0.10);
+            border: 1px solid rgba(37, 99, 235, 0.15);
+            color: var(--text);
+        }
+
+        .sidebar-nav a.is-active i {
+            background: var(--navy-600);
+            color: #fff;
+        }
+
+        /* --- Pied du sidebar --- */
+        .sidebar-foot {
+            padding-top: 12px;
+            border-top: 1px solid var(--border-glass);
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .btn-register {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 12px;
+            border-radius: 16px;
+            background: rgba(37, 99, 235, 0.08);
+            color: var(--navy-600);
+            border: 1px solid transparent;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.2s ease;
+        }
+
+        .btn-register:hover {
+            background: rgba(37, 99, 235, 0.15);
+        }
+
+        .btn-logout {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 12px;
+            border-radius: 16px;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            color: #ef4444;
+            background: transparent;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.2s ease;
+        }
+
+        .btn-logout:hover {
+            background: rgba(239, 68, 68, 0.05);
+        }
+
+        .hide-when-logged {
+            display: inline-flex;
+        }
+
+        body.is-logged .hide-when-logged {
+            display: none !important;
+        }
+
+        /* ============================================================
+           6. TOAST (notifications flottantes)
+           ============================================================ */
+        .toast-container {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(30px);
+            background: var(--bg-glass);
+            backdrop-filter: blur(16px);
+            border: 1px solid var(--border-glass);
+            padding: 14px 24px;
+            border-radius: var(--radius);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            opacity: 0;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            pointer-events: none;
+            z-index: 9999;
+            min-width: 300px;
+            justify-content: center;
+        }
+
+        .toast-container.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+            pointer-events: auto;
+        }
+
+        .toast-container i {
+            font-size: 20px;
+        }
+
+        .toast-container.error {
+            border-color: #ef4444;
+        }
+        .toast-container.error i {
+            color: #ef4444;
+        }
+
+        .toast-container.success {
+            border-color: #22c55e;
+        }
+        .toast-container.success i {
+            color: #22c55e;
+        }
+
+        .toast-container.info {
+            border-color: var(--navy-600);
+        }
+        .toast-container.info i {
+            color: var(--navy-600);
+        }
+
+        .toast-container span {
+            font-weight: 600;
+            font-size: 14px;
+            color: var(--text);
+        }
+
+        /* ============================================================
+           7. HERO (bannière d'accueil)
+           ============================================================ */
+        .hero {
+            padding: calc(68px + 30px) 0 20px;
+            position: relative;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+            animation: fadeUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+            opacity: 0;
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .flyer-container {
+            border-radius: var(--radius-xl);
+            overflow: hidden;
+            background: var(--bg-glass);
+            position: relative;
+            aspect-ratio: 16 / 9;
+            border: 1px solid var(--border-glass);
+            box-shadow: 0 20px 50px rgba(37, 99, 235, 0.15);
+            transition: box-shadow 0.3s ease;
+        }
+
+        .flyer-container:hover {
+            box-shadow: 0 25px 60px rgba(37, 99, 235, 0.25);
+        }
+
+        .flyer-container .single-flyer {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* ============================================================
+           8. GRILLE DE PRODUITS (Nos Jeux)
+           ============================================================ */
+        .block {
+            padding: 28px 0;
+        }
+
+        .block-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+        }
+
+        .block-title {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            font-size: 20px;
+            color: var(--text);
+            position: relative;
+            display: inline-block;
+        }
+
+        .block-title::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -4px;
+            width: 30px;
+            height: 3px;
+            background: var(--navy-600);
+        }
+
+        .see-all {
+            font-weight: 600;
+            font-size: 14px;
+            color: var(--navy-600);
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            transition: all 0.2s ease;
+        }
+
+        .see-all:hover {
+            color: #fff;
+            gap: 8px;
+        }
+
+        /* --- Grille responsive --- */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 14px;
+        }
+
+        @media (min-width: 720px) {
+            .product-grid {
+                grid-template-columns: repeat(4, 1fr);
+                gap: 18px;
+            }
+        }
+
+        /* --- Carte produit --- */
+        .product {
+            position: relative;
+            border-radius: var(--radius-xl);
+            overflow: hidden;
+            cursor: pointer;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            background: var(--bg-glass);
+            border: 1px solid var(--border-glass);
+        }
+
+        .product.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .product:hover {
+            transform: translateY(-6px);
+            border-color: var(--navy-600);
+            box-shadow: 0 0 30px rgba(37, 99, 235, 0.15);
+        }
+
+        .product .thumb {
+            aspect-ratio: 1 / 1;
+            background: rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .product .thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.4s ease;
+        }
+
+        .product:hover .thumb img {
+            transform: scale(1.05);
+        }
+
+        /* --- État de chargement (skeleton) --- */
+        .product .thumb.skeleton {
+            background: rgba(0, 0, 0, 0.2) !important;
+            position: relative;
+        }
+
+        .product .thumb.skeleton::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transform: translateX(-100%);
+            animation: shimmer 1.6s infinite;
+        }
+
+        @keyframes shimmer {
+            100% {
+                transform: translateX(100%);
+            }
+        }
+
+        /* --- Informations produit --- */
+        .product .info {
+            padding: 12px 14px 14px;
+            background: var(--bg-glass);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .product .name {
+            font-weight: 700;
+            color: var(--text);
+            font-size: 14px;
+            margin-bottom: 2px;
+        }
+
+        .product .price {
+            color: var(--navy-600);
+            font-size: 12px;
+            display: flex;
+            align-items: baseline;
+            gap: 4px;
+            font-weight: 500;
+        }
+
+        .product .price strong {
+            font-weight: 800;
+            color: var(--text);
+            font-size: 14px;
+        }
+
+        .badge {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            padding: 5px 10px;
+            border-radius: 999px;
+            font-size: 11px;
+            font-weight: 700;
+            background: var(--navy-600);
+            color: #fff;
+            z-index: 2;
+        }
+
+        /* ============================================================
+           9. FAB WHATSAPP (bouton flottant)
+           ============================================================ */
+        .fab-whatsapp {
+            position: fixed;
+            right: 16px;
+            bottom: 16px;
+            width: 54px;
+            height: 54px;
+            border-radius: 50%;
+            background: var(--whatsapp);
+            color: #fff;
+            font-size: 22px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 24px rgba(37, 211, 102, 0.45);
+            z-index: 90;
+            transition: all 0.2s ease;
+        }
+
+        .fab-whatsapp:hover {
+            transform: scale(1.1);
+        }
+
+        /* ============================================================
+           10. FOOTER (court, ordonné)
+           ============================================================ */
+        .site {
+            margin-top: 36px;
+            background: var(--bg-soft);
+            border-top: 1px solid var(--border-glass);
+            color: var(--text-soft);
+            font-size: 14px;
+            padding: 30px 0 16px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 24px;
+            max-width: var(--container);
+            margin: 0 auto;
+            padding: 0 20px 20px;
+            border-bottom: 1px solid var(--border-glass);
+        }
+
+        @media (min-width: 720px) {
+            .footer-grid {
+                grid-template-columns: 1.5fr 1fr 1fr;
+                gap: 30px;
+                text-align: left;
+            }
+        }
+
+        .footer-brand {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+
+        @media (min-width: 720px) {
+            .footer-brand {
+                align-items: flex-start;
+            }
+        }
+
+        .footer-brand img {
+            height: 40px;
+            width: auto;
+        }
+
+        .footer-brand p {
+            font-size: 13px;
+            margin-top: 4px;
+        }
+
+        .footer-col h4 {
+            color: var(--text);
+            font-weight: 700;
+            font-size: 13px;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .footer-col ul {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .footer-col a {
+            transition: color 0.2s ease;
+            font-size: 13px;
+        }
+
+        .footer-col a:hover {
+            color: var(--navy-600);
+        }
+
+        .footer-bottom {
+            max-width: var(--container);
+            margin: 0 auto;
+            padding: 12px 20px 0;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            text-align: center;
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        @media (min-width: 720px) {
+            .footer-bottom {
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+            }
+        }
+
+        .footer-bottom .pulse {
+            color: var(--navy-600);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.4; }
+            100% { opacity: 1; }
+        }
+
+        /* ============================================================
+           11. FALLBACK (images manquantes)
+           ============================================================ */
+        .logo-fallback {
+            height: 100%;
+            aspect-ratio: 1;
+            border-radius: 50%;
+            background: var(--navy-600);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            color: transparent;
+        }
+
+        .logo-fallback::after {
+            content: '';
+            width: 40%;
+            height: 40%;
+            background: rgba(255, 255, 255, 0.4);
+            border-radius: 50%;
+        }
+
+        .logo-fallback.sidebar {
+            width: 36px;
+            height: 36px;
+        }
+
+        .thumb-fallback {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+            background: var(--bg-glass);
+            color: var(--text-muted);
+            font-size: 0.8rem;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ============================================================
+    ORBES LUMINEUX (ambiance premium)
+    ============================================================ -->
+    <div class="orb-1"></div>
+    <div class="orb-2"></div>
+
+    <!-- ============================================================
+    TOAST (notifications)
+    ============================================================ -->
+    <div class="toast-container" id="toastContainer">
+        <i class="fa-solid fa-circle-info" id="toastIcon"></i>
+        <span id="toastMessage">Message</span>
+    </div>
+
+    <!-- ============================================================
+    HEADER (flottant)
+    ============================================================ -->
+    <header class="site-header" id="siteHeader">
+        <div class="container nav">
+            <a href="/" class="brand" aria-label="DigitalPay – Accueil">
+                <img src="/assets/sidebar-logo.png" alt="DigitalPay" fetchpriority="high" onerror="this.replaceWith(makeLogoFallback(false));">
+            </a>
+            <div class="header-actions">
+                <div class="header-avatar" id="headerAvatar" title="Mon Profil"></div>
+                <button class="hamburger" id="openMenu" aria-label="Ouvrir le menu">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- ============================================================
+    SIDEBAR (overlay + menu)
+    ============================================================ -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+    <aside class="sidebar" id="sidebar" aria-hidden="true">
+
+        <!-- En-tête du menu -->
+        <div class="sidebar-head">
+            <div class="sidebar-head-left">
+                <img src="/assets/logo.png" alt="" onerror="this.replaceWith(makeLogoFallback(true));">
+                <div class="brand-text">
+                    <div class="brand-name">DigitalPay</div>
+                    <div class="brand-sub">HAITI</div>
+                </div>
+            </div>
+            <button class="sidebar-close" id="closeMenu" aria-label="Fermer le menu">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+
+        <!-- Carte profil (dynamique) -->
+        <div class="sidebar-profile">
+            <div class="profile-icon" id="sidebarUserAvatar"><i class="fa-solid fa-user"></i></div>
+            <div class="profile-info">
+                <span class="profile-name" id="sidebarUserName">Nom de l'utilisateur</span>
+                <span class="profile-email" id="sidebarUserEmail">email@exemple.com</span>
+            </div>
+        </div>
+
+        <!-- Navigation -->
+        <nav class="sidebar-nav" aria-label="Navigation principale">
+            <a href="/"><i class="fa-solid fa-house"></i> Accueil</a>
+            <a href="/nos-jeux/" class="is-active" aria-current="page"><i class="fa-solid fa-gamepad"></i> Nos Jeux</a>
+            <a href="/streaming/"><i class="fa-solid fa-film"></i> Streaming</a>
+            <a href="/finance/"><i class="fa-solid fa-coins"></i> Finance</a>
+            <a href="/giftcard/"><i class="fa-solid fa-gift"></i> Gift Cards</a>
+            <a href="/reseaux-sociaux/"><i class="fa-solid fa-hashtag"></i> Réseaux sociaux</a>
+            <a href="/portefeuille.html" data-auth-required="true"><i class="fa-solid fa-wallet"></i> Portefeuille</a>
+            <a href="/commandes.html" data-auth-required="true"><i class="fa-solid fa-clock"></i> Commandes</a>
+            <a href="/support/help.html"><i class="fa-solid fa-headset"></i> Support</a>
+            <a href="/legal/conditions-utilisation.html"><i class="fa-solid fa-file-contract"></i> Conditions</a>
+            <a href="/legal/politique-confidentialite.html"><i class="fa-solid fa-shield-halved"></i> Confidentialité</a>
+        </nav>
+
+        <!-- Pied du menu -->
+        <div class="sidebar-foot">
+            <a href="/authentification/register.html" class="btn-register hide-when-logged"><i class="fa-solid fa-user-plus"></i> S'inscrire</a>
+            <a href="/authentification/login.html" class="btn-logout" id="authBtn"><span id="authBtnLabel">Se Connecter</span></a>
+        </div>
+    </aside>
+
+    <!-- ============================================================
+    CONTENU PRINCIPAL
+    ============================================================ -->
+    <main>
+
+        <!-- HERO (bannière) -->
+        <section class="hero">
+            <div class="container hero-content">
+                <div class="flyer-container">
+                    <img src="/assets/flyerswelcome.png" alt="Nos Jeux" class="single-flyer" onerror="this.style.border='2px dashed #aaa'; this.style.padding='20px'; this.style.textAlign='center'; this.style.color='#fff'; this.alt='Image manquante';">
+                </div>
+            </div>
+        </section>
+
+        <!-- GRILLE NOS JEUX (12 produits) -->
+        <section class="block">
+            <div class="container">
+                <div class="block-head">
+                    <h2 class="block-title">Nos Jeux</h2>
+                    <a href="/nos-jeux/" class="see-all">Voir tout <i class="fa-solid fa-arrow-right"></i></a>
+                </div>
+                <div class="product-grid">
+
+                    <!-- Flex City -->
+                    <a href="/nos-jeux/flexcity.html" class="product" data-auth-required="true">
+                        <div class="thumb skeleton"><img src="/assets/nos-jeux/flexcity.png" alt="Flex City" loading="lazy" onerror="this.replaceWith(makeThumbFallback('Flex City'));" onload="this.parentElement.classList.remove('skeleton')"></div>
+                        <div class="info"><div class="name">Flex City</div><div class="price"><span>Recharges</span></div></div>
+                    </a>
+
+                    <!-- One State -->
+                    <a href="/nos-jeux/onestate.html" class="product" data-auth-required="true">
+                        <div class="thumb skeleton"><img src="/assets/nos-jeux/onestate.png" alt="One State" loading="lazy" onerror="this.replaceWith(makeThumbFallback('One State'));" onload="this.parentElement.classList.remove('skeleton')"></div>
+                        <div class="info"><div class="name">One State</div><div class="price"><span>Recharges</span></div></div>
+                    </a>
+
+                    <!-- Free Fire -->
+                    <a href="/nos-jeux/freefire.html" class="product" data-auth-required="true">
+                        <span class="badge">#1</span>
+                        <div class="thumb skeleton"><img src="/assets/nos-jeux/freefire.png" alt="Free Fire" loading="lazy" onerror="this.replaceWith(makeThumbFallback('Free Fire'));" onload="this.parentElement.classList.remove('skeleton')"></div>
+                        <div class="info"><div class="name">Free Fire</div><div class="price"><span>110+10💎</span> <strong>= 157 HTG</strong></div></div>
+                    </a>
+
+                    <!-- Blood Strike -->
+                    <a href="/nos-jeux/bloodstrike.html" class="product" data-auth-required="true">
+                        <div class="thumb skeleton"><img src="/assets/nos-jeux/bloodstrike.png" alt="Blood Strike" loading="lazy" onerror="this.replaceWith(makeThumbFallback('Blood Strike'));" onload="this.parentElement.classList.remove('skeleton')"></div>
+                        <div class="info"><div class="name">Blood Strike</div><div class="price"><span>Recharges</span></div></div>
+                    </a>
+
+                    <!-- Call of Duty -->
+                    <a href="/nos-jeux/callofduty.html" class="product" data-auth-required="true">
+                        <div class="thumb skeleton"><img src="/assets/nos-jeux/callofduty.png" alt="Call of Duty" loading="lazy" onerror="this.replaceWith(makeThumbFallback('Call of Duty'));" onload="this.parentElement.classList.remove('skeleton')"></div>
+                        <div class="info"><div class="name">Call of Duty</div><div class="price"><span>À partir de</span> <strong>500 Gdes</strong></div></div>
+                    </a>
+
+                    <!-- Minecraft -->
+                    <a href="/nos-jeux/minecraft.html" class="product" data-auth-required="true">
+                        <div class="thumb skeleton"><img src="/assets/nos-jeux/minecraft.png" alt="Minecraft" loading="lazy" onerror="this.replaceWith(makeThumbFallback('Minecraft'));" onload="this.parentElement.classList.remove('skeleton')"></div>
+                        <div class="info"><div class="name">Minecraft</div><div class="price"><span>À partir de</span> <strong>316 HTG</strong></div></div>
+                    </a>
+
+                    <!-- Roblox -->
+                    <a href="/nos-jeux/roblox.html" class="product" data-auth-required="true">
+                        <div class="thumb skeleton"><img src="/assets/nos-jeux/roblox.png" alt="Roblox" loading="lazy" onerror="this.replaceWith(makeThumbFallback('Roblox'));" onload="this.parentElement.classList.remove('skeleton')"></div>
+                        <div class="info"><div class="name">Roblox</div><div class="price"><span>À partir de</span> <strong>750 HTG</strong></div></div>
+                    </a>
+
+                    <!-- FC Mobile -->
+                    <a href="/nos-jeux/fcmobile.html" class="product" data-auth-required="true">
+                        <div class="thumb skeleton"><img src="/assets/nos-jeux/fcmobile.png" alt="FC Mobile" loading="lazy" onerror="this.replaceWith(makeThumbFallback('FC Mobile'));" onload="this.parentElement.classList.remove('skeleton')"></div>
+                        <div class="info"><div class="name">FC Mobile</div><div class="price"><span>Recharges</span></div></div>
+                    </a>
+
+                    <!-- E-Football -->
+                    <a href="/nos-jeux/efootball.html" class="product" data-auth-required="true">
+                        <div class="thumb skeleton"><img src="/assets/nos-jeux/efootball.png" alt="E-Football" loading="lazy" onerror="this.replaceWith(makeThumbFallback('E-Football'));" onload="this.parentElement.classList.remove('skeleton')"></div>
+                        <div class="info"><div class="name">E-Football</div><div class="price"><span>Recharges</span></div></div>
+                    </a>
+
+                    <!-- Mobile Legends -->
+                    <a href="/nos-jeux/mobilelegends.html" class="product" data-auth-required="true">
+                        <div class="thumb skeleton"><img src="/assets/nos-jeux/mobilelegends.png" alt="Mobile Legends" loading="lazy" onerror="this.replaceWith(makeThumbFallback('Mobile Legends'));" onload="this.parentElement.classList.remove('skeleton')"></div>
+                        <div class="info"><div class="name">Mobile Legends</div><div class="price"><span>Recharges</span></div></div>
+                    </a>
+
+                    <!-- Dream League Soccer -->
+                    <a href="/nos-jeux/dreamleaguesoccer.html" class="product" data-auth-required="true">
+                        <div class="thumb skeleton"><img src="/assets/nos-jeux/dreamleaguesoccer.png" alt="Dream League Soccer" loading="lazy" onerror="this.replaceWith(makeThumbFallback('Dream League Soccer'));" onload="this.parentElement.classList.remove('skeleton')"></div>
+                        <div class="info"><div class="name">Dream League Soccer</div><div class="price"><span>Recharges</span></div></div>
+                    </a>
+
+                    <!-- Lords Mobile -->
+                    <a href="/nos-jeux/lordsmobile.html" class="product" data-auth-required="true">
+                        <div class="thumb skeleton"><img src="/assets/nos-jeux/lordsmobile.png" alt="Lords Mobile" loading="lazy" onerror="this.replaceWith(makeThumbFallback('Lords Mobile'));" onload="this.parentElement.classList.remove('skeleton')"></div>
+                        <div class="info"><div class="name">Lords Mobile</div><div class="price"><span>Recharges</span></div></div>
+                    </a>
+
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- ============================================================
+    BOUTON WHATSAPP FLOTTANT
+    ============================================================ -->
+    <a href="https://wa.me/50936535649" class="fab-whatsapp" target="_blank" rel="noopener">
+        <i class="fa-brands fa-whatsapp"></i>
+    </a>
+
+    <!-- ============================================================
+    FOOTER (court et ordonné)
+    ============================================================ -->
+    <footer class="site">
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <img src="/assets/sidebar-logo.png" alt="DigitalPay" onerror="this.replaceWith(makeLogoFallback(false));">
+                <p>DigitalPay — Recharges, abonnements et services financiers.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Services</h4>
+                <ul>
+                    <li><a href="/nos-jeux/">Nos Jeux</a></li>
+                    <li><a href="/streaming/">Streaming</a></li>
+                    <li><a href="/finance/">Finance</a></li>
+                    <li><a href="/giftcard/">Gift Cards</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Support</h4>
+                <ul>
+                    <li><a href="/support/help.html">Centre d'aide</a></li>
+                    <li><a href="/legal/conditions-utilisation.html">Conditions</a></li>
+                    <li><a href="/legal/politique-confidentialite.html">Confidentialité</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span>© 2026 DigitalPay</span>
+            <span><span class="pulse">●</span> Support WhatsApp 24/7</span>
+        </div>
+    </footer>
+
+    <!-- ============================================================
+    SCRIPTS JAVASCRIPT
+    ============================================================ -->
+    <script>
+        /* ============================================================
+           1. FALLBACKS (images manquantes)
+           ============================================================ */
+
+        /**
+         * Crée un fallback pour le logo (cercle bleu avec point blanc)
+         * @param {boolean} isSidebar - Si true, le fallback est plus petit
+         * @returns {HTMLSpanElement} L'élément span de remplacement
+         */
+        function makeLogoFallback(isSidebar) {
+            const span = document.createElement('span');
+            span.className = 'logo-fallback';
+            if (isSidebar) span.classList.add('sidebar');
+            return span;
+        }
+
+        /**
+         * Crée un fallback pour les miniatures de produits (rectangle gris avec texte)
+         * @param {string} text - Le texte à afficher (ex: "Free Fire")
+         * @returns {HTMLSpanElement} L'élément span de remplacement
+         */
+        function makeThumbFallback(text) {
+            const span = document.createElement('span');
+            span.className = 'thumb-fallback';
+            span.textContent = text || 'Logo';
+            return span;
+        }
+
+        // Expose les fonctions globalement pour qu'elles soient utilisables dans les attributs onerror
+        window.makeLogoFallback = makeLogoFallback;
+        window.makeThumbFallback = makeThumbFallback;
+
+        /* ============================================================
+           2. TOAST (système de notifications)
+           ============================================================ */
+
+        const toastContainer = document.getElementById('toastContainer');
+        const toastMessage = document.getElementById('toastMessage');
+        const toastIcon = document.getElementById('toastIcon');
+
+        /**
+         * Affiche une notification flottante
+         * @param {string} message - Le message à afficher
+         * @param {string} type - "success", "error" ou "info" (par défaut)
+         */
+        function showToast(message, type = 'info') {
+            toastMessage.textContent = message;
+
+            // Réinitialise les classes
+            toastContainer.className = 'toast-container';
+
+            // Définit l'icône et la classe selon le type
+            const icons = {
+                success: 'fa-solid fa-circle-check',
+                error: 'fa-solid fa-circle-exclamation',
+                info: 'fa-solid fa-circle-info'
+            };
+            toastIcon.innerHTML = `<i class="${icons[type] || icons.info}"></i>`;
+            toastContainer.classList.add(type);
+
+            // Affiche le toast
+            toastContainer.classList.add('show');
+
+            // Supprime automatiquement après 3.5 secondes
+            clearTimeout(window.toastTimeout);
+            window.toastTimeout = setTimeout(() => {
+                toastContainer.classList.remove('show');
+            }, 3500);
+        }
+
+        // Expose la fonction globalement
+        window.showToast = showToast;
+
+        /* ============================================================
+           3. GESTION DE LA SIDEBAR (ouverture/fermeture)
+           ============================================================ */
+
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('sidebarOverlay');
+        const openMenu = document.getElementById('openMenu');
+        const closeMenu = document.getElementById('closeMenu');
+        const menuIcon = openMenu.querySelector('i');
+
+        /** Ouvre le menu latéral */
+        function openSidebar() {
+            sidebar.classList.add('is-open');
+            overlay.classList.add('is-open');
+            document.body.classList.add('menu-open');
+            menuIcon.className = 'fa-solid fa-xmark';
+        }
+
+        /** Ferme le menu latéral */
+        function closeSidebar() {
+            sidebar.classList.remove('is-open');
+            overlay.classList.remove('is-open');
+            document.body.classList.remove('menu-open');
+            menuIcon.className = 'fa-solid fa-bars';
+        }
+
+        // Événements d'ouverture/fermeture
+        openMenu.addEventListener('click', openSidebar);
+        closeMenu.addEventListener('click', closeSidebar);
+        overlay.addEventListener('click', closeSidebar);
+
+        // Fermeture avec la touche Échap
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') closeSidebar();
+        });
+
+        /* ============================================================
+           4. SÉCURITÉ (protection des pages protégées)
+           ============================================================ */
+
+        /**
+         * Intercepte les clics sur les éléments protégés (data-auth-required)
+         * Si l'utilisateur n'est pas connecté, affiche un toast et redirige vers login.
+         */
+        document.addEventListener('click', function(e) {
+            const target = e.target.closest('[data-auth-required="true"]');
+            if (target && !document.body.classList.contains('is-logged')) {
+                e.preventDefault();
+                showToast('🔒 Connexion requise pour accéder à cette page.', 'error');
+                setTimeout(() => {
+                    window.location.href = '/authentification/login.html';
+                }, 1500);
+            }
+        });
+
+        /* ============================================================
+           5. ANIMATION DES CARTES PRODUIT (IntersectionObserver)
+           ============================================================ */
+
+        /**
+         * Détecte quand les cartes produit entrent dans le viewport
+         * et ajoute la classe 'is-visible' pour déclencher l'animation.
+         */
+        const products = document.querySelectorAll('.product');
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(function(entry) {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                }
+            });
+        }, {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        });
+
+        products.forEach(function(product) {
+            observer.observe(product);
+        });
+
+        /* ============================================================
+           6. FIREBASE – AUTHENTIFICATION ET DYNAMIQUE
+           ============================================================ */
+
+        /* === FIREBASE AUTH === */
+        (function () {
+            const cfg = {
+                apiKey: "AIzaSyB9o8-LYeKrg2q84dxQM5Z1wFKHjt9yHFo",
+                authDomain: "digital-pay-haiti.firebaseapp.com",
+                projectId: "digital-pay-haiti",
+                appId: appId: "1:182015693140:web:8a2486b9446bfb791bf8c1",
+            };
+
+        // Initialisation de Firebase
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+
+        // --- Références DOM pour l'interface utilisateur ---
+        const authBtn = document.getElementById('authBtn');
+        const authBtnLabel = document.getElementById('authBtnLabel');
+        const headerAvatar = document.getElementById('headerAvatar');
+        const sidebarAvatar = document.getElementById('sidebarUserAvatar');
+        const sidebarName = document.getElementById('sidebarUserName');
+        const sidebarEmail = document.getElementById('sidebarUserEmail');
+        const btnRegister = document.querySelector('.btn-register');
+
+        /**
+         * Met à jour l'interface quand l'utilisateur est connecté
+         * @param {firebase.User} user - L'objet utilisateur Firebase
+         */
+        function applyLoggedIn(user) {
+            document.body.classList.add('is-logged');
+            if (btnRegister) btnRegister.style.display = 'none';
+
+            // Déterminer la première lettre du nom ou de l'email
+            const initial = (user.displayName ? user.displayName.charAt(0) : (user.email ? user.email.charAt(0) : 'U')).toUpperCase();
+
+            // Avatar du header
+            if (headerAvatar) {
+                headerAvatar.style.display = 'flex';
+                headerAvatar.innerHTML = `<span style="font-weight:800">${initial}</span>`;
+            }
+
+            // Avatar du sidebar
+            if (sidebarAvatar) {
+                sidebarAvatar.innerHTML = `<span style="font-weight:800">${initial}</span>`;
+            }
+
+            // Nom et email dans le sidebar
+            if (sidebarName) sidebarName.textContent = user.displayName || 'Membre';
+            if (sidebarEmail) sidebarEmail.textContent = user.email || '';
+
+            // Bouton du sidebar (devient "Déconnecter")
+            if (authBtnLabel) authBtnLabel.textContent = 'Déconnecter';
+            if (authBtn) {
+                authBtn.onclick = function(e) {
+                    e.preventDefault();
+                    firebase.auth().signOut().then(function() {
+                        location.reload();
+                    });
+                };
+            }
+        }
+
+        /**
+         * Réinitialise l'interface quand l'utilisateur est déconnecté
+         */
+        function applyLoggedOut() {
+            document.body.classList.remove('is-logged');
+            if (btnRegister) btnRegister.style.display = 'flex';
+
+            // Avatars réinitialisés
+            if (headerAvatar) headerAvatar.style.display = 'none';
+            if (sidebarAvatar) sidebarAvatar.innerHTML = '<i class="fa-solid fa-user"></i>';
+
+            // Profil réinitialisé
+            if (sidebarName) sidebarName.textContent = 'Nom de l\'utilisateur';
+            if (sidebarEmail) sidebarEmail.textContent = 'email@exemple.com';
+
+            // Bouton du sidebar (devient "Se Connecter")
+            if (authBtnLabel) authBtnLabel.textContent = 'Se Connecter';
+            if (authBtn) {
+                authBtn.onclick = function(e) {
+                    window.location.href = '/authentification/login.html';
+                };
+            }
+        }
+
+        // --- Écouteur d'état d'authentification Firebase ---
+        auth.onAuthStateChanged(function(user) {
+            if (user) {
+                applyLoggedIn(user);
+            } else {
+                applyLoggedOut();
+            }
+        });
+
+        // --- Redirection du bouton "S'inscrire" ---
+        if (btnRegister) {
+            btnRegister.addEventListener('click', function() {
+                window.location.href = '/authentification/register.html';
+            });
+        }
+    </script>
+</body>
+</html>
