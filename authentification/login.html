@@ -3,66 +3,156 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>Connexion - DigitalPay</title>
+    <title>Connexion – DigitalPay</title>
+    <meta name="description" content="Connectez-vous à DigitalPay pour accéder aux recharges et services premium.">
+
+    <!-- Polices -->
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;800&family=Inter:wght@400;500;600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"></noscript>
+
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <script defer src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
-    <script defer src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
-    <script defer src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
+
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
 
     <style>
         :root {
-            --bg-page: #0b0b12; --bg-glass: rgba(255, 255, 255, 0.04);
-            --bg-soft: rgba(255, 255, 255, 0.02); --bg-card: rgba(26, 29, 44, 0.6);
-            --border-glass: rgba(255, 255, 255, 0.08);
-            --navy-50: #1E3050; --navy-100: #2A4068; --navy-400: #60A5FA;
-            --navy-600: #2563EB; --navy-700: #1D4ED8; --navy-900: #0B132B;
-            --text: #F8FAFC; --text-soft: #94A3B8; --muted: #64748B;
-            --whatsapp: #25D366; --radius: 16px; --radius-lg: 24px; --radius-xl: 28px;
-            --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.6); --shadow-float: 0 12px 40px rgba(0, 0, 0, 0.8);
-            --container: 1180px; --gap: 16px;
+            --bg-primary: #0b0b12;
+            --bg-glass: rgba(255, 255, 255, 0.06);
+            --bg-card: rgba(26, 29, 44, 0.7);
+            --border-glass: rgba(255, 255, 255, 0.12);
+            --navy-400: #60A5FA;
+            --navy-600: #2563EB;
+            --navy-700: #1D4ED8;
+            --text: #F8FAFC;
+            --text-soft: #94A3B8;
+            --text-muted: #64748B;
+            --whatsapp: #25D366;
+            --red: #ef4444;
+            --green: #22c55e;
+            --radius: 16px;
+            --radius-xl: 28px;
+            --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.6);
         }
+
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-        html { scroll-behavior: smooth; }
-        body { font-family: 'Inter', system-ui, sans-serif; background: var(--bg-page); color: var(--text); line-height: 1.5; -webkit-font-smoothing: antialiased; overflow-x: hidden; display: flex; flex-direction: column; min-height: 100vh; }
+        body {
+            font-family: 'Inter', system-ui, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            position: relative;
+            overflow-x: hidden;
+        }
         a { color: inherit; text-decoration: none; }
         img { max-width: 100%; display: block; }
         button { font-family: inherit; cursor: pointer; border: none; background: none; }
-        .container { max-width: var(--container); margin: 0 auto; padding: 0 20px; }
+        :focus-visible { outline: 2px solid var(--navy-600); outline-offset: 2px; }
 
-        /* ORBES */
-        body::before { content: ''; position: fixed; inset: 0; z-index: -1; background-image: linear-gradient(rgba(255,255,255,0.006) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.006) 1px, transparent 1px); background-size: 50px 50px; }
-        .orb-1 { position: fixed; width: 600px; height: 600px; background: var(--navy-600); filter: blur(140px); opacity: 0.12; top: -200px; left: -200px; z-index: -1; pointer-events: none; animation: float1 15s ease-in-out infinite alternate; }
-        .orb-2 { position: fixed; width: 500px; height: 500px; background: var(--navy-400); filter: blur(120px); opacity: 0.10; bottom: -150px; right: -150px; z-index: -1; pointer-events: none; animation: float2 20s ease-in-out infinite alternate; }
-        @keyframes float1 { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(100px, 150px) scale(1.3); } }
-        @keyframes float2 { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(-80px, -120px) scale(1.2); } }
+        /* Orbes avec effet parallaxe */
+        .orb-1, .orb-2 { position: fixed; border-radius: 50%; pointer-events: none; z-index: -2; filter: blur(140px); opacity: 0.1; will-change: transform; transition: transform 0.2s ease-out; }
+        .orb-1 { width: 500px; height: 500px; background: var(--navy-600); top: -150px; left: -150px; }
+        .orb-2 { width: 400px; height: 400px; background: var(--navy-400); bottom: -100px; right: -100px; }
 
-        /* HEADER */
-        header.site-header { position: sticky; top: 1rem; z-index: 10; background: var(--bg-glass); backdrop-filter: blur(16px) saturate(150%); border: 1px solid var(--border-glass); border-radius: var(--radius-xl); margin: 0 1.2rem; padding: 0 1.8rem; height: 68px; display: flex; align-items: center; transition: all 0.3s ease; }
-        header.site-header.is-scrolled { background: rgba(11, 11, 18, 0.8); box-shadow: var(--shadow-float); backdrop-filter: blur(20px); }
-        .brand img { height: 44px; width: auto; display: block; }
+        /* Carte login */
+        .login-card {
+            background: var(--bg-glass);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid var(--border-glass);
+            border-radius: var(--radius-xl);
+            padding: 40px 32px;
+            max-width: 440px;
+            width: 100%;
+            box-shadow: var(--shadow-card), 0 0 40px rgba(37,99,235,0.15);
+            animation: fadeUp 0.6s cubic-bezier(0.2,0.8,0.2,1) forwards;
+            position: relative;
+        }
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* CARTE AUTH */
-        main { flex: 1; display: flex; align-items: center; justify-content: center; padding: 40px 20px; }
-        .auth-card { background: var(--bg-card); border: 1px solid var(--border-glass); border-radius: var(--radius-xl); padding: 40px 30px; max-width: 420px; width: 100%; box-shadow: var(--shadow-card); backdrop-filter: blur(12px); }
-        .auth-card h1 { font-family: 'Orbitron', sans-serif; font-size: 1.6rem; margin-bottom: 8px; text-align: center; }
-        .auth-card .sub { color: var(--text-soft); text-align: center; margin-bottom: 24px; font-size: 0.95rem; }
-        .form-group { margin-bottom: 20px; }
-        .form-group label { display: block; font-weight: 500; margin-bottom: 6px; font-size: 0.9rem; color: var(--text-soft); }
-        .form-group input { width: 100%; padding: 14px 16px; background: rgba(255,255,255,0.05); border: 1px solid var(--border-glass); border-radius: 12px; color: var(--text); font-size: 1rem; transition: 0.3s; outline: none; }
-        .form-group input:focus { border-color: var(--navy-600); background: rgba(37,99,235,0.05); }
-        .form-group input::placeholder { color: var(--muted); }
-        .btn-primary { width: 100%; padding: 14px; background: var(--navy-600); color: white; font-weight: 600; font-size: 1rem; border: none; border-radius: 12px; cursor: pointer; transition: 0.3s; }
-        .btn-primary:hover { background: var(--navy-700); transform: translateY(-2px); }
-        .auth-links { margin-top: 20px; text-align: center; font-size: 0.9rem; display: flex; flex-direction: column; gap: 8px; }
-        .auth-links a { color: var(--navy-600); font-weight: 500; transition: 0.2s; }
-        .auth-links a:hover { color: #fff; text-decoration: underline; }
-        .back-home { color: var(--text-soft) !important; font-weight: 400 !important; }
-        .back-home:hover { color: var(--text) !important; }
+        .login-card .logo { display: flex; justify-content: center; margin-bottom: 24px; }
+        .login-card .logo img { height: 44px; width: auto; }
+        .login-card h2 {
+            font-family: 'Orbitron', sans-serif; font-weight: 800; font-size: 22px;
+            text-align: center; margin-bottom: 8px; color: var(--text);
+        }
+        .login-card .subtitle { text-align: center; color: var(--text-soft); font-size: 14px; margin-bottom: 28px; }
 
-        /* TOAST */
-        .toast-container { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: var(--bg-glass); backdrop-filter: blur(16px); border: 1px solid var(--border-glass); padding: 14px 24px; border-radius: var(--radius); box-shadow: 0 10px 40px rgba(0,0,0,0.8); display: flex; align-items: center; gap: 12px; opacity: 0; transform: translateX(-50%) translateY(30px); transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); pointer-events: none; z-index: 9999; min-width: 300px; justify-content: center; }
-        .toast-container.show { opacity: 1; transform: translateX(-50%) translateY(0); pointer-events: auto; }
+        /* Champs */
+        .input-group { margin-bottom: 18px; position: relative; }
+        .input-group label { display: block; font-weight: 600; font-size: 13px; margin-bottom: 8px; color: var(--text-soft); }
+        .input-wrapper { position: relative; display: flex; align-items: center; }
+        .input-group input {
+            width: 100%; padding: 12px 16px; padding-right: 42px;
+            background: rgba(255,255,255,0.04); border: 1px solid var(--border-glass);
+            border-radius: var(--radius); color: var(--text); font-size: 15px;
+            transition: border-color 0.2s, background 0.2s, box-shadow 0.2s; outline: none;
+        }
+        .input-group input:focus { border-color: var(--navy-600); background: rgba(37,99,235,0.05); box-shadow: 0 0 0 3px rgba(37,99,235,0.1); }
+        .input-group input::placeholder { color: var(--text-muted); font-size: 14px; }
+        .input-group input.error { border-color: var(--red); background: rgba(239,68,68,0.05); }
+        .input-group input.valid { border-color: var(--green); }
+
+        /* Icônes dans les champs */
+        .toggle-password {
+            position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
+            color: var(--text-muted); cursor: pointer; font-size: 16px; transition: color 0.2s;
+            background: none; border: none; padding: 4px;
+        }
+        .toggle-password:hover { color: var(--text); }
+        .input-feedback {
+            display: flex; align-items: center; gap: 6px; font-size: 12px;
+            margin-top: 6px; min-height: 18px; transition: all 0.2s;
+        }
+        .input-feedback.error { color: var(--red); }
+        .input-feedback.success { color: var(--green); }
+        .input-feedback i { font-size: 12px; }
+
+        /* Bouton */
+        .btn-submit {
+            width: 100%; padding: 14px; background: var(--navy-600); color: #fff;
+            border: none; border-radius: var(--radius); font-weight: 700; font-size: 16px;
+            transition: background 0.2s, transform 0.2s, opacity 0.2s; margin-top: 8px;
+            cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;
+        }
+        .btn-submit:hover:not(:disabled) { background: var(--navy-700); transform: scale(1.01); }
+        .btn-submit:active:not(:disabled) { transform: scale(0.98); }
+        .btn-submit:disabled { opacity: 0.7; cursor: not-allowed; }
+
+        /* Liens */
+        .extra-links { text-align: center; margin-top: 24px; font-size: 14px; color: var(--text-soft); }
+        .extra-links a { color: var(--navy-600); font-weight: 600; transition: color 0.2s; }
+        .extra-links a:hover { color: var(--navy-400); text-decoration: underline; }
+        .back-home { display: block; text-align: center; margin-top: 20px; font-size: 13px; color: var(--text-muted); transition: color 0.2s; }
+        .back-home:hover { color: var(--text-soft); }
+
+        /* Message "déjà connecté" */
+        .already-logged {
+            text-align: center; padding: 20px 0; display: none;
+        }
+        .already-logged.show { display: block; }
+        .already-logged i { font-size: 48px; color: var(--navy-600); margin-bottom: 12px; display: block; }
+        .already-logged p { color: var(--text-soft); font-size: 14px; }
+
+        /* Toast */
+        .toast-container {
+            position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
+            background: var(--bg-card); backdrop-filter: blur(16px);
+            border: 1px solid var(--border-glass); padding: 14px 24px; border-radius: var(--radius);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.8); display: flex; align-items: center; gap: 12px;
+            opacity: 0; visibility: hidden; transform: translateX(-50%) translateY(30px);
+            transition: all 0.4s cubic-bezier(0.34,1.56,0.64,1);
+            pointer-events: none; z-index: 9999; min-width: 280px; justify-content: center;
+        }
+        .toast-container.show { opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0); pointer-events: auto; }
         .toast-container i { font-size: 20px; }
         .toast-container.error { border-color: #ef4444; }
         .toast-container.error i { color: #ef4444; }
@@ -72,101 +162,438 @@
         .toast-container.info i { color: var(--navy-600); }
         .toast-container span { font-weight: 600; font-size: 14px; color: var(--text); }
 
-        /* FALLBACK LOGO */
-        .logo-fallback { height: 100%; aspect-ratio: 1; border-radius: 50%; background: var(--navy-600); display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; color: transparent; }
+        /* Langue */
+        .lang-dropdown { position: absolute; top: 20px; right: 20px; }
+        .lang-btn {
+            width: 38px; height: 38px; border-radius: 12px;
+            background: rgba(255,255,255,0.03); border: 1px solid var(--border-glass);
+            color: var(--text); display: flex; align-items: center; justify-content: center;
+            font-size: 14px; font-weight: 600; transition: all 0.2s; padding: 0;
+        }
+        .lang-btn:hover { background: var(--navy-600); border-color: transparent; }
+        .lang-options {
+            position: absolute; top: calc(100% + 6px); right: 0;
+            background: var(--bg-card); backdrop-filter: blur(16px); border: 1px solid var(--border-glass);
+            border-radius: var(--radius); padding: 6px; min-width: 160px;
+            display: flex; flex-direction: column; gap: 2px;
+            opacity: 0; visibility: hidden; transform: translateY(-10px);
+            transition: all 0.25s ease; z-index: 20;
+        }
+        .lang-dropdown.open .lang-options { opacity: 1; visibility: visible; transform: translateY(0); }
+        .lang-options button {
+            padding: 8px 12px; border-radius: 10px; background: transparent; color: var(--text-soft);
+            font-weight: 500; font-size: 13px; transition: background 0.2s; text-align: left;
+            display: flex; align-items: center; gap: 8px;
+        }
+        .lang-options button:hover { background: rgba(255,255,255,0.05); color: var(--text); }
+        .lang-options button.active { background: var(--navy-600); color: #fff; }
+
+        /* Fallback logo */
+        .logo-fallback {
+            height: 44px; width: 44px; border-radius: 50%; background: var(--navy-600);
+            display: inline-flex; align-items: center; justify-content: center;
+        }
         .logo-fallback::after { content: ''; width: 40%; height: 40%; background: rgba(255,255,255,0.4); border-radius: 50%; }
+
+        @media (max-width: 360px) {
+            .login-card { padding: 28px 20px; }
+        }
     </style>
 </head>
 <body>
+    <div class="orb-1" id="orb1"></div>
+    <div class="orb-2" id="orb2"></div>
 
-    <div class="orb-1"></div>
-    <div class="orb-2"></div>
+    <!-- Sélecteur de langue -->
+    <div class="lang-dropdown" id="langDropdown">
+        <button class="lang-btn" id="langBtn" aria-label="Changer la langue">🇫🇷</button>
+        <div class="lang-options" role="listbox">
+            <button data-lang="fr" role="option">🇫🇷 Français</button>
+            <button data-lang="en" role="option">🇺🇸 English</button>
+            <button data-lang="ht" role="option">🇭🇹 Kreyòl</button>
+            <button data-lang="es" role="option">🇪🇸 Español</button>
+        </div>
+    </div>
 
-    <div class="toast-container" id="toastContainer">
+    <!-- Carte de connexion -->
+    <div class="login-card" id="loginCard">
+        <div class="logo">
+            <img src="/assets/sidebar-logo.png" alt="DigitalPay" onerror="this.replaceWith(createLogoFallback())">
+        </div>
+        <h2 data-i18n="title">Connexion</h2>
+        <p class="subtitle" data-i18n="subtitle">Accédez à votre compte DigitalPay</p>
+
+        <div class="already-logged" id="alreadyLogged">
+            <i class="fa-solid fa-circle-check"></i>
+            <p data-i18n="alreadyLogged">Vous êtes déjà connecté. Redirection...</p>
+        </div>
+
+        <form id="loginForm" novalidate>
+            <div class="input-group">
+                <label for="email" data-i18n="emailLabel">Adresse e-mail</label>
+                <div class="input-wrapper">
+                    <input type="email" id="email" name="email" data-i18n-placeholder="emailPlaceholder" placeholder="exemple@email.com" autocomplete="email" aria-describedby="emailFeedback">
+                </div>
+                <div class="input-feedback" id="emailFeedback" aria-live="polite"></div>
+            </div>
+            <div class="input-group">
+                <label for="password" data-i18n="passwordLabel">Mot de passe</label>
+                <div class="input-wrapper">
+                    <input type="password" id="password" name="password" data-i18n-placeholder="passwordPlaceholder" placeholder="Votre mot de passe" autocomplete="current-password" aria-describedby="passwordFeedback">
+                    <button type="button" class="toggle-password" id="togglePassword" aria-label="Afficher le mot de passe">
+                        <i class="fa-solid fa-eye"></i>
+                    </button>
+                </div>
+                <div class="input-feedback" id="passwordFeedback" aria-live="polite"></div>
+            </div>
+
+            <button type="submit" class="btn-submit" id="loginBtn">
+                <i class="fa-solid fa-right-to-bracket"></i>
+                <span data-i18n="loginBtn">Se Connecter</span>
+            </button>
+        </form>
+
+        <div class="extra-links">
+            <p data-i18n="noAccount">Pas encore de compte ?</p>
+            <a href="/authentification/register.html" data-i18n="registerLink">Créer un compte</a>
+        </div>
+
+        <a href="/" class="back-home" data-i18n="backHome">← Retour à l'accueil</a>
+    </div>
+
+    <!-- Toast -->
+    <div class="toast-container" id="toastContainer" aria-live="polite">
         <i class="fa-solid fa-circle-info" id="toastIcon"></i>
         <span id="toastMessage">Message</span>
     </div>
 
-    <header class="site-header" id="siteHeader">
-        <div class="container">
-            <a href="/" class="brand">
-                <img src="/assets/sidebar-logo.png" alt="DigitalPay" onerror="this.replaceWith(makeLogoFallback(false));">
-            </a>
-        </div>
-    </header>
-
-    <main>
-        <div class="auth-card">
-            <h1>Connexion</h1>
-            <p class="sub">Accédez à votre compte DigitalPay</p>
-            <form id="loginForm">
-                <div class="form-group">
-                    <label for="email">Adresse e-mail</label>
-                    <input type="email" id="email" placeholder="exemple@email.com" required>
-                </div>
-                <div class="form-group">
-                    <label for="password">Mot de passe</label>
-                    <input type="password" id="password" placeholder="••••••••" required>
-                </div>
-                <button type="submit" class="btn-primary">Se connecter</button>
-            </form>
-            <div class="auth-links">
-                <a href="/authentification/register.html">Pas encore de compte ? S'inscrire</a>
-                <a href="/" class="back-home"><i class="fa-solid fa-arrow-left"></i> Retour à l'accueil</a>
-            </div>
-        </div>
-    </main>
-
     <script>
-        function makeLogoFallback(isSidebar) {
+        // ==================== CONFIG FIREBASE ====================
+        const firebaseConfig = {
+            apiKey: "AIzaSyDemoKey1234567890abcdefghijklm",
+            authDomain: "digitalpay-demo.firebaseapp.com",
+            projectId: "digitalpay-demo",
+            appId: "1:1234567890:web:abcdef123456"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+
+        // ==================== FALLBACK LOGO ====================
+        function createLogoFallback() {
             const span = document.createElement('span');
             span.className = 'logo-fallback';
-            if (isSidebar) span.classList.add('sidebar');
             return span;
         }
-        window.makeLogoFallback = makeLogoFallback;
 
+        // ==================== TRADUCTIONS ====================
+        const translations = {
+            fr: {
+                title: "Connexion",
+                subtitle: "Accédez à votre compte DigitalPay",
+                emailLabel: "Adresse e-mail",
+                emailPlaceholder: "exemple@email.com",
+                passwordLabel: "Mot de passe",
+                passwordPlaceholder: "Votre mot de passe",
+                loginBtn: "Se Connecter",
+                loggingIn: "Connexion en cours...",
+                noAccount: "Pas encore de compte ?",
+                registerLink: "Créer un compte",
+                backHome: "← Retour à l'accueil",
+                alreadyLogged: "Vous êtes déjà connecté. Redirection...",
+                successLogin: "✅ Connexion réussie, redirection...",
+                errorEmpty: "Tous les champs sont requis.",
+                errorEmail: "Veuillez entrer un email valide.",
+                errorPassword: "Le mot de passe doit contenir au moins 6 caractères.",
+                errorLogin: "Erreur de connexion. Vérifiez vos identifiants.",
+                errorGeneric: "Une erreur est survenue.",
+                showPassword: "Afficher le mot de passe",
+                hidePassword: "Masquer le mot de passe"
+            },
+            en: {
+                title: "Login",
+                subtitle: "Access your DigitalPay account",
+                emailLabel: "Email address",
+                emailPlaceholder: "example@email.com",
+                passwordLabel: "Password",
+                passwordPlaceholder: "Your password",
+                loginBtn: "Log In",
+                loggingIn: "Logging in...",
+                noAccount: "Don't have an account?",
+                registerLink: "Create an account",
+                backHome: "← Back to home",
+                alreadyLogged: "You are already logged in. Redirecting...",
+                successLogin: "✅ Login successful, redirecting...",
+                errorEmpty: "All fields are required.",
+                errorEmail: "Please enter a valid email.",
+                errorPassword: "Password must be at least 6 characters.",
+                errorLogin: "Login error. Check your credentials.",
+                errorGeneric: "An error occurred.",
+                showPassword: "Show password",
+                hidePassword: "Hide password"
+            },
+            ht: {
+                title: "Koneksyon",
+                subtitle: "Aksede kont DigitalPay ou",
+                emailLabel: "Adrès imel",
+                emailPlaceholder: "egzanp@email.com",
+                passwordLabel: "Modpas",
+                passwordPlaceholder: "Modpas ou",
+                loginBtn: "Konekte",
+                loggingIn: "Koneksyon an kou...",
+                noAccount: "Ou pa gen kont?",
+                registerLink: "Kreye yon kont",
+                backHome: "← Retounen akèy",
+                alreadyLogged: "Ou deja konekte. Redireksyon...",
+                successLogin: "✅ Koneksyon reyisi, w ap redireksyone...",
+                errorEmpty: "Tout chan yo obligatwa.",
+                errorEmail: "Tanpri antre yon imel valid.",
+                errorPassword: "Modpas la dwe gen omwen 6 karaktè.",
+                errorLogin: "Erè koneksyon. Verifye idantifyan ou yo.",
+                errorGeneric: "Yon erè te rive.",
+                showPassword: "Montre modpas la",
+                hidePassword: "Kache modpas la"
+            },
+            es: {
+                title: "Iniciar Sesión",
+                subtitle: "Accede a tu cuenta DigitalPay",
+                emailLabel: "Correo electrónico",
+                emailPlaceholder: "ejemplo@email.com",
+                passwordLabel: "Contraseña",
+                passwordPlaceholder: "Tu contraseña",
+                loginBtn: "Iniciar Sesión",
+                loggingIn: "Iniciando sesión...",
+                noAccount: "¿No tienes cuenta?",
+                registerLink: "Crear una cuenta",
+                backHome: "← Volver al inicio",
+                alreadyLogged: "Ya has iniciado sesión. Redirigiendo...",
+                successLogin: "✅ Inicio de sesión exitoso, redirigiendo...",
+                errorEmpty: "Todos los campos son obligatorios.",
+                errorEmail: "Por favor ingresa un email válido.",
+                errorPassword: "La contraseña debe tener al menos 6 caracteres.",
+                errorLogin: "Error de inicio de sesión. Verifica tus credenciales.",
+                errorGeneric: "Ocurrió un error.",
+                showPassword: "Mostrar contraseña",
+                hidePassword: "Ocultar contraseña"
+            }
+        };
+
+        let currentLang = 'fr';
+
+        function t(key) {
+            return (translations[currentLang] && translations[currentLang][key]) ? translations[currentLang][key] : key;
+        }
+
+        function applyLanguage(lang) {
+            currentLang = lang;
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (translations[lang] && translations[lang][key]) el.textContent = translations[lang][key];
+            });
+            document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+                const key = el.getAttribute('data-i18n-placeholder');
+                if (translations[lang] && translations[lang][key]) el.setAttribute('placeholder', translations[lang][key]);
+            });
+            // Mettre à jour le aria-label du bouton toggle password
+            const toggleBtn = document.getElementById('togglePassword');
+            const passwordInput = document.getElementById('password');
+            if (toggleBtn && passwordInput) {
+                toggleBtn.setAttribute('aria-label', passwordInput.type === 'password' ? t('showPassword') : t('hidePassword'));
+            }
+            localStorage.setItem('lang', lang);
+            document.documentElement.lang = lang;
+        }
+
+        // ==================== GESTION LANGUE ====================
+        const langBtn = document.getElementById('langBtn');
+        const langDropdown = document.getElementById('langDropdown');
+        const langOptions = document.querySelectorAll('.lang-options button');
+        const langFlags = { fr: '🇫🇷', en: '🇺🇸', ht: '🇭🇹', es: '🇪🇸' };
+
+        function setActiveLang(lang) {
+            langBtn.textContent = langFlags[lang] || lang.toUpperCase();
+            langOptions.forEach(b => {
+                b.classList.remove('active');
+                if (b.dataset.lang === lang) b.classList.add('active');
+            });
+        }
+
+        langBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            langDropdown.classList.toggle('open');
+        });
+        document.addEventListener('click', () => langDropdown.classList.remove('open'));
+        langOptions.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const lang = btn.dataset.lang;
+                applyLanguage(lang);
+                setActiveLang(lang);
+                langDropdown.classList.remove('open');
+            });
+        });
+
+        // ==================== TOAST ====================
         const toastContainer = document.getElementById('toastContainer');
         const toastMessage = document.getElementById('toastMessage');
         const toastIcon = document.getElementById('toastIcon');
-
         function showToast(message, type = 'info') {
             toastMessage.textContent = message;
             toastContainer.className = 'toast-container';
-            if(type === 'success') { toastContainer.classList.add('success'); toastIcon.className = 'fa-solid fa-circle-check'; }
-            else if(type === 'error') { toastContainer.classList.add('error'); toastIcon.className = 'fa-solid fa-circle-exclamation'; }
-            else { toastContainer.classList.add('info'); toastIcon.className = 'fa-solid fa-circle-info'; }
-            toastContainer.classList.add('show');
+            toastIcon.className = 'fa-solid';
+            if (type === 'success') { toastIcon.classList.add('fa-circle-check'); }
+            else if (type === 'error') { toastIcon.classList.add('fa-circle-exclamation'); }
+            else { toastIcon.classList.add('fa-circle-info'); }
+            toastContainer.classList.add(type, 'show');
             clearTimeout(window.toastTimeout);
-            window.toastTimeout = setTimeout(() => { toastContainer.classList.remove('show'); }, 3500);
+            window.toastTimeout = setTimeout(() => toastContainer.classList.remove('show'), 4000);
         }
 
-        const header = document.getElementById('siteHeader');
-        window.addEventListener('scroll', () => header.classList.toggle('is-scrolled', window.scrollY > 8), { passive: true });
+        // ==================== VALIDATION DES CHAMPS ====================
+        const emailInput = document.getElementById('email');
+        const passwordInput = document.getElementById('password');
+        const emailFeedback = document.getElementById('emailFeedback');
+        const passwordFeedback = document.getElementById('passwordFeedback');
 
-             /* === FIREBASE AUTH === */
-        (function () {
-            const cfg = {
-                apiKey: "AIzaSyB9o8-LYeKrg2q84dxQM5Z1wFKHjt9yHFo",
-                authDomain: "digital-pay-haiti.firebaseapp.com",
-                projectId: "digital-pay-haiti",
-                appId: appId: "1:182015693140:web:8a2486b9446bfb791bf8c1",
-            };
+        function validateEmail() {
+            const value = emailInput.value.trim();
+            emailInput.classList.remove('error', 'valid');
+            emailFeedback.className = 'input-feedback';
+            emailFeedback.textContent = '';
 
-            document.addEventListener('DOMContentLoaded', () => {
-                if (!window.firebase) return;
-                try { firebase.initializeApp(cfg); } catch (_) {}
-                const auth = firebase.auth();
-                document.getElementById('loginForm').addEventListener('submit', (e) => {
-                    e.preventDefault();
-                    const email = document.getElementById('email').value.trim();
-                    const password = document.getElementById('password').value;
-                    auth.signInWithEmailAndPassword(email, password)
-                        .then(() => { showToast('Connexion réussie !', 'success'); setTimeout(() => { window.location.href = '/'; }, 1500); })
-                        .catch((err) => { showToast('Erreur : ' + err.message, 'error'); });
+            if (!value) return false;
+
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(value)) {
+                emailInput.classList.add('error');
+                emailFeedback.className = 'input-feedback error';
+                emailFeedback.innerHTML = `<i class="fa-solid fa-circle-exclamation"></i> ${t('errorEmail')}`;
+                return false;
+            }
+            emailInput.classList.add('valid');
+            emailFeedback.className = 'input-feedback success';
+            emailFeedback.innerHTML = `<i class="fa-solid fa-circle-check"></i>`;
+            return true;
+        }
+
+        function validatePassword() {
+            const value = passwordInput.value;
+            passwordInput.classList.remove('error', 'valid');
+            passwordFeedback.className = 'input-feedback';
+            passwordFeedback.textContent = '';
+
+            if (!value) return false;
+
+            if (value.length < 6) {
+                passwordInput.classList.add('error');
+                passwordFeedback.className = 'input-feedback error';
+                passwordFeedback.innerHTML = `<i class="fa-solid fa-circle-exclamation"></i> ${t('errorPassword')}`;
+                return false;
+            }
+            passwordInput.classList.add('valid');
+            passwordFeedback.className = 'input-feedback success';
+            passwordFeedback.innerHTML = `<i class="fa-solid fa-circle-check"></i>`;
+            return true;
+        }
+
+        emailInput.addEventListener('input', validateEmail);
+        emailInput.addEventListener('blur', validateEmail);
+        passwordInput.addEventListener('input', validatePassword);
+        passwordInput.addEventListener('blur', validatePassword);
+
+        // ==================== AFFICHER / MASQUER MOT DE PASSE ====================
+        const togglePassword = document.getElementById('togglePassword');
+        togglePassword.addEventListener('click', () => {
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+            togglePassword.querySelector('i').className = type === 'password' ? 'fa-solid fa-eye' : 'fa-solid fa-eye-slash';
+            togglePassword.setAttribute('aria-label', type === 'password' ? t('showPassword') : t('hidePassword'));
+        });
+
+        // ==================== CONNEXION ====================
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const emailValid = validateEmail();
+            const passwordValid = validatePassword();
+
+            if (!emailValid || !passwordValid) {
+                if (!emailInput.value.trim() || !passwordInput.value) {
+                    showToast(t('errorEmpty'), 'error');
+                }
+                return;
+            }
+
+            const btn = document.getElementById('loginBtn');
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> <span data-i18n="loggingIn">Connexion en cours...</span>';
+
+            const email = emailInput.value.trim();
+            const password = passwordInput.value;
+
+            auth.signInWithEmailAndPassword(email, password)
+                .then((userCredential) => {
+                    showToast(t('successLogin'), 'success');
+                    setTimeout(() => {
+                        window.location.href = '/index.html';
+                    }, 1200);
+                })
+                .catch((error) => {
+                    console.error('Login error:', error);
+                    let message = t('errorLogin');
+                    if (error.code === 'auth/invalid-credential' || error.code === 'auth/user-not-found' || error.code === 'auth/wrong-password') {
+                        message = t('errorLogin');
+                    } else if (error.code === 'auth/invalid-email') {
+                        message = t('errorEmail');
+                    } else if (error.code === 'auth/too-many-requests') {
+                        message = 'Trop de tentatives. Réessayez plus tard.';
+                    } else {
+                        message = t('errorGeneric');
+                    }
+                    showToast(message, 'error');
+                    btn.disabled = false;
+                    btn.innerHTML = '<i class="fa-solid fa-right-to-bracket"></i> <span data-i18n="loginBtn">Se Connecter</span>';
+                    applyLanguage(currentLang);
                 });
+        });
+
+        // ==================== PARALLAXE DES ORBES ====================
+        document.addEventListener('mousemove', (e) => {
+            const x = (e.clientX / window.innerWidth - 0.5) * 20;
+            const y = (e.clientY / window.innerHeight - 0.5) * 20;
+            document.getElementById('orb1').style.transform = `translate(${x}px, ${y}px)`;
+            document.getElementById('orb2').style.transform = `translate(${-x * 0.6}px, ${-y * 0.6}px)`;
+        });
+
+        // ==================== INITIALISATION ====================
+        document.addEventListener('DOMContentLoaded', () => {
+            // Détection automatique de la langue
+            let savedLang = localStorage.getItem('lang');
+            if (!savedLang) {
+                const browserLang = navigator.language.split('-')[0];
+                if (['fr', 'en', 'ht', 'es'].includes(browserLang)) {
+                    savedLang = browserLang;
+                } else {
+                    savedLang = 'fr';
+                }
+            }
+            applyLanguage(savedLang);
+            setActiveLang(savedLang);
+
+            // Focus sur l'email
+            emailInput.focus();
+
+            // Vérifier si déjà connecté
+            auth.onAuthStateChanged((user) => {
+                if (user) {
+                    document.getElementById('loginForm').style.display = 'none';
+                    document.querySelector('.extra-links').style.display = 'none';
+                    document.querySelector('.subtitle').style.display = 'none';
+                    document.getElementById('alreadyLogged').classList.add('show');
+                    setTimeout(() => {
+                        window.location.href = '/index.html';
+                    }, 2000);
+                }
             });
-        })();
+        });
     </script>
 </body>
 </html>
