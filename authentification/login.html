@@ -57,7 +57,7 @@
         button { font-family: inherit; cursor: pointer; border: none; background: none; }
         :focus-visible { outline: 2px solid var(--navy-600); outline-offset: 2px; }
 
-        /* Orbes avec effet parallaxe */
+        /* Orbes */
         .orb-1, .orb-2 { position: fixed; border-radius: 50%; pointer-events: none; z-index: -2; filter: blur(140px); opacity: 0.1; will-change: transform; transition: transform 0.2s ease-out; }
         .orb-1 { width: 500px; height: 500px; background: var(--navy-600); top: -150px; left: -150px; }
         .orb-2 { width: 400px; height: 400px; background: var(--navy-400); bottom: -100px; right: -100px; }
@@ -69,58 +69,62 @@
             -webkit-backdrop-filter: blur(24px);
             border: 1px solid var(--border-glass);
             border-radius: var(--radius-xl);
-            padding: 40px 32px;
-            max-width: 440px;
+            padding: 30px 24px;
+            max-width: 420px;
             width: 100%;
             box-shadow: var(--shadow-card), 0 0 40px rgba(37,99,235,0.15);
             animation: fadeUp 0.6s cubic-bezier(0.2,0.8,0.2,1) forwards;
             position: relative;
+            transition: transform 0.3s ease;
+        }
+        .login-card:hover {
+            transform: perspective(1000px) rotateX(1deg) rotateY(-1deg);
         }
         @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-        .login-card .logo { display: flex; justify-content: center; margin-bottom: 24px; }
-        .login-card .logo img { height: 44px; width: auto; }
+        .login-card .logo { display: flex; justify-content: center; margin-bottom: 18px; }
+        .login-card .logo img { height: 36px; width: auto; }
         .login-card h2 {
-            font-family: 'Orbitron', sans-serif; font-weight: 800; font-size: 22px;
-            text-align: center; margin-bottom: 8px; color: var(--text);
+            font-family: 'Orbitron', sans-serif; font-weight: 800; font-size: 19px;
+            text-align: center; margin-bottom: 6px; color: var(--text);
         }
-        .login-card .subtitle { text-align: center; color: var(--text-soft); font-size: 14px; margin-bottom: 28px; }
+        .login-card .subtitle { text-align: center; color: var(--text-soft); font-size: 13px; margin-bottom: 22px; }
 
         /* Champs */
-        .input-group { margin-bottom: 18px; position: relative; }
-        .input-group label { display: block; font-weight: 600; font-size: 13px; margin-bottom: 8px; color: var(--text-soft); }
+        .input-group { margin-bottom: 14px; position: relative; }
+        .input-group label { display: block; font-weight: 600; font-size: 12px; margin-bottom: 6px; color: var(--text-soft); }
         .input-wrapper { position: relative; display: flex; align-items: center; }
         .input-group input {
-            width: 100%; padding: 12px 16px; padding-right: 42px;
+            width: 100%; padding: 10px 14px; padding-right: 40px;
             background: rgba(255,255,255,0.04); border: 1px solid var(--border-glass);
-            border-radius: var(--radius); color: var(--text); font-size: 15px;
+            border-radius: var(--radius); color: var(--text); font-size: 14px;
             transition: border-color 0.2s, background 0.2s, box-shadow 0.2s; outline: none;
         }
         .input-group input:focus { border-color: var(--navy-600); background: rgba(37,99,235,0.05); box-shadow: 0 0 0 3px rgba(37,99,235,0.1); }
-        .input-group input::placeholder { color: var(--text-muted); font-size: 14px; }
+        .input-group input::placeholder { color: var(--text-muted); font-size: 13px; }
         .input-group input.error { border-color: var(--red); background: rgba(239,68,68,0.05); }
         .input-group input.valid { border-color: var(--green); }
 
-        /* Icônes dans les champs */
         .toggle-password {
             position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
-            color: var(--text-muted); cursor: pointer; font-size: 16px; transition: color 0.2s;
+            color: var(--text-muted); cursor: pointer; font-size: 14px; transition: color 0.2s;
             background: none; border: none; padding: 4px;
         }
         .toggle-password:hover { color: var(--text); }
+
         .input-feedback {
-            display: flex; align-items: center; gap: 6px; font-size: 12px;
-            margin-top: 6px; min-height: 18px; transition: all 0.2s;
+            display: flex; align-items: center; gap: 6px; font-size: 11px;
+            margin-top: 4px; min-height: 16px; transition: all 0.2s;
         }
         .input-feedback.error { color: var(--red); }
         .input-feedback.success { color: var(--green); }
-        .input-feedback i { font-size: 12px; }
+        .input-feedback i { font-size: 11px; }
 
         /* Bouton */
         .btn-submit {
-            width: 100%; padding: 14px; background: var(--navy-600); color: #fff;
-            border: none; border-radius: var(--radius); font-weight: 700; font-size: 16px;
-            transition: background 0.2s, transform 0.2s, opacity 0.2s; margin-top: 8px;
+            width: 100%; padding: 12px; background: var(--navy-600); color: #fff;
+            border: none; border-radius: var(--radius); font-weight: 700; font-size: 14px;
+            transition: background 0.2s, transform 0.2s, opacity 0.2s; margin-top: 6px;
             cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;
         }
         .btn-submit:hover:not(:disabled) { background: var(--navy-700); transform: scale(1.01); }
@@ -128,75 +132,73 @@
         .btn-submit:disabled { opacity: 0.7; cursor: not-allowed; }
 
         /* Liens */
-        .extra-links { text-align: center; margin-top: 24px; font-size: 14px; color: var(--text-soft); }
+        .extra-links { text-align: center; margin-top: 20px; font-size: 13px; color: var(--text-soft); }
         .extra-links a { color: var(--navy-600); font-weight: 600; transition: color 0.2s; }
         .extra-links a:hover { color: var(--navy-400); text-decoration: underline; }
-        .back-home { display: block; text-align: center; margin-top: 20px; font-size: 13px; color: var(--text-muted); transition: color 0.2s; }
+        .back-home { display: block; text-align: center; margin-top: 16px; font-size: 12px; color: var(--text-muted); transition: color 0.2s; }
         .back-home:hover { color: var(--text-soft); }
 
         /* Message "déjà connecté" */
-        .already-logged {
-            text-align: center; padding: 20px 0; display: none;
-        }
+        .already-logged { text-align: center; padding: 16px 0; display: none; }
         .already-logged.show { display: block; }
-        .already-logged i { font-size: 48px; color: var(--navy-600); margin-bottom: 12px; display: block; }
-        .already-logged p { color: var(--text-soft); font-size: 14px; }
+        .already-logged i { font-size: 40px; color: var(--navy-600); margin-bottom: 10px; display: block; }
+        .already-logged p { color: var(--text-soft); font-size: 13px; }
 
         /* Toast */
         .toast-container {
             position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
             background: var(--bg-card); backdrop-filter: blur(16px);
-            border: 1px solid var(--border-glass); padding: 14px 24px; border-radius: var(--radius);
-            box-shadow: 0 10px 40px rgba(0,0,0,0.8); display: flex; align-items: center; gap: 12px;
+            border: 1px solid var(--border-glass); padding: 12px 22px; border-radius: var(--radius);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.8); display: flex; align-items: center; gap: 10px;
             opacity: 0; visibility: hidden; transform: translateX(-50%) translateY(30px);
             transition: all 0.4s cubic-bezier(0.34,1.56,0.64,1);
-            pointer-events: none; z-index: 9999; min-width: 280px; justify-content: center;
+            pointer-events: none; z-index: 9999; min-width: 250px; justify-content: center;
         }
         .toast-container.show { opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0); pointer-events: auto; }
-        .toast-container i { font-size: 20px; }
+        .toast-container i { font-size: 18px; }
         .toast-container.error { border-color: #ef4444; }
         .toast-container.error i { color: #ef4444; }
         .toast-container.success { border-color: #22c55e; }
         .toast-container.success i { color: #22c55e; }
         .toast-container.info { border-color: var(--navy-600); }
         .toast-container.info i { color: var(--navy-600); }
-        .toast-container span { font-weight: 600; font-size: 14px; color: var(--text); }
+        .toast-container span { font-weight: 600; font-size: 13px; color: var(--text); }
 
         /* Langue */
-        .lang-dropdown { position: absolute; top: 20px; right: 20px; }
+        .lang-dropdown { position: absolute; top: 16px; right: 16px; }
         .lang-btn {
-            width: 38px; height: 38px; border-radius: 12px;
+            width: 34px; height: 34px; border-radius: 10px;
             background: rgba(255,255,255,0.03); border: 1px solid var(--border-glass);
             color: var(--text); display: flex; align-items: center; justify-content: center;
-            font-size: 14px; font-weight: 600; transition: all 0.2s; padding: 0;
+            font-size: 13px; font-weight: 600; transition: all 0.2s; padding: 0;
         }
         .lang-btn:hover { background: var(--navy-600); border-color: transparent; }
         .lang-options {
             position: absolute; top: calc(100% + 6px); right: 0;
             background: var(--bg-card); backdrop-filter: blur(16px); border: 1px solid var(--border-glass);
-            border-radius: var(--radius); padding: 6px; min-width: 160px;
+            border-radius: var(--radius); padding: 5px; min-width: 140px;
             display: flex; flex-direction: column; gap: 2px;
             opacity: 0; visibility: hidden; transform: translateY(-10px);
             transition: all 0.25s ease; z-index: 20;
         }
         .lang-dropdown.open .lang-options { opacity: 1; visibility: visible; transform: translateY(0); }
         .lang-options button {
-            padding: 8px 12px; border-radius: 10px; background: transparent; color: var(--text-soft);
-            font-weight: 500; font-size: 13px; transition: background 0.2s; text-align: left;
-            display: flex; align-items: center; gap: 8px;
+            padding: 7px 10px; border-radius: 8px; background: transparent; color: var(--text-soft);
+            font-weight: 500; font-size: 12px; transition: background 0.2s; text-align: left;
+            display: flex; align-items: center; gap: 6px;
         }
         .lang-options button:hover { background: rgba(255,255,255,0.05); color: var(--text); }
         .lang-options button.active { background: var(--navy-600); color: #fff; }
 
         /* Fallback logo */
         .logo-fallback {
-            height: 44px; width: 44px; border-radius: 50%; background: var(--navy-600);
+            height: 36px; width: 36px; border-radius: 50%; background: var(--navy-600);
             display: inline-flex; align-items: center; justify-content: center;
         }
         .logo-fallback::after { content: ''; width: 40%; height: 40%; background: rgba(255,255,255,0.4); border-radius: 50%; }
 
         @media (max-width: 360px) {
-            .login-card { padding: 28px 20px; }
+            .login-card { padding: 24px 18px; }
         }
     </style>
 </head>
@@ -236,6 +238,7 @@
                 </div>
                 <div class="input-feedback" id="emailFeedback" aria-live="polite"></div>
             </div>
+
             <div class="input-group">
                 <label for="password" data-i18n="passwordLabel">Mot de passe</label>
                 <div class="input-wrapper">
@@ -269,14 +272,14 @@
 
     <script>
         // ==================== CONFIG FIREBASE ====================
-        const cfg = {
-    apiKey: "AIzaSyB9o8-LYeKrg2q84dxQM5Z1wFKHjt9yHFo",
-    authDomain: "digital-pay-haiti.firebaseapp.com",
-    projectId: "digital-pay-haiti",
-    storageBucket: "digital-pay-haiti.firebasestorage.app",
-    messagingSenderId: "182015693140",
-    appId: "1:182015693140:web:8a2486b9446bfb791bf8c1",
-    measurementId: "G-7JK3CTR4C9"
+        const firebaseConfig = {
+            apiKey: "AIzaSyB9o8-LYeKrg2q84dxQM5Z1wFKHjt9yHFo",
+            authDomain: "digital-pay-haiti.firebaseapp.com",
+            projectId: "digital-pay-haiti",
+            storageBucket: "digital-pay-haiti.firebasestorage.app",
+            messagingSenderId: "182015693140",
+            appId: "1:182015693140:web:8a2486b9446bfb791bf8c1",
+            measurementId: "G-7JK3CTR4C9"
         };
         firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
@@ -396,14 +399,15 @@
                 const key = el.getAttribute('data-i18n-placeholder');
                 if (translations[lang] && translations[lang][key]) el.setAttribute('placeholder', translations[lang][key]);
             });
-            // Mettre à jour le aria-label du bouton toggle password
-            const toggleBtn = document.getElementById('togglePassword');
-            const passwordInput = document.getElementById('password');
-            if (toggleBtn && passwordInput) {
-                toggleBtn.setAttribute('aria-label', passwordInput.type === 'password' ? t('showPassword') : t('hidePassword'));
-            }
+            updateToggleAriaLabel();
             localStorage.setItem('lang', lang);
             document.documentElement.lang = lang;
+        }
+
+        function updateToggleAriaLabel() {
+            const pw = document.getElementById('password');
+            const tb = document.getElementById('togglePassword');
+            if (tb && pw) tb.setAttribute('aria-label', pw.type === 'password' ? t('showPassword') : t('hidePassword'));
         }
 
         // ==================== GESTION LANGUE ====================
@@ -420,13 +424,10 @@
             });
         }
 
-        langBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            langDropdown.classList.toggle('open');
-        });
+        langBtn.addEventListener('click', (e) => { e.stopPropagation(); langDropdown.classList.toggle('open'); });
         document.addEventListener('click', () => langDropdown.classList.remove('open'));
         langOptions.forEach(btn => {
-            btn.addEventListener('click', (e) => {
+            btn.addEventListener('click', () => {
                 const lang = btn.dataset.lang;
                 applyLanguage(lang);
                 setActiveLang(lang);
@@ -442,74 +443,64 @@
             toastMessage.textContent = message;
             toastContainer.className = 'toast-container';
             toastIcon.className = 'fa-solid';
-            if (type === 'success') { toastIcon.classList.add('fa-circle-check'); }
-            else if (type === 'error') { toastIcon.classList.add('fa-circle-exclamation'); }
-            else { toastIcon.classList.add('fa-circle-info'); }
+            if (type === 'success') toastIcon.classList.add('fa-circle-check');
+            else if (type === 'error') toastIcon.classList.add('fa-circle-exclamation');
+            else toastIcon.classList.add('fa-circle-info');
             toastContainer.classList.add(type, 'show');
             clearTimeout(window.toastTimeout);
             window.toastTimeout = setTimeout(() => toastContainer.classList.remove('show'), 4000);
         }
 
-        // ==================== VALIDATION DES CHAMPS ====================
-        const emailInput = document.getElementById('email');
-        const passwordInput = document.getElementById('password');
-        const emailFeedback = document.getElementById('emailFeedback');
-        const passwordFeedback = document.getElementById('passwordFeedback');
-
-        function validateEmail() {
-            const value = emailInput.value.trim();
-            emailInput.classList.remove('error', 'valid');
-            emailFeedback.className = 'input-feedback';
-            emailFeedback.textContent = '';
-
-            if (!value) return false;
-
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!emailRegex.test(value)) {
-                emailInput.classList.add('error');
-                emailFeedback.className = 'input-feedback error';
-                emailFeedback.innerHTML = `<i class="fa-solid fa-circle-exclamation"></i> ${t('errorEmail')}`;
-                return false;
-            }
-            emailInput.classList.add('valid');
-            emailFeedback.className = 'input-feedback success';
-            emailFeedback.innerHTML = `<i class="fa-solid fa-circle-check"></i>`;
-            return true;
-        }
-
-        function validatePassword() {
-            const value = passwordInput.value;
-            passwordInput.classList.remove('error', 'valid');
-            passwordFeedback.className = 'input-feedback';
-            passwordFeedback.textContent = '';
-
-            if (!value) return false;
-
-            if (value.length < 6) {
-                passwordInput.classList.add('error');
-                passwordFeedback.className = 'input-feedback error';
-                passwordFeedback.innerHTML = `<i class="fa-solid fa-circle-exclamation"></i> ${t('errorPassword')}`;
-                return false;
-            }
-            passwordInput.classList.add('valid');
-            passwordFeedback.className = 'input-feedback success';
-            passwordFeedback.innerHTML = `<i class="fa-solid fa-circle-check"></i>`;
-            return true;
-        }
-
-        emailInput.addEventListener('input', validateEmail);
-        emailInput.addEventListener('blur', validateEmail);
-        passwordInput.addEventListener('input', validatePassword);
-        passwordInput.addEventListener('blur', validatePassword);
-
-        // ==================== AFFICHER / MASQUER MOT DE PASSE ====================
+        // ==================== TOGGLE PASSWORD ====================
         const togglePassword = document.getElementById('togglePassword');
+        const passwordInput = document.getElementById('password');
         togglePassword.addEventListener('click', () => {
             const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
             passwordInput.setAttribute('type', type);
             togglePassword.querySelector('i').className = type === 'password' ? 'fa-solid fa-eye' : 'fa-solid fa-eye-slash';
             togglePassword.setAttribute('aria-label', type === 'password' ? t('showPassword') : t('hidePassword'));
         });
+
+        // ==================== VALIDATION ====================
+        function setFieldState(input, feedback, isValid, messageKey) {
+            input.classList.remove('error', 'valid');
+            feedback.className = 'input-feedback';
+            feedback.textContent = '';
+            if (input.value.trim() === '') return false;
+            if (!isValid) {
+                input.classList.add('error');
+                feedback.className = 'input-feedback error';
+                feedback.innerHTML = `<i class="fa-solid fa-circle-exclamation"></i> ${t(messageKey)}`;
+                return false;
+            }
+            input.classList.add('valid');
+            feedback.className = 'input-feedback success';
+            feedback.innerHTML = '<i class="fa-solid fa-circle-check"></i>';
+            return true;
+        }
+
+        function validateEmail() {
+            const input = document.getElementById('email');
+            const feedback = document.getElementById('emailFeedback');
+            const val = input.value.trim();
+            if (!val) return false;
+            const valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val);
+            return setFieldState(input, feedback, valid, 'errorEmail');
+        }
+
+        function validatePassword() {
+            const input = document.getElementById('password');
+            const feedback = document.getElementById('passwordFeedback');
+            const val = input.value;
+            if (!val) return false;
+            const valid = val.length >= 6;
+            return setFieldState(input, feedback, valid, 'errorPassword');
+        }
+
+        document.getElementById('email').addEventListener('input', validateEmail);
+        document.getElementById('email').addEventListener('blur', validateEmail);
+        document.getElementById('password').addEventListener('input', validatePassword);
+        document.getElementById('password').addEventListener('blur', validatePassword);
 
         // ==================== CONNEXION ====================
         document.getElementById('loginForm').addEventListener('submit', function(e) {
@@ -519,7 +510,7 @@
             const passwordValid = validatePassword();
 
             if (!emailValid || !passwordValid) {
-                if (!emailInput.value.trim() || !passwordInput.value) {
+                if (!document.getElementById('email').value.trim() || !document.getElementById('password').value) {
                     showToast(t('errorEmpty'), 'error');
                 }
                 return;
@@ -528,9 +519,10 @@
             const btn = document.getElementById('loginBtn');
             btn.disabled = true;
             btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> <span data-i18n="loggingIn">Connexion en cours...</span>';
+            applyLanguage(currentLang);
 
-            const email = emailInput.value.trim();
-            const password = passwordInput.value;
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value;
 
             auth.signInWithEmailAndPassword(email, password)
                 .then((userCredential) => {
@@ -542,15 +534,10 @@
                 .catch((error) => {
                     console.error('Login error:', error);
                     let message = t('errorLogin');
-                    if (error.code === 'auth/invalid-credential' || error.code === 'auth/user-not-found' || error.code === 'auth/wrong-password') {
-                        message = t('errorLogin');
-                    } else if (error.code === 'auth/invalid-email') {
-                        message = t('errorEmail');
-                    } else if (error.code === 'auth/too-many-requests') {
-                        message = 'Trop de tentatives. Réessayez plus tard.';
-                    } else {
-                        message = t('errorGeneric');
-                    }
+                    if (error.code === 'auth/invalid-email') message = t('errorEmail');
+                    else if (error.code === 'auth/user-not-found' || error.code === 'auth/wrong-password' || error.code === 'auth/invalid-credential') message = t('errorLogin');
+                    else if (error.code === 'auth/too-many-requests') message = 'Trop de tentatives. Réessayez plus tard.';
+                    else message = t('errorGeneric');
                     showToast(message, 'error');
                     btn.disabled = false;
                     btn.innerHTML = '<i class="fa-solid fa-right-to-bracket"></i> <span data-i18n="loginBtn">Se Connecter</span>';
@@ -558,7 +545,7 @@
                 });
         });
 
-        // ==================== PARALLAXE DES ORBES ====================
+        // ==================== PARALLAXE ====================
         document.addEventListener('mousemove', (e) => {
             const x = (e.clientX / window.innerWidth - 0.5) * 20;
             const y = (e.clientY / window.innerHeight - 0.5) * 20;
@@ -566,34 +553,24 @@
             document.getElementById('orb2').style.transform = `translate(${-x * 0.6}px, ${-y * 0.6}px)`;
         });
 
-        // ==================== INITIALISATION ====================
+        // ==================== INIT ====================
         document.addEventListener('DOMContentLoaded', () => {
-            // Détection automatique de la langue
             let savedLang = localStorage.getItem('lang');
             if (!savedLang) {
                 const browserLang = navigator.language.split('-')[0];
-                if (['fr', 'en', 'ht', 'es'].includes(browserLang)) {
-                    savedLang = browserLang;
-                } else {
-                    savedLang = 'fr';
-                }
+                savedLang = ['fr', 'en', 'ht', 'es'].includes(browserLang) ? browserLang : 'fr';
             }
             applyLanguage(savedLang);
             setActiveLang(savedLang);
+            document.getElementById('email').focus();
 
-            // Focus sur l'email
-            emailInput.focus();
-
-            // Vérifier si déjà connecté
             auth.onAuthStateChanged((user) => {
                 if (user) {
                     document.getElementById('loginForm').style.display = 'none';
                     document.querySelector('.extra-links').style.display = 'none';
                     document.querySelector('.subtitle').style.display = 'none';
                     document.getElementById('alreadyLogged').classList.add('show');
-                    setTimeout(() => {
-                        window.location.href = '/index.html';
-                    }, 2000);
+                    setTimeout(() => { window.location.href = '/index.html'; }, 2000);
                 }
             });
         });
