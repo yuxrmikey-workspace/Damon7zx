@@ -153,7 +153,7 @@
         .sidebar-overlay { position: fixed; inset: 0; z-index: 1999; background: rgba(0,0,0,0.7); backdrop-filter: blur(6px); opacity: 0; visibility: hidden; transition: opacity 0.3s; }
         .sidebar-overlay.is-open { opacity: 1; visibility: visible; }
 
-        /* SIDEBAR (réduite) */
+        /* SIDEBAR */
         .sidebar {
             position: fixed; top: 0; right: -280px; width: min(80vw, 280px); height: 100vh;
             background: rgba(14,15,22,0.98); z-index: 2000; padding: 1.2rem 1.2rem;
@@ -677,21 +677,13 @@
         window.makeLogoFallback = makeLogoFallback;
         window.makeThumbFallback = makeThumbFallback;
 
-        // ==================== PRODUITS (28 au total) ====================
+        // ==================== PRODUITS ====================
         const productData = {
             gaming: [
                 { name: "One State", price: "Recharges", badge: "", badgeClass: "", verified: false, href: "/gaming/onestate.html", img: "onestate.png" },
                 { name: "Free Fire", price: "110+10💎 = 157 HTG", badge: "#1", badgeClass: "", verified: true, href: "/gaming/freefire.html", img: "freefire-logo.png" },
                 { name: "Blood Strike", price: "Recharges", badge: "New", badgeClass: "new", verified: false, href: "/gaming/bloodstrike.html", img: "Bloodstrike.png" },
-                { name: "Call of Duty", price: "Recharges", badge: "", badgeClass: "", verified: false, href: "/gaming/callofduty.html", img: "callofduty.png" },
-                { name: "Minecraft", price: "À partir de 316 HTG", badge: "", badgeClass: "", verified: false, href: "/gaming/minecraft.html", img: "minecraft-logo.png" },
-                { name: "Roblox", price: "À partir de 750 HTG", badge: "", badgeClass: "", verified: false, href: "/gaming/roblox.html", img: "roblox-logo.png" },
-                { name: "FC Mobile", price: "Recharges", badge: "", badgeClass: "", verified: false, href: "/gaming/fcmobile.html", img: "fcmobile.png" },
-                { name: "E-Football", price: "Recharges", badge: "", badgeClass: "", verified: false, href: "/gaming/efootball.html", img: "efootball.png" },
-                { name: "Mobile Legends", price: "Recharges", badge: "", badgeClass: "", verified: false, href: "/gaming/mobilelegends.html", img: "mobilelegends.png" },
-                { name: "Dream League Soccer", price: "Recharges", badge: "", badgeClass: "", verified: false, href: "/gaming/dreamleaguesoccer.html", img: "dreamleaguesoccer.png" },
-                { name: "Lords Mobile", price: "Recharges", badge: "", badgeClass: "", verified: false, href: "/gaming/lordsmobile.html", img: "lordsmobile.png" },
-                { name: "PUBG Mobile", price: "À partir de 180 Gdes", badge: "", badgeClass: "", verified: false, href: "/gaming/pubgmobile.html", img: "pubgmobile-logo.png" }
+                { name: "Call of Duty", price: "Recharges", badge: "", badgeClass: "", verified: false, href: "/gaming/callofduty.html", img: "callofduty.png" }
             ],
             streaming: [
                 { name: "Netflix", price: "1 Mois = 400 Gdes", badge: "", badgeClass: "", verified: true, href: "/streaming/netflix.html", img: "netflix.png" },
@@ -703,16 +695,13 @@
                 { name: "Binance (USDT TRC20)", price: "Transferts USDT", badge: "", badgeClass: "", verified: true, href: "/finance/binance.html", img: "binance.png" },
                 { name: "Meru", price: "Transferts", badge: "", badgeClass: "", verified: false, href: "/finance/meru.html", img: "meru.png" },
                 { name: "Wise", price: "International", badge: "", badgeClass: "", verified: false, href: "/finance/wise.html", img: "wise.png" },
-                { name: "Carte de crédit (Meru)", price: "Recharges", badge: "", badgeClass: "", verified: false, href: "/finance/merucard.html", img: "merucard.png" },
                 { name: "PayPal", price: "Paiements en ligne", badge: "", badgeClass: "", verified: true, href: "/finance/paypal.html", img: "paypal.png" }
             ],
             giftcard: [
                 { name: "Apple", price: "App Store & iTunes", badge: "", badgeClass: "", verified: false, href: "/giftcard/apple.html", img: "applegc.png" },
                 { name: "Netflix", price: "Cartes cadeaux", badge: "", badgeClass: "", verified: false, href: "/giftcard/netflix.html", img: "netflixgc.png" },
                 { name: "Nintendo", price: "eShop", badge: "", badgeClass: "", verified: false, href: "/giftcard/nintendo.html", img: "nintendogc.png" },
-                { name: "PlayStation", price: "PSN Store", badge: "", badgeClass: "", verified: false, href: "/giftcard/playstation.html", img: "playstationgc.png" },
-                { name: "Steam", price: "Steam Wallet", badge: "", badgeClass: "", verified: false, href: "/giftcard/steam.html", img: "steamgc.png" },
-                { name: "Google Play", price: "Cartes Android", badge: "", badgeClass: "", verified: false, href: "/giftcard/googleplay.html", img: "googleplaygc.png" }
+                { name: "PlayStation", price: "PSN Store", badge: "", badgeClass: "", verified: false, href: "/giftcard/playstation.html", img: "playstationgc.png" }
             ],
             social: [
                 { name: "Telegram (Stars)", price: "Recharges", badge: "", badgeClass: "", verified: false, href: "/social/telegram.html", img: "telegram.png" },
@@ -1048,28 +1037,7 @@
         // ==================== HEADER SCROLL ====================
         window.addEventListener('scroll', () => document.getElementById('siteHeader').classList.toggle('is-scrolled', window.scrollY > 8), { passive: true });
 
-        // ==================== INIT ====================
-        document.addEventListener('DOMContentLoaded', () => {
-            renderAllProducts();
-            const savedLang = localStorage.getItem('lang') || 'fr';
-            applyLanguage(savedLang);
-            setActiveLang(savedLang);
-            applyLoggedOut();
-        });
-
-        function applyLoggedOut() {
-            document.body.classList.remove('is-logged');
-            document.getElementById('headerAvatar').style.display = 'none';
-            document.getElementById('sidebarUserAvatar').innerHTML = '<i class="fa-solid fa-user"></i>';
-            document.getElementById('sidebarUserName').textContent = "Nom de l'utilisateur";
-            document.getElementById('sidebarUserEmail').textContent = 'email@exemple.com';
-            const authLabel = document.getElementById('authBtnLabel');
-            if (authLabel) authLabel.innerHTML = t('login');
-            document.getElementById('authBtn').className = 'btn-logout';
-            document.getElementById('authBtn').href = '/authentification/login.html';
-        }
-
-        // ==================== FIREBASE AUTH ====================
+        // ==================== FIREBASE AUTH (CORRIGÉ) ====================
         (function() {
             const cfg = {
                 apiKey: "AIzaSyB9o8-LYeKrg2q84dxQM5Z1wFKHjt9yHFo",
@@ -1081,23 +1049,69 @@
                 measurementId: "G-7JK3CTR4C9"
             };
             try { firebase.initializeApp(cfg); } catch (_) {}
-            firebase.auth().onAuthStateChanged(user => {
+            const auth = firebase.auth();
+
+            // Persistance de session
+            auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL)
+                .catch((error) => console.error('Erreur de persistance:', error));
+
+            function updateUI(user) {
                 if (user) {
                     document.body.classList.add('is-logged');
                     const letter = (user.displayName || user.email || 'U').charAt(0).toUpperCase();
-                    document.getElementById('headerAvatar').innerHTML = `<span style="font-weight:800">${letter}</span>`;
-                    document.getElementById('sidebarUserAvatar').innerHTML = `<span style="font-weight:800">${letter}</span>`;
-                    document.getElementById('sidebarUserName').textContent = user.displayName || 'Membre';
-                    document.getElementById('sidebarUserEmail').textContent = user.email || '';
+                    const headerAvatar = document.getElementById('headerAvatar');
+                    const sidebarAvatar = document.getElementById('sidebarUserAvatar');
+                    const sidebarName = document.getElementById('sidebarUserName');
+                    const sidebarEmail = document.getElementById('sidebarUserEmail');
                     const authLabel = document.getElementById('authBtnLabel');
-                    if (authLabel) authLabel.textContent = t('logout');
                     const authBtn = document.getElementById('authBtn');
-                    authBtn.className = 'btn-logout is-danger';
-                    authBtn.href = '#';
-                    authBtn.onclick = (e) => { e.preventDefault(); firebase.auth().signOut().then(() => location.reload()); };
+                    if (headerAvatar) {
+                        headerAvatar.style.display = 'flex';
+                        headerAvatar.innerHTML = `<span style="font-weight:800">${letter}</span>`;
+                    }
+                    if (sidebarAvatar) sidebarAvatar.innerHTML = `<span style="font-weight:800">${letter}</span>`;
+                    if (sidebarName) sidebarName.textContent = user.displayName || 'Membre';
+                    if (sidebarEmail) sidebarEmail.textContent = user.email || '';
+                    if (authLabel) authLabel.textContent = t('logout');
+                    if (authBtn) {
+                        authBtn.className = 'btn-logout is-danger';
+                        authBtn.href = '#';
+                        authBtn.onclick = (e) => {
+                            e.preventDefault();
+                            auth.signOut().then(() => location.reload());
+                        };
+                    }
+                } else {
+                    document.body.classList.remove('is-logged');
+                    const headerAvatar = document.getElementById('headerAvatar');
+                    const sidebarAvatar = document.getElementById('sidebarUserAvatar');
+                    const sidebarName = document.getElementById('sidebarUserName');
+                    const sidebarEmail = document.getElementById('sidebarUserEmail');
+                    const authLabel = document.getElementById('authBtnLabel');
+                    const authBtn = document.getElementById('authBtn');
+                    if (headerAvatar) headerAvatar.style.display = 'none';
+                    if (sidebarAvatar) sidebarAvatar.innerHTML = '<i class="fa-solid fa-user"></i>';
+                    if (sidebarName) sidebarName.textContent = "Nom de l'utilisateur";
+                    if (sidebarEmail) sidebarEmail.textContent = 'email@exemple.com';
+                    if (authLabel) authLabel.innerHTML = t('login');
+                    if (authBtn) {
+                        authBtn.className = 'btn-logout';
+                        authBtn.href = '/authentification/login.html';
+                        authBtn.onclick = null;
+                    }
                 }
-            });
+            }
+
+            auth.onAuthStateChanged(updateUI);
         })();
+
+        // ==================== INIT ====================
+        document.addEventListener('DOMContentLoaded', () => {
+            renderAllProducts();
+            const savedLang = localStorage.getItem('lang') || 'fr';
+            applyLanguage(savedLang);
+            setActiveLang(savedLang);
+        });
     </script>
 </body>
 </html>
