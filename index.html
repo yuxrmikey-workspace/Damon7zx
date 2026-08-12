@@ -5,50 +5,54 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
     <title>DigitalPay – Services Premium</title>
     <meta name="description" content="DigitalPay – Recharges Free Fire, abonnements Streaming, transferts financiers et Gift Cards.">
+    <meta property="og:title" content="DigitalPay – Services Premium">
+    <meta property="og:description" content="Recharges, streaming, finance et gift cards.">
+    <meta property="og:image" content="/assets/og-image.png">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="DigitalPay – Services Premium">
+    <meta name="twitter:description" content="Recharges, streaming, finance et gift cards.">
+    <meta name="twitter:image" content="/assets/og-image.png">
 
-    <!-- FontAwesome + Orbitron -->
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;800&family=Inter:wght@400;500;600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"></noscript>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-
-    <!-- Firebase (Auth, Database) -->
     <script defer src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script defer src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
-    <script defer src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
 
     <style>
-        /* ============================================================
-           1. VARIABLES (Conformes à la spec)
-           ============================================================ */
         :root {
             --bg-primary: #0b0b12;
-            --bg-glass: rgba(255, 255, 255, 0.04);
+            --bg-glass: rgba(255, 255, 255, 0.06);
             --bg-soft: rgba(255, 255, 255, 0.02);
-            --bg-card: rgba(26, 29, 44, 0.6);
-            --border-glass: rgba(255, 255, 255, 0.08);
-            --navy-50:  #1E3050;
+            --bg-card: rgba(26, 29, 44, 0.7);
+            --border-glass: rgba(255, 255, 255, 0.12);
+            --navy-50: #1E3050;
             --navy-100: #2A4068;
             --navy-400: #60A5FA;
             --navy-600: #2563EB;
             --navy-700: #1D4ED8;
             --navy-900: #0B132B;
-            --text:      #F8FAFC;
+            --text: #F8FAFC;
             --text-soft: #94A3B8;
             --text-muted: #64748B;
-            --whatsapp:  #25D366;
-            --radius:    16px;
+            --whatsapp: #25D366;
+            --red: #ef4444;
+            --green: #22c55e;
+            --radius: 16px;
             --radius-lg: 24px;
             --radius-xl: 28px;
             --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.6);
             --shadow-float: 0 12px 40px rgba(0, 0, 0, 0.8);
             --container: 1180px;
-            --gap: 16px;
+            --space-xs: 4px;
+            --space-sm: 8px;
+            --space-md: 16px;
+            --space-lg: 24px;
+            --space-xl: 32px;
+            --space-2xl: 48px;
         }
 
-        /* ============================================================
-           2. RESET ET BASE (inchangé)
-           ============================================================ */
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
         html { scroll-behavior: smooth; }
         body {
@@ -57,6 +61,7 @@
             color: var(--text);
             line-height: 1.5;
             -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
             overflow-x: hidden;
             position: relative;
         }
@@ -64,277 +69,292 @@
         img { max-width: 100%; display: block; }
         button { font-family: inherit; cursor: pointer; border: none; background: none; }
         .container { max-width: var(--container); margin: 0 auto; padding: 0 20px; }
+        :focus-visible { outline: 2px solid var(--navy-600); outline-offset: 2px; }
 
-        /* ============================================================
-           3. ORBES ET BACKGROUND (inchangé)
-           ============================================================ */
-        body::before {
-            content: ''; position: fixed; inset: 0; z-index: -1;
-            background-image: 
-                linear-gradient(rgba(255, 255, 255, 0.006) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255, 255, 255, 0.006) 1px, transparent 1px);
-            background-size: 50px 50px;
-        }
-        .orb-1 {
-            position: fixed; width: 600px; height: 600px;
-            background: var(--navy-600); filter: blur(140px); opacity: 0.12;
-            top: -200px; left: -200px; z-index: -1; pointer-events: none;
-            animation: float1 15s ease-in-out infinite alternate;
-        }
-        .orb-2 {
-            position: fixed; width: 500px; height: 500px;
-            background: var(--navy-400); filter: blur(120px); opacity: 0.10;
-            bottom: -150px; right: -150px; z-index: -1; pointer-events: none;
-            animation: float2 20s ease-in-out infinite alternate;
-        }
-        @keyframes float1 { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(100px, 150px) scale(1.3); } }
-        @keyframes float2 { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(-80px, -120px) scale(1.2); } }
+        .skip-link { position: absolute; top: -40px; left: 0; background: var(--navy-600); color: #fff; padding: 8px 16px; z-index: 10000; border-radius: 0 0 var(--radius) 0; transition: top 0.2s; }
+        .skip-link:focus { top: 0; }
 
-        ::-webkit-scrollbar { width: 4px; }
-        ::-webkit-scrollbar-track { background: var(--bg-primary); }
-        ::-webkit-scrollbar-thumb { background: var(--navy-600); border-radius: 10px; }
+        .orb-1, .orb-2 { position: fixed; border-radius: 50%; pointer-events: none; z-index: -2; filter: blur(140px); opacity: 0.12; will-change: transform; }
+        .orb-1 { width: 600px; height: 600px; background: var(--navy-600); top: -200px; left: -200px; animation: float1 15s ease-in-out infinite alternate; }
+        .orb-2 { width: 500px; height: 500px; background: var(--navy-400); bottom: -150px; right: -150px; animation: float2 20s ease-in-out infinite alternate; }
+        @keyframes float1 { 0% { transform: translate(0,0) scale(1); } 100% { transform: translate(100px,150px) scale(1.3); } }
+        @keyframes float2 { 0% { transform: translate(0,0) scale(1); } 100% { transform: translate(-80px,-120px) scale(1.2); } }
 
-        /* ============================================================
-           4. HEADER (inchangé, sauf renommage des variables)
-           ============================================================ */
+        #particlesCanvas { position: fixed; inset: 0; z-index: -1; pointer-events: none; opacity: 0.2; }
+
+        /* HEADER */
         header.site-header {
             position: sticky; top: 1rem; z-index: 10;
-            background: var(--bg-glass);
-            backdrop-filter: blur(16px) saturate(150%);
+            background: var(--bg-glass); backdrop-filter: blur(16px) saturate(150%);
             -webkit-backdrop-filter: blur(16px) saturate(150%);
-            border: 1px solid var(--border-glass);
-            border-radius: var(--radius-xl);
+            border: 1px solid var(--border-glass); border-radius: var(--radius-xl);
             margin: 0 1.2rem; padding: 0 1.8rem; height: 68px;
             display: flex; align-items: center; justify-content: space-between;
-            transition: all 0.3s ease;
+            transition: height 0.3s, background 0.3s, box-shadow 0.3s;
         }
-        header.site-header.is-scrolled {
-            background: rgba(11, 11, 18, 0.8);
-            box-shadow: var(--shadow-float);
-            backdrop-filter: blur(20px);
-        }
+        header.site-header.is-scrolled { background: var(--bg-card); box-shadow: var(--shadow-float); height: 56px; }
         .nav { display: flex; align-items: center; justify-content: space-between; width: 100%; }
-        .brand img { height: 44px; width: auto; display: block; }
-
+        .brand img { height: 44px; transition: height 0.3s; }
+        header.is-scrolled .brand img { height: 36px; }
         .header-actions { display: flex; align-items: center; gap: 10px; }
         .header-avatar {
-            width: 38px; height: 38px; border-radius: 50%;
-            background: var(--navy-600); color: #fff;
-            display: none; align-items: center; justify-content: center;
-            font-size: 15px; font-weight: 700;
-            cursor: default;
+            width: 38px; height: 38px; border-radius: 50%; background: var(--navy-600); color: #fff;
+            display: none; align-items: center; justify-content: center; font-size: 15px; font-weight: 700;
         }
+        body.is-logged .header-avatar { display: flex; }
+        .lang-dropdown { position: relative; }
+        .lang-btn {
+            width: 38px; height: 38px; border-radius: 12px; background: rgba(255,255,255,0.03);
+            border: 1px solid var(--border-glass); color: var(--text); display: flex;
+            align-items: center; justify-content: center; font-size: 14px; font-weight: 600;
+            transition: all 0.2s; padding: 0;
+        }
+        .lang-btn:hover { background: var(--navy-600); border-color: transparent; }
+        .lang-options {
+            position: absolute; top: calc(100% + 6px); right: 0;
+            background: var(--bg-card); backdrop-filter: blur(16px); border: 1px solid var(--border-glass);
+            border-radius: var(--radius); padding: 6px; min-width: 160px;
+            display: flex; flex-direction: column; gap: 2px;
+            opacity: 0; visibility: hidden; transform: translateY(-10px);
+            transition: all 0.25s ease; z-index: 20;
+        }
+        .lang-dropdown.open .lang-options { opacity: 1; visibility: visible; transform: translateY(0); }
+        .lang-options button {
+            padding: 8px 12px; border-radius: 10px; background: transparent; color: var(--text-soft);
+            font-weight: 500; font-size: 13px; transition: background 0.2s; text-align: left;
+            display: flex; align-items: center; gap: 8px;
+        }
+        .lang-options button:hover { background: rgba(255,255,255,0.05); color: var(--text); }
+        .lang-options button.active { background: var(--navy-600); color: #fff; }
+        .search-trigger {
+            width: 38px; height: 38px; border-radius: 12px; background: rgba(255,255,255,0.03);
+            border: 1px solid var(--border-glass); display: flex; align-items: center; justify-content: center;
+            color: var(--text); transition: all 0.2s;
+        }
+        .search-trigger:hover { background: var(--navy-600); border-color: transparent; }
         .hamburger {
-            width: 42px; height: 42px; border-radius: 12px;
-            background: rgba(255,255,255,0.03); border: 1px solid var(--border-glass);
-            display: inline-flex; align-items: center; justify-content: center;
+            width: 42px; height: 42px; border-radius: 12px; background: rgba(255,255,255,0.03);
+            border: 1px solid var(--border-glass); display: inline-flex; align-items: center; justify-content: center;
             color: var(--text); transition: all 0.2s ease;
         }
         .hamburger:hover { background: var(--navy-600); border-color: transparent; transform: scale(0.95); }
-
-        /* ============================================================
-           5. SIDEBAR (inchangé, sauf les liens)
-           ============================================================ */
-        .sidebar-overlay {
-            position: fixed; inset: 0; z-index: 1999;
-            background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(6px);
-            opacity: 0; visibility: hidden; transition: opacity 0.3s ease;
+        .search-bar {
+            position: absolute; top: calc(100% + 10px); left: 50%; transform: translateX(-50%) translateY(-10px);
+            background: var(--bg-card); backdrop-filter: blur(16px); border: 1px solid var(--border-glass);
+            border-radius: var(--radius-xl); padding: 8px 16px; display: flex; align-items: center;
+            opacity: 0; visibility: hidden; transition: all 0.3s ease; width: calc(100% - 2.4rem); max-width: 400px;
+            box-shadow: var(--shadow-float);
         }
+        .search-bar.is-visible { opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0); }
+        .search-bar input { background: transparent; border: none; color: var(--text); font-size: 16px; padding: 8px; width: 100%; outline: none; }
+        .search-bar .search-close { color: var(--text-soft); font-size: 18px; margin-left: 8px; cursor: pointer; }
+
+        /* SIDEBAR OVERLAY */
+        .sidebar-overlay { position: fixed; inset: 0; z-index: 1999; background: rgba(0,0,0,0.7); backdrop-filter: blur(6px); opacity: 0; visibility: hidden; transition: opacity 0.3s; }
         .sidebar-overlay.is-open { opacity: 1; visibility: visible; }
 
+        /* SIDEBAR */
         .sidebar {
-            position: fixed; top: 0; right: -360px;
-            width: 340px; max-width: 90vw; height: 100vh;
-            background: rgba(14, 15, 22, 0.98); z-index: 2000;
-            padding: 1.8rem 1.5rem;
-            transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            display: flex; flex-direction: column;
-            border-left: 1px solid var(--border-glass);
-            backdrop-filter: blur(24px);
-            box-shadow: -10px 0 40px rgba(0, 0, 0, 0.9);
+            position: fixed; top: 0; right: -340px; width: min(85vw, 320px); height: 100vh;
+            background: rgba(14,15,22,0.98); z-index: 2000; padding: 1.8rem 1.5rem;
+            transition: right 0.4s cubic-bezier(0.4,0,0.2,1);
+            display: flex; flex-direction: column; border-left: 1px solid var(--border-glass);
+            backdrop-filter: blur(24px); box-shadow: -10px 0 40px rgba(0,0,0,0.9);
+            border-radius: var(--radius-xl) 0 0 var(--radius-xl);
         }
         .sidebar.is-open { right: 0; }
         body.menu-open { overflow: hidden; }
-
-        .sidebar-head {
-            display: flex; align-items: center; justify-content: space-between;
-            padding-bottom: 1.5rem; border-bottom: 1px solid var(--border-glass);
-            margin-bottom: 1.5rem;
-        }
+        .sidebar-head { display: flex; align-items: center; justify-content: space-between; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border-glass); margin-bottom: 1.5rem; }
         .sidebar-head-left { display: flex; align-items: center; gap: 10px; }
         .sidebar-head-left img { width: 36px; height: 36px; }
         .sidebar-head-left .brand-text { display: flex; flex-direction: column; }
-        .sidebar-head-left .brand-name {
-            font-family: 'Orbitron', sans-serif; font-weight: 800; font-size: 1.1rem; color: var(--text);
-            letter-spacing: .5px;
-        }
-        .sidebar-head-left .brand-sub {
-            font-size: 0.65rem; letter-spacing: 1.6px; color: var(--text-soft);
-            font-weight: 600; text-transform: uppercase;
-        }
+        .sidebar-head-left .brand-name { font-family: 'Orbitron', sans-serif; font-weight: 800; font-size: 1.1rem; color: var(--text); letter-spacing: .5px; }
+        .sidebar-head-left .brand-sub { font-size: 0.65rem; letter-spacing: 1.6px; color: var(--text-soft); font-weight: 600; text-transform: uppercase; }
         .sidebar-close {
-            width: 42px; height: 42px; border-radius: 12px;
-            background: var(--navy-600);
-            display: inline-flex; align-items: center; justify-content: center;
-            color: #fff; transition: all 0.2s ease;
-            font-size: 1.2rem;
+            width: 42px; height: 42px; border-radius: 12px; background: var(--navy-600);
+            display: inline-flex; align-items: center; justify-content: center; color: #fff;
+            transition: all 0.2s ease; font-size: 1.2rem;
         }
         .sidebar-close:hover { background: var(--navy-700); transform: scale(1.05); }
-
         .sidebar-profile {
-            display: flex; align-items: center; gap: 14px;
-            margin-bottom: 20px; padding: 14px 16px;
-            border-radius: 20px;
-            background: var(--bg-glass); border: 1px solid var(--border-glass);
-            flex-shrink: 0;
+            display: flex; align-items: center; gap: 14px; margin-bottom: 20px; padding: 14px 16px;
+            border-radius: 20px; background: var(--bg-glass); border: 1px solid var(--border-glass); flex-shrink: 0;
         }
         .profile-icon {
-            width: 48px; height: 48px; border-radius: 50%;
-            background: var(--navy-600); color: #fff;
+            width: 48px; height: 48px; border-radius: 50%; background: var(--navy-600); color: #fff;
             display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: 700; flex-shrink: 0;
         }
         .profile-name { font-weight: 700; font-size: 15px; color: var(--text); }
         .profile-email { font-size: 12px; color: var(--text-soft); }
-
-        .sidebar-nav {
-            display: flex; flex-direction: column; gap: 8px;
-            flex: 1; overflow-y: auto; padding-right: 0.3rem;
-        }
+        .sidebar-nav { display: flex; flex-direction: column; gap: 8px; flex: 1; overflow-y: auto; padding-right: 0.3rem; }
         .sidebar-nav a {
-            display: flex; align-items: center; gap: 14px; padding: 12px 16px;
-            border-radius: 16px; color: var(--text-soft);
-            font-weight: 500; font-size: 14px; transition: all 0.2s ease;
-            border: 1px solid transparent;
+            display: flex; align-items: center; gap: 14px; padding: 12px 16px; border-radius: 16px;
+            color: var(--text-soft); font-weight: 500; font-size: 14px; transition: all 0.2s ease; border: 1px solid transparent;
         }
-        .sidebar-nav a:hover { background: rgba(255, 255, 255, 0.05); color: var(--text); transform: translateX(2px); }
+        .sidebar-nav a:hover { background: rgba(255,255,255,0.05); color: var(--text); transform: translateX(2px); }
         .sidebar-nav a i {
-            width: 36px; height: 36px; border-radius: 50%;
-            background: rgba(255, 255, 255, 0.05);
-            display: inline-flex; align-items: center; justify-content: center;
-            color: var(--text-soft); font-size: 15px; transition: all 0.2s ease;
+            width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,0.05);
+            display: inline-flex; align-items: center; justify-content: center; color: var(--text-soft);
+            font-size: 15px; transition: all 0.2s ease;
         }
-        .sidebar-nav a:hover i { background: var(--navy-600); color: #fff; }
+        .sidebar-nav a:hover i { background: var(--navy-600); color: #fff; transform: scale(1.1) rotate(5deg); }
         .sidebar-nav a.is-active {
-            background: rgba(37, 99, 235, 0.10);
-            border: 1px solid rgba(37, 99, 235, 0.15);
-            color: var(--text);
+            background: rgba(37,99,235,0.10); border: 1px solid rgba(37,99,235,0.15); color: var(--text);
+            border-left: 3px solid var(--navy-600);
         }
         .sidebar-nav a.is-active i { background: var(--navy-600); color: #fff; }
-
-        .sidebar-foot {
-            padding-top: 16px; border-top: 1px solid var(--border-glass);
-            display: flex; flex-direction: column; gap: 10px;
-        }
-        .btn-register {
+        .sidebar-foot { padding-top: 16px; border-top: 1px solid var(--border-glass); display: flex; flex-direction: column; gap: 10px; }
+        .btn-register, .btn-logout {
             display: flex; align-items: center; justify-content: center; gap: 10px;
-            padding: 14px; border-radius: 16px;
-            background: rgba(37, 99, 235, 0.08);
-            color: var(--navy-600); border: 1px solid transparent;
-            font-weight: 600; font-size: 14px; transition: all 0.2s ease;
-            width: 100%;
+            padding: 14px; border-radius: 16px; font-weight: 600; font-size: 14px;
+            transition: all 0.2s ease; width: 100%; text-decoration: none;
         }
-        .btn-register:hover { background: rgba(37, 99, 235, 0.15); }
-
-        .btn-logout {
-            display: flex; align-items: center; justify-content: center; gap: 10px;
-            padding: 14px; border-radius: 16px;
-            border: 1px solid rgba(239, 68, 68, 0.3);
-            color: #ef4444; background: transparent;
-            font-weight: 600; font-size: 14px; transition: all 0.2s ease;
-            width: 100%;
-        }
-        .btn-logout:hover { background: rgba(239, 68, 68, 0.05); }
-        .btn-logout.is-danger { border-color: rgba(239, 68, 68, 0.3) !important; color: #ef4444; }
-
+        .btn-register { background: rgba(37,99,235,0.08); color: var(--navy-600); border: 1px solid transparent; }
+        .btn-register:hover { background: rgba(37,99,235,0.15); }
+        .btn-logout { border: 1px solid var(--navy-600); color: var(--navy-400); background: transparent; }
+        .btn-logout.is-danger { border-color: rgba(239,68,68,0.3); color: #ef4444; }
+        .btn-logout.is-danger:hover { background: rgba(239,68,68,0.05); }
         .hide-when-logged { display: inline-flex; }
         body.is-logged .hide-when-logged { display: none !important; }
 
-        /* ============================================================
-           6. HERO (inchangé)
-           ============================================================ */
-        .hero { padding: calc(68px + 30px) 0 20px; position: relative; }
-        .hero-content { max-width: 800px; margin: 0 auto; animation: fadeUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; opacity: 0; }
+        /* MAIN */
+        main { transition: transform 0.4s ease; }
+        body.menu-open main { transform: scale(0.98); }
+
+        /* HERO */
+        .hero { padding: calc(68px + 30px) 0 20px; }
+        .hero-content { max-width: 800px; margin: 0 auto; animation: fadeUp 0.8s cubic-bezier(0.2,0.8,0.2,1) forwards; opacity: 0; }
         @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-        .flyer-container { border-radius: var(--radius-xl); overflow: hidden; background: var(--bg-glass); position: relative; aspect-ratio: 16 / 9; border: 1px solid var(--border-glass); box-shadow: 0 20px 50px rgba(37, 99, 235, 0.15); transition: box-shadow 0.3s ease; }
-        .flyer-container:hover { box-shadow: 0 25px 60px rgba(37, 99, 235, 0.25); }
+        .flyer-container {
+            border-radius: var(--radius-xl); overflow: hidden; background: var(--bg-glass);
+            aspect-ratio: 16/9; border: 1px solid var(--border-glass);
+            box-shadow: 0 20px 50px rgba(37,99,235,0.15); transition: box-shadow 0.3s ease;
+        }
+        .flyer-container:hover { box-shadow: 0 25px 60px rgba(37,99,235,0.25); }
         .flyer-container .single-flyer { width: 100%; height: 100%; object-fit: cover; display: block; }
 
-        /* ============================================================
-           7. CATÉGORIES (inchangé, mais liens en dossiers)
-           ============================================================ */
+        /* CATÉGORIES */
         .cat-scroll-container { padding: 16px 0 28px; overflow-x: auto; white-space: nowrap; -webkit-overflow-scrolling: touch; }
         .cat-scroll-container::-webkit-scrollbar { display: none; }
+        .cat-scroll { display: inline-flex; gap: 14px; }
         .cat-pill {
             display: inline-flex; align-items: center; gap: 8px;
             background: var(--bg-glass); border: 1px solid var(--border-glass);
             border-radius: 999px; padding: 10px 20px; color: var(--text);
-            font-weight: 600; font-size: 14px; margin-right: 14px; transition: all 0.2s ease; text-decoration: none;
+            font-weight: 600; font-size: 14px; transition: all 0.2s ease; text-decoration: none;
+            text-transform: uppercase; letter-spacing: 0.5px;
         }
-        .cat-pill:hover { border-color: var(--navy-600); background: rgba(37, 99, 235, 0.1); transform: translateY(-2px); }
-        .cat-pill i { font-size: 16px; color: var(--navy-600); }
+        .cat-pill:hover { border-color: var(--navy-600); background: rgba(37,99,235,0.1); transform: translateY(-2px); }
+        .cat-pill i { font-size: 16px; color: var(--navy-600); transition: transform 0.2s; }
+        .cat-pill:hover i { transform: scale(1.1) rotate(5deg); }
 
-        /* ============================================================
-           8. SECTIONS PRODUITS (inchangé, liens en dossiers)
-           ============================================================ */
-        section.block { padding: 28px 0; }
-        .block-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
-        .block-title { font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 20px; color: var(--text); position: relative; display: inline-block; }
+        /* SECTIONS */
+        section.block { padding: var(--space-2xl) 0; }
+        section.block.alt { background: var(--bg-soft); }
+        .block-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: var(--space-lg); }
+        .block-title { font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 22px; color: var(--text); position: relative; display: inline-block; }
         .block-title::after { content: ''; position: absolute; left: 0; bottom: -4px; width: 30px; height: 3px; background: var(--navy-600); }
         .see-all { font-weight: 600; font-size: 14px; color: var(--navy-600); display: inline-flex; align-items: center; gap: 4px; transition: all 0.2s ease; }
         .see-all:hover { color: #fff; gap: 8px; }
 
-        .product-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
-        @media (min-width: 720px) { .product-grid { grid-template-columns: repeat(4, 1fr); gap: 18px; } }
-
+        /* GRILLE PRODUITS */
+        .product-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-lg); }
+        @media (min-width: 720px) { .product-grid { grid-template-columns: repeat(4, 1fr); gap: var(--space-xl); } }
         .product {
-            position: relative; border-radius: var(--radius-xl);
-            overflow: hidden; cursor: pointer; opacity: 0; transform: translateY(20px);
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            background: var(--bg-glass); border: 1px solid var(--border-glass);
+            position: relative; border-radius: var(--radius-xl); overflow: hidden;
+            opacity: 0; transform: translateY(20px);
+            transition: all 0.4s cubic-bezier(0.4,0,0.2,1);
+            background: linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.02) 100%);
+            border: 1px solid var(--border-glass); cursor: pointer;
         }
         .product.is-visible { opacity: 1; transform: translateY(0); }
-        .product:hover { transform: translateY(-6px); border-color: var(--navy-600); box-shadow: 0 0 30px rgba(37, 99, 235, 0.15); }
-
-        .product .thumb { aspect-ratio: 1 / 1; background: rgba(0,0,0,0.2); display: flex; align-items: center; justify-content: center; overflow: hidden; }
-        .product .thumb img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.4s ease; }
+        .product:hover { transform: translateY(-6px); border-color: var(--navy-600); box-shadow: 0 0 30px rgba(37,99,235,0.15); }
+        .product:active { transform: scale(0.96); }
+        .product::after {
+            content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+            background: linear-gradient(135deg, rgba(255,255,255,0.12) 0%, transparent 60%);
+            opacity: 0; transition: opacity 0.4s; pointer-events: none; z-index: 1;
+        }
+        .product:hover::after { opacity: 1; }
+        .product .thumb { aspect-ratio: 1; background: rgba(0,0,0,0.3); overflow: hidden; position: relative; }
+        .product .thumb img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.4s; filter: blur(10px); }
+        .product .thumb img.loaded { filter: blur(0); }
         .product:hover .thumb img { transform: scale(1.05); }
-        .product .thumb.skeleton { background: rgba(0,0,0,0.2) !important; }
-        .product .thumb.skeleton::after { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent); transform: translateX(-100%); animation: shimmer 1.6s infinite; }
+        .product .thumb.skeleton::before {
+            content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent);
+            transform: translateX(-100%); animation: shimmer 1.6s infinite; z-index: 1;
+        }
+        .product .thumb .skeleton-circle {
+            width: 60%; height: 60%; border-radius: 50%; background: rgba(255,255,255,0.08);
+            position: absolute; top: 20%; left: 20%; z-index: 2;
+        }
         @keyframes shimmer { 100% { transform: translateX(100%); } }
-
-        .product .info { padding: 12px 14px 14px; background: var(--bg-glass); border-top: 1px solid rgba(255,255,255,0.05); }
-        .product .name { font-weight: 700; color: var(--text); font-size: 14px; margin-bottom: 2px; }
+        .product .info { padding: 12px 14px 14px; background: var(--bg-glass); border-top: 1px solid rgba(255,255,255,0.05); position: relative; z-index: 2; }
+        .product .name { font-weight: 700; color: var(--text); font-size: 15px; margin-bottom: 2px; display: flex; align-items: center; gap: 6px; }
+        .product .name mark { background: transparent; color: var(--navy-400); font-weight: 700; }
+        .product .verified-badge { font-size: 12px; color: var(--navy-600); }
         .product .price { color: var(--navy-600); font-size: 12px; display: flex; align-items: baseline; gap: 4px; font-weight: 500; }
-        .product .price strong { font-weight: 800; color: var(--text); font-size: 14px; }
-        .badge { position: absolute; top: 12px; left: 12px; padding: 5px 10px; border-radius: 999px; font-size: 11px; font-weight: 700; background: var(--navy-600); color: #fff; z-index: 2; }
+        .product .price strong {
+            font-weight: 800; font-size: 14px;
+            background: linear-gradient(135deg, var(--navy-600), var(--navy-400));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        .badge { position: absolute; top: 12px; left: 12px; padding: 5px 10px; border-radius: 999px; font-size: 11px; font-weight: 700; background: var(--navy-600); color: #fff; z-index: 3; text-transform: uppercase; letter-spacing: 0.5px; }
+        .badge.promo { background: #ef4444; animation: pulse-badge 1.5s infinite; }
+        .badge.new { background: var(--green); }
+        @keyframes pulse-badge { 0% { box-shadow: 0 0 0 0 rgba(239,68,68,0.4); } 70% { box-shadow: 0 0 0 8px rgba(239,68,68,0); } 100% { box-shadow: 0 0 0 0 rgba(239,68,68,0); } }
 
-        section.block.alt { background: var(--bg-soft); }
-
-        /* ============================================================
-           9. COMMUNAUTÉ WHATSAPP (inchangé)
-           ============================================================ */
-        .community { margin: 28px 0 8px; padding: 28px 22px; border-radius: var(--radius-xl); background: var(--bg-glass); border: 1px solid var(--border-glass); text-align: center; box-shadow: var(--shadow-card); transition: all 0.3s ease; }
-        .community:hover { border-color: var(--navy-600); box-shadow: 0 0 40px rgba(37, 99, 235, 0.15); }
-        .community h3 { font-family: 'Orbitron', sans-serif; font-weight: 800; color: var(--text); font-size: 22px; margin-bottom: 6px; }
+        /* COMMUNAUTÉ */
+        .community {
+            margin: var(--space-2xl) 0 var(--space-sm); padding: 28px 22px;
+            border-radius: var(--radius-xl); background: var(--bg-glass);
+            border: 1px solid var(--border-glass); text-align: center;
+            box-shadow: var(--shadow-card); transition: all 0.3s ease;
+        }
+        .community:hover { border-color: var(--navy-600); box-shadow: 0 0 40px rgba(37,99,235,0.15); }
+        .community h3 { font-family: 'Orbitron', sans-serif; font-weight: 800; font-size: 22px; margin-bottom: 6px; }
         .community p { color: var(--text-soft); margin-bottom: 18px; font-size: 14px; }
-        .btn-whatsapp { display: inline-flex; align-items: center; gap: 10px; padding: 12px 24px; border-radius: var(--radius); background: var(--whatsapp); color: #fff; font-weight: 700; font-size: 15px; transition: all 0.25s ease; box-shadow: 0 6px 18px rgba(37,211,102,0.3); }
+        .btn-whatsapp {
+            display: inline-flex; align-items: center; gap: 10px; padding: 12px 24px;
+            border-radius: var(--radius); background: var(--whatsapp); color: #fff;
+            font-weight: 700; font-size: 15px; transition: all 0.25s ease;
+            box-shadow: 0 6px 18px rgba(37,211,102,0.3); text-decoration: none;
+        }
         .btn-whatsapp:hover { transform: scale(1.02); background: #1ebe57; }
         .community-lock { margin-top: 12px; font-size: 12px; color: var(--text-soft); display: inline-flex; align-items: center; gap: 6px; }
 
-        /* ============================================================
-           10. TOAST (inchangé, mais icône en innerHTML)
-           ============================================================ */
+        /* TÉMOIGNAGES */
+        .testimonials-grid { display: grid; grid-template-columns: 1fr; gap: var(--space-lg); }
+        @media (min-width: 720px) { .testimonials-grid { grid-template-columns: repeat(3, 1fr); } }
+        .testimonial-card {
+            background: var(--bg-glass); border: 1px solid var(--border-glass);
+            border-radius: var(--radius-xl); padding: var(--space-lg); text-align: center;
+        }
+        .testimonial-card .stars { color: #F59E0B; margin-bottom: var(--space-sm); font-size: 14px; }
+        .testimonial-card .quote { font-style: italic; color: var(--text-soft); margin-bottom: var(--space-md); font-size: 14px; }
+        .testimonial-card .author { font-weight: 600; color: var(--text); }
+
+        /* FAQ */
+        .faq-item { border-bottom: 1px solid var(--border-glass); }
+        .faq-question {
+            width: 100%; padding: var(--space-md) 0; display: flex; justify-content: space-between;
+            align-items: center; font-weight: 600; font-size: 16px; color: var(--text);
+        }
+        .faq-question i { transition: transform 0.3s; font-size: 14px; color: var(--navy-600); }
+        .faq-question[aria-expanded="true"] i { transform: rotate(45deg); }
+        .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.3s ease, padding 0.3s; }
+        .faq-answer.is-open { max-height: 200px; padding-bottom: var(--space-md); }
+        .faq-answer p { color: var(--text-soft); font-size: 14px; }
+
+        /* TOAST */
         .toast-container {
             position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
-            background: var(--bg-glass); backdrop-filter: blur(16px);
-            border: 1px solid var(--border-glass);
-            padding: 14px 24px; border-radius: var(--radius);
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
-            display: flex; align-items: center; gap: 12px;
+            background: var(--bg-card); backdrop-filter: blur(16px);
+            border: 1px solid var(--border-glass); padding: 14px 24px; border-radius: var(--radius);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.8); display: flex; align-items: center; gap: 12px;
             opacity: 0; transform: translateX(-50%) translateY(30px);
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            pointer-events: none; z-index: 9999;
-            min-width: 300px; justify-content: center;
+            transition: all 0.4s cubic-bezier(0.34,1.56,0.64,1);
+            pointer-events: none; z-index: 9999; min-width: 300px; justify-content: center;
         }
         .toast-container.show { opacity: 1; transform: translateX(-50%) translateY(0); pointer-events: auto; }
         .toast-container i { font-size: 20px; }
@@ -346,86 +366,122 @@
         .toast-container.info i { color: var(--navy-600); }
         .toast-container span { font-weight: 600; font-size: 14px; color: var(--text); }
 
-        /* ============================================================
-           11. FAB WHATSAPP (inchangé)
-           ============================================================ */
-        .fab-whatsapp { position: fixed; right: 16px; bottom: 16px; width: 54px; height: 54px; border-radius: 50%; background: var(--whatsapp); color: #fff; font-size: 22px; display: inline-flex; align-items: center; justify-content: center; box-shadow: 0 8px 24px rgba(37,211,102,0.45); z-index: 90; transition: all 0.2s ease; }
+        /* FAB WHATSAPP */
+        .fab-whatsapp {
+            position: fixed; right: 16px; bottom: 70px; width: 54px; height: 54px; border-radius: 50%;
+            background: var(--whatsapp); color: #fff; font-size: 22px;
+            display: inline-flex; align-items: center; justify-content: center;
+            box-shadow: 0 8px 24px rgba(37,211,102,0.45); z-index: 90; transition: all 0.2s ease;
+        }
         .fab-whatsapp:hover { transform: scale(1.1); }
 
-        /* ============================================================
-           12. FOOTER (inchangé, liens en dossiers)
-           ============================================================ */
-        footer.site { margin-top: 36px; background: var(--bg-soft); border-top: 1px solid var(--border-glass); color: var(--text-soft); font-size: 14px; padding: 40px 0 20px; }
-        .footer-grid { display: grid; grid-template-columns: 1fr; gap: 30px; max-width: var(--container); margin: 0 auto; padding: 0 20px 24px; text-align: center; border-bottom: 1px solid var(--border-glass); }
-        @media (min-width: 720px) { .footer-grid { grid-template-columns: 1.5fr 1fr 1fr; gap: 40px; text-align: left; } }
-        .footer-brand { display: flex; flex-direction: column; align-items: center; gap: 10px; margin-bottom: 6px; }
-        @media (min-width: 720px) { .footer-brand { align-items: flex-start; } }
-        .footer-brand img { height: 44px; width: auto; }
-        .footer-col h4 { color: var(--text); font-weight: 700; font-size: 14px; margin-bottom: 14px; text-transform: uppercase; letter-spacing: 0.5px; }
-        .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
-        .footer-col a { transition: color 0.2s ease; }
-        .footer-col a:hover { color: var(--navy-600); }
-        .footer-bottom { max-width: var(--container); margin: 0 auto; padding: 16px 20px 0; display: flex; flex-direction: column; gap: 6px; text-align: center; font-size: 12px; color: var(--text-muted); }
-        @media (min-width: 720px) { .footer-bottom { flex-direction: row; justify-content: space-between; align-items: center; } }
+        /* FOOTER */
+        footer.site {
+            background: var(--bg-soft); border-top: 1px solid var(--border-glass);
+            padding: 32px 20px 20px; color: var(--text-soft); font-size: 13px;
+        }
+        .footer-inner {
+            display: flex; flex-direction: column; gap: 16px; align-items: center;
+            max-width: var(--container); margin: 0 auto;
+        }
+        @media (min-width: 720px) { .footer-inner { flex-direction: row; justify-content: space-between; align-items: flex-start; } }
+        .footer-brand { text-align: center; }
+        @media (min-width: 720px) { .footer-brand { text-align: left; } }
+        .footer-brand .brand-name {
+            font-family: 'Orbitron', sans-serif; font-weight: 800; font-size: 18px;
+            color: var(--text); letter-spacing: 0.5px;
+        }
+        .footer-brand .brand-slogan { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+        .footer-links { display: flex; flex-wrap: wrap; gap: 24px; justify-content: center; }
+        .footer-links a { transition: color 0.2s; }
+        .footer-links a:hover { color: var(--navy-600); }
+        .footer-bottom {
+            display: flex; flex-direction: column; align-items: center; gap: 4px;
+            font-size: 12px; color: var(--text-muted); margin-top: 12px;
+        }
+        @media (min-width: 720px) { .footer-bottom { flex-direction: row; gap: 12px; } }
         .footer-bottom .pulse { color: var(--navy-600); animation: pulse 2s infinite; }
         @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
 
-        /* ============================================================
-           13. FALLBACK LOGO (inchangé)
-           ============================================================ */
-        .logo-fallback { height: 100%; aspect-ratio: 1; border-radius: 50%; background: var(--navy-600); display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; color: transparent; }
+        /* Mobile bottom nav */
+        .mobile-nav {
+            display: none; position: fixed; bottom: 0; left: 0; right: 0; z-index: 100;
+            background: var(--bg-card); backdrop-filter: blur(20px); border-top: 1px solid var(--border-glass);
+            padding: 8px 20px; justify-content: space-around; align-items: center;
+        }
+        @media (max-width: 719px) { .mobile-nav { display: flex; } }
+        .mobile-nav a {
+            display: flex; flex-direction: column; align-items: center; gap: 2px;
+            color: var(--text-soft); font-size: 10px; transition: color 0.2s; padding: 4px 8px; border-radius: 12px;
+        }
+        .mobile-nav a i { font-size: 18px; }
+        .mobile-nav a.active { color: var(--navy-600); background: rgba(37,99,235,0.1); }
+
+        /* FAVORIS */
+        .product .fav-btn {
+            position: absolute; top: 12px; right: 12px; z-index: 4; font-size: 18px;
+            color: rgba(255,255,255,0.3); transition: color 0.2s;
+        }
+        .product .fav-btn:hover, .product .fav-btn.fav-active { color: #F59E0B; }
+
+        /* FALLBACKS */
+        .logo-fallback { height: 100%; aspect-ratio: 1; border-radius: 50%; background: var(--navy-600); display: inline-flex; align-items: center; justify-content: center; color: transparent; }
         .logo-fallback::after { content: ''; width: 40%; height: 40%; background: rgba(255,255,255,0.4); border-radius: 50%; }
         .logo-fallback.sidebar { width: 36px; height: 36px; }
+        .thumb-fallback { display: flex; align-items: center; justify-content: center; background: var(--navy-50); color: var(--text); font-weight: 700; font-size: 18px; text-transform: uppercase; width: 100%; height: 100%; }
     </style>
 </head>
 <body>
-
-    <!-- ORBES LUMINEUX -->
+    <a href="#mainContent" class="skip-link" data-i18n="skipToContent">Aller au contenu principal</a>
     <div class="orb-1"></div>
     <div class="orb-2"></div>
+    <canvas id="particlesCanvas"></canvas>
 
-    <!-- TOAST NOTIFICATION CONTAINER -->
-    <div class="toast-container" id="toastContainer">
-        <span id="toastIcon"><i class="fa-solid fa-circle-info"></i></span>
+    <!-- TOAST -->
+    <div class="toast-container" id="toastContainer" aria-live="polite">
+        <i class="fa-solid fa-circle-info" id="toastIcon"></i>
         <span id="toastMessage">Message</span>
     </div>
 
-    <!-- ============================================================
-         HEADER + SIDEBAR
-         ============================================================ -->
+    <!-- HEADER -->
     <header class="site-header" id="siteHeader">
         <div class="container nav">
-            <a href="/" class="brand" aria-label="DigitalPay – Accueil">
-                <img src="/assets/sidebar-logo.png" alt="DigitalPay" fetchpriority="high" onerror="this.replaceWith(makeLogoFallback(false));">
+            <a href="/index.html" class="brand" aria-label="DigitalPay – Accueil">
+                <img src="/assets/sidebar-logo.png" alt="DigitalPay" onerror="this.replaceWith(makeLogoFallback(false));">
             </a>
             <div class="header-actions">
                 <div class="header-avatar" id="headerAvatar" title="Mon Profil"></div>
-                <button class="hamburger" id="openMenu" aria-label="Ouvrir le menu">
-                    <i class="fa-solid fa-bars"></i>
-                </button>
+                <div class="lang-dropdown" id="langDropdown">
+                    <button class="lang-btn" id="langBtn">🇫🇷</button>
+                    <div class="lang-options">
+                        <button data-lang="fr">🇫🇷 Français</button>
+                        <button data-lang="en">🇺🇸 English</button>
+                        <button data-lang="ht">🇭🇹 Kreyòl</button>
+                        <button data-lang="es">🇪🇸 Español</button>
+                    </div>
+                </div>
+                <button class="search-trigger" id="searchTrigger" aria-label="Rechercher"><i class="fa-solid fa-magnifying-glass"></i></button>
+                <button class="hamburger" id="openMenu" aria-label="Menu"><i class="fa-solid fa-bars"></i></button>
             </div>
+        </div>
+        <div class="search-bar" id="searchBar">
+            <input type="text" id="searchInput" data-i18n-placeholder="searchPlaceholder" placeholder="Rechercher un service...">
+            <button class="search-close" id="searchClose"><i class="fa-solid fa-xmark"></i></button>
         </div>
     </header>
 
+    <!-- SIDEBAR OVERLAY -->
     <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
-    <aside class="sidebar" id="sidebar" aria-hidden="true">
-        
-        <!-- 1. HEADER DU MENU -->
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar" role="dialog" aria-modal="true" aria-hidden="true">
         <div class="sidebar-head">
             <div class="sidebar-head-left">
                 <img src="/assets/logo.png" alt="" onerror="this.replaceWith(makeLogoFallback(true));">
-                <div class="brand-text">
-                    <div class="brand-name">DigitalPay</div>
-                    <div class="brand-sub">HAITI</div>
-                </div>
+                <div class="brand-text"><div class="brand-name">DigitalPay</div><div class="brand-sub">HAITI</div></div>
             </div>
-            <button class="sidebar-close" id="closeMenu" aria-label="Fermer le menu">
-                <i class="fa-solid fa-xmark"></i>
-            </button>
+            <button class="sidebar-close" id="closeMenu" aria-label="Fermer"><i class="fa-solid fa-xmark"></i></button>
         </div>
-
-        <!-- 2. CARTE PROFIL DYNAMIQUE -->
         <div class="sidebar-profile">
             <div class="profile-icon" id="sidebarUserAvatar"><i class="fa-solid fa-user"></i></div>
             <div class="profile-info">
@@ -433,196 +489,179 @@
                 <span class="profile-email" id="sidebarUserEmail">email@exemple.com</span>
             </div>
         </div>
-
-        <!-- 3. NAVIGATION PRINCIPALE (10 liens exacts de la spec) -->
         <nav class="sidebar-nav" aria-label="Navigation principale">
-            <a href="/" class="is-active" aria-current="page"><i class="fa-solid fa-house"></i> <span>Accueil</span></a>
-            <a href="/gaming/"><i class="fa-solid fa-gamepad"></i> <span>Gaming</span></a>
-            <a href="/streaming/"><i class="fa-solid fa-film"></i> <span>Streaming</span></a>
-            <a href="/finance/"><i class="fa-solid fa-coins"></i> <span>Finance</span></a>
-            <a href="/giftcard/"><i class="fa-solid fa-gift"></i> <span>Gift Cards</span></a>
-            <a href="/portefeuille.html" data-auth-required="true"><i class="fa-solid fa-wallet"></i> <span>Portefeuille</span></a>
-            <a href="/commandes.html" data-auth-required="true"><i class="fa-solid fa-clock"></i> <span>Commandes</span></a>
-            <a href="/support/help.html"><i class="fa-solid fa-headset"></i> <span>Support</span></a>
-            <a href="/legal/conditions-utilisation.html"><i class="fa-solid fa-file-contract"></i> <span>Conditions</span></a>
-            <a href="/legal/politique-confidentialite.html"><i class="fa-solid fa-shield-halved"></i> <span>Confidentialité</span></a>
+            <a href="/index.html" class="is-active"><i class="fa-solid fa-house"></i> <span data-i18n="home">Accueil</span></a>
+            <a href="/gaming/index.html" data-auth-required="true"><i class="fa-solid fa-gamepad"></i> <span data-i18n="gaming">Jeux</span></a>
+            <a href="/streaming/index.html" data-auth-required="true"><i class="fa-solid fa-tv"></i> <span data-i18n="streaming">Abonnement</span></a>
+            <a href="/finance/index.html" data-auth-required="true"><i class="fa-solid fa-coins"></i> <span data-i18n="finance">Finance</span></a>
+            <a href="/giftcard/index.html" data-auth-required="true"><i class="fa-solid fa-gift"></i> <span data-i18n="giftcards">Cartes cadeaux</span></a>
+            <a href="/social/index.html" data-auth-required="true"><i class="fa-solid fa-share-nodes"></i> <span data-i18n="social">Réseaux sociaux</span></a>
+            <a href="/portefeuille.html" data-auth-required="true"><i class="fa-solid fa-wallet"></i> <span data-i18n="wallet">Portefeuille</span></a>
+            <a href="/commandes.html" data-auth-required="true"><i class="fa-solid fa-clock"></i> <span data-i18n="orders">Commandes</span></a>
+            <a href="/support/help.html" data-auth-required="true"><i class="fa-solid fa-headset"></i> <span data-i18n="support">Support</span></a>
+            <a href="/legal/conditions-utilisation.html" data-auth-required="true"><i class="fa-solid fa-file-contract"></i> <span data-i18n="terms">Conditions</span></a>
+            <a href="/legal/politique-confidentialite.html" data-auth-required="true"><i class="fa-solid fa-shield-halved"></i> <span data-i18n="privacy">Confidentialité</span></a>
         </nav>
-
-        <!-- 4. PIED DE PAGE DU MENU (Boutons) -->
         <div class="sidebar-foot">
-            <button class="btn-register hide-when-logged" id="btnRegister"><i class="fa-solid fa-user-plus"></i> S'inscrire</button>
-            <button class="btn-logout" id="authBtn"><span id="authBtnLabel">Se Connecter</span></button>
+            <a href="/authentification/register.html" class="btn-register hide-when-logged" data-i18n="register"><i class="fa-solid fa-user-plus"></i> S'inscrire</a>
+            <a href="/authentification/login.html" class="btn-logout" id="authBtn"><span id="authBtnLabel" data-i18n="login"><i class="fa-solid fa-right-to-bracket"></i> Se Connecter</span></a>
         </div>
     </aside>
 
-    <main>
-        <!-- ============================================================
-             HERO
-             ============================================================ -->
+    <main id="mainContent">
+        <!-- Hero -->
         <section class="hero">
             <div class="container hero-content">
                 <div class="flyer-container">
-                    <img src="/assets/flyerswelcome.png" alt="Welcome Flyer" class="single-flyer" onerror="this.style.border='2px dashed #aaa'; this.style.padding='20px'; this.style.textAlign='center'; this.style.color='#fff'; this.alt='Image manquante';">
+                    <img src="/assets/flyerswelcome.png" alt="Bienvenue" class="single-flyer" onerror="this.style.border='2px dashed #aaa'; this.style.padding='20px'; this.style.textAlign='center';">
                 </div>
             </div>
         </section>
 
-        <!-- ============================================================
-             CATÉGORIES (Liens en dossiers)
-             ============================================================ -->
+        <!-- Catégories -->
         <section class="categories">
             <div class="container cat-scroll-container">
                 <div class="cat-scroll">
-                    <a href="/gaming/" class="cat-pill"><i class="fa-solid fa-gamepad"></i> Gaming</a>
-                    <a href="/giftcard/" class="cat-pill"><i class="fa-solid fa-gift"></i> Gift Cards</a>
-                    <a href="/streaming/" class="cat-pill"><i class="fa-solid fa-tv"></i> Streaming</a>
-                    <a href="/finance/" class="cat-pill"><i class="fa-solid fa-wallet"></i> Finance</a>
+                    <a href="/gaming/index.html" class="cat-pill" data-auth-required="true"><i class="fa-solid fa-gamepad"></i> <span data-i18n="gaming">Jeux</span></a>
+                    <a href="/streaming/index.html" class="cat-pill" data-auth-required="true"><i class="fa-solid fa-tv"></i> <span data-i18n="streaming">Abonnement</span></a>
+                    <a href="/finance/index.html" class="cat-pill" data-auth-required="true"><i class="fa-solid fa-coins"></i> <span data-i18n="finance">Finance</span></a>
+                    <a href="/giftcard/index.html" class="cat-pill" data-auth-required="true"><i class="fa-solid fa-gift"></i> <span data-i18n="giftcards">Cartes cadeaux</span></a>
+                    <a href="/social/index.html" class="cat-pill" data-auth-required="true"><i class="fa-solid fa-share-nodes"></i> <span data-i18n="social">Réseaux sociaux</span></a>
                 </div>
             </div>
         </section>
 
-        <!-- ============================================================
-             TOP RECHARGES (Section 1)
-             ============================================================ -->
+        <!-- Jeux -->
         <section class="block">
             <div class="container">
-                <div class="block-head"><h2 class="block-title">Top Recharges</h2><a href="/gaming/" class="see-all">Voir tout <i class="fa-solid fa-arrow-right"></i></a></div>
-                <div class="product-grid">
-                    <a href="/gaming/freefire.html" class="product" data-auth-required="true">
-                        <span class="badge">#1</span>
-                        <div class="thumb skeleton"><img src="/assets/freefire-logo.png" alt="Free Fire" loading="lazy" onerror="this.replaceWith(makeThumbFallback('Free Fire'));" onload="this.parentElement.classList.remove('skeleton')"></div>
-                        <div class="info"><div class="name">Free Fire</div><div class="price"><span>110+10💎</span> <strong>= 157 HTG</strong></div></div>
-                    </a>
-                    <a href="/gaming/roblox.html" class="product" data-auth-required="true">
-                        <div class="thumb skeleton"><img src="/assets/roblox-logo.png" alt="Roblox" loading="lazy" onerror="this.replaceWith(makeThumbFallback('Roblox'));" onload="this.parentElement.classList.remove('skeleton')"></div>
-                        <div class="info"><div class="name">Roblox</div><div class="price"><span>À partir de</span> <strong>750 HTG</strong></div></div>
-                    </a>
-                    <a href="/gaming/pubgmobile.html" class="product" data-auth-required="true">
-                        <div class="thumb skeleton"><img src="/assets/pubgmobile-logo.png" alt="PUBG Mobile" loading="lazy" onerror="this.replaceWith(makeThumbFallback('PUBG'));" onload="this.parentElement.classList.remove('skeleton')"></div>
-                        <div class="info"><div class="name">PUBG Mobile</div><div class="price"><span>À partir de</span> <strong>180 Gdes</strong></div></div>
-                    </a>
-                    <a href="/gaming/minecraft.html" class="product" data-auth-required="true">
-                        <div class="thumb skeleton"><img src="/assets/minecraft-logo.png" alt="Minecraft" loading="lazy" onerror="this.replaceWith(makeThumbFallback('Minecraft'));" onload="this.parentElement.classList.remove('skeleton')"></div>
-                        <div class="info"><div class="name">Minecraft</div><div class="price"><span>À partir de</span> <strong>316 HTG</strong></div></div>
-                    </a>
-                </div>
+                <div class="block-head"><h2 class="block-title" data-i18n="gaming">Jeux</h2><a href="/gaming/index.html" class="see-all" data-auth-required="true"><span data-i18n="seeAll">Voir tout</span> <i class="fa-solid fa-arrow-right"></i></a></div>
+                <div class="product-grid" id="gamingGrid"></div>
             </div>
         </section>
 
-        <!-- ============================================================
-             STREAMING (Section 2)
-             ============================================================ -->
+        <!-- Abonnements -->
         <section class="block alt">
             <div class="container">
-                <div class="block-head"><h2 class="block-title">Streaming</h2><a href="/streaming/" class="see-all">Voir tout <i class="fa-solid fa-arrow-right"></i></a></div>
-                <div class="product-grid">
-                    <a href="/streaming/netflix.html" class="product" data-auth-required="true">
-                        <div class="thumb skeleton"><img src="/assets/netflix-logo.png" alt="Netflix" loading="lazy" onerror="this.replaceWith(makeThumbFallback('Netflix'));" onload="this.parentElement.classList.remove('skeleton')"></div>
-                        <div class="info"><div class="name">Netflix</div><div class="price"><span>1Mois </span> <strong>= 400 Gdes</strong></div></div>
-                    </a>
-                    <a href="/streaming/disneyplus.html" class="product" data-auth-required="true">
-                        <div class="thumb skeleton"><img src="/assets/disneyplus-logo.png" alt="Disney+" loading="lazy" onerror="this.replaceWith(makeThumbFallback('Disney+'));" onload="this.parentElement.classList.remove('skeleton')"></div>
-                        <div class="info"><div class="name">Disney+</div><div class="price"><span>1Mois</span> <strong>= 625 Gdes</strong></div></div>
-                    </a>
-                    <a href="/streaming/primevideo.html" class="product" data-auth-required="true">
-                        <div class="thumb skeleton"><img src="/assets/primevideo-logo.png" alt="Prime Video" loading="lazy" onerror="this.replaceWith(makeThumbFallback('Prime'));" onload="this.parentElement.classList.remove('skeleton')"></div>
-                        <div class="info"><div class="name">Prime Video</div><div class="price"><span>1Mois</span> <strong>= 425 Gdes</strong></div></div>
-                    </a>
-                    <a href="/streaming/crunchyroll.html" class="product" data-auth-required="true">
-                        <div class="thumb skeleton"><img src="/assets/crunchyroll-logo.png" alt="Crunchyroll" loading="lazy" onerror="this.replaceWith(makeThumbFallback('Crunchyroll'));" onload="this.parentElement.classList.remove('skeleton')"></div>
-                        <div class="info"><div class="name">Crunchyroll</div><div class="price"><span>1Mois</span> <strong>= 425 Gdes</strong></div></div>
-                    </a>
-                </div>
+                <div class="block-head"><h2 class="block-title" data-i18n="streaming">Abonnement</h2><a href="/streaming/index.html" class="see-all" data-auth-required="true"><span data-i18n="seeAll">Voir tout</span> <i class="fa-solid fa-arrow-right"></i></a></div>
+                <div class="product-grid" id="streamingGrid"></div>
             </div>
         </section>
 
-        <!-- ============================================================
-             SERVICES FINANCIERS (Section 3)
-             ============================================================ -->
+        <!-- Finance -->
         <section class="block">
             <div class="container">
-                <div class="block-head"><h2 class="block-title">Services Financiers</h2><a href="/finance/" class="see-all">Voir tout <i class="fa-solid fa-arrow-right"></i></a></div>
-                <div class="product-grid">
-                    <a href="/finance/meru.html" class="product" data-auth-required="true">
-                        <div class="thumb skeleton"><img src="/assets/meru-logo.png" alt="Meru" loading="lazy" onerror="this.replaceWith(makeThumbFallback('Meru'));" onload="this.parentElement.classList.remove('skeleton')"></div>
-                        <div class="info"><div class="name">Meru</div><div class="price"><span>Transferts</span></div></div>
-                    </a>
-                    <a href="/finance/wise.html" class="product" data-auth-required="true">
-                        <div class="thumb skeleton"><img src="/assets/wise-logo.png" alt="Wise" loading="lazy" onerror="this.replaceWith(makeThumbFallback('Wise'));" onload="this.parentElement.classList.remove('skeleton')"></div>
-                        <div class="info"><div class="name">Wise</div><div class="price"><span>International</span></div></div>
-                    </a>
-                    <a href="/finance/paypal.html" class="product" data-auth-required="true">
-                        <div class="thumb skeleton"><img src="/assets/paypal-logo.png" alt="PayPal" loading="lazy" onerror="this.replaceWith(makeThumbFallback('PayPal'));" onload="this.parentElement.classList.remove('skeleton')"></div>
-                        <div class="info"><div class="name">PayPal</div><div class="price"><span>Paiements en ligne</span></div></div>
-                    </a>
-                    <a href="/finance/binance.html" class="product" data-auth-required="true">
-                        <div class="thumb skeleton"><img src="/assets/binance-logo.png" alt="Binance" loading="lazy" onerror="this.replaceWith(makeThumbFallback('Binance'));" onload="this.parentElement.classList.remove('skeleton')"></div>
-                        <div class="info"><div class="name">Binance</div><div class="price"><span>USDT (TRC20)</span></div></div>
-                    </a>
-                </div>
+                <div class="block-head"><h2 class="block-title" data-i18n="finance">Finance</h2><a href="/finance/index.html" class="see-all" data-auth-required="true"><span data-i18n="seeAll">Voir tout</span> <i class="fa-solid fa-arrow-right"></i></a></div>
+                <div class="product-grid" id="financeGrid"></div>
             </div>
         </section>
 
-        <!-- ============================================================
-             GIFT CARDS (Section 4)
-             ============================================================ -->
+        <!-- Gift Cards -->
         <section class="block alt">
             <div class="container">
-                <div class="block-head"><h2 class="block-title">Gift Cards</h2><a href="/giftcard/" class="see-all">Voir tout <i class="fa-solid fa-arrow-right"></i></a></div>
-                <div class="product-grid">
-                    <a href="/giftcard/apple.html" class="product" data-auth-required="true">
-                        <div class="thumb skeleton"><img src="/assets/applegiftcard-logo.png" alt="Apple" loading="lazy" onerror="this.replaceWith(makeThumbFallback('Apple'));" onload="this.parentElement.classList.remove('skeleton')"></div>
-                        <div class="info"><div class="name">Apple</div><div class="price"><span>App Store &amp; iTunes</span></div></div>
-                    </a>
-                    <a href="/giftcard/googleplay.html" class="product" data-auth-required="true">
-                        <div class="thumb skeleton"><img src="/assets/googleplaycard-logo.png" alt="Google Play" loading="lazy" onerror="this.replaceWith(makeThumbFallback('Google Play'));" onload="this.parentElement.classList.remove('skeleton')"></div>
-                        <div class="info"><div class="name">Google Play</div><div class="price"><span>Cartes Android</span></div></div>
-                    </a>
-                    <a href="/giftcard/playstation.html" class="product" data-auth-required="true">
-                        <div class="thumb skeleton"><img src="/assets/playstationgiftcard-logo.png" alt="PlayStation" loading="lazy" onerror="this.replaceWith(makeThumbFallback('PlayStation'));" onload="this.parentElement.classList.remove('skeleton')"></div>
-                        <div class="info"><div class="name">PlayStation</div><div class="price"><span>PSN Store</span></div></div>
-                    </a>
-                    <a href="/giftcard/netflix.html" class="product" data-auth-required="true">
-                        <div class="thumb skeleton"><img src="/assets/netflixgiftcard-logo.png" alt="Netflix Gift Card" loading="lazy" onerror="this.replaceWith(makeThumbFallback('Netflix GC'));" onload="this.parentElement.classList.remove('skeleton')"></div>
-                        <div class="info"><div class="name">Netflix</div><div class="price"><span>Cartes cadeaux</span></div></div>
-                    </a>
+                <div class="block-head"><h2 class="block-title" data-i18n="giftcards">Cartes cadeaux</h2><a href="/giftcard/index.html" class="see-all" data-auth-required="true"><span data-i18n="seeAll">Voir tout</span> <i class="fa-solid fa-arrow-right"></i></a></div>
+                <div class="product-grid" id="giftcardGrid"></div>
+            </div>
+        </section>
+
+        <!-- Réseaux sociaux -->
+        <section class="block">
+            <div class="container">
+                <div class="block-head"><h2 class="block-title" data-i18n="social">Réseaux sociaux</h2><a href="/social/index.html" class="see-all" data-auth-required="true"><span data-i18n="seeAll">Voir tout</span> <i class="fa-solid fa-arrow-right"></i></a></div>
+                <div class="product-grid" id="socialGrid"></div>
+            </div>
+        </section>
+
+        <!-- Témoignages -->
+        <section class="block alt">
+            <div class="container">
+                <div class="block-head"><h2 class="block-title" data-i18n="reviews">Avis Clients</h2></div>
+                <div class="testimonials-grid">
+                    <div class="testimonial-card">
+                        <div class="stars">★★★★★</div>
+                        <p class="quote" data-i18n="review1">"Recharge Free Fire reçue en 2 minutes. Service impeccable !"</p>
+                        <div class="author">— Jean P.</div>
+                    </div>
+                    <div class="testimonial-card">
+                        <div class="stars">★★★★★</div>
+                        <p class="quote" data-i18n="review2">"Transfert Wise rapide et sécurisé. Je recommande à 100%."</p>
+                        <div class="author">— Marie L.</div>
+                    </div>
+                    <div class="testimonial-card">
+                        <div class="stars">★★★★☆</div>
+                        <p class="quote" data-i18n="review3">"Très bon service client, réactif sur WhatsApp. Prix compétitifs."</p>
+                        <div class="author">— Marc D.</div>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <!-- ============================================================
-             COMMUNAUTÉ WHATSAPP
-             ============================================================ -->
+        <!-- FAQ -->
         <section class="block">
+            <div class="container">
+                <div class="block-head"><h2 class="block-title" data-i18n="faq">Questions fréquentes</h2></div>
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false"><span data-i18n="faqQ1">Comment passer une commande ?</span> <i class="fa-solid fa-plus"></i></button>
+                    <div class="faq-answer"><p data-i18n="faqA1">Cliquez sur le service souhaité, connectez-vous et suivez les instructions de paiement.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false"><span data-i18n="faqQ2">Quels modes de paiement acceptez-vous ?</span> <i class="fa-solid fa-plus"></i></button>
+                    <div class="faq-answer"><p data-i18n="faqA2">MonCash, NatCash, Meru, et Portefeuille DigitalPay.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false"><span data-i18n="faqQ3">Délai de livraison des recharges ?</span> <i class="fa-solid fa-plus"></i></button>
+                    <div class="faq-answer"><p data-i18n="faqA3">Généralement instantané à 15 minutes maximum après confirmation du paiement.</p></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Communauté WhatsApp -->
+        <section class="block alt">
             <div class="container">
                 <div class="community">
-                    <h3>Rejoignez notre communauté WhatsApp !</h3>
-                    <p>Restez connecté pour ne manquer aucune promo, astuce gaming et offre exclusive !</p>
-                    <a class="btn-whatsapp" href="https://whatsapp.com/channel/0029VbAcGmCGufIrRej1sR04" target="_blank"><i class="fa-brands fa-whatsapp"></i> Rejoindre la chaîne</a>
-                    <div class="community-lock"><i class="fa-solid fa-lock"></i> Redirection sécurisée</div>
+                    <h3 data-i18n="whatsappTitle">Rejoignez notre communauté WhatsApp !</h3>
+                    <p data-i18n="whatsappDesc">Restez connecté pour ne manquer aucune promo, astuce gaming et offre exclusive !</p>
+                    <a class="btn-whatsapp" href="https://whatsapp.com/channel/0029VbAcGmCGufIrRej1sR04" target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp"></i> <span data-i18n="joinChannel">Rejoindre la chaîne</span></a>
+                    <div class="community-lock"><i class="fa-solid fa-lock"></i> <span data-i18n="secureRedirect">Redirection sécurisée</span></div>
                 </div>
             </div>
         </section>
     </main>
 
-    <!-- BOUTON WHATSAPP FLOTTANT -->
-    <a href="https://wa.me/50936535649" class="fab-whatsapp"><i class="fa-brands fa-whatsapp"></i></a>
+    <!-- FAB WHATSAPP -->
+    <a href="https://wa.me/50936535649" class="fab-whatsapp" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
 
-    <!-- FOOTER PREMIUM -->
+    <!-- FOOTER -->
     <footer class="site">
-        <div class="footer-grid">
-            <div><div class="footer-brand"><img src="/assets/sidebar-logo.png" alt="DigitalPay" onerror="this.replaceWith(makeLogoFallback(false));"></div><p>DigitalPay — Votre plateforme de recharges, abonnements et services financiers.</p></div>
-            <div class="footer-col"><h4>Services</h4><ul><li><a href="/gaming/">Gaming</a></li><li><a href="/streaming/">Streaming</a></li><li><a href="/finance/">Finance</a></li></ul></div>
-            <div class="footer-col"><h4>Support</h4><ul><li><a href="/support/help.html">Centre d'aide</a></li><li><a href="/legal/conditions-utilisation.html">Conditions</a></li><li><a href="/legal/politique-confidentialite.html">Confidentialité</a></li></ul></div>
+        <div class="footer-inner">
+            <div class="footer-brand">
+                <div class="brand-name">DigitalPay</div>
+                <div class="brand-slogan" data-i18n="slogan">Services premium pour tous.</div>
+            </div>
+            <div class="footer-links">
+                <a href="/gaming/index.html" data-auth-required="true" data-i18n="gaming">Jeux</a>
+                <a href="/streaming/index.html" data-auth-required="true" data-i18n="streaming">Abonnement</a>
+                <a href="/finance/index.html" data-auth-required="true" data-i18n="finance">Finance</a>
+                <a href="/giftcard/index.html" data-auth-required="true" data-i18n="giftcards">Cartes cadeaux</a>
+                <a href="/social/index.html" data-auth-required="true" data-i18n="social">Réseaux sociaux</a>
+                <a href="/support/help.html" data-auth-required="true" data-i18n="support">Support</a>
+            </div>
+            <div class="footer-bottom">
+                <span>© 2026 DigitalPay</span>
+                <span><span class="pulse">●</span> <span data-i18n="secure">Paiements sécurisés • Support 24/7</span></span>
+            </div>
         </div>
-        <div class="footer-bottom"><span>© 2026 DigitalPay. Tous droits réservés.</span><span><span class="pulse">●</span> Paiements sécurisés • Support WhatsApp</span></div>
     </footer>
 
-    <!-- ============================================================
-         SCRIPTS (TOAST + SIDEBAR + SECURITE + FIREBASE)
-         ============================================================ -->
+    <!-- MOBILE NAV -->
+    <div class="mobile-nav">
+        <a href="/index.html" class="active"><i class="fa-solid fa-house"></i> <span data-i18n="home">Accueil</span></a>
+        <a href="/gaming/index.html" data-auth-required="true"><i class="fa-solid fa-gamepad"></i> <span data-i18n="gaming">Jeux</span></a>
+        <a href="/commandes.html" data-auth-required="true"><i class="fa-solid fa-clock"></i> <span data-i18n="orders">Commandes</span></a>
+        <a href="/portefeuille.html" data-auth-required="true"><i class="fa-solid fa-wallet"></i> <span data-i18n="wallet">Wallet</span></a>
+    </div>
+
     <script>
-        /* === FALLBACKS === */
+        // ==================== FALLBACKS ====================
         function makeLogoFallback(isSidebar) {
             const span = document.createElement('span');
             span.className = 'logo-fallback';
@@ -638,32 +677,286 @@
         window.makeLogoFallback = makeLogoFallback;
         window.makeThumbFallback = makeThumbFallback;
 
-        /* === TOAST MANAGER (avec innerHTML) === */
+        // ==================== PRODUITS (28 au total) ====================
+        const productData = {
+            gaming: [
+                { name: "Flex City", price: "Recharges", badge: "", badgeClass: "", verified: false, href: "/gaming/flexcity.html", img: "flexcity.png" },
+                { name: "One State", price: "Recharges", badge: "", badgeClass: "", verified: false, href: "/gaming/onestate.html", img: "onestate.png" },
+                { name: "Free Fire", price: "110+10💎 = 157 HTG", badge: "#1", badgeClass: "", verified: true, href: "/gaming/freefire.html", img: "freefire-logo.png" },
+                { name: "Blood Strike", price: "Recharges", badge: "New", badgeClass: "new", verified: false, href: "/gaming/bloodstrike.html", img: "Bloodstrike.png" },
+                { name: "Call of Duty", price: "Recharges", badge: "", badgeClass: "", verified: false, href: "/gaming/callofduty.html", img: "callofduty.png" },
+                { name: "Minecraft", price: "À partir de 316 HTG", badge: "", badgeClass: "", verified: false, href: "/gaming/minecraft.html", img: "minecraft-logo.png" },
+                { name: "Roblox", price: "À partir de 750 HTG", badge: "", badgeClass: "", verified: false, href: "/gaming/roblox.html", img: "roblox-logo.png" },
+                { name: "FC Mobile", price: "Recharges", badge: "", badgeClass: "", verified: false, href: "/gaming/fcmobile.html", img: "fcmobile.png" },
+                { name: "E-Football", price: "Recharges", badge: "", badgeClass: "", verified: false, href: "/gaming/efootball.html", img: "efootball.png" },
+                { name: "Mobile Legends", price: "Recharges", badge: "", badgeClass: "", verified: false, href: "/gaming/mobilelegends.html", img: "mobilelegends.png" },
+                { name: "Dream League Soccer", price: "Recharges", badge: "", badgeClass: "", verified: false, href: "/gaming/dreamleaguesoccer.html", img: "dreamleaguesoccer.png" },
+                { name: "Lords Mobile", price: "Recharges", badge: "", badgeClass: "", verified: false, href: "/gaming/lordsmobile.html", img: "lordsmobile.png" },
+                { name: "PUBG Mobile", price: "À partir de 180 Gdes", badge: "", badgeClass: "", verified: false, href: "/gaming/pubgmobile.html", img: "pubgmobile-logo.png" }
+            ],
+            streaming: [
+                { name: "Netflix", price: "1 Mois = 400 Gdes", badge: "", badgeClass: "", verified: true, href: "/streaming/netflix.html", img: "netflix.png" },
+                { name: "Crunchyroll", price: "1 Mois = 425 Gdes", badge: "Promo", badgeClass: "promo", verified: false, href: "/streaming/crunchyroll.html", img: "crunchyroll.png" },
+                { name: "Disney+", price: "1 Mois = 625 Gdes", badge: "", badgeClass: "", verified: false, href: "/streaming/disneyplus.html", img: "disneyplus.png" },
+                { name: "Prime Video", price: "1 Mois = 425 Gdes", badge: "", badgeClass: "", verified: false, href: "/streaming/primevideo.html", img: "primevideo.png" }
+            ],
+            finance: [
+                { name: "Binance (USDT TRC20)", price: "Transferts USDT", badge: "", badgeClass: "", verified: true, href: "/finance/binance.html", img: "binance.png" },
+                { name: "Meru", price: "Transferts", badge: "", badgeClass: "", verified: false, href: "/finance/meru.html", img: "meru.png" },
+                { name: "Wise", price: "International", badge: "", badgeClass: "", verified: false, href: "/finance/wise.html", img: "wise.png" },
+                { name: "Carte de crédit (Meru)", price: "Recharges", badge: "", badgeClass: "", verified: false, href: "/finance/merucard.html", img: "merucard.png" },
+                { name: "PayPal", price: "Paiements en ligne", badge: "", badgeClass: "", verified: true, href: "/finance/paypal.html", img: "paypal.png" }
+            ],
+            giftcard: [
+                { name: "Apple", price: "App Store & iTunes", badge: "", badgeClass: "", verified: false, href: "/giftcard/apple.html", img: "applegc.png" },
+                { name: "Netflix", price: "Cartes cadeaux", badge: "", badgeClass: "", verified: false, href: "/giftcard/netflix.html", img: "netflixgc.png" },
+                { name: "Nintendo", price: "eShop", badge: "", badgeClass: "", verified: false, href: "/giftcard/nintendo.html", img: "nintendogc.png" },
+                { name: "PlayStation", price: "PSN Store", badge: "", badgeClass: "", verified: false, href: "/giftcard/playstation.html", img: "playstationgc.png" },
+                { name: "Steam", price: "Steam Wallet", badge: "", badgeClass: "", verified: false, href: "/giftcard/steam.html", img: "steamgc.png" },
+                { name: "Google Play", price: "Cartes Android", badge: "", badgeClass: "", verified: false, href: "/giftcard/googleplay.html", img: "googleplaygc.png" }
+            ],
+            social: [
+                { name: "Telegram (Stars)", price: "Recharges", badge: "", badgeClass: "", verified: false, href: "/social/telegram.html", img: "telegram.png" },
+                { name: "Telegram (Premium)", price: "Abonnement", badge: "", badgeClass: "", verified: false, href: "/social/telegrampremium.html", img: "telegrampremium.png" },
+                { name: "TikTok (Pièces)", price: "Recharges", badge: "", badgeClass: "", verified: false, href: "/social/tiktok.html", img: "tiktok.png" }
+            ]
+        };
+
+        // ==================== FAVORIS ====================
+        let favorites = JSON.parse(localStorage.getItem('favs')) || [];
+        function saveFavs() { localStorage.setItem('favs', JSON.stringify(favorites)); }
+        function toggleFav(name) {
+            const idx = favorites.indexOf(name);
+            if (idx > -1) favorites.splice(idx, 1);
+            else favorites.push(name);
+            saveFavs();
+            renderAllProducts();
+            showToast(favorites.includes(name) ? t('favAdded') : t('favRemoved'), 'success');
+        }
+
+        // ==================== CRÉATION CARTE PRODUIT ====================
+        function createProductCard(p, category) {
+            const card = document.createElement('a');
+            card.href = p.href;
+            card.className = 'product';
+            card.setAttribute('data-auth-required', 'true');
+            card.setAttribute('data-category', category);
+            card.setAttribute('data-name', p.name);
+            const isFav = favorites.includes(p.name);
+            card.innerHTML = `
+                ${p.badge ? `<span class="badge ${p.badgeClass}">${p.badge}</span>` : ''}
+                <span class="fav-btn ${isFav ? 'fav-active' : ''}" data-name="${p.name}"><i class="fa-${isFav ? 'solid' : 'regular'} fa-heart"></i></span>
+                <div class="thumb skeleton">
+                    <div class="skeleton-circle"></div>
+                    <img src="/assets/${p.img}" alt="${p.name}" loading="lazy" onerror="this.replaceWith(makeThumbFallback('${p.name}'));" onload="this.classList.add('loaded'); this.parentElement.classList.remove('skeleton'); this.previousElementSibling.remove();">
+                </div>
+                <div class="info">
+                    <div class="name">${p.name} ${p.verified ? '<i class="fa-solid fa-circle-check verified-badge"></i>' : ''}</div>
+                    <div class="price"><strong>${p.price}</strong></div>
+                </div>
+            `;
+            card.querySelector('.fav-btn')?.addEventListener('click', (e) => {
+                e.preventDefault(); e.stopPropagation(); toggleFav(p.name);
+            });
+            return card;
+        }
+
+        function renderAllProducts() {
+            document.getElementById('gamingGrid').innerHTML = '';
+            document.getElementById('streamingGrid').innerHTML = '';
+            document.getElementById('financeGrid').innerHTML = '';
+            document.getElementById('giftcardGrid').innerHTML = '';
+            document.getElementById('socialGrid').innerHTML = '';
+            productData.gaming.slice(0, 4).forEach(p => document.getElementById('gamingGrid').appendChild(createProductCard(p, 'gaming')));
+            productData.streaming.slice(0, 4).forEach(p => document.getElementById('streamingGrid').appendChild(createProductCard(p, 'streaming')));
+            productData.finance.slice(0, 4).forEach(p => document.getElementById('financeGrid').appendChild(createProductCard(p, 'finance')));
+            productData.giftcard.slice(0, 4).forEach(p => document.getElementById('giftcardGrid').appendChild(createProductCard(p, 'giftcard')));
+            productData.social.slice(0, 4).forEach(p => document.getElementById('socialGrid').appendChild(createProductCard(p, 'social')));
+            initProductObserver();
+            const q = document.getElementById('searchInput')?.value || '';
+            if (q) filterProducts(q);
+        }
+
+        // ==================== TRADUCTIONS ====================
+        const translations = {
+            fr: {
+                skipToContent: "Aller au contenu principal",
+                home: "Accueil", gaming: "Jeux", streaming: "Abonnement", finance: "Finance", giftcards: "Cartes cadeaux", social: "Réseaux sociaux",
+                wallet: "Portefeuille", orders: "Commandes", support: "Support", terms: "Conditions", privacy: "Confidentialité",
+                register: "S'inscrire", login: "Se Connecter", logout: "Déconnecter",
+                searchPlaceholder: "Rechercher un service...",
+                seeAll: "Voir tout",
+                reviews: "Avis Clients", faq: "Questions fréquentes",
+                faqQ1: "Comment passer une commande ?", faqA1: "Cliquez sur le service souhaité, connectez-vous et suivez les instructions de paiement.",
+                faqQ2: "Quels modes de paiement acceptez-vous ?", faqA2: "MonCash, NatCash, Meru, et Portefeuille DigitalPay.",
+                faqQ3: "Délai de livraison des recharges ?", faqA3: "Généralement instantané à 15 minutes maximum après confirmation du paiement.",
+                whatsappTitle: "Rejoignez notre communauté WhatsApp !",
+                whatsappDesc: "Restez connecté pour ne manquer aucune promo, astuce gaming et offre exclusive !",
+                joinChannel: "Rejoindre la chaîne", secureRedirect: "Redirection sécurisée",
+                slogan: "Services premium pour tous.", secure: "Paiements sécurisés • Support 24/7",
+                review1: '"Recharge Free Fire reçue en 2 minutes. Service impeccable !"',
+                review2: '"Transfert Wise rapide et sécurisé. Je recommande à 100%."',
+                review3: '"Très bon service client, réactif sur WhatsApp. Prix compétitifs."',
+                favAdded: "⭐ Ajouté aux favoris", favRemoved: "Retiré des favoris",
+                authRequired: "🔒 Connexion requise pour accéder à cette page."
+            },
+            en: {
+                skipToContent: "Skip to main content",
+                home: "Home", gaming: "Gaming", streaming: "Streaming", finance: "Finance", giftcards: "Gift Cards", social: "Social Media",
+                wallet: "Wallet", orders: "Orders", support: "Support", terms: "Terms", privacy: "Privacy",
+                register: "Sign Up", login: "Log In", logout: "Log Out",
+                searchPlaceholder: "Search a service...",
+                seeAll: "See all",
+                reviews: "Customer Reviews", faq: "FAQ",
+                faqQ1: "How to place an order?", faqA1: "Click on the desired service, log in and follow the payment instructions.",
+                faqQ2: "What payment methods do you accept?", faqA2: "MonCash, NatCash, Meru, and DigitalPay Wallet.",
+                faqQ3: "Delivery time for recharges?", faqA3: "Usually instant up to 15 minutes after payment confirmation.",
+                whatsappTitle: "Join our WhatsApp community!",
+                whatsappDesc: "Stay connected to never miss any promo, gaming tips and exclusive offers!",
+                joinChannel: "Join the channel", secureRedirect: "Secure redirect",
+                slogan: "Premium services for everyone.", secure: "Secure payments • 24/7 Support",
+                review1: '"Free Fire recharge received in 2 minutes. Flawless service!"',
+                review2: '"Wise transfer fast and secure. I recommend 100%."',
+                review3: '"Very good customer service, responsive on WhatsApp. Competitive prices."',
+                favAdded: "⭐ Added to favorites", favRemoved: "Removed from favorites",
+                authRequired: "🔒 Login required to access this page."
+            },
+            ht: {
+                skipToContent: "Ale nan kontni prensipal la",
+                home: "Akèy", gaming: "Gaming", streaming: "Abònman", finance: "Finans", giftcards: "Kat Kado", social: "Rezo Sosyal",
+                wallet: "Bous", orders: "Kòmand", support: "Sipò", terms: "Kondisyon", privacy: "Konfidansyalite",
+                register: "Enskri", login: "Konekte", logout: "Dekonekte",
+                searchPlaceholder: "Chèche yon sèvis...",
+                seeAll: "Wè tout",
+                reviews: "Avi Kliyan", faq: "Kesyon yo poze souvan",
+                faqQ1: "Kijan pou pase yon kòmand?", faqA1: "Klike sou sèvis ou vle a, konekte epi swiv enstriksyon peman yo.",
+                faqQ2: "Ki mòd peman ou aksepte?", faqA2: "MonCash, NatCash, Meru, ak Bous DigitalPay.",
+                faqQ3: "Konbyen tan li pran pou yon rechaj?", faqA3: "Anjeneral enstantane jiska 15 minit apre konfimasyon peman an.",
+                whatsappTitle: "Rejwenn kominote WhatsApp nou an!",
+                whatsappDesc: "Rete konekte pou pa rate okenn promo, konsèy jwèt ak òf eksklizif!",
+                joinChannel: "Rejwenn kanal la", secureRedirect: "Redireksyon sekirize",
+                slogan: "Sèvis prim pou tout moun.", secure: "Peman sekirize • Sipò 24/7",
+                review1: '"Rechaj Free Fire te resevwa nan 2 minit. Sèvis san defo!"',
+                review2: '"Transfè Wise rapid e sekirize. Mwen rekòmande 100%."',
+                review3: '"Trè bon sèvis kliyan, reyaktif sou WhatsApp. Pri konpetitif."',
+                favAdded: "⭐ Ajoute nan favori", favRemoved: "Retire nan favori",
+                authRequired: "🔒 Konekte pou w ka aksede paj sa a."
+            },
+            es: {
+                skipToContent: "Ir al contenido principal",
+                home: "Inicio", gaming: "Juegos", streaming: "Streaming", finance: "Finanzas", giftcards: "Tarjetas de Regalo", social: "Redes Sociales",
+                wallet: "Billetera", orders: "Pedidos", support: "Soporte", terms: "Términos", privacy: "Privacidad",
+                register: "Registrarse", login: "Iniciar Sesión", logout: "Cerrar Sesión",
+                searchPlaceholder: "Buscar un servicio...",
+                seeAll: "Ver todo",
+                reviews: "Opiniones", faq: "Preguntas Frecuentes",
+                faqQ1: "¿Cómo hacer un pedido?", faqA1: "Haga clic en el servicio deseado, inicie sesión y siga las instrucciones de pago.",
+                faqQ2: "¿Qué métodos de pago aceptan?", faqA2: "MonCash, NatCash, Meru y Billetera DigitalPay.",
+                faqQ3: "¿Tiempo de entrega de las recargas?", faqA3: "Generalmente instantáneo hasta 15 minutos después de la confirmación del pago.",
+                whatsappTitle: "¡Únete a nuestra comunidad de WhatsApp!",
+                whatsappDesc: "¡Mantente conectado para no perderte ninguna promoción, consejos de juego y ofertas exclusivas!",
+                joinChannel: "Únete al canal", secureRedirect: "Redirección segura",
+                slogan: "Servicios premium para todos.", secure: "Pagos seguros • Soporte 24/7",
+                review1: '"Recarga de Free Fire recibida en 2 minutos. ¡Servicio impecable!"',
+                review2: '"Transferencia Wise rápida y segura. Lo recomiendo 100%."',
+                review3: '"Muy buen servicio al cliente, receptivo en WhatsApp. Precios competitivos."',
+                favAdded: "⭐ Añadido a favoritos", favRemoved: "Eliminado de favoritos",
+                authRequired: "🔒 Iniciar sesión requerido para acceder a esta página."
+            }
+        };
+
+        function getCurrentLang() { return localStorage.getItem('lang') || 'fr'; }
+        function t(key) { const lang = getCurrentLang(); return (translations[lang] && translations[lang][key]) ? translations[lang][key] : key; }
+
+        function applyLanguage(lang) {
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (translations[lang] && translations[lang][key]) el.textContent = translations[lang][key];
+            });
+            document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+                const key = el.getAttribute('data-i18n-placeholder');
+                if (translations[lang] && translations[lang][key]) el.setAttribute('placeholder', translations[lang][key]);
+            });
+            const authLabel = document.getElementById('authBtnLabel');
+            if (authLabel) {
+                authLabel.innerHTML = document.body.classList.contains('is-logged') ? translations[lang].logout : translations[lang].login;
+            }
+            localStorage.setItem('lang', lang);
+            document.documentElement.lang = lang;
+        }
+
+        // ==================== GESTION LANGUE ====================
+        const langBtn = document.getElementById('langBtn');
+        const langDropdown = document.getElementById('langDropdown');
+        const langOptions = document.querySelectorAll('.lang-options button');
+        const langFlags = { fr: '🇫🇷', en: '🇺🇸', ht: '🇭🇹', es: '🇪🇸' };
+
+        function setActiveLang(lang) {
+            langBtn.textContent = langFlags[lang] || lang.toUpperCase();
+            langOptions.forEach(b => { b.classList.remove('active'); if (b.dataset.lang === lang) b.classList.add('active'); });
+        }
+
+        langBtn.addEventListener('click', (e) => { e.stopPropagation(); langDropdown.classList.toggle('open'); });
+        document.addEventListener('click', () => langDropdown.classList.remove('open'));
+        langOptions.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const lang = btn.dataset.lang;
+                applyLanguage(lang);
+                setActiveLang(lang);
+                langDropdown.classList.remove('open');
+            });
+        });
+
+        // ==================== TOAST ====================
         const toastContainer = document.getElementById('toastContainer');
         const toastMessage = document.getElementById('toastMessage');
         const toastIcon = document.getElementById('toastIcon');
-
         function showToast(message, type = 'info') {
             toastMessage.textContent = message;
             toastContainer.className = 'toast-container';
-            const icons = {
-                success: 'fa-solid fa-circle-check',
-                error: 'fa-solid fa-circle-exclamation',
-                info: 'fa-solid fa-circle-info'
-            };
-            toastIcon.innerHTML = `<i class="${icons[type] || icons.info}"></i>`;
-            toastContainer.classList.add(type);
-            toastContainer.classList.add('show');
+            toastIcon.className = 'fa-solid';
+            if (type === 'success') toastIcon.classList.add('fa-circle-check');
+            else if (type === 'error') toastIcon.classList.add('fa-circle-exclamation');
+            else toastIcon.classList.add('fa-circle-info');
+            toastContainer.classList.add(type, 'show');
             clearTimeout(window.toastTimeout);
-            window.toastTimeout = setTimeout(() => { toastContainer.classList.remove('show'); }, 3500);
+            window.toastTimeout = setTimeout(() => toastContainer.classList.remove('show'), 3500);
         }
         window.showToast = showToast;
 
-        /* === HEADER SCROLL === */
-        const header = document.getElementById('siteHeader');
-        window.addEventListener('scroll', () => header.classList.toggle('is-scrolled', window.scrollY > 8), { passive: true });
+        // ==================== RECHERCHE AVEC SURBRILLANCE ====================
+        function filterProducts(query) {
+            const lower = query.toLowerCase().trim();
+            document.querySelectorAll('.product').forEach(p => {
+                const nameEl = p.querySelector('.name');
+                const originalName = p.dataset.name || nameEl?.textContent.replace(/[✅★]/g, '').trim();
+                if (!originalName) return;
+                const match = originalName.toLowerCase().includes(lower);
+                p.style.display = !lower || match ? '' : 'none';
+                if (lower && match) {
+                    const regex = new RegExp(`(${lower})`, 'gi');
+                    nameEl.innerHTML = originalName.replace(regex, '<mark>$1</mark>');
+                    if (p.querySelector('.verified-badge')) nameEl.innerHTML += ' <i class="fa-solid fa-circle-check verified-badge"></i>';
+                } else if (!lower) {
+                    nameEl.textContent = originalName;
+                    if (p.querySelector('.verified-badge')) nameEl.innerHTML += ' <i class="fa-solid fa-circle-check verified-badge"></i>';
+                }
+            });
+        }
 
-        /* === SIDEBAR === */
+        document.getElementById('searchInput').addEventListener('input', e => filterProducts(e.target.value));
+        document.getElementById('searchTrigger').addEventListener('click', () => {
+            const bar = document.getElementById('searchBar');
+            bar.classList.toggle('is-visible');
+            if (bar.classList.contains('is-visible')) document.getElementById('searchInput').focus();
+        });
+        document.getElementById('searchClose').addEventListener('click', () => {
+            document.getElementById('searchBar').classList.remove('is-visible');
+            document.getElementById('searchInput').value = '';
+            filterProducts('');
+        });
+
+        // ==================== SIDEBAR + PIÈGE DE FOCUS ====================
         const sidebar = document.getElementById('sidebar');
         const overlay = document.getElementById('sidebarOverlay');
         const openMenu = document.getElementById('openMenu');
@@ -671,107 +964,139 @@
         const menuIcon = openMenu.querySelector('i');
 
         function openSidebar() {
-            sidebar.classList.add('is-open');
-            overlay.classList.add('is-open');
-            document.body.classList.add('menu-open');
-            menuIcon.className = 'fa-solid fa-xmark';
+            sidebar.classList.add('is-open'); sidebar.setAttribute('aria-hidden', 'false');
+            overlay.classList.add('is-open'); document.body.classList.add('menu-open');
+            menuIcon.className = 'fa-solid fa-xmark'; closeMenu.focus();
+            sidebar.addEventListener('keydown', trapFocus);
         }
         function closeSidebar() {
-            sidebar.classList.remove('is-open');
-            overlay.classList.remove('is-open');
-            document.body.classList.remove('menu-open');
-            menuIcon.className = 'fa-solid fa-bars';
+            sidebar.classList.remove('is-open'); sidebar.setAttribute('aria-hidden', 'true');
+            overlay.classList.remove('is-open'); document.body.classList.remove('menu-open');
+            menuIcon.className = 'fa-solid fa-bars'; openMenu.focus();
+            sidebar.removeEventListener('keydown', trapFocus);
+        }
+        function trapFocus(e) {
+            const focusable = sidebar.querySelectorAll('a, button, [tabindex]:not([tabindex="-1"])');
+            if (!focusable.length) return;
+            const first = focusable[0], last = focusable[focusable.length - 1];
+            if (e.key === 'Tab') {
+                if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+                else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+            }
         }
         openMenu.addEventListener('click', openSidebar);
         closeMenu.addEventListener('click', closeSidebar);
         overlay.addEventListener('click', closeSidebar);
-        document.addEventListener('keydown', e => { if (e.key === 'Escape') closeSidebar(); });
+        document.addEventListener('keydown', e => { if (e.key === 'Escape' && sidebar.classList.contains('is-open')) closeSidebar(); });
 
-        /* === SÉCURITÉ RENFORCÉE === */
+        let touchStartX = 0;
+        sidebar.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; });
+        sidebar.addEventListener('touchend', e => { if (e.changedTouches[0].clientX - touchStartX > 60) closeSidebar(); });
+
+        // ==================== SÉCURITÉ ====================
         document.addEventListener('click', function(e) {
             const target = e.target.closest('[data-auth-required="true"]');
             if (target && !document.body.classList.contains('is-logged')) {
                 e.preventDefault();
-                showToast("🔒 Connexion requise pour accéder à cette page.", "error");
+                showToast(t('authRequired'), "error");
                 setTimeout(() => { window.location.href = '/authentification/login.html'; }, 1500);
             }
         });
 
-        /* === ANIMATION CARTES === */
-        const products = document.querySelectorAll('.product');
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) entry.target.classList.add('is-visible');
+        // ==================== INTERSECTION OBSERVER ====================
+        function initProductObserver() {
+            const products = document.querySelectorAll('.product');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('is-visible'); });
+            }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+            products.forEach(p => observer.observe(p));
+        }
+
+        // ==================== FAQ ====================
+        document.querySelectorAll('.faq-question').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const expanded = btn.getAttribute('aria-expanded') === 'true';
+                btn.setAttribute('aria-expanded', !expanded);
+                btn.nextElementSibling.classList.toggle('is-open');
             });
-        }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
-        products.forEach(product => observer.observe(product));
+        });
 
-        /* === FIREBASE AUTH & DYNAMIQUE (Clés fictives) === */
-        (function () {
+        // ==================== PARTICULES ====================
+        (function() {
+            const canvas = document.getElementById('particlesCanvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            let particles = [];
+            function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+            resize(); window.addEventListener('resize', resize);
+            for (let i = 0; i < 30; i++) {
+                particles.push({ x: Math.random() * canvas.width, y: Math.random() * canvas.height, r: Math.random() * 2 + 1, dx: (Math.random() - 0.5) * 0.2, dy: (Math.random() - 0.5) * 0.2 });
+            }
+            function animate() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                ctx.fillStyle = 'rgba(96, 165, 250, 0.3)';
+                particles.forEach(p => {
+                    p.x += p.dx; p.y += p.dy;
+                    if (p.x < 0 || p.x > canvas.width) p.dx *= -1;
+                    if (p.y < 0 || p.y > canvas.height) p.dy *= -1;
+                    ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2); ctx.fill();
+                });
+                requestAnimationFrame(animate);
+            }
+            animate();
+        })();
+
+        // ==================== HEADER SCROLL ====================
+        window.addEventListener('scroll', () => document.getElementById('siteHeader').classList.toggle('is-scrolled', window.scrollY > 8), { passive: true });
+
+        // ==================== INIT ====================
+        document.addEventListener('DOMContentLoaded', () => {
+            renderAllProducts();
+            const savedLang = localStorage.getItem('lang') || 'fr';
+            applyLanguage(savedLang);
+            setActiveLang(savedLang);
+            applyLoggedOut();
+        });
+
+        function applyLoggedOut() {
+            document.body.classList.remove('is-logged');
+            document.getElementById('headerAvatar').style.display = 'none';
+            document.getElementById('sidebarUserAvatar').innerHTML = '<i class="fa-solid fa-user"></i>';
+            document.getElementById('sidebarUserName').textContent = "Nom de l'utilisateur";
+            document.getElementById('sidebarUserEmail').textContent = 'email@exemple.com';
+            const authLabel = document.getElementById('authBtnLabel');
+            if (authLabel) authLabel.innerHTML = t('login');
+            document.getElementById('authBtn').className = 'btn-logout';
+            document.getElementById('authBtn').href = '/authentification/login.html';
+        }
+
+        // ==================== FIREBASE AUTH ====================
+        (function() {
             const cfg = {
-                apiKey: "AIzaSyDemoKey1234567890abcdefghijklm",
-                authDomain: "digitalpay-demo.firebaseapp.com",
-                projectId: "digitalpay-demo",
-                appId: "1:1234567890:web:abcdef123456"
+                apiKey: "AIzaSyB9o8-LYeKrg2q84dxQM5Z1wFKHjt9yHFo",
+                authDomain: "digital-pay-haiti.firebaseapp.com",
+                projectId: "digital-pay-haiti",
+                storageBucket: "digital-pay-haiti.firebasestorage.app",
+                messagingSenderId: "182015693140",
+                appId: "1:182015693140:web:8a2486b9446bfb791bf8c1",
+                measurementId: "G-7JK3CTR4C9"
             };
-
-            const authBtn = document.getElementById('authBtn');
-            const authBtnLabel = document.getElementById('authBtnLabel');
-            const headerAvatar = document.getElementById('headerAvatar');
-            const sidebarAvatar = document.getElementById('sidebarUserAvatar');
-            const sidebarName = document.getElementById('sidebarUserName');
-            const sidebarEmail = document.getElementById('sidebarUserEmail');
-            const btnRegister = document.getElementById('btnRegister');
-
-            function applyLoggedIn(user) {
-                document.body.classList.add('is-logged');
-                if(btnRegister) btnRegister.style.display = 'none';
-                
-                if(headerAvatar) {
-                    headerAvatar.style.display = 'flex';
-                    const letter = (user.displayName ? user.displayName.charAt(0) : (user.email ? user.email.charAt(0) : 'U')).toUpperCase();
-                    headerAvatar.innerHTML = `<span style="font-weight:800">${letter}</span>`;
-                }
-                if(sidebarAvatar) {
-                    const letter = (user.displayName ? user.displayName.charAt(0) : (user.email ? user.email.charAt(0) : 'U')).toUpperCase();
-                    sidebarAvatar.innerHTML = `<span style="font-weight:800">${letter}</span>`;
-                }
-                if(sidebarName && user) sidebarName.textContent = user.displayName || 'Membre';
-                if(sidebarEmail && user) sidebarEmail.textContent = user.email || '';
-                
-                if (authBtnLabel) authBtnLabel.textContent = 'Déconnecter';
-                if (authBtn) {
+            try { firebase.initializeApp(cfg); } catch (_) {}
+            firebase.auth().onAuthStateChanged(user => {
+                if (user) {
+                    document.body.classList.add('is-logged');
+                    const letter = (user.displayName || user.email || 'U').charAt(0).toUpperCase();
+                    document.getElementById('headerAvatar').innerHTML = `<span style="font-weight:800">${letter}</span>`;
+                    document.getElementById('sidebarUserAvatar').innerHTML = `<span style="font-weight:800">${letter}</span>`;
+                    document.getElementById('sidebarUserName').textContent = user.displayName || 'Membre';
+                    document.getElementById('sidebarUserEmail').textContent = user.email || '';
+                    const authLabel = document.getElementById('authBtnLabel');
+                    if (authLabel) authLabel.textContent = t('logout');
+                    const authBtn = document.getElementById('authBtn');
                     authBtn.className = 'btn-logout is-danger';
-                    authBtn.onclick = (e) => {
-                        e.preventDefault();
-                        if (window.firebase && firebase.auth) {
-                            firebase.auth().signOut().then(() => location.reload());
-                        }
-                    };
+                    authBtn.href = '#';
+                    authBtn.onclick = (e) => { e.preventDefault(); firebase.auth().signOut().then(() => location.reload()); };
                 }
-                showToast(`Bienvenue ${user.displayName || user.email} !`, "success");
-            }
-
-            function applyLoggedOut() {
-                document.body.classList.remove('is-logged');
-                if(btnRegister) btnRegister.style.display = 'inline-flex';
-                
-                if (headerAvatar) headerAvatar.style.display = 'none';
-                if(sidebarAvatar) sidebarAvatar.innerHTML = `<i class="fa-solid fa-user"></i>`;
-                if(sidebarName) sidebarName.textContent = 'Nom de l\'utilisateur';
-                if(sidebarEmail) sidebarEmail.textContent = 'email@exemple.com';
-                
-                if (authBtnLabel) authBtnLabel.textContent = 'Se Connecter';
-                if (authBtn) {
-                    authBtn.className = 'btn-logout';
-                    authBtn.onclick = (e) => { window.location.href = '/authentification/login.html'; };
-                }
-            }
-
-            document.addEventListener('DOMContentLoaded', () => {
-                if (!window.firebase) return;
-                try { firebase.initializeApp(cfg); } catch (_) {}
-                firebase.auth().onAuthStateChanged(user => user ? applyLoggedIn(user) : applyLoggedOut());
             });
         })();
     </script>
