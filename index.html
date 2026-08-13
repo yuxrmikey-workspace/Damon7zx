@@ -18,7 +18,6 @@
     <noscript><link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"></noscript>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
-    <!-- Utilisation du CDN jsdelivr pour une meilleure stabilité sur mobile -->
     <script defer src="https://cdn.jsdelivr.net/npm/firebase@10.12.0/firebase-app-compat.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/firebase@10.12.0/firebase-auth-compat.js"></script>
 
@@ -1114,7 +1113,7 @@
             const savedLang = localStorage.getItem('lang') || 'fr';
             applyLanguage(savedLang);
             setActiveLang(savedLang);
-            applyLoggedOut();
+            // SUPPRESSION DE applyLoggedOut() ICI. C'est Firebase qui gère l'état maintenant.
         });
 
         function applyLoggedOut() {
@@ -1182,20 +1181,15 @@
                 };
             }
 
-            const currentUser = auth.currentUser;
-            if (currentUser) {
-                updateUIForUser(currentUser);
-            } else {
-                applyLoggedOut();
-            }
+            // On attend que onAuthStateChanged se déclenche.
+            // Pour éviter le conflit, on ne fait AUCUN appel à applyLoggedOut ici.
+            // Si onAuthStateChanged détecte user === null, il appelle applyLoggedOut().
 
             auth.onAuthStateChanged(user => {
                 if (user) {
                     updateUIForUser(user);
                 } else {
-                    if (!document.body.classList.contains('is-logged')) {
-                        applyLoggedOut();
-                    }
+                    applyLoggedOut();
                 }
             });
         })();
