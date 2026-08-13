@@ -311,6 +311,19 @@
         }
         .product .fav-btn:hover, .product .fav-btn.fav-active { color: #F59E0B; }
 
+        /* PLACEHOLDER */
+        .thumb-placeholder {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+            font-size: 48px;
+            font-weight: 800;
+            color: var(--navy-400);
+            background: linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.02) 100%);
+        }
+
         /* COMMUNAUTÉ */
         .community {
             margin: var(--space-2xl) 0 var(--space-sm); padding: 22px 18px;
@@ -677,7 +690,7 @@
         window.makeLogoFallback = makeLogoFallback;
         window.makeThumbFallback = makeThumbFallback;
 
-        // ==================== PRODUITS (noms exacts) ====================
+        // ==================== PRODUITS ====================
         const productData = {
             gaming: [
                 { name: "One State", price: "Recharges", badge: "", badgeClass: "", verified: false, href: "/gaming/onestate.html", img: "onestate.png" },
@@ -722,7 +735,7 @@
             showToast(favorites.includes(name) ? t('favAdded') : t('favRemoved'), 'success');
         }
 
-        // ==================== TRADUCTIONS (compactes) ====================
+        // ==================== TRADUCTIONS ====================
         const translations = {
             fr: { skipToContent:"Aller au contenu principal", home:"Accueil", gaming:"Jeux", streaming:"Abonnement", finance:"Finance", giftcards:"Cartes cadeaux", social:"Réseaux sociaux", wallet:"Portefeuille", orders:"Commandes", support:"Support", terms:"Conditions", privacy:"Confidentialité", register:"S'inscrire", login:"Se Connecter", logout:"Déconnecter", searchPlaceholder:"Rechercher un service...", seeAll:"Voir tout", reviews:"Avis Clients", faq:"Questions fréquentes", faqQ1:"Comment passer une commande ?", faqA1:"Cliquez sur le service souhaité, connectez-vous et suivez les instructions de paiement.", faqQ2:"Quels modes de paiement acceptez-vous ?", faqA2:"MonCash, NatCash, Meru, et Portefeuille DigitalPay.", faqQ3:"Délai de livraison des recharges ?", faqA3:"Généralement instantané à 15 minutes maximum après confirmation du paiement.", whatsappTitle:"Rejoignez notre communauté WhatsApp !", whatsappDesc:"Restez connecté pour ne manquer aucune promo, astuce gaming et offre exclusive !", joinChannel:"Rejoindre la chaîne", secureRedirect:"Redirection sécurisée", slogan:"Services premium pour tous.", secure:"Paiements sécurisés • Support 24/7", review1:'"Recharge Free Fire reçue en 2 minutes. Service impeccable !"', review2:'"Transfert Wise rapide et sécurisé. Je recommande à 100%."', review3:'"Très bon service client, réactif sur WhatsApp. Prix compétitifs."', favAdded:"⭐ Ajouté aux favoris", favRemoved:"Retiré des favoris", authRequired:"🔒 Connexion requise pour accéder à cette page." },
             en: { skipToContent:"Skip to main content", home:"Home", gaming:"Gaming", streaming:"Streaming", finance:"Finance", giftcards:"Gift Cards", social:"Social Media", wallet:"Wallet", orders:"Orders", support:"Support", terms:"Terms", privacy:"Privacy", register:"Sign Up", login:"Log In", logout:"Log Out", searchPlaceholder:"Search a service...", seeAll:"See all", reviews:"Customer Reviews", faq:"FAQ", faqQ1:"How to place an order?", faqA1:"Click on the desired service, log in and follow the payment instructions.", faqQ2:"What payment methods do you accept?", faqA2:"MonCash, NatCash, Meru, and DigitalPay Wallet.", faqQ3:"Delivery time for recharges?", faqA3:"Usually instant up to 15 minutes after payment confirmation.", whatsappTitle:"Join our WhatsApp community!", whatsappDesc:"Stay connected to never miss any promo, gaming tips and exclusive offers!", joinChannel:"Join the channel", secureRedirect:"Secure redirect", slogan:"Premium services for everyone.", secure:"Secure payments • 24/7 Support", review1:'"Free Fire recharge received in 2 minutes. Flawless service!"', review2:'"Wise transfer fast and secure. I recommend 100%."', review3:'"Very good customer service, responsive on WhatsApp. Competitive prices."', favAdded:"⭐ Added to favorites", favRemoved:"Removed from favorites", authRequired:"🔒 Login required to access this page." },
@@ -798,12 +811,16 @@
             card.setAttribute('data-category', category);
             card.setAttribute('data-name', p.name);
             const isFav = favorites.includes(p.name);
+            const initial = p.name.charAt(0).toUpperCase();
             card.innerHTML = `
                 ${p.badge ? `<span class="badge ${p.badgeClass}">${p.badge}</span>` : ''}
                 <span class="fav-btn ${isFav ? 'fav-active' : ''}" data-name="${p.name}"><i class="fa-${isFav ? 'solid' : 'regular'} fa-heart"></i></span>
-                <div class="thumb skeleton">
-                    <div class="skeleton-circle"></div>
-                    <img src="/assets/${p.img}" alt="${p.name}" loading="lazy" onerror="this.replaceWith(makeThumbFallback('${p.name}'));" onload="this.classList.add('loaded'); this.parentElement.classList.remove('skeleton'); this.previousElementSibling.remove();">
+                <div class="thumb">
+                    <div class="thumb-placeholder">${initial}</div>
+                    <img src="/assets/${p.img}" alt="${p.name}" loading="lazy" 
+                         onerror="this.style.display='none'; this.previousElementSibling.style.display='flex';" 
+                         onload="this.style.display='block'; this.previousElementSibling.style.display='none';" 
+                         style="display:none;">
                 </div>
                 <div class="info">
                     <div class="name">${p.name} ${p.verified ? '<i class="fa-solid fa-circle-check verified-badge"></i>' : ''}</div>
@@ -985,7 +1002,7 @@
                     if (headerAvatar) { headerAvatar.style.display = 'flex'; headerAvatar.innerHTML = `<span style="font-weight:800">${letter}</span>`; }
                     if (sidebarAvatar) sidebarAvatar.innerHTML = `<span style="font-weight:800">${letter}</span>`;
                     if (sidebarName) sidebarName.textContent = user.displayName || 'Membre';
-                    if (sidebarEmail) sidebarEmail.textContent = user.email || '';
+                    if (sidebarEmail) { sidebarEmail.textContent = user.email || ''; sidebarEmail.style.color = 'var(--text-soft)'; }
                     if (authLabel) authLabel.textContent = t('logout');
                     if (authBtn) { authBtn.className = 'btn-logout is-danger'; authBtn.href = '#'; authBtn.onclick = (e) => { e.preventDefault(); auth.signOut().then(() => location.reload()); }; }
                 } else {
@@ -999,7 +1016,7 @@
                     if (headerAvatar) headerAvatar.style.display = 'none';
                     if (sidebarAvatar) sidebarAvatar.innerHTML = '<i class="fa-solid fa-user"></i>';
                     if (sidebarName) sidebarName.textContent = "Nom de l'utilisateur";
-                    if (sidebarEmail) sidebarEmail.textContent = 'email@exemple.com';
+                    if (sidebarEmail) { sidebarEmail.textContent = 'email@exemple.com'; sidebarEmail.style.color = 'var(--text-muted)'; }
                     if (authLabel) authLabel.innerHTML = t('login');
                     if (authBtn) { authBtn.className = 'btn-logout'; authBtn.href = '/authentification/login.html'; authBtn.onclick = null; }
                 }
