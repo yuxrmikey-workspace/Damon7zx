@@ -677,7 +677,7 @@
         window.makeLogoFallback = makeLogoFallback;
         window.makeThumbFallback = makeThumbFallback;
 
-        // ==================== PRODUITS ====================
+        // ==================== PRODUITS (noms exacts) ====================
         const productData = {
             gaming: [
                 { name: "One State", price: "Recharges", badge: "", badgeClass: "", verified: false, href: "/gaming/onestate.html", img: "onestate.png" },
@@ -722,92 +722,12 @@
             showToast(favorites.includes(name) ? t('favAdded') : t('favRemoved'), 'success');
         }
 
-        // ==================== TRADUCTIONS ====================
+        // ==================== TRADUCTIONS (compactes) ====================
         const translations = {
-            fr: {
-                skipToContent: "Aller au contenu principal",
-                home: "Accueil", gaming: "Jeux", streaming: "Abonnement", finance: "Finance", giftcards: "Cartes cadeaux", social: "Réseaux sociaux",
-                wallet: "Portefeuille", orders: "Commandes", support: "Support", terms: "Conditions", privacy: "Confidentialité",
-                register: "S'inscrire", login: "Se Connecter", logout: "Déconnecter",
-                searchPlaceholder: "Rechercher un service...",
-                seeAll: "Voir tout",
-                reviews: "Avis Clients", faq: "Questions fréquentes",
-                faqQ1: "Comment passer une commande ?", faqA1: "Cliquez sur le service souhaité, connectez-vous et suivez les instructions de paiement.",
-                faqQ2: "Quels modes de paiement acceptez-vous ?", faqA2: "MonCash, NatCash, Meru, et Portefeuille DigitalPay.",
-                faqQ3: "Délai de livraison des recharges ?", faqA3: "Généralement instantané à 15 minutes maximum après confirmation du paiement.",
-                whatsappTitle: "Rejoignez notre communauté WhatsApp !",
-                whatsappDesc: "Restez connecté pour ne manquer aucune promo, astuce gaming et offre exclusive !",
-                joinChannel: "Rejoindre la chaîne", secureRedirect: "Redirection sécurisée",
-                slogan: "Services premium pour tous.", secure: "Paiements sécurisés • Support 24/7",
-                review1: '"Recharge Free Fire reçue en 2 minutes. Service impeccable !"',
-                review2: '"Transfert Wise rapide et sécurisé. Je recommande à 100%."',
-                review3: '"Très bon service client, réactif sur WhatsApp. Prix compétitifs."',
-                favAdded: "⭐ Ajouté aux favoris", favRemoved: "Retiré des favoris",
-                authRequired: "🔒 Connexion requise pour accéder à cette page."
-            },
-            en: {
-                skipToContent: "Skip to main content",
-                home: "Home", gaming: "Gaming", streaming: "Streaming", finance: "Finance", giftcards: "Gift Cards", social: "Social Media",
-                wallet: "Wallet", orders: "Orders", support: "Support", terms: "Terms", privacy: "Privacy",
-                register: "Sign Up", login: "Log In", logout: "Log Out",
-                searchPlaceholder: "Search a service...",
-                seeAll: "See all",
-                reviews: "Customer Reviews", faq: "FAQ",
-                faqQ1: "How to place an order?", faqA1: "Click on the desired service, log in and follow the payment instructions.",
-                faqQ2: "What payment methods do you accept?", faqA2: "MonCash, NatCash, Meru, and DigitalPay Wallet.",
-                faqQ3: "Delivery time for recharges?", faqA3: "Usually instant up to 15 minutes after payment confirmation.",
-                whatsappTitle: "Join our WhatsApp community!",
-                whatsappDesc: "Stay connected to never miss any promo, gaming tips and exclusive offers!",
-                joinChannel: "Join the channel", secureRedirect: "Secure redirect",
-                slogan: "Premium services for everyone.", secure: "Secure payments • 24/7 Support",
-                review1: '"Free Fire recharge received in 2 minutes. Flawless service!"',
-                review2: '"Wise transfer fast and secure. I recommend 100%."',
-                review3: '"Very good customer service, responsive on WhatsApp. Competitive prices."',
-                favAdded: "⭐ Added to favorites", favRemoved: "Removed from favorites",
-                authRequired: "🔒 Login required to access this page."
-            },
-            ht: {
-                skipToContent: "Ale nan kontni prensipal la",
-                home: "Akèy", gaming: "Gaming", streaming: "Abònman", finance: "Finans", giftcards: "Kat Kado", social: "Rezo Sosyal",
-                wallet: "Bous", orders: "Kòmand", support: "Sipò", terms: "Kondisyon", privacy: "Konfidansyalite",
-                register: "Enskri", login: "Konekte", logout: "Dekonekte",
-                searchPlaceholder: "Chèche yon sèvis...",
-                seeAll: "Wè tout",
-                reviews: "Avi Kliyan", faq: "Kesyon yo poze souvan",
-                faqQ1: "Kijan pou pase yon kòmand?", faqA1: "Klike sou sèvis ou vle a, konekte epi swiv enstriksyon peman yo.",
-                faqQ2: "Ki mòd peman ou aksepte?", faqA2: "MonCash, NatCash, Meru, ak Bous DigitalPay.",
-                faqQ3: "Konbyen tan li pran pou yon rechaj?", faqA3: "Anjeneral enstantane jiska 15 minit apre konfimasyon peman an.",
-                whatsappTitle: "Rejwenn kominote WhatsApp nou an!",
-                whatsappDesc: "Rete konekte pou pa rate okenn promo, konsèy jwèt ak òf eksklizif!",
-                joinChannel: "Rejwenn kanal la", secureRedirect: "Redireksyon sekirize",
-                slogan: "Sèvis prim pou tout moun.", secure: "Peman sekirize • Sipò 24/7",
-                review1: '"Rechaj Free Fire te resevwa nan 2 minit. Sèvis san defo!"',
-                review2: '"Transfè Wise rapid e sekirize. Mwen rekòmande 100%."',
-                review3: '"Trè bon sèvis kliyan, reyaktif sou WhatsApp. Pri konpetitif."',
-                favAdded: "⭐ Ajoute nan favori", favRemoved: "Retire nan favori",
-                authRequired: "🔒 Konekte pou w ka aksede paj sa a."
-            },
-            es: {
-                skipToContent: "Ir al contenido principal",
-                home: "Inicio", gaming: "Juegos", streaming: "Streaming", finance: "Finanzas", giftcards: "Tarjetas de Regalo", social: "Redes Sociales",
-                wallet: "Billetera", orders: "Pedidos", support: "Soporte", terms: "Términos", privacy: "Privacidad",
-                register: "Registrarse", login: "Iniciar Sesión", logout: "Cerrar Sesión",
-                searchPlaceholder: "Buscar un servicio...",
-                seeAll: "Ver todo",
-                reviews: "Opiniones", faq: "Preguntas Frecuentes",
-                faqQ1: "¿Cómo hacer un pedido?", faqA1: "Haga clic en el servicio deseado, inicie sesión y siga las instrucciones de pago.",
-                faqQ2: "¿Qué métodos de pago aceptan?", faqA2: "MonCash, NatCash, Meru y Billetera DigitalPay.",
-                faqQ3: "¿Tiempo de entrega de las recargas?", faqA3: "Generalmente instantáneo hasta 15 minutos después de la confirmación del pago.",
-                whatsappTitle: "¡Únete a nuestra comunidad de WhatsApp!",
-                whatsappDesc: "¡Mantente conectado para no perderte ninguna promoción, consejos de juego y ofertas exclusivas!",
-                joinChannel: "Únete al canal", secureRedirect: "Redirección segura",
-                slogan: "Servicios premium para todos.", secure: "Pagos seguros • Soporte 24/7",
-                review1: '"Recarga de Free Fire recibida en 2 minutos. ¡Servicio impecable!"',
-                review2: '"Transferencia Wise rápida y segura. Lo recomiendo 100%."',
-                review3: '"Muy buen servicio al cliente, receptivo en WhatsApp. Precios competitivos."',
-                favAdded: "⭐ Añadido a favoritos", favRemoved: "Eliminado de favoritos",
-                authRequired: "🔒 Iniciar sesión requerido para acceder a esta página."
-            }
+            fr: { skipToContent:"Aller au contenu principal", home:"Accueil", gaming:"Jeux", streaming:"Abonnement", finance:"Finance", giftcards:"Cartes cadeaux", social:"Réseaux sociaux", wallet:"Portefeuille", orders:"Commandes", support:"Support", terms:"Conditions", privacy:"Confidentialité", register:"S'inscrire", login:"Se Connecter", logout:"Déconnecter", searchPlaceholder:"Rechercher un service...", seeAll:"Voir tout", reviews:"Avis Clients", faq:"Questions fréquentes", faqQ1:"Comment passer une commande ?", faqA1:"Cliquez sur le service souhaité, connectez-vous et suivez les instructions de paiement.", faqQ2:"Quels modes de paiement acceptez-vous ?", faqA2:"MonCash, NatCash, Meru, et Portefeuille DigitalPay.", faqQ3:"Délai de livraison des recharges ?", faqA3:"Généralement instantané à 15 minutes maximum après confirmation du paiement.", whatsappTitle:"Rejoignez notre communauté WhatsApp !", whatsappDesc:"Restez connecté pour ne manquer aucune promo, astuce gaming et offre exclusive !", joinChannel:"Rejoindre la chaîne", secureRedirect:"Redirection sécurisée", slogan:"Services premium pour tous.", secure:"Paiements sécurisés • Support 24/7", review1:'"Recharge Free Fire reçue en 2 minutes. Service impeccable !"', review2:'"Transfert Wise rapide et sécurisé. Je recommande à 100%."', review3:'"Très bon service client, réactif sur WhatsApp. Prix compétitifs."', favAdded:"⭐ Ajouté aux favoris", favRemoved:"Retiré des favoris", authRequired:"🔒 Connexion requise pour accéder à cette page." },
+            en: { skipToContent:"Skip to main content", home:"Home", gaming:"Gaming", streaming:"Streaming", finance:"Finance", giftcards:"Gift Cards", social:"Social Media", wallet:"Wallet", orders:"Orders", support:"Support", terms:"Terms", privacy:"Privacy", register:"Sign Up", login:"Log In", logout:"Log Out", searchPlaceholder:"Search a service...", seeAll:"See all", reviews:"Customer Reviews", faq:"FAQ", faqQ1:"How to place an order?", faqA1:"Click on the desired service, log in and follow the payment instructions.", faqQ2:"What payment methods do you accept?", faqA2:"MonCash, NatCash, Meru, and DigitalPay Wallet.", faqQ3:"Delivery time for recharges?", faqA3:"Usually instant up to 15 minutes after payment confirmation.", whatsappTitle:"Join our WhatsApp community!", whatsappDesc:"Stay connected to never miss any promo, gaming tips and exclusive offers!", joinChannel:"Join the channel", secureRedirect:"Secure redirect", slogan:"Premium services for everyone.", secure:"Secure payments • 24/7 Support", review1:'"Free Fire recharge received in 2 minutes. Flawless service!"', review2:'"Wise transfer fast and secure. I recommend 100%."', review3:'"Very good customer service, responsive on WhatsApp. Competitive prices."', favAdded:"⭐ Added to favorites", favRemoved:"Removed from favorites", authRequired:"🔒 Login required to access this page." },
+            ht: { skipToContent:"Ale nan kontni prensipal la", home:"Akèy", gaming:"Gaming", streaming:"Abònman", finance:"Finans", giftcards:"Kat Kado", social:"Rezo Sosyal", wallet:"Bous", orders:"Kòmand", support:"Sipò", terms:"Kondisyon", privacy:"Konfidansyalite", register:"Enskri", login:"Konekte", logout:"Dekonekte", searchPlaceholder:"Chèche yon sèvis...", seeAll:"Wè tout", reviews:"Avi Kliyan", faq:"Kesyon yo poze souvan", faqQ1:"Kijan pou pase yon kòmand?", faqA1:"Klike sou sèvis ou vle a, konekte epi swiv enstriksyon peman yo.", faqQ2:"Ki mòd peman ou aksepte?", faqA2:"MonCash, NatCash, Meru, ak Bous DigitalPay.", faqQ3:"Konbyen tan li pran pou yon rechaj?", faqA3:"Anjeneral enstantane jiska 15 minit apre konfimasyon peman an.", whatsappTitle:"Rejwenn kominote WhatsApp nou an!", whatsappDesc:"Rete konekte pou pa rate okenn promo, konsèy jwèt ak òf eksklizif!", joinChannel:"Rejwenn kanal la", secureRedirect:"Redireksyon sekirize", slogan:"Sèvis prim pou tout moun.", secure:"Peman sekirize • Sipò 24/7", review1:'"Rechaj Free Fire te resevwa nan 2 minit. Sèvis san defo!"', review2:'"Transfè Wise rapid e sekirize. Mwen rekòmande 100%."', review3:'"Trè bon sèvis kliyan, reyaktif sou WhatsApp. Pri konpetitif."', favAdded:"⭐ Ajoute nan favori", favRemoved:"Retire nan favori", authRequired:"🔒 Konekte pou w ka aksede paj sa a." },
+            es: { skipToContent:"Ir al contenido principal", home:"Inicio", gaming:"Juegos", streaming:"Streaming", finance:"Finanzas", giftcards:"Tarjetas de Regalo", social:"Redes Sociales", wallet:"Billetera", orders:"Pedidos", support:"Soporte", terms:"Términos", privacy:"Privacidad", register:"Registrarse", login:"Iniciar Sesión", logout:"Cerrar Sesión", searchPlaceholder:"Buscar un servicio...", seeAll:"Ver todo", reviews:"Opiniones", faq:"Preguntas Frecuentes", faqQ1:"¿Cómo hacer un pedido?", faqA1:"Haga clic en el servicio deseado, inicie sesión y siga las instrucciones de pago.", faqQ2:"¿Qué métodos de pago aceptan?", faqA2:"MonCash, NatCash, Meru y Billetera DigitalPay.", faqQ3:"¿Tiempo de entrega de las recargas?", faqA3:"Generalmente instantáneo hasta 15 minutos después de la confirmación del pago.", whatsappTitle:"¡Únete a nuestra comunidad de WhatsApp!", whatsappDesc:"¡Mantente conectado para no perderte ninguna promoción, consejos de juego y ofertas exclusivas!", joinChannel:"Únete al canal", secureRedirect:"Redirección segura", slogan:"Servicios premium para todos.", secure:"Pagos seguros • Soporte 24/7", review1:'"Recarga de Free Fire recibida en 2 minutos. ¡Servicio impecable!"', review2:'"Transferencia Wise rápida y segura. Lo recomiendo 100%."', review3:'"Muy buen servicio al cliente, receptivo en WhatsApp. Precios competitivos."', favAdded:"⭐ Añadido a favoritos", favRemoved:"Eliminado de favoritos", authRequired:"🔒 Iniciar sesión requerido para acceder a esta página." }
         };
 
         function getCurrentLang() { return localStorage.getItem('lang') || 'fr'; }
@@ -1037,7 +957,7 @@
         // ==================== HEADER SCROLL ====================
         window.addEventListener('scroll', () => document.getElementById('siteHeader').classList.toggle('is-scrolled', window.scrollY > 8), { passive: true });
 
-        // ==================== FIREBASE AUTH (CORRIGÉ) ====================
+        // ==================== FIREBASE AUTH ====================
         (function() {
             const cfg = {
                 apiKey: "AIzaSyB9o8-LYeKrg2q84dxQM5Z1wFKHjt9yHFo",
@@ -1050,10 +970,7 @@
             };
             try { firebase.initializeApp(cfg); } catch (_) {}
             const auth = firebase.auth();
-
-            // Persistance de session
-            auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL)
-                .catch((error) => console.error('Erreur de persistance:', error));
+            auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL).catch(() => {});
 
             function updateUI(user) {
                 if (user) {
@@ -1065,22 +982,12 @@
                     const sidebarEmail = document.getElementById('sidebarUserEmail');
                     const authLabel = document.getElementById('authBtnLabel');
                     const authBtn = document.getElementById('authBtn');
-                    if (headerAvatar) {
-                        headerAvatar.style.display = 'flex';
-                        headerAvatar.innerHTML = `<span style="font-weight:800">${letter}</span>`;
-                    }
+                    if (headerAvatar) { headerAvatar.style.display = 'flex'; headerAvatar.innerHTML = `<span style="font-weight:800">${letter}</span>`; }
                     if (sidebarAvatar) sidebarAvatar.innerHTML = `<span style="font-weight:800">${letter}</span>`;
                     if (sidebarName) sidebarName.textContent = user.displayName || 'Membre';
                     if (sidebarEmail) sidebarEmail.textContent = user.email || '';
                     if (authLabel) authLabel.textContent = t('logout');
-                    if (authBtn) {
-                        authBtn.className = 'btn-logout is-danger';
-                        authBtn.href = '#';
-                        authBtn.onclick = (e) => {
-                            e.preventDefault();
-                            auth.signOut().then(() => location.reload());
-                        };
-                    }
+                    if (authBtn) { authBtn.className = 'btn-logout is-danger'; authBtn.href = '#'; authBtn.onclick = (e) => { e.preventDefault(); auth.signOut().then(() => location.reload()); }; }
                 } else {
                     document.body.classList.remove('is-logged');
                     const headerAvatar = document.getElementById('headerAvatar');
@@ -1094,11 +1001,7 @@
                     if (sidebarName) sidebarName.textContent = "Nom de l'utilisateur";
                     if (sidebarEmail) sidebarEmail.textContent = 'email@exemple.com';
                     if (authLabel) authLabel.innerHTML = t('login');
-                    if (authBtn) {
-                        authBtn.className = 'btn-logout';
-                        authBtn.href = '/authentification/login.html';
-                        authBtn.onclick = null;
-                    }
+                    if (authBtn) { authBtn.className = 'btn-logout'; authBtn.href = '/authentification/login.html'; authBtn.onclick = null; }
                 }
             }
 
