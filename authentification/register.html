@@ -9,6 +9,8 @@
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;800&family=Inter:wght@400;500;600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"></noscript>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Fichiers Firebase (ils vont se charger en arrière-plan) -->
     <script defer src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script defer src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
 
@@ -231,7 +233,8 @@
         <span id="toastMessage">Message</span>
     </div>
 
-    <script>
+    <!-- CORRECTION ICI : Ajout de l'attribut "defer" sur cette balise script -->
+    <script defer>
         // ==================== TRADUCTIONS ====================
         const translations = {
             fr: {
@@ -326,7 +329,6 @@
 
         function showToast(message, type = 'info') {
             if (!toastContainer) {
-                // Fallback si le toast n'est pas trouvé
                 alert("TOAST FALLBACK: " + message);
                 return;
             }
@@ -342,62 +344,66 @@
         }
 
         // ==================== FIREBASE ====================
-        const firebaseConfig = {
-            apiKey: "AIzaSyB9o8-LYeKrg2q84dxQM5Z1wFKHjt9yHFo",
-            authDomain: "digital-pay-haiti.firebaseapp.com",
-            projectId: "digital-pay-haiti",
-            storageBucket: "digital-pay-haiti.firebasestorage.app",
-            messagingSenderId: "182015693140",
-            appId: "1:182015693140:web:8a2486b9446bfb791bf8c1",
-            measurementId: "G-7JK3CTR4C9"
-        };
-        try {
-            firebase.initializeApp(firebaseConfig);
-        } catch (e) {
-            alert("❌ Erreur d'initialisation Firebase : " + e.message);
+        // On vérifie si firebase est bien chargé avant de continuer pour éviter l'erreur sur mobile
+        if (typeof firebase === 'undefined') {
+            alert("❌ Firebase SDK non chargé. Vérifiez votre réseau ou rafraîchissez la page.");
+        } else {
+            const firebaseConfig = {
+                apiKey: "AIzaSyB9o8-LYeKrg2q84dxQM5Z1wFKHjt9yHFo",
+                authDomain: "digital-pay-haiti.firebaseapp.com",
+                projectId: "digital-pay-haiti",
+                storageBucket: "digital-pay-haiti.firebasestorage.app",
+                messagingSenderId: "182015693140",
+                appId: "1:182015693140:web:8a2486b9446bfb791bf8c1",
+                measurementId: "G-7JK3CTR4C9"
+            };
+            try {
+                firebase.initializeApp(firebaseConfig);
+            } catch (e) {
+                alert("❌ Erreur d'initialisation Firebase : " + e.message);
+            }
+            const auth = firebase.auth();
+
+            // ==================== INSCRIPTION EMAIL/PASSWORD ====================
+            document.getElementById('registerForm').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const name = document.getElementById('displayName').value.trim();
+                const email = document.getElementById('email').value.trim();
+                const password = document.getElementById('password').value;
+
+                if (!name) { showToast(t('errorName'), 'error'); return; }
+                if (!email || !email.includes('@')) { showToast(t('errorEmail'), 'error'); return; }
+                if (password.length < 6) { showToast(t('errorPassword'), 'error'); return; }
+
+                try {
+                    const userCred = await auth.createUserWithEmailAndPassword(email, password);
+                    await userCred.user.updateProfile({ displayName: name });
+                    showToast(t('successRegister'), 'success');
+                    setTimeout(() => { window.location.href = '/index.html'; }, 1500);
+                } catch (err) {
+                    alert("🔴 ERREUR FIREBASE DÉTECTÉE\nCode : " + err.code + "\nMessage : " + err.message);
+                    let msg = err.message;
+                    if (err.code === 'auth/email-already-in-use') msg = 'Cet email est déjà utilisé.';
+                    else if (err.code === 'auth/weak-password') msg = 'Mot de passe trop faible.';
+                    else if (err.code === 'auth/operation-not-allowed') msg = '⚠️ La méthode Email/Password n\'est pas activée dans la console Firebase.';
+                    showToast(t('errorRegister') + msg, 'error');
+                }
+            });
+
+            // ==================== GOOGLE ====================
+            document.getElementById('googleBtn').addEventListener('click', async () => {
+                const provider = new firebase.auth.GoogleAuthProvider();
+                try {
+                    await auth.signInWithPopup(provider);
+                    showToast(t('successRegister'), 'success');
+                    setTimeout(() => { window.location.href = '/index.html'; }, 1500);
+                } catch (err) {
+                    if (err.code === 'auth/popup-closed-by-user') return;
+                    alert("🔴 ERREUR GOOGLE DÉTECTÉE\nCode : " + err.code + "\nMessage : " + err.message);
+                    showToast(t('googleError') + err.message, 'error');
+                }
+            });
         }
-        const auth = firebase.auth();
-
-        // ==================== INSCRIPTION EMAIL/PASSWORD ====================
-        document.getElementById('registerForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const name = document.getElementById('displayName').value.trim();
-            const email = document.getElementById('email').value.trim();
-            const password = document.getElementById('password').value;
-
-            if (!name) { showToast(t('errorName'), 'error'); return; }
-            if (!email || !email.includes('@')) { showToast(t('errorEmail'), 'error'); return; }
-            if (password.length < 6) { showToast(t('errorPassword'), 'error'); return; }
-
-            try {
-                const userCred = await auth.createUserWithEmailAndPassword(email, password);
-                await userCred.user.updateProfile({ displayName: name });
-                showToast(t('successRegister'), 'success');
-                setTimeout(() => { window.location.href = '/index.html'; }, 1500);
-            } catch (err) {
-                // ALERTE FORCÉE POUR LE DÉBOGAGE SUR MOBILE
-                alert("🔴 ERREUR FIREBASE DÉTECTÉE\nCode : " + err.code + "\nMessage : " + err.message);
-                let msg = err.message;
-                if (err.code === 'auth/email-already-in-use') msg = 'Cet email est déjà utilisé.';
-                else if (err.code === 'auth/weak-password') msg = 'Mot de passe trop faible.';
-                else if (err.code === 'auth/operation-not-allowed') msg = '⚠️ La méthode Email/Password n\'est pas activée dans la console Firebase.';
-                showToast(t('errorRegister') + msg, 'error');
-            }
-        });
-
-        // ==================== GOOGLE ====================
-        document.getElementById('googleBtn').addEventListener('click', async () => {
-            const provider = new firebase.auth.GoogleAuthProvider();
-            try {
-                await auth.signInWithPopup(provider);
-                showToast(t('successRegister'), 'success');
-                setTimeout(() => { window.location.href = '/index.html'; }, 1500);
-            } catch (err) {
-                if (err.code === 'auth/popup-closed-by-user') return;
-                alert("🔴 ERREUR GOOGLE DÉTECTÉE\nCode : " + err.code + "\nMessage : " + err.message);
-                showToast(t('googleError') + err.message, 'error');
-            }
-        });
     </script>
 </body>
 </html>
