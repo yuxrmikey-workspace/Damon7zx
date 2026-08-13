@@ -1083,8 +1083,14 @@
     try { firebase.initializeApp(cfg); } catch (_) {}
     
     firebase.auth().onAuthStateChanged(user => {
-        if (user) {
-            document.body.classList.add('is-logged');
+    if (user) {
+        // Cette alerte va apparaître sur ton téléphone si la connexion réussit
+        alert("✅ CONNEXION RÉUSSIE !\nEmail : " + user.email + "\nNom : " + user.displayName);
+        
+        document.body.classList.add('is-logged');
+        // ... le reste du code pour mettre à jour l'avatar et le nom ...
+    }
+});
             
             // --- 1. Mise à jour de l'avatar (photo réelle ou lettre) ---
             const headerAvatar = document.getElementById('headerAvatar');
