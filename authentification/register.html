@@ -325,6 +325,11 @@
         const toastIcon = document.getElementById('toastIcon');
 
         function showToast(message, type = 'info') {
+            if (!toastContainer) {
+                // Fallback si le toast n'est pas trouvé
+                alert("TOAST FALLBACK: " + message);
+                return;
+            }
             toastMessage.textContent = message;
             toastContainer.className = 'toast-container';
             toastIcon.className = 'fa-solid';
@@ -346,7 +351,11 @@
             appId: "1:182015693140:web:8a2486b9446bfb791bf8c1",
             measurementId: "G-7JK3CTR4C9"
         };
-        firebase.initializeApp(firebaseConfig);
+        try {
+            firebase.initializeApp(firebaseConfig);
+        } catch (e) {
+            alert("❌ Erreur d'initialisation Firebase : " + e.message);
+        }
         const auth = firebase.auth();
 
         // ==================== INSCRIPTION EMAIL/PASSWORD ====================
@@ -366,9 +375,12 @@
                 showToast(t('successRegister'), 'success');
                 setTimeout(() => { window.location.href = '/index.html'; }, 1500);
             } catch (err) {
+                // ALERTE FORCÉE POUR LE DÉBOGAGE SUR MOBILE
+                alert("🔴 ERREUR FIREBASE DÉTECTÉE\nCode : " + err.code + "\nMessage : " + err.message);
                 let msg = err.message;
                 if (err.code === 'auth/email-already-in-use') msg = 'Cet email est déjà utilisé.';
                 else if (err.code === 'auth/weak-password') msg = 'Mot de passe trop faible.';
+                else if (err.code === 'auth/operation-not-allowed') msg = '⚠️ La méthode Email/Password n\'est pas activée dans la console Firebase.';
                 showToast(t('errorRegister') + msg, 'error');
             }
         });
@@ -382,6 +394,7 @@
                 setTimeout(() => { window.location.href = '/index.html'; }, 1500);
             } catch (err) {
                 if (err.code === 'auth/popup-closed-by-user') return;
+                alert("🔴 ERREUR GOOGLE DÉTECTÉE\nCode : " + err.code + "\nMessage : " + err.message);
                 showToast(t('googleError') + err.message, 'error');
             }
         });
