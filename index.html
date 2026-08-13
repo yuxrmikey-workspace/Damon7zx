@@ -153,7 +153,7 @@
         .sidebar-overlay { position: fixed; inset: 0; z-index: 1999; background: rgba(0,0,0,0.7); backdrop-filter: blur(6px); opacity: 0; visibility: hidden; transition: opacity 0.3s; }
         .sidebar-overlay.is-open { opacity: 1; visibility: visible; }
 
-        /* SIDEBAR */
+        /* SIDEBAR (réduite) */
         .sidebar {
             position: fixed; top: 0; right: -280px; width: min(80vw, 280px); height: 100vh;
             background: rgba(14,15,22,0.98); z-index: 2000; padding: 1.2rem 1.2rem;
@@ -280,6 +280,15 @@
         .product .thumb img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.4s; filter: blur(10px); }
         .product .thumb img.loaded { filter: blur(0); }
         .product:hover .thumb img { transform: scale(1.05); }
+        .product .thumb.skeleton::before {
+            content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent);
+            transform: translateX(-100%); animation: shimmer 1.6s infinite; z-index: 1;
+        }
+        .product .thumb .skeleton-circle {
+            width: 60%; height: 60%; border-radius: 50%; background: rgba(255,255,255,0.08);
+            position: absolute; top: 20%; left: 20%; z-index: 2;
+        }
+        @keyframes shimmer { 100% { transform: translateX(100%); } }
         .product .info { padding: 10px 12px 12px; background: var(--bg-glass); border-top: 1px solid rgba(255,255,255,0.05); position: relative; z-index: 2; }
         .product .name { font-weight: 700; color: var(--text); font-size: 13px; margin-bottom: 2px; display: flex; align-items: center; gap: 5px; }
         .product .name mark { background: transparent; color: var(--navy-400); font-weight: 700; }
@@ -301,19 +310,6 @@
             color: rgba(255,255,255,0.3); transition: color 0.2s;
         }
         .product .fav-btn:hover, .product .fav-btn.fav-active { color: #F59E0B; }
-
-        /* PLACEHOLDER */
-        .thumb-placeholder {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 100%;
-            height: 100%;
-            font-size: 48px;
-            font-weight: 800;
-            color: var(--navy-400);
-            background: linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.02) 100%);
-        }
 
         /* COMMUNAUTÉ */
         .community {
@@ -681,13 +677,21 @@
         window.makeLogoFallback = makeLogoFallback;
         window.makeThumbFallback = makeThumbFallback;
 
-        // ==================== PRODUITS ====================
+        // ==================== PRODUITS (28 au total) ====================
         const productData = {
             gaming: [
                 { name: "One State", price: "Recharges", badge: "", badgeClass: "", verified: false, href: "/gaming/onestate.html", img: "onestate.png" },
                 { name: "Free Fire", price: "110+10💎 = 157 HTG", badge: "#1", badgeClass: "", verified: true, href: "/gaming/freefire.html", img: "freefire-logo.png" },
                 { name: "Blood Strike", price: "Recharges", badge: "New", badgeClass: "new", verified: false, href: "/gaming/bloodstrike.html", img: "Bloodstrike.png" },
-                { name: "Call of Duty", price: "Recharges", badge: "", badgeClass: "", verified: false, href: "/gaming/callofduty.html", img: "callofduty.png" }
+                { name: "Call of Duty", price: "Recharges", badge: "", badgeClass: "", verified: false, href: "/gaming/callofduty.html", img: "callofduty.png" },
+                { name: "Minecraft", price: "À partir de 316 HTG", badge: "", badgeClass: "", verified: false, href: "/gaming/minecraft.html", img: "minecraft-logo.png" },
+                { name: "Roblox", price: "À partir de 750 HTG", badge: "", badgeClass: "", verified: false, href: "/gaming/roblox.html", img: "roblox-logo.png" },
+                { name: "FC Mobile", price: "Recharges", badge: "", badgeClass: "", verified: false, href: "/gaming/fcmobile.html", img: "fcmobile.png" },
+                { name: "E-Football", price: "Recharges", badge: "", badgeClass: "", verified: false, href: "/gaming/efootball.html", img: "efootball.png" },
+                { name: "Mobile Legends", price: "Recharges", badge: "", badgeClass: "", verified: false, href: "/gaming/mobilelegends.html", img: "mobilelegends.png" },
+                { name: "Dream League Soccer", price: "Recharges", badge: "", badgeClass: "", verified: false, href: "/gaming/dreamleaguesoccer.html", img: "dreamleaguesoccer.png" },
+                { name: "Lords Mobile", price: "Recharges", badge: "", badgeClass: "", verified: false, href: "/gaming/lordsmobile.html", img: "lordsmobile.png" },
+                { name: "PUBG Mobile", price: "À partir de 180 Gdes", badge: "", badgeClass: "", verified: false, href: "/gaming/pubgmobile.html", img: "pubgmobile-logo.png" }
             ],
             streaming: [
                 { name: "Netflix", price: "1 Mois = 400 Gdes", badge: "", badgeClass: "", verified: true, href: "/streaming/netflix.html", img: "netflix.png" },
@@ -699,13 +703,16 @@
                 { name: "Binance (USDT TRC20)", price: "Transferts USDT", badge: "", badgeClass: "", verified: true, href: "/finance/binance.html", img: "binance.png" },
                 { name: "Meru", price: "Transferts", badge: "", badgeClass: "", verified: false, href: "/finance/meru.html", img: "meru.png" },
                 { name: "Wise", price: "International", badge: "", badgeClass: "", verified: false, href: "/finance/wise.html", img: "wise.png" },
+                { name: "Carte de crédit (Meru)", price: "Recharges", badge: "", badgeClass: "", verified: false, href: "/finance/merucard.html", img: "merucard.png" },
                 { name: "PayPal", price: "Paiements en ligne", badge: "", badgeClass: "", verified: true, href: "/finance/paypal.html", img: "paypal.png" }
             ],
             giftcard: [
                 { name: "Apple", price: "App Store & iTunes", badge: "", badgeClass: "", verified: false, href: "/giftcard/apple.html", img: "applegc.png" },
                 { name: "Netflix", price: "Cartes cadeaux", badge: "", badgeClass: "", verified: false, href: "/giftcard/netflix.html", img: "netflixgc.png" },
                 { name: "Nintendo", price: "eShop", badge: "", badgeClass: "", verified: false, href: "/giftcard/nintendo.html", img: "nintendogc.png" },
-                { name: "PlayStation", price: "PSN Store", badge: "", badgeClass: "", verified: false, href: "/giftcard/playstation.html", img: "playstationgc.png" }
+                { name: "PlayStation", price: "PSN Store", badge: "", badgeClass: "", verified: false, href: "/giftcard/playstation.html", img: "playstationgc.png" },
+                { name: "Steam", price: "Steam Wallet", badge: "", badgeClass: "", verified: false, href: "/giftcard/steam.html", img: "steamgc.png" },
+                { name: "Google Play", price: "Cartes Android", badge: "", badgeClass: "", verified: false, href: "/giftcard/googleplay.html", img: "googleplaygc.png" }
             ],
             social: [
                 { name: "Telegram (Stars)", price: "Recharges", badge: "", badgeClass: "", verified: false, href: "/social/telegram.html", img: "telegram.png" },
@@ -728,10 +735,90 @@
 
         // ==================== TRADUCTIONS ====================
         const translations = {
-            fr: { skipToContent:"Aller au contenu principal", home:"Accueil", gaming:"Jeux", streaming:"Abonnement", finance:"Finance", giftcards:"Cartes cadeaux", social:"Réseaux sociaux", wallet:"Portefeuille", orders:"Commandes", support:"Support", terms:"Conditions", privacy:"Confidentialité", register:"S'inscrire", login:"Se Connecter", logout:"Déconnecter", searchPlaceholder:"Rechercher un service...", seeAll:"Voir tout", reviews:"Avis Clients", faq:"Questions fréquentes", faqQ1:"Comment passer une commande ?", faqA1:"Cliquez sur le service souhaité, connectez-vous et suivez les instructions de paiement.", faqQ2:"Quels modes de paiement acceptez-vous ?", faqA2:"MonCash, NatCash, Meru, et Portefeuille DigitalPay.", faqQ3:"Délai de livraison des recharges ?", faqA3:"Généralement instantané à 15 minutes maximum après confirmation du paiement.", whatsappTitle:"Rejoignez notre communauté WhatsApp !", whatsappDesc:"Restez connecté pour ne manquer aucune promo, astuce gaming et offre exclusive !", joinChannel:"Rejoindre la chaîne", secureRedirect:"Redirection sécurisée", slogan:"Services premium pour tous.", secure:"Paiements sécurisés • Support 24/7", review1:'"Recharge Free Fire reçue en 2 minutes. Service impeccable !"', review2:'"Transfert Wise rapide et sécurisé. Je recommande à 100%."', review3:'"Très bon service client, réactif sur WhatsApp. Prix compétitifs."', favAdded:"⭐ Ajouté aux favoris", favRemoved:"Retiré des favoris", authRequired:"🔒 Connexion requise pour accéder à cette page." },
-            en: { skipToContent:"Skip to main content", home:"Home", gaming:"Gaming", streaming:"Streaming", finance:"Finance", giftcards:"Gift Cards", social:"Social Media", wallet:"Wallet", orders:"Orders", support:"Support", terms:"Terms", privacy:"Privacy", register:"Sign Up", login:"Log In", logout:"Log Out", searchPlaceholder:"Search a service...", seeAll:"See all", reviews:"Customer Reviews", faq:"FAQ", faqQ1:"How to place an order?", faqA1:"Click on the desired service, log in and follow the payment instructions.", faqQ2:"What payment methods do you accept?", faqA2:"MonCash, NatCash, Meru, and DigitalPay Wallet.", faqQ3:"Delivery time for recharges?", faqA3:"Usually instant up to 15 minutes after payment confirmation.", whatsappTitle:"Join our WhatsApp community!", whatsappDesc:"Stay connected to never miss any promo, gaming tips and exclusive offers!", joinChannel:"Join the channel", secureRedirect:"Secure redirect", slogan:"Premium services for everyone.", secure:"Secure payments • 24/7 Support", review1:'"Free Fire recharge received in 2 minutes. Flawless service!"', review2:'"Wise transfer fast and secure. I recommend 100%."', review3:'"Very good customer service, responsive on WhatsApp. Competitive prices."', favAdded:"⭐ Added to favorites", favRemoved:"Removed from favorites", authRequired:"🔒 Login required to access this page." },
-            ht: { skipToContent:"Ale nan kontni prensipal la", home:"Akèy", gaming:"Gaming", streaming:"Abònman", finance:"Finans", giftcards:"Kat Kado", social:"Rezo Sosyal", wallet:"Bous", orders:"Kòmand", support:"Sipò", terms:"Kondisyon", privacy:"Konfidansyalite", register:"Enskri", login:"Konekte", logout:"Dekonekte", searchPlaceholder:"Chèche yon sèvis...", seeAll:"Wè tout", reviews:"Avi Kliyan", faq:"Kesyon yo poze souvan", faqQ1:"Kijan pou pase yon kòmand?", faqA1:"Klike sou sèvis ou vle a, konekte epi swiv enstriksyon peman yo.", faqQ2:"Ki mòd peman ou aksepte?", faqA2:"MonCash, NatCash, Meru, ak Bous DigitalPay.", faqQ3:"Konbyen tan li pran pou yon rechaj?", faqA3:"Anjeneral enstantane jiska 15 minit apre konfimasyon peman an.", whatsappTitle:"Rejwenn kominote WhatsApp nou an!", whatsappDesc:"Rete konekte pou pa rate okenn promo, konsèy jwèt ak òf eksklizif!", joinChannel:"Rejwenn kanal la", secureRedirect:"Redireksyon sekirize", slogan:"Sèvis prim pou tout moun.", secure:"Peman sekirize • Sipò 24/7", review1:'"Rechaj Free Fire te resevwa nan 2 minit. Sèvis san defo!"', review2:'"Transfè Wise rapid e sekirize. Mwen rekòmande 100%."', review3:'"Trè bon sèvis kliyan, reyaktif sou WhatsApp. Pri konpetitif."', favAdded:"⭐ Ajoute nan favori", favRemoved:"Retire nan favori", authRequired:"🔒 Konekte pou w ka aksede paj sa a." },
-            es: { skipToContent:"Ir al contenido principal", home:"Inicio", gaming:"Juegos", streaming:"Streaming", finance:"Finanzas", giftcards:"Tarjetas de Regalo", social:"Redes Sociales", wallet:"Billetera", orders:"Pedidos", support:"Soporte", terms:"Términos", privacy:"Privacidad", register:"Registrarse", login:"Iniciar Sesión", logout:"Cerrar Sesión", searchPlaceholder:"Buscar un servicio...", seeAll:"Ver todo", reviews:"Opiniones", faq:"Preguntas Frecuentes", faqQ1:"¿Cómo hacer un pedido?", faqA1:"Haga clic en el servicio deseado, inicie sesión y siga las instrucciones de pago.", faqQ2:"¿Qué métodos de pago aceptan?", faqA2:"MonCash, NatCash, Meru y Billetera DigitalPay.", faqQ3:"¿Tiempo de entrega de las recargas?", faqA3:"Generalmente instantáneo hasta 15 minutos después de la confirmación del pago.", whatsappTitle:"¡Únete a nuestra comunidad de WhatsApp!", whatsappDesc:"¡Mantente conectado para no perderte ninguna promoción, consejos de juego y ofertas exclusivas!", joinChannel:"Únete al canal", secureRedirect:"Redirección segura", slogan:"Servicios premium para todos.", secure:"Pagos seguros • Soporte 24/7", review1:'"Recarga de Free Fire recibida en 2 minutos. ¡Servicio impecable!"', review2:'"Transferencia Wise rápida y segura. Lo recomiendo 100%."', review3:'"Muy buen servicio al cliente, receptivo en WhatsApp. Precios competitivos."', favAdded:"⭐ Añadido a favoritos", favRemoved:"Eliminado de favoritos", authRequired:"🔒 Iniciar sesión requerido para acceder a esta página." }
+            fr: {
+                skipToContent: "Aller au contenu principal",
+                home: "Accueil", gaming: "Jeux", streaming: "Abonnement", finance: "Finance", giftcards: "Cartes cadeaux", social: "Réseaux sociaux",
+                wallet: "Portefeuille", orders: "Commandes", support: "Support", terms: "Conditions", privacy: "Confidentialité",
+                register: "S'inscrire", login: "Se Connecter", logout: "Déconnecter",
+                searchPlaceholder: "Rechercher un service...",
+                seeAll: "Voir tout",
+                reviews: "Avis Clients", faq: "Questions fréquentes",
+                faqQ1: "Comment passer une commande ?", faqA1: "Cliquez sur le service souhaité, connectez-vous et suivez les instructions de paiement.",
+                faqQ2: "Quels modes de paiement acceptez-vous ?", faqA2: "MonCash, NatCash, Meru, et Portefeuille DigitalPay.",
+                faqQ3: "Délai de livraison des recharges ?", faqA3: "Généralement instantané à 15 minutes maximum après confirmation du paiement.",
+                whatsappTitle: "Rejoignez notre communauté WhatsApp !",
+                whatsappDesc: "Restez connecté pour ne manquer aucune promo, astuce gaming et offre exclusive !",
+                joinChannel: "Rejoindre la chaîne", secureRedirect: "Redirection sécurisée",
+                slogan: "Services premium pour tous.", secure: "Paiements sécurisés • Support 24/7",
+                review1: '"Recharge Free Fire reçue en 2 minutes. Service impeccable !"',
+                review2: '"Transfert Wise rapide et sécurisé. Je recommande à 100%."',
+                review3: '"Très bon service client, réactif sur WhatsApp. Prix compétitifs."',
+                favAdded: "⭐ Ajouté aux favoris", favRemoved: "Retiré des favoris",
+                authRequired: "🔒 Connexion requise pour accéder à cette page."
+            },
+            en: {
+                skipToContent: "Skip to main content",
+                home: "Home", gaming: "Gaming", streaming: "Streaming", finance: "Finance", giftcards: "Gift Cards", social: "Social Media",
+                wallet: "Wallet", orders: "Orders", support: "Support", terms: "Terms", privacy: "Privacy",
+                register: "Sign Up", login: "Log In", logout: "Log Out",
+                searchPlaceholder: "Search a service...",
+                seeAll: "See all",
+                reviews: "Customer Reviews", faq: "FAQ",
+                faqQ1: "How to place an order?", faqA1: "Click on the desired service, log in and follow the payment instructions.",
+                faqQ2: "What payment methods do you accept?", faqA2: "MonCash, NatCash, Meru, and DigitalPay Wallet.",
+                faqQ3: "Delivery time for recharges?", faqA3: "Usually instant up to 15 minutes after payment confirmation.",
+                whatsappTitle: "Join our WhatsApp community!",
+                whatsappDesc: "Stay connected to never miss any promo, gaming tips and exclusive offers!",
+                joinChannel: "Join the channel", secureRedirect: "Secure redirect",
+                slogan: "Premium services for everyone.", secure: "Secure payments • 24/7 Support",
+                review1: '"Free Fire recharge received in 2 minutes. Flawless service!"',
+                review2: '"Wise transfer fast and secure. I recommend 100%."',
+                review3: '"Very good customer service, responsive on WhatsApp. Competitive prices."',
+                favAdded: "⭐ Added to favorites", favRemoved: "Removed from favorites",
+                authRequired: "🔒 Login required to access this page."
+            },
+            ht: {
+                skipToContent: "Ale nan kontni prensipal la",
+                home: "Akèy", gaming: "Gaming", streaming: "Abònman", finance: "Finans", giftcards: "Kat Kado", social: "Rezo Sosyal",
+                wallet: "Bous", orders: "Kòmand", support: "Sipò", terms: "Kondisyon", privacy: "Konfidansyalite",
+                register: "Enskri", login: "Konekte", logout: "Dekonekte",
+                searchPlaceholder: "Chèche yon sèvis...",
+                seeAll: "Wè tout",
+                reviews: "Avi Kliyan", faq: "Kesyon yo poze souvan",
+                faqQ1: "Kijan pou pase yon kòmand?", faqA1: "Klike sou sèvis ou vle a, konekte epi swiv enstriksyon peman yo.",
+                faqQ2: "Ki mòd peman ou aksepte?", faqA2: "MonCash, NatCash, Meru, ak Bous DigitalPay.",
+                faqQ3: "Konbyen tan li pran pou yon rechaj?", faqA3: "Anjeneral enstantane jiska 15 minit apre konfimasyon peman an.",
+                whatsappTitle: "Rejwenn kominote WhatsApp nou an!",
+                whatsappDesc: "Rete konekte pou pa rate okenn promo, konsèy jwèt ak òf eksklizif!",
+                joinChannel: "Rejwenn kanal la", secureRedirect: "Redireksyon sekirize",
+                slogan: "Sèvis prim pou tout moun.", secure: "Peman sekirize • Sipò 24/7",
+                review1: '"Rechaj Free Fire te resevwa nan 2 minit. Sèvis san defo!"',
+                review2: '"Transfè Wise rapid e sekirize. Mwen rekòmande 100%."',
+                review3: '"Trè bon sèvis kliyan, reyaktif sou WhatsApp. Pri konpetitif."',
+                favAdded: "⭐ Ajoute nan favori", favRemoved: "Retire nan favori",
+                authRequired: "🔒 Konekte pou w ka aksede paj sa a."
+            },
+            es: {
+                skipToContent: "Ir al contenido principal",
+                home: "Inicio", gaming: "Juegos", streaming: "Streaming", finance: "Finanzas", giftcards: "Tarjetas de Regalo", social: "Redes Sociales",
+                wallet: "Billetera", orders: "Pedidos", support: "Soporte", terms: "Términos", privacy: "Privacidad",
+                register: "Registrarse", login: "Iniciar Sesión", logout: "Cerrar Sesión",
+                searchPlaceholder: "Buscar un servicio...",
+                seeAll: "Ver todo",
+                reviews: "Opiniones", faq: "Preguntas Frecuentes",
+                faqQ1: "¿Cómo hacer un pedido?", faqA1: "Haga clic en el servicio deseado, inicie sesión y siga las instrucciones de pago.",
+                faqQ2: "¿Qué métodos de pago aceptan?", faqA2: "MonCash, NatCash, Meru y Billetera DigitalPay.",
+                faqQ3: "¿Tiempo de entrega de las recargas?", faqA3: "Generalmente instantáneo hasta 15 minutos después de la confirmación del pago.",
+                whatsappTitle: "¡Únete a nuestra comunidad de WhatsApp!",
+                whatsappDesc: "¡Mantente conectado para no perderte ninguna promoción, consejos de juego y ofertas exclusivas!",
+                joinChannel: "Únete al canal", secureRedirect: "Redirección segura",
+                slogan: "Servicios premium para todos.", secure: "Pagos seguros • Soporte 24/7",
+                review1: '"Recarga de Free Fire recibida en 2 minutos. ¡Servicio impecable!"',
+                review2: '"Transferencia Wise rápida y segura. Lo recomiendo 100%."',
+                review3: '"Muy buen servicio al cliente, receptivo en WhatsApp. Precios competitivos."',
+                favAdded: "⭐ Añadido a favoritos", favRemoved: "Eliminado de favoritos",
+                authRequired: "🔒 Iniciar sesión requerido para acceder a esta página."
+            }
         };
 
         function getCurrentLang() { return localStorage.getItem('lang') || 'fr'; }
@@ -802,16 +889,12 @@
             card.setAttribute('data-category', category);
             card.setAttribute('data-name', p.name);
             const isFav = favorites.includes(p.name);
-            const initial = p.name.charAt(0).toUpperCase();
             card.innerHTML = `
                 ${p.badge ? `<span class="badge ${p.badgeClass}">${p.badge}</span>` : ''}
                 <span class="fav-btn ${isFav ? 'fav-active' : ''}" data-name="${p.name}"><i class="fa-${isFav ? 'solid' : 'regular'} fa-heart"></i></span>
-                <div class="thumb">
-                    <div class="thumb-placeholder">${initial}</div>
-                    <img src="/assets/${p.img}" alt="${p.name}" loading="lazy" 
-                         onerror="this.style.display='none'; this.previousElementSibling.style.display='flex';" 
-                         onload="this.style.display='block'; this.previousElementSibling.style.display='none';" 
-                         style="display:none;">
+                <div class="thumb skeleton">
+                    <div class="skeleton-circle"></div>
+                    <img src="/assets/${p.img}" alt="${p.name}" loading="lazy" onerror="this.replaceWith(makeThumbFallback('${p.name}'));" onload="this.classList.add('loaded'); this.parentElement.classList.remove('skeleton'); this.previousElementSibling.remove();">
                 </div>
                 <div class="info">
                     <div class="name">${p.name} ${p.verified ? '<i class="fa-solid fa-circle-check verified-badge"></i>' : ''}</div>
@@ -965,72 +1048,78 @@
         // ==================== HEADER SCROLL ====================
         window.addEventListener('scroll', () => document.getElementById('siteHeader').classList.toggle('is-scrolled', window.scrollY > 8), { passive: true });
 
-        // ==================== FIREBASE AUTH ====================
-        (function() {
-            const cfg = {
-                apiKey: "AIzaSyB9o8-LYeKrg2q84dxQM5Z1wFKHjt9yHFo",
-                authDomain: "digital-pay-haiti.firebaseapp.com",
-                projectId: "digital-pay-haiti",
-                storageBucket: "digital-pay-haiti.firebasestorage.app",
-                messagingSenderId: "182015693140",
-                appId: "1:182015693140:web:8a2486b9446bfb791bf8c1",
-                measurementId: "G-7JK3CTR4C9"
-            };
-            try { firebase.initializeApp(cfg); } catch (_) {}
-            const auth = firebase.auth();
-            auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL).catch(() => {});
-
-            function updateUI(user) {
-                if (user) {
-                    document.body.classList.add('is-logged');
-                    const letter = (user.displayName || user.email || 'U').charAt(0).toUpperCase();
-                    document.getElementById('headerAvatar').style.display = 'flex';
-                    document.getElementById('headerAvatar').innerHTML = `<span style="font-weight:800">${letter}</span>`;
-                    document.getElementById('sidebarUserAvatar').innerHTML = `<span style="font-weight:800">${letter}</span>`;
-                    document.getElementById('sidebarUserName').textContent = user.displayName || 'Membre';
-                    document.getElementById('sidebarUserEmail').textContent = user.email || '';
-                    document.getElementById('authBtnLabel').textContent = t('logout');
-                    document.getElementById('authBtn').className = 'btn-logout is-danger';
-                    document.getElementById('authBtn').href = '#';
-                    document.getElementById('authBtn').onclick = (e) => { e.preventDefault(); auth.signOut().then(() => location.reload()); };
-                } else {
-                    document.body.classList.remove('is-logged');
-                    document.getElementById('headerAvatar').style.display = 'none';
-                    document.getElementById('sidebarUserAvatar').innerHTML = '<i class="fa-solid fa-user"></i>';
-                    document.getElementById('sidebarUserName').textContent = "Nom de l'utilisateur";
-                    document.getElementById('sidebarUserEmail').textContent = 'email@exemple.com';
-                    document.getElementById('authBtnLabel').innerHTML = t('login');
-                    document.getElementById('authBtn').className = 'btn-logout';
-                    document.getElementById('authBtn').href = '/authentification/login.html';
-                    document.getElementById('authBtn').onclick = null;
-                }
-            }
-
-            auth.onAuthStateChanged(updateUI);
-        })();
-
         // ==================== INIT ====================
         document.addEventListener('DOMContentLoaded', () => {
             renderAllProducts();
             const savedLang = localStorage.getItem('lang') || 'fr';
             applyLanguage(savedLang);
             setActiveLang(savedLang);
-
-            // Vérification immédiate de l'utilisateur
-            const user = firebase.auth().currentUser;
-            if (user) {
-                const letter = (user.displayName || user.email || 'U').charAt(0).toUpperCase();
-                document.getElementById('headerAvatar').style.display = 'flex';
-                document.getElementById('headerAvatar').innerHTML = `<span style="font-weight:800">${letter}</span>`;
-                document.getElementById('sidebarUserAvatar').innerHTML = `<span style="font-weight:800">${letter}</span>`;
-                document.getElementById('sidebarUserName').textContent = user.displayName || 'Membre';
-                document.getElementById('sidebarUserEmail').textContent = user.email || '';
-                document.getElementById('authBtnLabel').textContent = t('logout');
-                document.getElementById('authBtn').className = 'btn-logout is-danger';
-                document.getElementById('authBtn').href = '#';
-                document.body.classList.add('is-logged');
-            }
+            applyLoggedOut();
         });
+
+        function applyLoggedOut() {
+            document.body.classList.remove('is-logged');
+            document.getElementById('headerAvatar').style.display = 'none';
+            document.getElementById('sidebarUserAvatar').innerHTML = '<i class="fa-solid fa-user"></i>';
+            document.getElementById('sidebarUserName').textContent = "Nom de l'utilisateur";
+            document.getElementById('sidebarUserEmail').textContent = 'email@exemple.com';
+            const authLabel = document.getElementById('authBtnLabel');
+            if (authLabel) authLabel.innerHTML = t('login');
+            document.getElementById('authBtn').className = 'btn-logout';
+            document.getElementById('authBtn').href = '/authentification/login.html';
+        }
+
+  // ==================== FIREBASE AUTH (AVEC AFFICHAGE DES VRAIES INFOS) ====================
+(function() {
+    const cfg = {
+        apiKey: "AIzaSyB9o8-LYeKrg2q84dxQM5Z1wFKHjt9yHFo",
+        authDomain: "digital-pay-haiti.firebaseapp.com",
+        projectId: "digital-pay-haiti",
+        storageBucket: "digital-pay-haiti.firebasestorage.app",
+        messagingSenderId: "182015693140",
+        appId: "1:182015693140:web:8a2486b9446bfb791bf8c1",
+        measurementId: "G-7JK3CTR4C9"
+    };
+    try { firebase.initializeApp(cfg); } catch (_) {}
+    
+    firebase.auth().onAuthStateChanged(user => {
+        if (user) {
+            document.body.classList.add('is-logged');
+            
+            // --- 1. Mise à jour de l'avatar (photo réelle ou lettre) ---
+            const headerAvatar = document.getElementById('headerAvatar');
+            const sidebarAvatar = document.getElementById('sidebarUserAvatar');
+            
+            if (user.photoURL) {
+                // Si l'utilisateur a une photo, on l'affiche
+                headerAvatar.innerHTML = `<img src="${user.photoURL}" alt="Avatar" style="width:34px;height:34px;border-radius:50%;object-fit:cover;">`;
+                sidebarAvatar.innerHTML = `<img src="${user.photoURL}" alt="Avatar" style="width:40px;height:40px;border-radius:50%;object-fit:cover;">`;
+                headerAvatar.style.display = 'flex';
+            } else {
+                // Sinon, on affiche la première lettre du nom ou de l'email
+                const letter = (user.displayName || user.email || 'U').charAt(0).toUpperCase();
+                headerAvatar.innerHTML = `<span style="font-weight:800;font-size:14px;">${letter}</span>`;
+                sidebarAvatar.innerHTML = `<span style="font-weight:800;font-size:17px;">${letter}</span>`;
+                headerAvatar.style.display = 'flex';
+            }
+            
+            // --- 2. Mise à jour du nom et de l'email ---
+            document.getElementById('sidebarUserName').textContent = user.displayName || 'Membre DigitalPay';
+            document.getElementById('sidebarUserEmail').textContent = user.email || '';
+            
+            // --- 3. Bouton Déconnexion ---
+            const authLabel = document.getElementById('authBtnLabel');
+            if (authLabel) authLabel.textContent = t('logout');
+            const authBtn = document.getElementById('authBtn');
+            authBtn.className = 'btn-logout is-danger';
+            authBtn.href = '#';
+            authBtn.onclick = (e) => {
+                e.preventDefault();
+                firebase.auth().signOut().then(() => location.reload());
+            };
+        }
+    });
+})();
     </script>
 </body>
 </html>
