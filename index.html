@@ -17,8 +17,10 @@
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;800&family=Inter:wght@400;500;600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"></noscript>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <script defer src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
-    <script defer src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+    
+    <!-- Utilisation du CDN jsdelivr pour une meilleure stabilité sur mobile -->
+    <script defer src="https://cdn.jsdelivr.net/npm/firebase@10.12.0/firebase-app-compat.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/firebase@10.12.0/firebase-auth-compat.js"></script>
 
     <style>
         :root {
@@ -1127,7 +1129,7 @@
             document.getElementById('authBtn').href = '/authentification/login.html';
         }
 
-        // ==================== FIREBASE AUTH (NOUVELLE VERSION - SANS REDIRECTION) ====================
+        // ==================== FIREBASE AUTH (VERSION ULTRA-STABLE) ====================
         (function() {
             const cfg = {
                 apiKey: "AIzaSyB9o8-LYeKrg2q84dxQM5Z1wFKHjt9yHFo",
@@ -1140,42 +1142,60 @@
             };
             try { firebase.initializeApp(cfg); } catch (_) {}
 
-            firebase.auth().onAuthStateChanged(user => {
-                if (user) {
-                    document.body.classList.add('is-logged');
-                    const headerAvatar = document.getElementById('headerAvatar');
-                    const sidebarAvatar = document.getElementById('sidebarUserAvatar');
+            const auth = firebase.auth();
 
-                    // Mise à jour AVATAR (photo réelle ou initiale)
-                    if (user.photoURL) {
-                        headerAvatar.innerHTML = `<img src="${user.photoURL}" style="width:34px;height:34px;border-radius:50%;object-fit:cover;">`;
-                        sidebarAvatar.innerHTML = `<img src="${user.photoURL}" style="width:40px;height:40px;border-radius:50%;object-fit:cover;">`;
-                    } else {
-                        const letter = (user.displayName || user.email || 'U').charAt(0).toUpperCase();
-                        headerAvatar.innerHTML = `<span style="font-weight:800;font-size:14px;">${letter}</span>`;
-                        sidebarAvatar.innerHTML = `<span style="font-weight:800;font-size:17px;">${letter}</span>`;
-                    }
-                    headerAvatar.style.display = 'flex';
-
-                    // Mise à jour NOM et EMAIL
-                    document.getElementById('sidebarUserName').textContent = user.displayName || 'Membre DigitalPay';
-                    document.getElementById('sidebarUserEmail').textContent = user.email || '';
-
-                    // Mise à jour BOUTON (Se Connecter -> Déconnexion)
-                    const authLabel = document.getElementById('authBtnLabel');
-                    const authBtn = document.getElementById('authBtn');
-                    if (authLabel) {
-                        const lang = localStorage.getItem('lang') || 'fr';
-                        authLabel.textContent = (translations[lang] && translations[lang].logout) ? translations[lang].logout : 'Déconnexion';
-                    }
-                    authBtn.className = 'btn-logout is-danger';
-                    authBtn.href = '#';
-                    authBtn.onclick = (e) => { 
-                        e.preventDefault(); 
-                        firebase.auth().signOut().then(() => location.reload()); 
-                    };
-                } else {
+            function updateUIForUser(user) {
+                if (!user) {
                     applyLoggedOut();
+                    return;
+                }
+
+                document.body.classList.add('is-logged');
+
+                const headerAvatar = document.getElementById('headerAvatar');
+                const sidebarAvatar = document.getElementById('sidebarUserAvatar');
+                
+                if (user.photoURL) {
+                    headerAvatar.innerHTML = `<img src="${user.photoURL}" style="width:34px;height:34px;border-radius:50%;object-fit:cover;">`;
+                    sidebarAvatar.innerHTML = `<img src="${user.photoURL}" style="width:40px;height:40px;border-radius:50%;object-fit:cover;">`;
+                } else {
+                    const letter = (user.displayName || user.email || 'U').charAt(0).toUpperCase();
+                    headerAvatar.innerHTML = `<span style="font-weight:800;font-size:14px;">${letter}</span>`;
+                    sidebarAvatar.innerHTML = `<span style="font-weight:800;font-size:17px;">${letter}</span>`;
+                }
+                headerAvatar.style.display = 'flex';
+
+                document.getElementById('sidebarUserName').textContent = user.displayName || 'Membre DigitalPay';
+                document.getElementById('sidebarUserEmail').textContent = user.email || '';
+
+                const authLabel = document.getElementById('authBtnLabel');
+                const authBtn = document.getElementById('authBtn');
+                if (authLabel) {
+                    const lang = localStorage.getItem('lang') || 'fr';
+                    authLabel.textContent = (translations[lang] && translations[lang].logout) ? translations[lang].logout : 'Déconnexion';
+                }
+                authBtn.className = 'btn-logout is-danger';
+                authBtn.href = '#';
+                authBtn.onclick = (e) => { 
+                    e.preventDefault(); 
+                    firebase.auth().signOut().then(() => location.reload()); 
+                };
+            }
+
+            const currentUser = auth.currentUser;
+            if (currentUser) {
+                updateUIForUser(currentUser);
+            } else {
+                applyLoggedOut();
+            }
+
+            auth.onAuthStateChanged(user => {
+                if (user) {
+                    updateUIForUser(user);
+                } else {
+                    if (!document.body.classList.contains('is-logged')) {
+                        applyLoggedOut();
+                    }
                 }
             });
         })();
