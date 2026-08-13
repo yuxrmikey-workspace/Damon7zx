@@ -280,15 +280,6 @@
         .product .thumb img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.4s; filter: blur(10px); }
         .product .thumb img.loaded { filter: blur(0); }
         .product:hover .thumb img { transform: scale(1.05); }
-        .product .thumb.skeleton::before {
-            content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent);
-            transform: translateX(-100%); animation: shimmer 1.6s infinite; z-index: 1;
-        }
-        .product .thumb .skeleton-circle {
-            width: 60%; height: 60%; border-radius: 50%; background: rgba(255,255,255,0.08);
-            position: absolute; top: 20%; left: 20%; z-index: 2;
-        }
-        @keyframes shimmer { 100% { transform: translateX(100%); } }
         .product .info { padding: 10px 12px 12px; background: var(--bg-glass); border-top: 1px solid rgba(255,255,255,0.05); position: relative; z-index: 2; }
         .product .name { font-weight: 700; color: var(--text); font-size: 13px; margin-bottom: 2px; display: flex; align-items: center; gap: 5px; }
         .product .name mark { background: transparent; color: var(--navy-400); font-weight: 700; }
@@ -993,32 +984,25 @@
                 if (user) {
                     document.body.classList.add('is-logged');
                     const letter = (user.displayName || user.email || 'U').charAt(0).toUpperCase();
-                    const headerAvatar = document.getElementById('headerAvatar');
-                    const sidebarAvatar = document.getElementById('sidebarUserAvatar');
-                    const sidebarName = document.getElementById('sidebarUserName');
-                    const sidebarEmail = document.getElementById('sidebarUserEmail');
-                    const authLabel = document.getElementById('authBtnLabel');
-                    const authBtn = document.getElementById('authBtn');
-                    if (headerAvatar) { headerAvatar.style.display = 'flex'; headerAvatar.innerHTML = `<span style="font-weight:800">${letter}</span>`; }
-                    if (sidebarAvatar) sidebarAvatar.innerHTML = `<span style="font-weight:800">${letter}</span>`;
-                    if (sidebarName) sidebarName.textContent = user.displayName || 'Membre';
-                    if (sidebarEmail) { sidebarEmail.textContent = user.email || ''; sidebarEmail.style.color = 'var(--text-soft)'; }
-                    if (authLabel) authLabel.textContent = t('logout');
-                    if (authBtn) { authBtn.className = 'btn-logout is-danger'; authBtn.href = '#'; authBtn.onclick = (e) => { e.preventDefault(); auth.signOut().then(() => location.reload()); }; }
+                    document.getElementById('headerAvatar').style.display = 'flex';
+                    document.getElementById('headerAvatar').innerHTML = `<span style="font-weight:800">${letter}</span>`;
+                    document.getElementById('sidebarUserAvatar').innerHTML = `<span style="font-weight:800">${letter}</span>`;
+                    document.getElementById('sidebarUserName').textContent = user.displayName || 'Membre';
+                    document.getElementById('sidebarUserEmail').textContent = user.email || '';
+                    document.getElementById('authBtnLabel').textContent = t('logout');
+                    document.getElementById('authBtn').className = 'btn-logout is-danger';
+                    document.getElementById('authBtn').href = '#';
+                    document.getElementById('authBtn').onclick = (e) => { e.preventDefault(); auth.signOut().then(() => location.reload()); };
                 } else {
                     document.body.classList.remove('is-logged');
-                    const headerAvatar = document.getElementById('headerAvatar');
-                    const sidebarAvatar = document.getElementById('sidebarUserAvatar');
-                    const sidebarName = document.getElementById('sidebarUserName');
-                    const sidebarEmail = document.getElementById('sidebarUserEmail');
-                    const authLabel = document.getElementById('authBtnLabel');
-                    const authBtn = document.getElementById('authBtn');
-                    if (headerAvatar) headerAvatar.style.display = 'none';
-                    if (sidebarAvatar) sidebarAvatar.innerHTML = '<i class="fa-solid fa-user"></i>';
-                    if (sidebarName) sidebarName.textContent = "Nom de l'utilisateur";
-                    if (sidebarEmail) { sidebarEmail.textContent = 'email@exemple.com'; sidebarEmail.style.color = 'var(--text-muted)'; }
-                    if (authLabel) authLabel.innerHTML = t('login');
-                    if (authBtn) { authBtn.className = 'btn-logout'; authBtn.href = '/authentification/login.html'; authBtn.onclick = null; }
+                    document.getElementById('headerAvatar').style.display = 'none';
+                    document.getElementById('sidebarUserAvatar').innerHTML = '<i class="fa-solid fa-user"></i>';
+                    document.getElementById('sidebarUserName').textContent = "Nom de l'utilisateur";
+                    document.getElementById('sidebarUserEmail').textContent = 'email@exemple.com';
+                    document.getElementById('authBtnLabel').innerHTML = t('login');
+                    document.getElementById('authBtn').className = 'btn-logout';
+                    document.getElementById('authBtn').href = '/authentification/login.html';
+                    document.getElementById('authBtn').onclick = null;
                 }
             }
 
@@ -1031,6 +1015,21 @@
             const savedLang = localStorage.getItem('lang') || 'fr';
             applyLanguage(savedLang);
             setActiveLang(savedLang);
+
+            // Vérification immédiate de l'utilisateur
+            const user = firebase.auth().currentUser;
+            if (user) {
+                const letter = (user.displayName || user.email || 'U').charAt(0).toUpperCase();
+                document.getElementById('headerAvatar').style.display = 'flex';
+                document.getElementById('headerAvatar').innerHTML = `<span style="font-weight:800">${letter}</span>`;
+                document.getElementById('sidebarUserAvatar').innerHTML = `<span style="font-weight:800">${letter}</span>`;
+                document.getElementById('sidebarUserName').textContent = user.displayName || 'Membre';
+                document.getElementById('sidebarUserEmail').textContent = user.email || '';
+                document.getElementById('authBtnLabel').textContent = t('logout');
+                document.getElementById('authBtn').className = 'btn-logout is-danger';
+                document.getElementById('authBtn').href = '#';
+                document.body.classList.add('is-logged');
+            }
         });
     </script>
 </body>
