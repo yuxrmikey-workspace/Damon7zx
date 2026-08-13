@@ -4,194 +4,108 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
     <title>Connexion - DigitalPay</title>
-    <meta name="description" content="Connectez-vous à votre compte DigitalPay.">
 
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;800&family=Inter:wght@400;500;600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"></noscript>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <script defer src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
-    <script defer src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+
+    <!-- Scripts Firebase (via jsdelivr) -->
+    <script defer src="https://cdn.jsdelivr.net/npm/firebase@10.12.0/firebase-app-compat.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/firebase@10.12.0/firebase-auth-compat.js"></script>
 
     <style>
         :root {
-            --bg-primary: #0b0b12;
-            --bg-glass: rgba(255, 255, 255, 0.06);
-            --bg-card: rgba(26, 29, 44, 0.7);
-            --border-glass: rgba(255, 255, 255, 0.12);
-            --navy-400: #60A5FA;
-            --navy-600: #2563EB;
-            --navy-700: #1D4ED8;
-            --text: #F8FAFC;
-            --text-soft: #94A3B8;
-            --text-muted: #64748B;
-            --red: #ef4444;
-            --green: #22c55e;
-            --radius: 16px;
-            --radius-xl: 28px;
-            --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.6);
-            --container: 480px;
+            --bg-primary: #0b0b12; --bg-glass: rgba(255, 255, 255, 0.06); --bg-card: rgba(26, 29, 44, 0.7);
+            --border-glass: rgba(255, 255, 255, 0.12); --navy-400: #60A5FA; --navy-600: #2563EB; --navy-700: #1D4ED8;
+            --text: #F8FAFC; --text-soft: #94A3B8; --text-muted: #64748B; --red: #ef4444; --green: #22c55e;
+            --radius: 16px; --radius-xl: 28px; --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.6); --container: 480px;
         }
 
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
         body {
-            font-family: 'Inter', system-ui, sans-serif;
-            background: var(--bg-primary);
-            color: var(--text);
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 1.5rem;
+            font-family: 'Inter', system-ui, sans-serif; background: var(--bg-primary); color: var(--text);
+            min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 1.5rem;
         }
-        .orb-1, .orb-2 {
-            position: fixed; border-radius: 50%; pointer-events: none; z-index: -2;
-            filter: blur(140px); opacity: 0.12;
-        }
+        .orb-1, .orb-2 { position: fixed; border-radius: 50%; pointer-events: none; z-index: -2; filter: blur(140px); opacity: 0.12; }
         .orb-1 { width: 500px; height: 500px; background: var(--navy-600); top: -200px; left: -200px; }
         .orb-2 { width: 400px; height: 400px; background: var(--navy-400); bottom: -150px; right: -150px; }
 
         .auth-container {
-            background: var(--bg-card);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid var(--border-glass);
-            border-radius: var(--radius-xl);
-            padding: 2rem 1.5rem;
-            max-width: var(--container);
-            width: 100%;
+            background: var(--bg-card); backdrop-filter: blur(20px); border: 1px solid var(--border-glass);
+            border-radius: var(--radius-xl); padding: 2rem 1.5rem; max-width: var(--container); width: 100%;
             box-shadow: var(--shadow-card);
         }
-        .auth-title {
-            font-family: 'Orbitron', sans-serif;
-            font-weight: 700;
-            font-size: 1.6rem;
-            text-align: center;
-            margin-bottom: 0.3rem;
-        }
-        .auth-sub {
-            text-align: center;
-            color: var(--text-soft);
-            font-size: 0.9rem;
-            margin-bottom: 1.8rem;
-        }
-        .form-group {
-            margin-bottom: 1.2rem;
-        }
-        .form-group label {
-            display: block;
-            font-weight: 600;
-            font-size: 0.85rem;
-            margin-bottom: 0.3rem;
-            color: var(--text-soft);
-        }
+        .auth-title { font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 1.6rem; text-align: center; margin-bottom: 0.3rem; }
+        .auth-sub { text-align: center; color: var(--text-soft); font-size: 0.9rem; margin-bottom: 1.8rem; }
+        .form-group { margin-bottom: 1.2rem; }
+        .form-group label { display: block; font-weight: 600; font-size: 0.85rem; margin-bottom: 0.3rem; color: var(--text-soft); }
         .form-group input {
-            width: 100%;
-            padding: 0.8rem 1rem;
-            background: rgba(255,255,255,0.04);
-            border: 1px solid var(--border-glass);
-            border-radius: var(--radius);
-            color: var(--text);
-            font-size: 1rem;
+            width: 100%; padding: 0.8rem 1rem; background: rgba(255,255,255,0.04);
+            border: 1px solid var(--border-glass); border-radius: var(--radius); color: var(--text); font-size: 1rem;
             transition: border 0.2s;
         }
-        .form-group input:focus {
-            outline: none;
-            border-color: var(--navy-600);
-            background: rgba(255,255,255,0.06);
-        }
+        .form-group input:focus { outline: none; border-color: var(--navy-600); background: rgba(255,255,255,0.06); }
         .btn-primary {
-            width: 100%;
-            padding: 0.8rem;
-            background: var(--navy-600);
-            border: none;
-            border-radius: var(--radius);
-            color: #fff;
-            font-weight: 700;
-            font-size: 1rem;
-            transition: background 0.2s, transform 0.1s;
-            cursor: pointer;
+            width: 100%; padding: 0.8rem; background: var(--navy-600); border: none; border-radius: var(--radius);
+            color: #fff; font-weight: 700; font-size: 1rem; transition: background 0.2s; cursor: pointer;
             box-shadow: 0 4px 14px rgba(37,99,235,0.3);
         }
         .btn-primary:hover { background: var(--navy-700); }
-        .btn-primary:active { transform: scale(0.97); }
-
         .btn-google {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.6rem;
-            width: 100%;
-            padding: 0.8rem;
-            background: rgba(255,255,255,0.06);
-            border: 1px solid var(--border-glass);
-            border-radius: var(--radius);
-            color: var(--text);
-            font-weight: 600;
-            font-size: 0.95rem;
-            transition: background 0.2s;
-            cursor: pointer;
+            display: flex; align-items: center; justify-content: center; gap: 0.6rem; width: 100%; padding: 0.8rem;
+            background: rgba(255,255,255,0.06); border: 1px solid var(--border-glass); border-radius: var(--radius);
+            color: var(--text); font-weight: 600; font-size: 0.95rem; transition: background 0.2s; cursor: pointer;
             margin-top: 0.5rem;
         }
         .btn-google:hover { background: rgba(255,255,255,0.12); }
         .btn-google i { color: #ea4335; font-size: 1.2rem; }
-
-        .divider {
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-            margin: 1.2rem 0;
-            color: var(--text-muted);
-            font-size: 0.8rem;
-        }
-        .divider::before, .divider::after {
-            content: '';
-            flex: 1;
-            height: 1px;
-            background: var(--border-glass);
-        }
-
-        .auth-footer {
-            text-align: center;
-            margin-top: 1.2rem;
-            font-size: 0.85rem;
-            color: var(--text-soft);
-        }
-        .auth-footer a {
-            color: var(--navy-400);
-            font-weight: 600;
-            transition: color 0.2s;
-        }
+        .divider { display: flex; align-items: center; gap: 0.8rem; margin: 1.2rem 0; color: var(--text-muted); font-size: 0.8rem; }
+        .divider::before, .divider::after { content: ''; flex: 1; height: 1px; background: var(--border-glass); }
+        .auth-footer { text-align: center; margin-top: 1.2rem; font-size: 0.85rem; color: var(--text-soft); }
+        .auth-footer a { color: var(--navy-400); font-weight: 600; transition: color 0.2s; }
         .auth-footer a:hover { color: #fff; text-decoration: underline; }
+
+        /* TOAST et OVERLAY */
+        #loadingOverlay {
+            position: fixed; inset: 0; background: rgba(11, 11, 18, 0.92); z-index: 10000;
+            display: none; flex-direction: column; align-items: center; justify-content: center;
+            color: var(--text); text-align: center; padding: 2rem;
+        }
+        #loadingOverlay.visible { display: flex; }
+        #loadingOverlay h2 { font-size: 1.4rem; margin-bottom: 0.8rem; font-family: 'Orbitron', sans-serif; }
+        #loadingOverlay p { font-size: 0.95rem; color: var(--text-soft); margin-bottom: 1.5rem; }
+        .loader { width: 40px; height: 40px; border: 3px solid var(--border-glass); border-top: 3px solid var(--navy-600); border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 1.5rem; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .btn-retry { padding: 0.8rem 2rem; background: var(--navy-600); color: #fff; border: none; border-radius: var(--radius); font-weight: 700; font-size: 1rem; cursor: pointer; transition: 0.2s; }
+        .btn-retry:hover { background: var(--navy-700); }
 
         .toast-container {
             position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
-            background: var(--bg-card); backdrop-filter: blur(16px);
-            border: 1px solid var(--border-glass); padding: 12px 22px; border-radius: var(--radius);
-            box-shadow: 0 10px 40px rgba(0,0,0,0.8);
-            display: flex; align-items: center; gap: 10px;
-            opacity: 0; transform: translateX(-50%) translateY(30px);
-            transition: all 0.4s cubic-bezier(0.34,1.56,0.64,1);
-            pointer-events: none; z-index: 9999; min-width: 250px; justify-content: center;
+            background: var(--bg-card); backdrop-filter: blur(16px); border: 1px solid var(--border-glass);
+            padding: 12px 22px; border-radius: var(--radius); box-shadow: 0 10px 40px rgba(0,0,0,0.8);
+            display: flex; align-items: center; gap: 10px; opacity: 0; transform: translateX(-50%) translateY(30px);
+            transition: all 0.4s; pointer-events: none; z-index: 9999; min-width: 250px; justify-content: center;
         }
         .toast-container.show { opacity: 1; transform: translateX(-50%) translateY(0); pointer-events: auto; }
         .toast-container i { font-size: 18px; }
-        .toast-container.error { border-color: var(--red); }
-        .toast-container.error i { color: var(--red); }
-        .toast-container.success { border-color: var(--green); }
-        .toast-container.success i { color: var(--green); }
-        .toast-container.info { border-color: var(--navy-600); }
-        .toast-container.info i { color: var(--navy-600); }
+        .toast-container.error { border-color: var(--red); } .toast-container.error i { color: var(--red); }
+        .toast-container.success { border-color: var(--green); } .toast-container.success i { color: var(--green); }
+        .toast-container.info { border-color: var(--navy-600); } .toast-container.info i { color: var(--navy-600); }
         .toast-container span { font-weight: 600; font-size: 13px; color: var(--text); }
 
-        @media (max-width: 480px) {
-            .auth-container { padding: 1.5rem 1rem; }
-            .auth-title { font-size: 1.3rem; }
-        }
+        @media (max-width: 480px) { .auth-container { padding: 1.5rem 1rem; } .auth-title { font-size: 1.3rem; } }
     </style>
 </head>
 <body>
     <div class="orb-1"></div>
     <div class="orb-2"></div>
+
+    <div id="loadingOverlay">
+        <div class="loader"></div>
+        <h2>Chargement du service...</h2>
+        <p>Veuillez patienter quelques secondes.</p>
+        <button class="btn-retry" onclick="location.reload()">Réessayer</button>
+    </div>
 
     <div class="auth-container">
         <h1 class="auth-title" data-i18n="loginTitle">Connexion</h1>
@@ -210,7 +124,6 @@
         </form>
 
         <div class="divider" data-i18n="or">ou</div>
-
         <button class="btn-google" id="googleBtn">
             <i class="fa-brands fa-google"></i>
             <span data-i18n="googleLogin">Se connecter avec Google</span>
@@ -228,77 +141,21 @@
     </div>
 
     <script>
-        // ==================== TRADUCTIONS ====================
+        document.getElementById('loadingOverlay').classList.add('visible');
+
         const translations = {
             fr: {
-                loginTitle: "Connexion",
-                loginSub: "Accédez à votre compte DigitalPay.",
-                emailLabel: "Adresse e-mail",
-                passwordLabel: "Mot de passe",
-                loginBtn: "Se connecter",
-                or: "ou",
-                googleLogin: "Se connecter avec Google",
-                noAccount: "Pas encore de compte ?",
-                registerLink: "S'inscrire",
+                loginTitle: "Connexion", loginSub: "Accédez à votre compte DigitalPay.",
+                emailLabel: "Adresse e-mail", passwordLabel: "Mot de passe", loginBtn: "Se connecter",
+                or: "ou", googleLogin: "Se connecter avec Google", noAccount: "Pas encore de compte ?", registerLink: "S'inscrire",
                 successLogin: "✅ Connexion réussie ! Redirection...",
-                errorLogin: "❌ Erreur de connexion : ",
-                errorEmail: "Veuillez entrer une adresse e-mail valide.",
-                errorPassword: "Veuillez entrer votre mot de passe.",
+                errorLogin: "❌ Erreur : ", errorEmail: "Veuillez entrer une adresse e-mail valide.", errorPassword: "Veuillez entrer votre mot de passe.",
                 googleError: "❌ Erreur avec Google : "
-            },
-            en: {
-                loginTitle: "Log In",
-                loginSub: "Access your DigitalPay account.",
-                emailLabel: "Email address",
-                passwordLabel: "Password",
-                loginBtn: "Log In",
-                or: "or",
-                googleLogin: "Log in with Google",
-                noAccount: "Don't have an account?",
-                registerLink: "Sign Up",
-                successLogin: "✅ Login successful! Redirecting...",
-                errorLogin: "❌ Login error: ",
-                errorEmail: "Please enter a valid email address.",
-                errorPassword: "Please enter your password.",
-                googleError: "❌ Google error: "
-            },
-            ht: {
-                loginTitle: "Koneksyon",
-                loginSub: "Aksede kont DigitalPay ou a.",
-                emailLabel: "Adrès imèl",
-                passwordLabel: "Modpas",
-                loginBtn: "Konekte",
-                or: "oswa",
-                googleLogin: "Konekte ak Google",
-                noAccount: "Pokò gen kont?",
-                registerLink: "Enskri",
-                successLogin: "✅ Koneksyon reyisi ! Redireksyon...",
-                errorLogin: "❌ Erè koneksyon : ",
-                errorEmail: "Tanpri antre yon adrès imèl valab.",
-                errorPassword: "Tanpri antre modpas ou.",
-                googleError: "❌ Erè ak Google : "
-            },
-            es: {
-                loginTitle: "Iniciar Sesión",
-                loginSub: "Accede a tu cuenta DigitalPay.",
-                emailLabel: "Correo electrónico",
-                passwordLabel: "Contraseña",
-                loginBtn: "Iniciar Sesión",
-                or: "o",
-                googleLogin: "Iniciar sesión con Google",
-                noAccount: "¿No tienes cuenta?",
-                registerLink: "Registrarse",
-                successLogin: "✅ ¡Inicio de sesión exitoso! Redirigiendo...",
-                errorLogin: "❌ Error de inicio de sesión: ",
-                errorEmail: "Por favor ingrese un correo válido.",
-                errorPassword: "Por favor ingrese su contraseña.",
-                googleError: "❌ Error con Google: "
             }
         };
 
         function getLang() { return localStorage.getItem('lang') || 'fr'; }
         function t(key) { const lang = getLang(); return translations[lang]?.[key] || key; }
-
         function applyLanguage() {
             document.querySelectorAll('[data-i18n]').forEach(el => {
                 const key = el.getAttribute('data-i18n');
@@ -307,11 +164,9 @@
         }
         applyLanguage();
 
-        // ==================== TOAST ====================
         const toastContainer = document.getElementById('toastContainer');
         const toastMessage = document.getElementById('toastMessage');
         const toastIcon = document.getElementById('toastIcon');
-
         function showToast(message, type = 'info') {
             toastMessage.textContent = message;
             toastContainer.className = 'toast-container';
@@ -324,53 +179,76 @@
             window.toastTimeout = setTimeout(() => toastContainer.classList.remove('show'), 3500);
         }
 
-        // ==================== FIREBASE ====================
-        const firebaseConfig = {
-            apiKey: "AIzaSyB9o8-LYeKrg2q84dxQM5Z1wFKHjt9yHFo",
-            authDomain: "digital-pay-haiti.firebaseapp.com",
-            projectId: "digital-pay-haiti",
-            storageBucket: "digital-pay-haiti.firebasestorage.app",
-            messagingSenderId: "182015693140",
-            appId: "1:182015693140:web:8a2486b9446bfb791bf8c1",
-            measurementId: "G-7JK3CTR4C9"
-        };
-        firebase.initializeApp(firebaseConfig);
-        const auth = firebase.auth();
+        // === NOUVELLE LOGIQUE "PULSATION" ===
+        let attempts = 0;
+        const MAX_ATTEMPTS = 100;
 
-        // ==================== CONNEXION EMAIL/PASSWORD ====================
-        document.getElementById('loginForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const email = document.getElementById('email').value.trim();
-            const password = document.getElementById('password').value;
-
-            if (!email || !email.includes('@')) { showToast(t('errorEmail'), 'error'); return; }
-            if (!password) { showToast(t('errorPassword'), 'error'); return; }
-
-            try {
-                await auth.signInWithEmailAndPassword(email, password);
-                showToast(t('successLogin'), 'success');
-                setTimeout(() => { window.location.href = '/index.html'; }, 1500);
-            } catch (err) {
-                let msg = err.message;
-                if (err.code === 'auth/user-not-found') msg = 'Aucun compte trouvé avec cet email.';
-                else if (err.code === 'auth/wrong-password') msg = 'Mot de passe incorrect.';
-                else if (err.code === 'auth/too-many-requests') msg = 'Trop de tentatives. Réessayez plus tard.';
-                showToast(t('errorLogin') + msg, 'error');
+        const checkFirebase = setInterval(() => {
+            attempts++;
+            if (typeof firebase !== 'undefined') {
+                clearInterval(checkFirebase);
+                initApp();
+            } else if (attempts >= MAX_ATTEMPTS) {
+                clearInterval(checkFirebase);
+                document.querySelector('#loadingOverlay h2').textContent = "⛔ Problème réseau";
+                document.querySelector('#loadingOverlay p').textContent = "Impossible de charger le service. Vérifiez votre connexion.";
+                document.querySelector('#loadingOverlay .loader').style.display = "none";
             }
-        });
+        }, 200);
 
-        // ==================== GOOGLE ====================
-        document.getElementById('googleBtn').addEventListener('click', async () => {
-            const provider = new firebase.auth.GoogleAuthProvider();
+        function initApp() {
+            const firebaseConfig = {
+                apiKey: "AIzaSyB9o8-LYeKrg2q84dxQM5Z1wFKHjt9yHFo",
+                authDomain: "digital-pay-haiti.firebaseapp.com",
+                projectId: "digital-pay-haiti",
+                storageBucket: "digital-pay-haiti.firebasestorage.app",
+                messagingSenderId: "182015693140",
+                appId: "1:182015693140:web:8a2486b9446bfb791bf8c1",
+                measurementId: "G-7JK3CTR4C9"
+            };
             try {
-                await auth.signInWithPopup(provider);
-                showToast(t('successLogin'), 'success');
-                setTimeout(() => { window.location.href = '/index.html'; }, 1500);
-            } catch (err) {
-                if (err.code === 'auth/popup-closed-by-user') return;
-                showToast(t('googleError') + err.message, 'error');
+                firebase.initializeApp(firebaseConfig);
+                document.getElementById('loadingOverlay').classList.remove('visible');
+            } catch (e) {
+                showToast("Erreur Firebase : " + e.message, 'error');
             }
-        });
+
+            const auth = firebase.auth();
+
+            document.getElementById('loginForm').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const email = document.getElementById('email').value.trim();
+                const password = document.getElementById('password').value;
+
+                if (!email || !email.includes('@')) { showToast(t('errorEmail'), 'error'); return; }
+                if (!password) { showToast(t('errorPassword'), 'error'); return; }
+
+                try {
+                    await auth.signInWithEmailAndPassword(email, password);
+                    showToast(t('successLogin'), 'success');
+                    setTimeout(() => { window.location.href = '/index.html'; }, 1500);
+                } catch (err) {
+                    let msg = err.message;
+                    if (err.code === 'auth/user-not-found') msg = 'Aucun compte trouvé.';
+                    else if (err.code === 'auth/wrong-password') msg = 'Mot de passe incorrect.';
+                    else if (err.code === 'auth/too-many-requests') msg = 'Trop de tentatives.';
+                    else if (err.code === 'auth/operation-not-allowed') msg = '⚠️ Activez "Email/Password" dans la console Firebase.';
+                    showToast(t('errorLogin') + msg, 'error');
+                }
+            });
+
+            document.getElementById('googleBtn').addEventListener('click', async () => {
+                const provider = new firebase.auth.GoogleAuthProvider();
+                try {
+                    await auth.signInWithPopup(provider);
+                    showToast(t('successLogin'), 'success');
+                    setTimeout(() => { window.location.href = '/index.html'; }, 1500);
+                } catch (err) {
+                    if (err.code === 'auth/popup-closed-by-user') return;
+                    showToast(t('googleError') + err.message, 'error');
+                }
+            });
+        }
     </script>
 </body>
 </html>
