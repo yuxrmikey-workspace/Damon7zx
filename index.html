@@ -13,20 +13,12 @@
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
 
-    <script>
-        function makeThumbFallback(text) {
-            const span = document.createElement('span');
-            span.className = 'thumb-fallback';
-            span.textContent = text || 'Logo';
-            return span;
-        }
-    </script>
-
     <style>
         :root {
-            --bg-primary: #F5F7FF;
+            --bg-primary: #F8FAFF;
             --bg-card: #FFFFFF;
-            --border-glass: #E0E7FF;
+            --bg-glass: rgba(255, 255, 255, 0.7);
+            --border-glass: rgba(79, 70, 229, 0.1);
             --indigo-50: #EEF2FF;
             --indigo-100: #E0E7FF;
             --indigo-600: #4F46E5;
@@ -38,12 +30,9 @@
             --red: #EF4444;
             --green: #10B981;
             --radius: 16px;
-            --radius-lg: 20px;
             --radius-xl: 24px;
-            --shadow-card: 0 4px 20px rgba(79,70,229,0.06);
-            --shadow-float: 0 8px 30px rgba(79,70,229,0.1);
-            --shadow-hover: 0 12px 40px rgba(79,70,229,0.12);
-            --container: 1200px;
+            --shadow-card: 0 4px 20px rgba(79, 70, 229, 0.06);
+            --shadow-float: 0 8px 30px rgba(79, 70, 229, 0.1);
             --transition: 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
         }
 
@@ -55,66 +44,61 @@
             color: var(--text);
             line-height: 1.6;
             -webkit-font-smoothing: antialiased;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
             overflow-x: hidden;
         }
         a { color: inherit; text-decoration: none; }
         img { max-width: 100%; display: block; }
         button { font-family: inherit; cursor: pointer; border: none; background: none; }
-        .container { max-width: var(--container); margin: 0 auto; padding: 0 20px; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
 
         .orb {
             position: fixed; border-radius: 50%; pointer-events: none; z-index: -2;
-            filter: blur(120px); opacity: 0.05;
+            filter: blur(120px); opacity: 0.06;
         }
-        .orb-1 { width: 500px; height: 500px; background: var(--indigo-600); top: -100px; left: -100px; }
-        .orb-2 { width: 400px; height: 400px; background: #A5B4FC; bottom: -100px; right: -100px; }
+        .orb-1 { width: 500px; height: 500px; background: var(--indigo-600); top: -100px; left: -100px; animation: floatOrb 8s ease-in-out infinite alternate; }
+        .orb-2 { width: 400px; height: 400px; background: #A5B4FC; bottom: -100px; right: -100px; animation: floatOrb 10s ease-in-out infinite alternate; }
+        .orb-3 { width: 300px; height: 300px; background: #C7D2FE; top: 40%; left: 60%; animation: floatOrb 12s ease-in-out infinite alternate; }
+        @keyframes floatOrb {
+            0% { transform: translate(0,0) scale(1); }
+            100% { transform: translate(30px, -30px) scale(1.2); }
+        }
 
-        /* ========== HEADER ========== */
+        /* Header */
         header.site-header {
             position: sticky; top: 1rem; z-index: 50;
-            background: rgba(255,255,255,0.75);
+            background: rgba(255, 255, 255, 0.75);
             backdrop-filter: blur(12px) saturate(140%);
-            -webkit-backdrop-filter: blur(12px) saturate(140%);
             border: 1px solid var(--border-glass);
             border-radius: var(--radius-xl);
             margin: 0 auto;
             padding: 0.6rem 1.5rem;
-            max-width: var(--container);
+            max-width: 1200px;
+            width: calc(100% - 2rem);
             display: flex; align-items: center; justify-content: space-between;
             transition: all var(--transition);
             box-shadow: var(--shadow-card);
         }
         header.site-header.is-scrolled {
-            background: rgba(255,255,255,0.95);
+            background: rgba(255, 255, 255, 0.95);
             box-shadow: var(--shadow-float);
-            border-color: rgba(79,70,229,0.2);
+            border-color: rgba(79, 70, 229, 0.2);
         }
         .brand img { height: 40px; }
         .header-actions { display: flex; align-items: center; gap: 0.75rem; }
         .icon-btn {
             width: 40px; height: 40px; border-radius: 12px;
-            background: var(--indigo-50);
-            border: 1px solid var(--border-glass);
+            background: var(--bg-glass); border: 1px solid var(--border-glass);
             display: flex; align-items: center; justify-content: center;
             color: var(--indigo-600); font-size: 1.2rem;
-            transition: all var(--transition);
-            cursor: pointer; position: relative;
+            transition: all var(--transition); cursor: pointer; position: relative;
         }
-        .icon-btn:hover {
-            background: var(--indigo-600);
-            color: #fff;
-            border-color: transparent;
-            transform: translateY(-1px);
-            box-shadow: 0 4px 15px rgba(79,70,229,0.3);
-        }
-        .icon-btn:focus-visible {
-            outline: 2px solid var(--indigo-600);
-            outline-offset: 2px;
-        }
+        .icon-btn:hover { background: var(--indigo-600); color: #fff; border-color: transparent; transform: translateY(-2px); box-shadow: 0 4px 15px rgba(79, 70, 229, 0.4); }
         .status-dot {
             width: 8px; height: 8px; border-radius: 50%;
-            background: var(--text-muted);
-            position: absolute; bottom: 6px; right: 6px;
+            background: var(--text-muted); position: absolute; bottom: 6px; right: 6px;
             border: 2px solid #fff;
         }
         .status-dot.connected { background: var(--green); }
@@ -122,15 +106,9 @@
         .lang-selector-header { position: relative; display: flex; align-items: center; }
         .lang-btn-header {
             width: 40px; height: 40px; border-radius: 12px;
-            background: var(--indigo-50);
-            border: 1px solid var(--border-glass);
+            background: var(--bg-glass); border: 1px solid var(--border-glass);
             display: flex; align-items: center; justify-content: center;
-            color: var(--indigo-600); font-size: 1.1rem;
-            cursor: pointer; transition: all var(--transition);
-        }
-        .lang-btn-header:hover {
-            background: var(--indigo-100);
-            border-color: var(--indigo-600);
+            color: var(--indigo-600); font-size: 1.1rem; cursor: pointer;
         }
         .lang-menu-header {
             position: absolute; top: calc(100% + 6px); right: 0;
@@ -145,467 +123,260 @@
             background: transparent; color: var(--text); border-radius: 8px;
             font-size: 0.85rem; font-weight: 500; cursor: pointer;
         }
-        .lang-menu-header button:hover { background: var(--indigo-100); }
 
-        /* ========== RECHERCHE OVERLAY ========== */
-        .search-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(255,255,255,0.98); z-index: 5000;
-            display: flex; align-items: flex-start; justify-content: center; padding-top: 100px;
-            opacity: 0; visibility: hidden; transition: all 0.3s;
-            backdrop-filter: blur(4px);
-        }
-        .search-overlay.open { opacity: 1; visibility: visible; }
-        .search-input {
-            width: 90%; max-width: 500px; padding: 14px 20px; border-radius: 50px;
-            border: 1px solid var(--border-glass); background: #fff;
-            color: var(--text); font-size: 1.1rem; outline: none;
-            transition: border-color 0.2s;
-            box-shadow: var(--shadow-card);
-        }
-        .search-input:focus { border-color: var(--indigo-600); }
-        .search-close { position: absolute; top: 30px; right: 30px; font-size: 2rem; color: var(--text-soft); cursor: pointer; transition: color 0.2s; }
-        .search-close:hover { color: var(--indigo-600); }
-        .no-results { display: none; text-align: center; color: var(--text-soft); margin-top: 30px; font-size: 1rem; }
-
-        /* ========== SIDEBAR ========== */
+        /* Sidebar */
         .sidebar-overlay {
-            position: fixed; inset: 0; background: rgba(0,0,0,0.3);
+            position: fixed; inset: 0; background: rgba(0,0,0,0.25);
             backdrop-filter: blur(2px); z-index: 1999;
-            opacity: 0; visibility: hidden; transition: all 0.3s;
-            pointer-events: none;
+            opacity: 0; visibility: hidden; transition: all 0.3s; pointer-events: none;
         }
         .sidebar-overlay.open { opacity: 1; visibility: visible; pointer-events: auto; }
         .sidebar {
             position: fixed; top: 0; right: -420px; width: min(85vw, 420px); height: 100vh;
-            background: rgba(255,255,255,0.85);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-left: 1px solid var(--border-glass);
-            border-radius: 24px 0 0 24px;
-            z-index: 2000;
-            display: flex; flex-direction: column;
+            background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(20px);
+            border-left: 1px solid var(--border-glass); border-radius: 24px 0 0 24px;
+            z-index: 2000; display: flex; flex-direction: column;
             transition: right 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            box-shadow: -4px 0 20px rgba(0,0,0,0.08);
-            overflow-y: auto;
+            box-shadow: -4px 0 20px rgba(0,0,0,0.08); overflow-y: auto;
         }
         .sidebar.open { right: 0; }
-
         .sidebar-header {
             display: flex; align-items: center; justify-content: space-between;
-            padding: 0.8rem 1rem;
-            border-bottom: 1px solid var(--border-glass);
+            padding: 0.8rem 1rem; border-bottom: 1px solid var(--border-glass);
         }
-        .sidebar-logo {
-            display: flex; align-items: center; gap: 10px;
-            font-family: 'Inter', sans-serif;
-            font-weight: 700;
-            font-size: 1.2rem;
-            line-height: 1.2;
-            color: var(--black);
-        }
-        .sidebar-logo-text { display: flex; flex-direction: column; gap: 1px; }
-        .sidebar-logo-text span:first-child { font-weight: 700; font-size: 1.2rem; }
-        .sidebar-logo-text span:last-child { font-weight: 500; font-size: 0.85rem; color: var(--text-soft); }
+        .sidebar-logo { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 1.2rem; color: var(--text); }
         .sidebar-logo-badge {
             width: 36px; height: 36px; border-radius: 10px;
-            background: linear-gradient(135deg, #EEF2FF 0%, #FFFFFF 100%);
-            display: flex; align-items: center; justify-content: center;
-            padding: 3px; flex-shrink: 0;
+            background: linear-gradient(135deg, var(--indigo-50), #FFFFFF);
+            display: flex; align-items: center; justify-content: center; padding: 3px;
         }
         .sidebar-logo-badge img { width: 100%; height: 100%; object-fit: contain; border-radius: 6px; }
+        .sidebar-logo-text {
+            display: flex;
+            flex-direction: column;
+            line-height: 1.1;
+        }
+        .sidebar-logo-text .brand-top { font-size: 1.2rem; font-weight: 700; color: var(--text); }
+        .sidebar-logo-text .brand-bottom { font-size: 0.9rem; font-weight: 500; color: var(--text-soft); }
         .sidebar-close {
             width: 30px; height: 30px; border-radius: 50%;
-            background: transparent; border: 1px solid var(--border-glass); color: var(--text-soft); font-size: 1rem;
+            background: transparent; border: 1px solid var(--border-glass); color: var(--text-soft);
             display: flex; align-items: center; justify-content: center; cursor: pointer;
-            transition: all 0.2s;
         }
-        .sidebar-close:hover { background: var(--indigo-100); color: var(--indigo-600); border-color: var(--indigo-600); }
-
-        /* Profil utilisateur compact (ligne horizontale) */
-        .sidebar-profile {
-            display: none;
-            align-items: center;
-            gap: 10px;
-            margin: 0.6rem 1rem;
-            padding: 0.5rem 0.7rem;
-            background: linear-gradient(135deg, #EEF2FF, #FFFFFF);
-            border: 1px solid var(--border-glass);
-            border-radius: 10px;
-            flex-direction: row;
-            text-align: left;
-        }
+        .sidebar-profile { display: none; align-items: center; gap: 10px; margin: 0.6rem 1rem; padding: 0.5rem 0.7rem; background: var(--bg-glass); border: 1px solid var(--border-glass); border-radius: 10px; }
         body.is-logged .sidebar-profile { display: flex; }
-        .sidebar-avatar {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            background: var(--indigo-100);
-            color: var(--indigo-600);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 600;
-            font-size: 0.9rem;
-            overflow: hidden;
-            flex-shrink: 0;
-        }
-        .sidebar-avatar img { width: 100%; height: 100%; object-fit: cover; }
-        .sidebar-user-info { overflow: hidden; flex: 1; min-width: 0; }
-        .sidebar-user-name {
-            font-weight: 600;
-            font-size: 0.8rem;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            line-height: 1.2;
-        }
-        .sidebar-user-email {
-            font-size: 0.7rem;
-            color: var(--text-soft);
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            line-height: 1.2;
-        }
-
+        .sidebar-avatar { width: 32px; height: 32px; border-radius: 50%; background: var(--indigo-100); color: var(--indigo-600); display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 0.9rem; }
+        .sidebar-user-info { overflow: hidden; flex: 1; }
+        .sidebar-user-name { font-weight: 600; font-size: 0.8rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--text); }
+        .sidebar-user-email { font-size: 0.7rem; color: var(--text-soft); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .sidebar-auth { display: flex; flex-direction: column; gap: 6px; margin: 0.6rem 1rem; }
         body.is-logged .sidebar-auth { display: none; }
         .btn-login-side {
             display: flex; align-items: center; justify-content: center; gap: 6px;
-            padding: 0.6rem; border-radius: 50px;
-            background: var(--indigo-600); color: #fff; font-weight: 600;
-            font-size: 0.85rem; transition: all 0.2s; border: none;
+            padding: 0.6rem; border-radius: 50px; background: var(--indigo-600); color: #fff;
+            font-weight: 600; font-size: 0.85rem;
         }
-        .btn-login-side:hover { background: var(--indigo-700); }
         .btn-register-side {
             display: flex; align-items: center; justify-content: center; gap: 6px;
-            padding: 0.6rem; border-radius: 50px;
-            background: transparent; border: 1px solid var(--indigo-600);
-            color: var(--indigo-600); font-weight: 600;
-            font-size: 0.85rem; transition: all 0.2s;
+            padding: 0.6rem; border-radius: 50px; background: transparent;
+            border: 1px solid var(--indigo-600); color: var(--indigo-600); font-weight: 600; font-size: 0.85rem;
         }
-        .btn-register-side:hover { background: var(--indigo-50); }
-
         .sidebar-nav { flex: 1; overflow-y: auto; padding: 0.3rem 1rem; }
-        .sidebar-section-title {
-            padding: 0.6rem 0 0.3rem;
-            font-size: 0.65rem; font-weight: 700; text-transform: uppercase;
-            letter-spacing: 0.06em; color: var(--text-muted);
-            display: flex; align-items: center; gap: 6px;
-        }
+        .sidebar-section-title { padding: 0.6rem 0 0.3rem; font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); display: flex; align-items: center; gap: 6px; }
         .sidebar-section-title::after { content: ''; flex: 1; border-bottom: 1px dotted var(--border-glass); }
         .nav-item {
             display: flex; align-items: center; gap: 10px;
             padding: 0.6rem 0.8rem; border-radius: 50px; margin-bottom: 4px;
-            color: var(--black); font-weight: 500; font-size: 0.85rem;
-            background: linear-gradient(135deg, #FFFFFF, #EEF2FF);
-            border: 1px solid var(--border-glass);
-            transition: all 0.2s; position: relative;
+            color: var(--text-soft); font-weight: 500; font-size: 0.85rem;
+            background: var(--bg-glass);
+            border: 1px solid var(--border-glass); position: relative;
+            transition: all 0.2s;
         }
-        .nav-item i {
-            width: 28px; height: 28px; border-radius: 50%;
-            background: var(--indigo-100); color: var(--indigo-600);
-            display: flex; align-items: center; justify-content: center;
-            font-size: 0.8rem; transition: all 0.2s;
-        }
+        .nav-item i { width: 28px; height: 28px; border-radius: 50%; background: var(--indigo-100); color: var(--indigo-600); display: flex; align-items: center; justify-content: center; font-size: 0.8rem; transition: all 0.2s; }
         .nav-item:hover { background: var(--indigo-50); border-color: var(--indigo-600); transform: translateX(3px); }
-        .nav-item:hover i { background: var(--indigo-600); color: #fff; }
-        .nav-item.active {
-            background: var(--indigo-100); border-color: var(--indigo-600);
-            font-weight: 600; color: var(--indigo-700);
-        }
+        .nav-item.active { background: var(--indigo-100); border-color: var(--indigo-600); font-weight: 600; color: var(--indigo-700); }
         .nav-item.active i { background: var(--indigo-600); color: #fff; }
         .nav-item.active::before {
-            content: ''; position: absolute; left: -0.8rem; top: 50%;
+            content: ''; position: absolute; left: -1rem; top: 50%;
             transform: translateY(-50%); width: 3px; height: 50%;
             background: var(--indigo-600); border-radius: 3px;
         }
-
-        .sidebar-footer {
-            padding: 0.6rem 1rem; border-top: 1px solid var(--border-glass);
-            display: flex; flex-direction: column; gap: 6px;
-        }
-        .btn-logout-side {
-            display: none; align-items: center; justify-content: center; gap: 6px;
-            padding: 0.6rem; border-radius: 50px; background: transparent;
-            border: 1px solid rgba(239,68,68,0.5); color: var(--red);
-            font-weight: 600; font-size: 0.85rem; transition: all 0.2s;
-        }
-        .btn-logout-side:hover { background: rgba(239,68,68,0.05); border-color: var(--red); }
+        .sidebar-footer { padding: 0.6rem 1rem; border-top: 1px solid var(--border-glass); display: flex; flex-direction: column; gap: 6px; }
+        .btn-logout-side { display: none; align-items: center; justify-content: center; gap: 6px; padding: 0.6rem; border-radius: 50px; background: transparent; border: 1px solid rgba(239,68,68,0.5); color: var(--red); font-weight: 600; font-size: 0.85rem; }
         body.is-logged .btn-logout-side { display: flex; }
 
-        /* ========== HERO ========== */
-        .hero {
-            padding: 1.5rem 0 0.5rem;
-            text-align: center;
-        }
+        /* Hero */
+        .hero { padding: 2rem 0 1rem; text-align: center; }
         .flyer-container {
             max-width: 700px; margin: 0 auto;
             border-radius: var(--radius-xl); overflow: hidden;
             border: 1px solid var(--border-glass); box-shadow: var(--shadow-card);
+            animation: fadeInUp 0.8s ease-out;
         }
         .flyer-container img { width: 100%; aspect-ratio: 16/9; object-fit: cover; }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-        .cat-scroll-container {
-            padding: 1rem 0 1.5rem; overflow-x: auto;
-            -webkit-overflow-scrolling: touch; scrollbar-width: none;
-            white-space: nowrap;
-        }
+        /* Catégories */
+        .cat-scroll-container { padding: 1.5rem 0; overflow-x: auto; scrollbar-width: none; white-space: nowrap; }
         .cat-scroll-container::-webkit-scrollbar { display: none; }
-        .cat-scroll { display: inline-flex; gap: 8px; padding: 0 4px; }
+        .cat-scroll { display: inline-flex; gap: 10px; padding: 0 4px; }
         .cat-pill {
-            display: inline-flex; align-items: center; gap: 6px;
-            background: #fff; border: 1px solid var(--border-glass);
-            border-radius: 50px; padding: 6px 14px;
-            color: var(--text-soft); font-weight: 500; font-size: 0.8rem;
-            transition: all 0.2s; cursor: pointer;
+            display: inline-flex; align-items: center; gap: 8px;
+            background: var(--bg-glass); border: 1px solid var(--border-glass);
+            border-radius: 50px; padding: 8px 18px;
+            color: var(--text); font-weight: 500; font-size: 0.85rem;
+            transition: all 0.3s; cursor: pointer;
+            backdrop-filter: blur(5px);
         }
-        .cat-pill i { color: var(--indigo-600); font-size: 0.9rem; }
-        .cat-pill:hover {
-            border-color: var(--indigo-600); background: var(--indigo-50);
-            color: var(--text); transform: translateY(-1px);
-        }
-        .cat-pill.active {
-            background: var(--indigo-100); border-color: var(--indigo-600);
-            color: var(--indigo-700);
-        }
-        .cat-pill.active i { color: var(--indigo-700); }
+        .cat-pill i { color: var(--indigo-600); font-size: 1rem; }
+        .cat-pill:hover { background: var(--indigo-600); border-color: var(--indigo-600); color: #fff; transform: translateY(-3px); box-shadow: 0 8px 20px rgba(79, 70, 229, 0.3); }
+        .cat-pill.active { background: var(--indigo-600); border-color: var(--indigo-600); color: #fff; }
+        .cat-pill.active i { color: #fff; }
 
-        section.block { padding: 1.8rem 0; }
-        section.block.alt { background: #fff; border-top: 1px solid var(--border-glass); border-bottom: 1px solid var(--border-glass); }
-        .block-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.2rem; }
+        /* Sections produits */
+        section.block { padding: 2.5rem 0; }
+        section.block.alt { background: rgba(255, 255, 255, 0.5); border-top: 1px solid var(--border-glass); border-bottom: 1px solid var(--border-glass); }
+        .block-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem; }
         .block-title {
-            font-family: 'Inter', sans-serif;
-            font-size: 1.4rem; font-weight: 700;
-            color: var(--text);
-            letter-spacing: 0.02em;
+            font-size: 1.6rem; /* Légèrement réduit (au lieu de 1.8rem) */
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--text), var(--indigo-600));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
-        .see-all {
-            color: var(--indigo-600); font-weight: 500; font-size: 0.8rem;
-            display: inline-flex; align-items: center; gap: 6px; transition: all 0.3s;
-        }
-        .see-all:hover { color: var(--indigo-700); gap: 8px; }
+        .see-all { color: var(--indigo-600); font-weight: 500; font-size: 0.9rem; display: inline-flex; align-items: center; gap: 6px; transition: all 0.3s; }
+        .see-all:hover { color: var(--indigo-700); gap: 10px; }
 
-        .product-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.8rem; }
-        @media (min-width: 720px) { .product-grid { grid-template-columns: repeat(4, 1fr); } }
+        .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 1.2rem; }
+        @media (min-width: 768px) { .product-grid { grid-template-columns: repeat(4, 1fr); } }
         .product-card {
-            background: #fff; border: 1px solid var(--border-glass); border-radius: var(--radius);
-            overflow: hidden; transition: all 0.25s; position: relative;
-            box-shadow: var(--shadow-card);
+            background: var(--bg-glass); border: 1px solid var(--border-glass);
+            border-radius: var(--radius); overflow: hidden;
+            transition: all 0.3s; position: relative; backdrop-filter: blur(5px);
         }
-        .product-card:hover {
-            transform: translateY(-3px);
-            border-color: var(--indigo-600);
-            box-shadow: var(--shadow-hover);
-        }
-        .product-card .thumb {
-            aspect-ratio: 1; background: #fafafa; display: flex; align-items: center; justify-content: center;
-            overflow: hidden; position: relative;
-        }
-        .product-card .thumb img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease; }
-        .product-card:hover .thumb img { transform: scale(1.06); }
-        .product-card .badge {
-            position: absolute; top: 8px; left: 8px; background: var(--indigo-600);
-            color: #fff; padding: 3px 8px; border-radius: 20px; font-size: 0.65rem; font-weight: 700;
-            text-transform: uppercase; z-index: 10;
-        }
-        .product-card .availability {
-            position: absolute; top: 8px; right: 8px; width: 8px; height: 8px;
-            background: var(--green); border-radius: 50%; border: 2px solid #fff; z-index: 10;
-        }
-        .product-card .info { padding: 0.6rem 0.8rem 0.8rem; background: #fff; border-top: 1px solid var(--border-glass); }
-        .product-card .info h3 { font-weight: 700; font-size: 0.9rem; margin-bottom: 0.2rem; color: var(--text); }
-        .product-card .info .price { color: var(--indigo-600); font-weight: 600; font-size: 0.8rem; margin-bottom: 0.5rem; }
-        .product-card .btn-buy {
-            display: block; width: 100%; padding: 0.5rem; background: var(--black);
-            color: #fff; text-align: center; border-radius: 50px; font-weight: 600; font-size: 0.8rem;
-            transition: all 0.2s; border: none;
-        }
-        .product-card .btn-buy:hover { background: var(--indigo-600); }
+        .product-card:hover { transform: translateY(-6px); border-color: var(--indigo-600); box-shadow: 0 15px 30px rgba(79, 70, 229, 0.15); }
+        .product-card .thumb { aspect-ratio: 1; background: var(--indigo-50); display: flex; align-items: center; justify-content: center; overflow: hidden; }
+        .product-card .thumb img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
+        .product-card:hover .thumb img { transform: scale(1.08); }
+        .product-card .badge { position: absolute; top: 10px; left: 10px; background: var(--indigo-600); color: #fff; padding: 4px 10px; border-radius: 20px; font-size: 0.7rem; font-weight: 600; text-transform: uppercase; z-index: 10; }
+        .product-card .availability { position: absolute; top: 10px; right: 10px; width: 10px; height: 10px; border-radius: 50%; background: var(--green); border: 2px solid #fff; z-index: 10; }
+        .product-card .info { padding: 0.8rem 1rem 1rem; }
+        .product-card .info h3 { font-weight: 600; font-size: 0.95rem; margin-bottom: 0.2rem; color: var(--text); }
+        .product-card .info .price { color: var(--indigo-600); font-weight: 600; font-size: 0.85rem; margin-bottom: 0.6rem; }
+        .product-card .btn-buy { display: block; width: 100%; padding: 0.6rem; background: linear-gradient(135deg, var(--indigo-600), #6D28D9); color: #fff; text-align: center; border-radius: 50px; font-weight: 600; font-size: 0.85rem; transition: all 0.2s; border: none; }
+        .product-card .btn-buy:hover { background: linear-gradient(135deg, #6D28D9, var(--indigo-600)); box-shadow: 0 4px 15px rgba(79, 70, 229, 0.4); }
 
         /* Témoignages */
-        .testimonials-grid {
-            display: grid; grid-template-columns: 1fr; gap: 0.8rem;
-            margin-top: 1rem;
-        }
-        @media (min-width: 720px) { .testimonials-grid { grid-template-columns: repeat(3, 1fr); } }
-        .testimonial-card {
-            background: #fff; border: 1px solid var(--border-glass); border-radius: var(--radius);
-            padding: 1rem; text-align: left; box-shadow: var(--shadow-card);
-            transition: all 0.2s;
-        }
-        .testimonial-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-hover); }
-        .testimonial-header {
-            display: flex; align-items: center; gap: 8px; margin-bottom: 0.5rem;
-        }
-        .testimonial-avatar {
-            width: 30px; height: 30px; border-radius: 50%;
-            background: var(--indigo-100); color: var(--indigo-600);
-            display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 0.8rem;
-        }
-        .testimonial-info .name { font-weight: 600; font-size: 0.85rem; }
+        .testimonials-grid { display: grid; grid-template-columns: 1fr; gap: 1.2rem; margin-top: 1rem; }
+        @media (min-width: 768px) { .testimonials-grid { grid-template-columns: repeat(3, 1fr); } }
+        .testimonial-card { background: var(--bg-glass); border: 1px solid var(--border-glass); border-radius: var(--radius); padding: 1.2rem; backdrop-filter: blur(5px); transition: all 0.3s; }
+        .testimonial-card:hover { transform: translateY(-4px); border-color: var(--indigo-600); }
+        .testimonial-header { display: flex; align-items: center; gap: 10px; margin-bottom: 0.6rem; }
+        .testimonial-avatar { width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(135deg, var(--indigo-600), #6D28D9); color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 0.9rem; }
+        .testimonial-info .name { font-weight: 600; font-size: 0.9rem; color: var(--text); }
         .testimonial-info .date { font-size: 0.7rem; color: var(--text-muted); }
-        .testimonial-stars { color: var(--indigo-600); margin-bottom: 0.3rem; font-size: 0.8rem; }
-        .testimonial-quote { font-style: italic; color: var(--text-soft); font-size: 0.85rem; }
+        .testimonial-stars { color: #F59E0B; margin-bottom: 0.4rem; font-size: 0.85rem; }
+        .testimonial-quote { font-style: italic; color: var(--text-soft); font-size: 0.9rem; }
 
         /* FAQ */
         .faq-container { max-width: 800px; margin: 0 auto; }
         .faq-item { border-bottom: 1px solid var(--border-glass); }
-        .faq-question {
-            width: 100%; padding: 0.8rem 0; display: flex; justify-content: space-between; align-items: center;
-            font-weight: 600; font-size: 0.95rem; color: var(--text); cursor: pointer; transition: color 0.2s;
-            background: transparent;
-        }
+        .faq-question { width: 100%; padding: 1rem 0; display: flex; justify-content: space-between; align-items: center; font-weight: 600; font-size: 1rem; cursor: pointer; transition: color 0.2s; background: transparent; }
         .faq-question:hover { color: var(--indigo-600); }
         .faq-question i { transition: transform 0.3s; color: var(--indigo-600); }
         .faq-question[aria-expanded="true"] i { transform: rotate(180deg); }
-        .faq-answer {
-            max-height: 0; overflow: hidden; transition: max-height 0.3s ease, padding 0.3s;
-            padding: 0; color: var(--text-soft); font-size: 0.9rem;
-        }
-        .faq-answer.open { max-height: 200px; padding-bottom: 0.8rem; }
-        .faq-search {
-            margin-bottom: 1rem; padding: 0.7rem 1rem; border: 1px solid var(--border-glass);
-            border-radius: 50px; width: 100%; font-size: 0.9rem; background: #fff;
-        }
-        .faq-search:focus { outline: none; border-color: var(--indigo-600); }
+        .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.3s ease, padding 0.3s; padding: 0; color: var(--text-soft); font-size: 0.95rem; }
+        .faq-answer.open { max-height: 200px; padding-bottom: 1rem; }
 
         /* Footer */
         footer.site {
             background: #fff; border-top: 1px solid var(--border-glass);
-            padding: 1.5rem 1rem 1rem; font-size: 0.8rem; color: var(--text-soft);
+            padding: 2rem 1.2rem 1.5rem; font-size: 0.85rem; color: var(--text-soft);
+            margin-top: auto;
         }
-        .footer-inner {
-            display: grid; grid-template-columns: 1fr; gap: 1.5rem; max-width: var(--container); margin: 0 auto;
-        }
-        @media (min-width: 720px) { .footer-inner { grid-template-columns: 2fr 1fr 1fr; } }
-        .footer-brand .brand-name { font-family: 'Inter', sans-serif; font-weight: 700; font-size: 1.1rem; color: var(--indigo-700); }
+        .footer-inner { display: grid; grid-template-columns: 1fr; gap: 2rem; max-width: 1200px; margin: 0 auto; }
+        @media (min-width: 768px) { .footer-inner { grid-template-columns: 2fr 1fr 1fr; } }
+        .footer-brand .footer-logo { height: 40px; margin-bottom: 0.5rem; }
+        .footer-brand .brand-name { font-size: 1.3rem; font-weight: 700; color: var(--text); }
         .footer-brand .brand-name span { color: var(--indigo-600); }
-        .footer-brand p { margin-top: 0.3rem; font-size: 0.8rem; }
-        .footer-links-title { font-weight: 700; margin-bottom: 0.6rem; color: var(--text); font-size: 0.9rem; }
-        .footer-links { display: flex; flex-direction: column; gap: 0.4rem; }
-        .footer-links a { font-size: 0.8rem; }
+        .footer-brand p { margin-top: 0.5rem; }
+        .footer-links-title { font-weight: 700; margin-bottom: 0.8rem; color: var(--text); }
+        .footer-links { display: flex; flex-direction: column; gap: 0.5rem; }
+        .footer-links a { transition: color 0.2s; }
         .footer-links a:hover { color: var(--indigo-600); }
-        .footer-social { display: flex; gap: 0.8rem; margin-top: 0.8rem; }
+        .footer-social { display: flex; gap: 1rem; margin-top: 1rem; }
         .footer-social a {
-            width: 36px; height: 36px; border-radius: 10px;
+            width: 40px; height: 40px; border-radius: 50%;
+            background: var(--bg-glass); border: 1px solid var(--border-glass);
             display: flex; align-items: center; justify-content: center;
-            background: var(--indigo-50);
-            border: 1px solid var(--border-glass);
-            transition: all 0.2s;
+            color: var(--text); font-size: 1.2rem;
+            transition: all 0.3s;
         }
-        .footer-social a.whatsapp { color: #25D366; font-size: 1.2rem; }
+        .footer-social a.whatsapp { color: #25D366; }
         .footer-social a.whatsapp:hover { background: #25D366; color: #fff; }
         .footer-social a.instagram {
             background: radial-gradient(circle at 30% 110%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%);
             -webkit-background-clip: text; background-clip: text; color: transparent;
-            font-size: 1.2rem;
         }
-        .footer-social a.instagram:hover { background: #E1306C; color: #fff; -webkit-background-clip: border-box; background-clip: border-box; }
-        .footer-payments { display: flex; gap: 0.4rem; flex-wrap: wrap; margin-top: 0.8rem; }
-        .footer-payments span {
-            background: var(--indigo-50); padding: 0.2rem 0.5rem; border-radius: 5px; font-size: 0.7rem;
-            font-weight: 600; color: var(--indigo-600);
+        .footer-social a.instagram:hover {
+            background: radial-gradient(circle at 30% 110%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%);
+            -webkit-background-clip: border-box; background-clip: border-box; color: #fff;
         }
-        .footer-copy { text-align: center; margin-top: 1.5rem; font-size: 0.75rem; color: var(--text-muted); border-top: 1px solid var(--border-glass); padding-top: 0.8rem; }
+        .footer-payments { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 1rem; }
+        .footer-payments span { background: var(--bg-glass); padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.75rem; color: var(--text-soft); }
+        .footer-copy { text-align: center; margin-top: 2rem; font-size: 0.8rem; color: var(--text-muted); border-top: 1px solid var(--border-glass); padding-top: 1rem; }
 
-        .thumb-fallback { display: flex; align-items: center; justify-content: center; background: #fafafa; color: var(--text); font-weight: 700; font-size: 1.2rem; text-transform: uppercase; width: 100%; height: 100%; aspect-ratio: 1; }
-
-        /* ========== MOBILE-FIRST : RÉDUCTIONS SUPPLÉMENTAIRES ========== */
-        @media (max-width: 599px) {
-            :root {
-                --radius: 12px;
-                --radius-lg: 16px;
-                --radius-xl: 20px;
-                --shadow-card: 0 2px 10px rgba(79,70,229,0.05);
-                --shadow-float: 0 4px 20px rgba(79,70,229,0.08);
-                --shadow-hover: 0 6px 24px rgba(79,70,229,0.1);
-            }
-            .container { padding: 0 12px; }
-
-            header.site-header {
-                padding: 0.4rem 0.8rem;
-                margin: 0 0.5rem;
-                top: 0.5rem;
-                border-radius: var(--radius-lg);
-            }
-            .brand img { height: 30px; }
-            .icon-btn, .lang-btn-header { width: 32px; height: 32px; font-size: 0.9rem; }
-            .header-actions { gap: 0.4rem; }
-
-            .hero { padding: 0.8rem 0 0.3rem; }
-            .flyer-container { max-width: 100%; border-radius: var(--radius-lg); }
-            .flyer-container img { aspect-ratio: 16/9; }
-
-            .cat-scroll-container { padding: 0.6rem 0 0.8rem; }
-            .cat-pill { padding: 5px 10px; font-size: 0.7rem; }
-            .cat-pill i { font-size: 0.8rem; }
-
-            section.block { padding: 1.2rem 0; }
-            .block-head { margin-bottom: 0.8rem; }
-            .block-title { font-size: 1.1rem; }
-            .see-all { font-size: 0.7rem; }
-
-            .product-grid { gap: 0.6rem; }
-            .product-card .info { padding: 0.5rem 0.6rem 0.6rem; }
-            .product-card .info h3 { font-size: 0.8rem; }
-            .product-card .info .price { font-size: 0.7rem; margin-bottom: 0.3rem; }
-            .product-card .btn-buy { padding: 0.4rem; font-size: 0.7rem; }
-            .product-card .badge { font-size: 0.55rem; padding: 2px 6px; }
-            .product-card .availability { width: 6px; height: 6px; }
-
-            .testimonial-card { padding: 0.8rem; }
-            .testimonial-quote { font-size: 0.75rem; }
-            .testimonial-stars { font-size: 0.7rem; }
-            .testimonial-avatar { width: 26px; height: 26px; font-size: 0.7rem; }
-            .testimonial-info .name { font-size: 0.75rem; }
-            .testimonial-info .date { font-size: 0.65rem; }
-
-            .faq-question { font-size: 0.85rem; padding: 0.7rem 0; }
-            .faq-answer { font-size: 0.8rem; }
-            .faq-search { padding: 0.6rem 0.8rem; font-size: 0.8rem; }
-
-            footer.site { padding: 1rem 0.8rem 0.8rem; }
-            .footer-inner { gap: 1rem; }
-            .footer-brand .brand-name { font-size: 1rem; }
-            .footer-social a { width: 32px; height: 32px; font-size: 1rem; }
-            .footer-payments span { padding: 0.15rem 0.4rem; font-size: 0.65rem; }
-            .footer-copy { font-size: 0.7rem; }
-
-            .search-input { width: 90%; padding: 10px 14px; font-size: 0.9rem; }
-            .search-overlay { padding-top: 70px; }
-            .search-close { font-size: 1.3rem; top: 15px; right: 15px; }
+        /* Toast styles */
+        .toast-container {
+            position: fixed; bottom: 20px; right: 20px;
+            z-index: 10000;
+            display: flex; flex-direction: column;
+            gap: 8px;
         }
+        .toast {
+            display: flex; align-items: center; gap: 10px;
+            background: #fff;
+            color: var(--text);
+            padding: 0.8rem 1.2rem;
+            border-radius: 12px;
+            box-shadow: var(--shadow-float);
+            border: 1px solid var(--border-glass);
+            font-weight: 500;
+            font-size: 0.9rem;
+            animation: toastIn 0.3s ease, toastOut 0.3s ease 3s forwards;
+            max-width: 300px;
+        }
+        .toast i { font-size: 1.2rem; }
+        .toast-info i { color: var(--indigo-600); }
+        .toast-success i { color: var(--green); }
+        .toast-error i { color: var(--red); }
+        .toast-loading i { color: var(--indigo-600); animation: spin 1s linear infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        @keyframes toastIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes toastOut { to { opacity: 0; transform: translateY(20px); } }
     </style>
 </head>
 <body>
     <div class="orb orb-1"></div>
     <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
 
-    <!-- RECHERCHE OVERLAY -->
-    <div class="search-overlay" id="searchOverlay">
-        <input type="text" class="search-input" id="searchInput" placeholder="Rechercher un produit...">
-        <div class="search-close" id="closeSearch"><i class="fa-solid fa-xmark"></i></div>
-        <div class="no-results" id="noResults">Aucun produit trouvé</div>
-    </div>
+    <!-- Toast container -->
+    <div class="toast-container" id="toastContainer"></div>
 
-    <!-- SIDEBAR OVERLAY -->
+    <!-- Sidebar Overlay -->
     <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
-    <!-- SIDEBAR -->
+    <!-- Sidebar -->
     <aside class="sidebar" id="sidebar" role="dialog" aria-modal="true" aria-label="Menu de navigation">
         <div class="sidebar-header">
             <div class="sidebar-logo">
-                <span class="sidebar-logo-badge">
-                    <img src="/assets/logo.png" alt="DigitalPay Haiti" onerror="this.style.display='none'">
-                </span>
+                <span class="sidebar-logo-badge"><img src="/assets/logo.png" alt="DigitalPay Haiti" onerror="this.style.display='none'"></span>
                 <span class="sidebar-logo-text">
-                    <span>DigitalPay</span>
-                    <span>Haiti</span>
+                    <span class="brand-top">DigitalPay</span>
+                    <span class="brand-bottom">Haiti</span>
                 </span>
             </div>
-            <button class="sidebar-close" id="closeSidebar" type="button" aria-label="Fermer le menu"><i class="fa-solid fa-xmark"></i></button>
+            <button class="sidebar-close" id="closeSidebar" type="button"><i class="fa-solid fa-xmark"></i></button>
         </div>
 
         <div class="sidebar-profile">
@@ -616,36 +387,25 @@
             </div>
         </div>
         <div class="sidebar-auth">
-            <a href="/authentification/login.html" class="btn-login-side"><i class="fa-solid fa-right-to-bracket"></i> <span>Se Connecter</span></a>
-            <a href="/authentification/register.html" class="btn-register-side"><i class="fa-solid fa-user-plus"></i> <span>S'inscrire</span></a>
+            <a href="/authentification/login.html" class="btn-login-side"><i class="fa-solid fa-right-to-bracket"></i> Se Connecter</a>
+            <a href="/authentification/register.html" class="btn-register-side"><i class="fa-solid fa-user-plus"></i> S'inscrire</a>
         </div>
 
-        <nav class="sidebar-nav">
-            <div class="sidebar-section-title">Principal</div>
-            <a href="/index.html" class="nav-item active"><i class="fa-solid fa-house"></i> <span data-i18n="home">Accueil</span></a>
-            <a href="/wallet.html" class="nav-item"><i class="fa-solid fa-wallet"></i> <span data-i18n="wallet">Portefeuille</span></a>
-            <a href="/commandes.html" class="nav-item"><i class="fa-solid fa-cart-shopping"></i> <span data-i18n="orders">Commandes</span></a>
-            <a href="/profil.html" class="nav-item"><i class="fa-solid fa-user"></i> <span data-i18n="profile">Profil</span></a>
-            <a href="/support/support.html" class="nav-item"><i class="fa-solid fa-circle-question"></i> <span data-i18n="helpTutorial">Centre d'aide</span></a>
-            <div class="sidebar-section-title">Services</div>
-            <a href="/gaming/index.html" class="nav-item"><i class="fa-solid fa-gamepad"></i> <span data-i18n="gaming">Jeux</span></a>
-            <a href="/streaming/index.html" class="nav-item"><i class="fa-solid fa-tv"></i> <span data-i18n="streaming">Abonnements</span></a>
-            <a href="/finance/index.html" class="nav-item"><i class="fa-solid fa-coins"></i> <span data-i18n="finance">Finance</span></a>
-            <a href="/giftcard/index.html" class="nav-item"><i class="fa-solid fa-gift"></i> <span data-i18n="giftcards">Gift Cards</span></a>
-            <a href="/social/index.html" class="nav-item"><i class="fa-solid fa-share-nodes"></i> <span data-i18n="social">Réseaux sociaux</span></a>
+        <nav class="sidebar-nav" id="sidebarNav">
+            <!-- Les liens seront générés par JavaScript -->
         </nav>
 
         <div class="sidebar-footer">
-            <button class="btn-logout-side" id="logoutBtn"><i class="fa-solid fa-arrow-right-from-bracket"></i> <span data-i18n="logout">Se Déconnecter</span></button>
+            <button class="btn-logout-side" id="logoutBtn"><i class="fa-solid fa-arrow-right-from-bracket"></i> Se Déconnecter</button>
         </div>
     </aside>
 
-    <!-- HEADER PRINCIPAL -->
+    <!-- Header -->
     <header class="site-header" id="siteHeader">
         <a href="/index.html" class="brand"><img src="/assets/logo.png" alt="DigitalPay" onerror="this.style.display='none'"></a>
         <div class="header-actions">
             <div class="lang-selector-header">
-                <button class="lang-btn-header" id="langBtnHeader" aria-label="Langue"><i class="fa-solid fa-globe"></i></button>
+                <button class="lang-btn-header" id="langBtnHeader"><i class="fa-solid fa-globe"></i></button>
                 <div class="lang-menu-header" id="langMenuHeader">
                     <button data-lang="fr">🇫🇷 Français</button>
                     <button data-lang="en">🇺🇸 English</button>
@@ -653,18 +413,19 @@
                     <button data-lang="es">🇪🇸 Español</button>
                 </div>
             </div>
-            <button class="icon-btn" id="openSearch" aria-label="Rechercher"><i class="fa-solid fa-magnifying-glass"></i></button>
-            <button class="icon-btn" id="openSidebarBtn" aria-label="Menu"><i class="fa-solid fa-bars"></i><span class="status-dot" id="authStatusDot"></span></button>
+            <button class="icon-btn" id="openSidebarBtn"><i class="fa-solid fa-bars"></i></button>
         </div>
     </header>
 
     <main>
-        <!-- FLYER -->
+        <!-- Hero -->
         <section class="hero container">
-            <div class="flyer-container"><img src="/assets/flyerswelcome.png" alt="Bienvenue" data-i18n-alt="flyerAlt" onerror="this.style.display='none'"></div>
+            <div class="flyer-container">
+                <img src="/assets/flyerswelcome.png" alt="Bienvenue" data-i18n-alt="flyerAlt" onerror="this.style.display='none'">
+            </div>
         </section>
 
-        <!-- CATEGORIES PILLS -->
+        <!-- Catégories -->
         <section class="container cat-scroll-container">
             <div class="cat-scroll">
                 <a href="#gaming" class="cat-pill" data-cat="gaming"><i class="fa-solid fa-gamepad"></i> <span data-i18n="gaming">Jeux</span></a>
@@ -675,38 +436,50 @@
             </div>
         </section>
 
-        <!-- SECTION JEUX -->
+        <!-- Section Jeux -->
         <section id="gaming" class="block">
             <div class="container">
                 <div class="block-head"><h2 class="block-title"><span data-i18n="gaming">Jeux</span></h2><a href="/gaming/index.html" class="see-all"><span data-i18n="seeAll">Voir tout</span> <i class="fa-solid fa-arrow-right"></i></a></div>
                 <div class="product-grid">
-                    <div class="product-card"><div class="thumb"><img src="/assets/freefire-logo.png" alt="Free Fire" onerror="this.replaceWith(makeThumbFallback('FF'))"></div><div class="info"><h3>Free Fire</h3><p class="price">Recharges</p><a href="#" class="btn-buy"><span data-i18n="order">Commander</span></a></div></div>
-                    <div class="product-card"><div class="thumb"><img src="/assets/callofduty.png" alt="Call of Duty" onerror="this.replaceWith(makeThumbFallback('COD'))"></div><div class="info"><h3>Call of Duty</h3><p class="price">Recharges</p><a href="#" class="btn-buy"><span data-i18n="order">Commander</span></a></div></div>
-                    <div class="product-card"><div class="thumb"><img src="/assets/bloodstrike.png" alt="Blood Strike" onerror="this.replaceWith(makeThumbFallback('BS'))"></div><div class="info"><h3>Blood Strike</h3><p class="price">Recharges</p><a href="#" class="btn-buy"><span data-i18n="order">Commander</span></a></div></div>
-                    <div class="product-card"><div class="thumb"><img src="/assets/dreamleaguesoccer.png" alt="Dream League Soccer 2026" onerror="this.replaceWith(makeThumbFallback('DLS'))"></div><div class="info"><h3>Dream League Soccer 2026</h3><p class="price">Recharges</p><a href="#" class="btn-buy"><span data-i18n="order">Commander</span></a></div></div>
+                    <div class="product-card">
+                        <div class="thumb"><img src="/assets/freefire-logo.png" alt="Free Fire" onerror="this.replaceWith(makeThumbFallback('FF'))"></div>
+                        <div class="info"><h3>Free Fire</h3><p class="price">Dès 157 HTG</p><a href="#" class="btn-buy"><span data-i18n="order">Commander</span></a></div>
+                    </div>
+                    <div class="product-card">
+                        <div class="thumb"><img src="/assets/roblox-logo.png" alt="Roblox" onerror="this.replaceWith(makeThumbFallback('RB'))"></div>
+                        <div class="info"><h3>Roblox</h3><p class="price">Dès 750 HTG</p><a href="#" class="btn-buy"><span data-i18n="order">Commander</span></a></div>
+                    </div>
+                    <div class="product-card">
+                        <div class="thumb"><img src="/assets/pubgmobile-logo.png" alt="PUBG Mobile" onerror="this.replaceWith(makeThumbFallback('PUBG'))"></div>
+                        <div class="info"><h3>PUBG Mobile</h3><p class="price">Dès 180 HTG</p><a href="#" class="btn-buy"><span data-i18n="order">Commander</span></a></div>
+                    </div>
+                    <div class="product-card">
+                        <div class="thumb"><img src="/assets/minecraft-logo.png" alt="Minecraft" onerror="this.replaceWith(makeThumbFallback('MC'))"></div>
+                        <div class="info"><h3>Minecraft</h3><p class="price">Dès 316 HTG</p><a href="#" class="btn-buy"><span data-i18n="order">Commander</span></a></div>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <!-- SECTION STREAMING / ABONNEMENTS -->
+        <!-- Section Streaming -->
         <section id="streaming" class="block alt">
             <div class="container">
                 <div class="block-head"><h2 class="block-title"><span data-i18n="streaming">Abonnements</span></h2><a href="/streaming/index.html" class="see-all"><span data-i18n="seeAll">Voir tout</span> <i class="fa-solid fa-arrow-right"></i></a></div>
                 <div class="product-grid">
-                    <div class="product-card"><div class="thumb"><img src="/assets/netflix.png" alt="Netflix" onerror="this.replaceWith(makeThumbFallback('NF'))"></div><div class="info"><h3>Netflix</h3><p class="price">1 Mois = 400 Gdes</p><a href="#" class="btn-buy"><span data-i18n="order">Commander</span></a></div></div>
-                    <div class="product-card"><div class="thumb"><img src="/assets/disneyplus.png" alt="Disney+" onerror="this.replaceWith(makeThumbFallback('D+'))"></div><div class="info"><h3>Disney+</h3><p class="price">1 Mois = 625 Gdes</p><a href="#" class="btn-buy"><span data-i18n="order">Commander</span></a></div></div>
-                    <div class="product-card"><div class="thumb"><img src="/assets/primevideo.png" alt="Prime Video" onerror="this.replaceWith(makeThumbFallback('PV'))"></div><div class="info"><h3>Prime Video</h3><p class="price">1 Mois = 425 Gdes</p><a href="#" class="btn-buy"><span data-i18n="order">Commander</span></a></div></div>
-                    <div class="product-card"><div class="thumb"><img src="/assets/crunchyroll.png" alt="Crunchyroll" onerror="this.replaceWith(makeThumbFallback('CR'))"></div><div class="info"><h3>Crunchyroll</h3><p class="price">1 Mois = 425 Gdes</p><a href="#" class="btn-buy"><span data-i18n="order">Commander</span></a></div></div>
+                    <div class="product-card"><div class="thumb"><img src="/assets/netflix.png" alt="Netflix" onerror="this.replaceWith(makeThumbFallback('NF'))"></div><div class="info"><h3>Netflix</h3><p class="price">400 Gdes/mois</p><a href="#" class="btn-buy"><span data-i18n="order">Commander</span></a></div></div>
+                    <div class="product-card"><div class="thumb"><img src="/assets/disneyplus.png" alt="Disney+" onerror="this.replaceWith(makeThumbFallback('D+'))"></div><div class="info"><h3>Disney+</h3><p class="price">625 Gdes/mois</p><a href="#" class="btn-buy"><span data-i18n="order">Commander</span></a></div></div>
+                    <div class="product-card"><div class="thumb"><img src="/assets/primevideo.png" alt="Prime Video" onerror="this.replaceWith(makeThumbFallback('PV'))"></div><div class="info"><h3>Prime Video</h3><p class="price">425 Gdes/mois</p><a href="#" class="btn-buy"><span data-i18n="order">Commander</span></a></div></div>
+                    <div class="product-card"><div class="thumb"><img src="/assets/crunchyroll.png" alt="Crunchyroll" onerror="this.replaceWith(makeThumbFallback('CR'))"></div><div class="info"><h3>Crunchyroll</h3><p class="price">425 Gdes/mois</p><a href="#" class="btn-buy"><span data-i18n="order">Commander</span></a></div></div>
                 </div>
             </div>
         </section>
 
-        <!-- SECTION FINANCE -->
+        <!-- Section Finance -->
         <section id="finance" class="block">
             <div class="container">
                 <div class="block-head"><h2 class="block-title"><span data-i18n="finance">Finance</span></h2><a href="/finance/index.html" class="see-all"><span data-i18n="seeAll">Voir tout</span> <i class="fa-solid fa-arrow-right"></i></a></div>
                 <div class="product-grid">
-                    <div class="product-card"><div class="thumb"><img src="/assets/binance.png" alt="Binance" onerror="this.replaceWith(makeThumbFallback('BIN'))"></div><div class="info"><h3>Binance (USDT TRC20)</h3><p class="price">Transferts</p><a href="#" class="btn-buy"><span data-i18n="order">Commander</span></a></div></div>
+                    <div class="product-card"><div class="thumb"><img src="/assets/binance.png" alt="Binance" onerror="this.replaceWith(makeThumbFallback('BIN'))"></div><div class="info"><h3>Binance (USDT TRC20)</h3><p class="price">Taux 1$ = 150 Gdes</p><a href="#" class="btn-buy"><span data-i18n="order">Commander</span></a></div></div>
                     <div class="product-card"><div class="thumb"><img src="/assets/meru.png" alt="Meru" onerror="this.replaceWith(makeThumbFallback('MR'))"></div><div class="info"><h3>Meru</h3><p class="price">Transferts</p><a href="#" class="btn-buy"><span data-i18n="order">Commander</span></a></div></div>
                     <div class="product-card"><div class="thumb"><img src="/assets/wise.png" alt="Wise" onerror="this.replaceWith(makeThumbFallback('WI'))"></div><div class="info"><h3>Wise</h3><p class="price">International</p><a href="#" class="btn-buy"><span data-i18n="order">Commander</span></a></div></div>
                     <div class="product-card"><div class="thumb"><img src="/assets/merucard.png" alt="Carte de crédit (Meru)" onerror="this.replaceWith(makeThumbFallback('MCR'))"></div><div class="info"><h3>Carte de crédit (Meru)</h3><p class="price">Recharges</p><a href="#" class="btn-buy"><span data-i18n="order">Commander</span></a></div></div>
@@ -714,20 +487,22 @@
             </div>
         </section>
 
-        <!-- SECTION GIFT CARDS -->
+        <!-- Section Gift Cards -->
         <section id="giftcard" class="block alt">
             <div class="container">
                 <div class="block-head"><h2 class="block-title"><span data-i18n="giftcards">Gift Cards</span></h2><a href="/giftcard/index.html" class="see-all"><span data-i18n="seeAll">Voir tout</span> <i class="fa-solid fa-arrow-right"></i></a></div>
                 <div class="product-grid">
-                    <div class="product-card"><div class="thumb"><img src="/assets/nintendogc.png" alt="Nintendo" onerror="this.replaceWith(makeThumbFallback('NIN'))"></div><div class="info"><h3>Nintendo</h3><p class="price">eShop</p><a href="#" class="btn-buy"><span data-i18n="order">Commander</span></a></div></div>
                     <div class="product-card"><div class="thumb"><img src="/assets/applegc.png" alt="Apple" onerror="this.replaceWith(makeThumbFallback('APL'))"></div><div class="info"><h3>Apple</h3><p class="price">App Store & iTunes</p><a href="#" class="btn-buy"><span data-i18n="order">Commander</span></a></div></div>
+                    <div class="product-card"><div class="thumb"><img src="/assets/netflixgc.png" alt="Netflix" onerror="this.replaceWith(makeThumbFallback('NF'))"></div><div class="info"><h3>Netflix</h3><p class="price">Cartes cadeaux</p><a href="#" class="btn-buy"><span data-i18n="order">Commander</span></a></div></div>
+                    <div class="product-card"><div class="thumb"><img src="/assets/nintendogc.png" alt="Nintendo" onerror="this.replaceWith(makeThumbFallback('NIN'))"></div><div class="info"><h3>Nintendo</h3><p class="price">eShop</p><a href="#" class="btn-buy"><span data-i18n="order">Commander</span></a></div></div>
+                    <div class="product-card"><div class="thumb"><img src="/assets/playstationgc.png" alt="PlayStation" onerror="this.replaceWith(makeThumbFallback('PS'))"></div><div class="info"><h3>PlayStation</h3><p class="price">PSN</p><a href="#" class="btn-buy"><span data-i18n="order">Commander</span></a></div></div>
                     <div class="product-card"><div class="thumb"><img src="/assets/steamgc.png" alt="Steam" onerror="this.replaceWith(makeThumbFallback('ST'))"></div><div class="info"><h3>Steam</h3><p class="price">Steam Wallet</p><a href="#" class="btn-buy"><span data-i18n="order">Commander</span></a></div></div>
                     <div class="product-card"><div class="thumb"><img src="/assets/googleplaycard.png" alt="Google Play" onerror="this.replaceWith(makeThumbFallback('GP'))"></div><div class="info"><h3>Google Play</h3><p class="price">Cartes Android</p><a href="#" class="btn-buy"><span data-i18n="order">Commander</span></a></div></div>
                 </div>
             </div>
         </section>
 
-        <!-- SECTION SOCIAL -->
+        <!-- Section Réseaux sociaux -->
         <section id="social" class="block">
             <div class="container">
                 <div class="block-head"><h2 class="block-title"><span data-i18n="social">Réseaux sociaux</span></h2><a href="/social/index.html" class="see-all"><span data-i18n="seeAll">Voir tout</span> <i class="fa-solid fa-arrow-right"></i></a></div>
@@ -739,18 +514,15 @@
             </div>
         </section>
 
-        <!-- TÉMOIGNAGES (non traduits, en créole) -->
+        <!-- Témoignages -->
         <section class="block">
             <div class="container">
-                <div class="block-head"><h2 class="block-title">Avis Clients</h2></div>
+                <div class="block-head"><h2 class="block-title" data-i18n="reviews">Avis Clients</h2></div>
                 <div class="testimonials-grid">
                     <div class="testimonial-card">
                         <div class="testimonial-header">
                             <div class="testimonial-avatar">J</div>
-                            <div class="testimonial-info">
-                                <div class="name">Jean P.</div>
-                                <div class="date">12 mas 2026</div>
-                            </div>
+                            <div class="testimonial-info"><div class="name">Jean P.</div><div class="date">12 mas 2026</div></div>
                         </div>
                         <div class="testimonial-stars">★★★★★</div>
                         <div class="testimonial-quote">Rechaj Free Fire te resevwa nan 2 minit. Sèvis enparab!</div>
@@ -758,10 +530,7 @@
                     <div class="testimonial-card">
                         <div class="testimonial-header">
                             <div class="testimonial-avatar">M</div>
-                            <div class="testimonial-info">
-                                <div class="name">Marie L.</div>
-                                <div class="date">8 mas 2026</div>
-                            </div>
+                            <div class="testimonial-info"><div class="name">Marie L.</div><div class="date">8 mas 2026</div></div>
                         </div>
                         <div class="testimonial-stars">★★★★★</div>
                         <div class="testimonial-quote">Transfè Wise rapid e an sekirite. Mwen rekòmande 100%.</div>
@@ -769,10 +538,7 @@
                     <div class="testimonial-card">
                         <div class="testimonial-header">
                             <div class="testimonial-avatar">M</div>
-                            <div class="testimonial-info">
-                                <div class="name">Marc D.</div>
-                                <div class="date">2 mas 2026</div>
-                            </div>
+                            <div class="testimonial-info"><div class="name">Marc D.</div><div class="date">2 mas 2026</div></div>
                         </div>
                         <div class="testimonial-stars">★★★★☆</div>
                         <div class="testimonial-quote">Trè bon sèvis kliyan, reponn sou WhatsApp. Pri konpetitif.</div>
@@ -785,7 +551,6 @@
         <section class="block">
             <div class="container faq-container">
                 <div class="block-head"><h2 class="block-title" data-i18n="faqTitle">Questions fréquentes</h2></div>
-                <input type="text" class="faq-search" id="faqSearch" placeholder="Rechercher une question..." data-i18n-placeholder="faqSearchPlaceholder">
                 <div class="faq-item">
                     <button class="faq-question" aria-expanded="true"><span data-i18n="faqQ1">Comment passer une commande ?</span> <i class="fa-solid fa-chevron-down"></i></button>
                     <div class="faq-answer open" data-i18n="faqA1">Cliquez sur le service souhaité, connectez-vous et suivez les instructions de paiement.</div>
@@ -800,182 +565,287 @@
                 </div>
             </div>
         </section>
-
-        <!-- FOOTER -->
-        <footer class="site">
-            <div class="footer-inner">
-                <div class="footer-brand">
-                    <div class="brand-name">DigitalPay <span>Haiti</span></div>
-                    <p data-i18n="slogan">Services premium pour tous.</p>
-                    <div class="footer-social">
-                        <a href="https://wa.me/50935669814" target="_blank" rel="noopener" class="whatsapp" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
-                        <a href="https://instagram.com/6_xntt" target="_blank" rel="noopener" class="instagram" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
-                    </div>
-                    <div class="footer-payments">
-                        <span>MonCash</span>
-                        <span>NatCash</span>
-                        <span>Meru</span>
-                        <span>Portefeuille DigitalPay</span>
-                    </div>
-                </div>
-                <div>
-                    <div class="footer-links-title">Liens rapides</div>
-                    <div class="footer-links">
-                        <a href="/gaming/index.html"><span data-i18n="gaming">Jeux</span></a>
-                        <a href="/streaming/index.html"><span data-i18n="streaming">Abonnements</span></a>
-                        <a href="/finance/index.html"><span data-i18n="finance">Finance</span></a>
-                        <a href="/giftcard/index.html"><span data-i18n="giftcards">Gift Cards</span></a>
-                        <a href="/social/index.html"><span data-i18n="social">Réseaux sociaux</span></a>
-                    </div>
-                </div>
-                <div>
-                    <div class="footer-links-title">Support</div>
-                    <div class="footer-links">
-                        <a href="/support"><span data-i18n="support">Support</span></a>
-                        <a href="/faq.html"><span data-i18n="faq">FAQ</span></a>
-                        <a href="/cgu.html">CGU</a>
-                        <a href="/confidentialite.html">Confidentialité</a>
-                    </div>
-                </div>
-            </div>
-            <div class="footer-copy">© 2026 DigitalPay. Tous droits réservés.</div>
-        </footer>
     </main>
 
-    <script>
-        // ========== FIREBASE ==========
-        let auth = null;
-        try {
-            const firebaseConfig = {
-                apiKey: "AIzaSyB9o8-LYeKrg2q84dxQM5Z1wFKHjt9yHFo",
-                authDomain: "digital-pay-haiti.firebaseapp.com",
-                projectId: "digital-pay-haiti",
-                storageBucket: "digital-pay-haiti.firebasestorage.app",
-                messagingSenderId: "182015693140",
-                appId: "1:182015693140:web:8a2486b9446bfb791bf8c1",
-                measurementId: "G-7JK3CTR4C9"
-            };
-            firebase.initializeApp(firebaseConfig);
-            auth = firebase.auth();
-        } catch (e) { /* silencieux */ }
+    <!-- Footer (non traduit, reste en français/créole) -->
+    <footer class="site">
+        <div class="footer-inner">
+            <div class="footer-brand">
+                <img src="/assets/logo.png" alt="DigitalPay" class="footer-logo" onerror="this.style.display='none'">
+                <p>Services premium pour tous.</p>
+                <div class="footer-social">
+                    <a href="https://wa.me/50935669814" target="_blank" rel="noopener" class="whatsapp" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+                    <a href="https://instagram.com/6_xntt" target="_blank" rel="noopener" class="instagram" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                </div>
+                <div class="footer-payments">
+                    <span>MonCash</span>
+                    <span>NatCash</span>
+                    <span>Meru</span>
+                    <span>Portefeuille DigitalPay</span>
+                </div>
+            </div>
+            <div>
+                <div class="footer-links-title">Liens rapides</div>
+                <div class="footer-links">
+                    <a href="/gaming/index.html">Jeux</a>
+                    <a href="/streaming/index.html">Abonnements</a>
+                    <a href="/finance/index.html">Finance</a>
+                    <a href="/giftcard/index.html">Gift Cards</a>
+                    <a href="/social/index.html">Réseaux sociaux</a>
+                </div>
+            </div>
+            <div>
+                <div class="footer-links-title">Support</div>
+                <div class="footer-links">
+                    <a href="/support">Support</a>
+                    <a href="/faq.html">FAQ</a>
+                    <a href="/cgu.html">CGU</a>
+                    <a href="/confidentialite.html">Confidentialité</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-copy">© 2026 DigitalPay. Tous droits réservés.</div>
+    </footer>
 
-        // ========== TRADUCTIONS ==========
+    <script>
+        // ========== CONFIGURATION FIREBASE ==========
+        const firebaseConfig = {
+            apiKey: "AIzaSyB9o8-LYeKrg2q84dxQM5Z1wFKHjt9yHFo",
+            authDomain: "digital-pay-haiti.firebaseapp.com",
+            projectId: "digital-pay-haiti",
+            storageBucket: "digital-pay-haiti.firebasestorage.app",
+            messagingSenderId: "182015693140",
+            appId: "1:182015693140:web:8a2486b9446bfb791bf8c1",
+            measurementId: "G-7JK3CTR4C9"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+
+        // ========== TRADUCTIONS (sauf footer et avis) ==========
         const translations = {
             fr: {
                 home: "Accueil", gaming: "Jeux", streaming: "Abonnements", finance: "Finance", giftcards: "Gift Cards", social: "Réseaux sociaux",
-                orders: "Commandes", support: "Support", login: "Se Connecter", register: "S'inscrire", logout: "Se Déconnecter",
                 seeAll: "Voir tout", order: "Commander", reviews: "Avis Clients",
-                profile: "Profil", wallet: "Portefeuille", helpTutorial: "Centre d'aide", installApp: "Installer l'App",
-                slogan: "Services premium pour tous.",
-                searchPlaceholder: "Rechercher un produit...",
-                flyerAlt: "Bienvenue",
                 faqTitle: "Questions fréquentes",
-                faqSearchPlaceholder: "Rechercher une question...",
-                faqQ1: "Comment passer une commande ? ", faqA1: "Cliquez sur le service souhaité, connectez-vous et suivez les instructions de paiement.",
-                faqQ2: "Quels modes de paiement acceptez-vous ? ", faqA2: "MonCash, NatCash, Meru, et Portefeuille DigitalPay.",
-                faqQ3: "Délai de livraison des recharges ? ", faqA3: "Généralement instantané à 15 minutes maximum après confirmation du paiement."
+                faqQ1: "Comment passer une commande ?", faqA1: "Cliquez sur le service souhaité, connectez-vous et suivez les instructions de paiement.",
+                faqQ2: "Quels modes de paiement acceptez-vous ?", faqA2: "MonCash, NatCash, Meru, et Portefeuille DigitalPay.",
+                faqQ3: "Délai de livraison des recharges ?", faqA3: "Généralement instantané à 15 minutes maximum après confirmation du paiement.",
+                toastLangLoading: "Chargement de la langue...",
+                toastLangSuccess: "Langue changée avec succès !"
             },
             ht: {
                 home: "Akèy", gaming: "Jwèt", streaming: "Abònman", finance: "Finans", giftcards: "Kat kado", social: "Rezo sosyal",
-                orders: "Kòmand", support: "Sipò", login: "Konekte", register: "Enskri", logout: "Dekonekte",
                 seeAll: "Wè tout", order: "Kòmande", reviews: "Avi kliyan",
-                profile: "Pwofil", wallet: "Bous", helpTutorial: "Sant èd", installApp: "Enstale App la",
-                slogan: "Sèvis prim pou tout moun.",
-                searchPlaceholder: "Chèche yon pwodwi...",
-                flyerAlt: "Byenveni",
                 faqTitle: "Kesyon yo poze souvan",
-                faqSearchPlaceholder: "Chèche yon kesyon...",
-                faqQ1: "Kijan pou pase yon kòmand? ", faqA1: "Klike sou sèvis ou vle a, konekte epi swiv enstriksyon peman yo.",
-                faqQ2: "Ki mòd peman ou aksepte? ", faqA2: "MonCash, NatCash, Meru, ak Bous DigitalPay.",
-                faqQ3: "Konbyen tan li pran pou yon rechaj? ", faqA3: "Anjeneral enstantane jiska 15 minit apre konfimasyon peman an."
+                faqQ1: "Kijan pou pase yon kòmand?", faqA1: "Klike sou sèvis ou vle a, konekte epi swiv enstriksyon peman yo.",
+                faqQ2: "Ki mòd peman ou aksepte?", faqA2: "MonCash, NatCash, Meru, ak Bous DigitalPay.",
+                faqQ3: "Konbyen tan li pran pou yon rechaj?", faqA3: "Anjeneral enstantane jiska 15 minit apre konfimasyon peman an.",
+                toastLangLoading: "Chajman lang...",
+                toastLangSuccess: "Lang chanje avèk siksè !"
             },
             en: {
                 home: "Home", gaming: "Games", streaming: "Subscriptions", finance: "Finance", giftcards: "Gift Cards", social: "Social Media",
-                orders: "Orders", support: "Support", login: "Log In", register: "Sign Up", logout: "Log Out",
                 seeAll: "See all", order: "Order", reviews: "Customer Reviews",
-                profile: "Profile", wallet: "Wallet", helpTutorial: "Help Center", installApp: "Install App",
-                slogan: "Premium services for everyone.",
-                searchPlaceholder: "Search a product...",
-                flyerAlt: "Welcome",
                 faqTitle: "Frequently Asked Questions",
-                faqSearchPlaceholder: "Search a question...",
-                faqQ1: "How to place an order? ", faqA1: "Click on the desired service, log in and follow the payment instructions.",
-                faqQ2: "What payment methods do you accept? ", faqA2: "MonCash, NatCash, Meru, and DigitalPay Wallet.",
-                faqQ3: "Delivery time for recharges? ", faqA3: "Usually instant up to 15 minutes after payment confirmation."
+                faqQ1: "How to place an order?", faqA1: "Click on the desired service, log in and follow the payment instructions.",
+                faqQ2: "What payment methods do you accept?", faqA2: "MonCash, NatCash, Meru, and DigitalPay Wallet.",
+                faqQ3: "Delivery time for recharges?", faqA3: "Usually instant up to 15 minutes after payment confirmation.",
+                toastLangLoading: "Loading language...",
+                toastLangSuccess: "Language changed successfully!"
             },
             es: {
                 home: "Inicio", gaming: "Juegos", streaming: "Suscripciones", finance: "Finanzas", giftcards: "Tarjetas de Regalo", social: "Redes Sociales",
-                orders: "Pedidos", support: "Soporte", login: "Iniciar Sesión", register: "Registrarse", logout: "Cerrar Sesión",
                 seeAll: "Ver todo", order: "Pedir", reviews: "Opiniones",
-                profile: "Perfil", wallet: "Billetera", helpTutorial: "Ayuda y Tutorial", installApp: "Instalar App",
-                slogan: "Servicios premium para todos.",
-                searchPlaceholder: "Buscar un producto...",
-                flyerAlt: "Bienvenido",
                 faqTitle: "Preguntas Frecuentes",
-                faqSearchPlaceholder: "Buscar una pregunta...",
-                faqQ1: "¿Cómo hacer un pedido? ", faqA1: "Haga clic en el servicio deseado, inicie sesión y siga las instrucciones de pago.",
-                faqQ2: "¿Qué métodos de pago aceptan? ", faqA2: "MonCash, NatCash, Meru y Billetera DigitalPay.",
-                faqQ3: "¿Tiempo de entrega de las recargas? ", faqA3: "Generalmente instantáneo hasta 15 minutos después de la confirmación del pago."
+                faqQ1: "¿Cómo hacer un pedido?", faqA1: "Haga clic en el servicio deseado, inicie sesión y siga las instrucciones de pago.",
+                faqQ2: "¿Qué métodos de pago aceptan?", faqA2: "MonCash, NatCash, Meru y Billetera DigitalPay.",
+                faqQ3: "¿Tiempo de entrega de las recargas?", faqA3: "Generalmente instantáneo hasta 15 minutos después de la confirmación del pago.",
+                toastLangLoading: "Cargando idioma...",
+                toastLangSuccess: "¡Idioma cambiado con éxito!"
             }
         };
 
-        function getCurrentLang() { return localStorage.getItem('lang') || 'fr'; }
+        // ========== FONCTIONS UTILITAIRES ==========
+        const $ = (selector) => document.querySelector(selector);
+        const $$ = (selector) => document.querySelectorAll(selector);
+
+        function getCurrentLang() {
+            return localStorage.getItem('lang') || 'fr';
+        }
+
         function t(key) {
             const lang = getCurrentLang();
             return translations[lang]?.[key] || translations.fr[key] || key;
         }
 
+        function showToast(message, type = 'info') {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = `toast toast-${type}`;
+            const icons = {
+                info: 'fa-circle-info',
+                success: 'fa-circle-check',
+                error: 'fa-circle-exclamation',
+                loading: 'fa-spinner'
+            };
+            toast.innerHTML = `<i class="fa-solid ${icons[type]}"></i> ${message}`;
+            container.appendChild(toast);
+            // Supprimer automatiquement après 3 secondes
+            setTimeout(() => {
+                toast.remove();
+            }, 3000);
+        }
+
         function applyLanguage(lang) {
+            // Afficher un toast de chargement
+            showToast(t('toastLangLoading'), 'loading');
+
+            // Sauvegarder et appliquer
             localStorage.setItem('lang', lang);
             document.documentElement.lang = lang;
-            document.querySelectorAll('[data-i18n]').forEach(el => {
+
+            // Mettre à jour tous les éléments avec data-i18n
+            $$('[data-i18n]').forEach(el => {
                 const key = el.getAttribute('data-i18n');
-                if (el.children.length === 0) el.textContent = t(key);
-                else {
+                if (el.children.length === 0) {
+                    el.textContent = t(key);
+                } else {
                     const textNode = Array.from(el.childNodes).find(n => n.nodeType === Node.TEXT_NODE && n.textContent.trim() !== '');
                     if (textNode) textNode.textContent = t(key);
                 }
             });
-            document.querySelectorAll('[data-i18n-alt]').forEach(el => {
+
+            // Mettre à jour les attributs alt
+            $$('[data-i18n-alt]').forEach(el => {
                 el.setAttribute('alt', t(el.getAttribute('data-i18n-alt')));
             });
-            document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+
+            // Mettre à jour les placeholders
+            $$('[data-i18n-placeholder]').forEach(el => {
                 el.placeholder = t(el.getAttribute('data-i18n-placeholder'));
             });
+
+            // Fermer le menu de langue
             const langMenuHeader = document.getElementById('langMenuHeader');
             if (langMenuHeader) langMenuHeader.classList.remove('open');
+
+            // Afficher un toast de succès après un court délai
+            setTimeout(() => {
+                showToast(t('toastLangSuccess'), 'success');
+            }, 300);
         }
 
-        // ========== INITIALISATION ==========
-        document.addEventListener('DOMContentLoaded', function() {
-            const $ = (selector) => document.querySelector(selector);
-            const $$ = (selector) => document.querySelectorAll(selector);
-            const openSidebar = () => { $('#sidebar').classList.add('open'); $('#sidebarOverlay').classList.add('open'); };
-            const closeSidebar = () => { $('#sidebar').classList.remove('open'); $('#sidebarOverlay').classList.remove('open'); };
+        // ========== GÉNÉRATION DU MENU SIDEBAR ==========
+        const sidebarMenuItems = [
+            { title: 'Menu', items: [
+                { href: '/index.html', icon: 'fa-house', textKey: 'home', isActive: true },
+                { href: '/wallet.html', icon: 'fa-wallet', textKey: 'wallet' },
+                { href: '/commandes.html', icon: 'fa-cart-shopping', textKey: 'orders' }
+            ]},
+            { title: 'Services', items: [
+                { href: '/gaming/index.html', icon: 'fa-gamepad', textKey: 'gaming' },
+                { href: '/streaming/index.html', icon: 'fa-tv', textKey: 'streaming' },
+                { href: '/finance/index.html', icon: 'fa-coins', textKey: 'finance' },
+                { href: '/giftcard/index.html', icon: 'fa-gift', textKey: 'giftcards' },
+                { href: '/social/index.html', icon: 'fa-share-nodes', textKey: 'social' }
+            ]}
+        ];
 
-            // Gestion du menu langue dans le header
-            const langBtnHeader = document.getElementById('langBtnHeader');
-            const langMenuHeader = document.getElementById('langMenuHeader');
-            if (langBtnHeader && langMenuHeader) {
-                langBtnHeader.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    langMenuHeader.classList.toggle('open');
+        function createSidebarMenu() {
+            const nav = document.getElementById('sidebarNav');
+            if (!nav) return;
+
+            sidebarMenuItems.forEach(section => {
+                // Titre de section
+                const sectionTitle = document.createElement('div');
+                sectionTitle.className = 'sidebar-section-title';
+                sectionTitle.textContent = section.title;
+                nav.appendChild(sectionTitle);
+
+                // Éléments de menu
+                section.items.forEach(item => {
+                    const link = document.createElement('a');
+                    link.href = item.href;
+                    link.className = 'nav-item' + (item.isActive ? ' active' : '');
+
+                    const icon = document.createElement('i');
+                    icon.className = `fa-solid ${item.icon}`;
+                    link.appendChild(icon);
+
+                    const span = document.createElement('span');
+                    span.setAttribute('data-i18n', item.textKey);
+                    span.textContent = t(item.textKey);
+                    link.appendChild(span);
+
+                    nav.appendChild(link);
                 });
-                document.addEventListener('click', (e) => {
-                    if (!langMenuHeader.contains(e.target)) langMenuHeader.classList.remove('open');
-                });
-                langMenuHeader.querySelectorAll('button').forEach(btn => {
-                    btn.addEventListener('click', function() {
-                        applyLanguage(btn.getAttribute('data-lang'));
-                    });
-                });
+            });
+        }
+
+        // ========== INITIALISATION AU CHARGEMENT ==========
+        document.addEventListener('DOMContentLoaded', function() {
+            // Créer le menu sidebar
+            createSidebarMenu();
+
+            // Gestion de la sidebar
+            const sidebar = document.getElementById('sidebar');
+            const sidebarOverlay = document.getElementById('sidebarOverlay');
+            const openSidebarBtn = document.getElementById('openSidebarBtn');
+            const closeSidebarBtn = document.getElementById('closeSidebar');
+
+            function openSidebar() {
+                sidebar.classList.add('open');
+                sidebarOverlay.classList.add('open');
             }
 
-            document.addEventListener('click', function(e) {
-                if (e.target.closest('#openSidebarBtn')) openSidebar();
-                if (e.target.closest('#closeSidebar') || e.target.closest('#sidebarOverlay')) closeSidebar();
-                if (e.target.closest('.faq-question')) {
-                    const btn = e.target.closest('.faq-question');
+            function closeSidebar() {
+                sidebar.classList.remove('open');
+                sidebarOverlay.classList.remove('open');
+            }
+
+            openSidebarBtn.addEventListener('click', openSidebar);
+            closeSidebarBtn.addEventListener('click', closeSidebar);
+            sidebarOverlay.addEventListener('click', closeSidebar);
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') closeSidebar();
+            });
+
+            // Gestion du menu langue
+            const langBtn = document.getElementById('langBtnHeader');
+            const langMenu = document.getElementById('langMenuHeader');
+            langBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                langMenu.classList.toggle('open');
+            });
+            document.addEventListener('click', (e) => {
+                if (!langMenu.contains(e.target)) langMenu.classList.remove('open');
+            });
+            langMenu.querySelectorAll('button').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    applyLanguage(btn.getAttribute('data-lang'));
+                });
+            });
+
+            // Gestion de l'authentification
+            auth.onAuthStateChanged(user => {
+                const statusDot = document.getElementById('authStatusDot');
+                if (user) {
+                    document.body.classList.add('is-logged');
+                    document.getElementById('sidebarUserName').textContent = user.displayName || 'Membre DigitalPay';
+                    document.getElementById('sidebarUserEmail').textContent = user.email || '';
+                    const avatar = document.getElementById('sidebarAvatar');
+                    if (user.photoURL) avatar.innerHTML = `<img src="${user.photoURL}" alt="Avatar">`;
+                    else avatar.textContent = (user.displayName || user.email || 'U').charAt(0).toUpperCase();
+                    if (statusDot) statusDot.classList.add('connected');
+                } else {
+                    document.body.classList.remove('is-logged');
+                    if (statusDot) statusDot.classList.remove('connected');
+                }
+            });
+
+            // Gestion de la FAQ
+            $$('.faq-question').forEach(btn => {
+                btn.addEventListener('click', () => {
                     const isOpen = btn.getAttribute('aria-expanded') === 'true';
                     $$('.faq-question').forEach(other => {
                         other.setAttribute('aria-expanded', 'false');
@@ -985,71 +855,28 @@
                         btn.setAttribute('aria-expanded', 'true');
                         btn.nextElementSibling.classList.add('open');
                     }
-                }
-            });
-
-            document.addEventListener('keydown', function(e) {
-                if (e.key === 'Escape') closeSidebar();
-            });
-
-            $('#openSearch').addEventListener('click', () => { $('#searchOverlay').classList.add('open'); $('#searchInput').focus(); });
-            $('#closeSearch').addEventListener('click', () => { $('#searchOverlay').classList.remove('open'); $('#searchInput').value=''; window.filterProducts(''); });
-            $('#searchInput').addEventListener('input', function(e) {
-                clearTimeout(window._searchTimeout);
-                window._searchTimeout = setTimeout(() => window.filterProducts(e.target.value), 300);
-            });
-
-            $('#faqSearch').addEventListener('input', function(e) {
-                const term = e.target.value.toLowerCase();
-                $$('.faq-item').forEach(item => {
-                    const text = item.textContent.toLowerCase();
-                    item.style.display = text.includes(term) ? '' : 'none';
                 });
             });
 
+            // Effet scroll sur le header
             window.addEventListener('scroll', () => {
-                $('#siteHeader').classList.toggle('is-scrolled', window.scrollY > 10);
+                document.getElementById('siteHeader').classList.toggle('is-scrolled', window.scrollY > 10);
             }, { passive: true });
 
-            window.filterProducts = function(query) {
-                const lower = query.toLowerCase().trim();
-                let visibleCount = 0;
-                $$('.product-card').forEach(card => {
-                    const name = card.querySelector('h3')?.textContent.toLowerCase() || '';
-                    if (!lower || name.includes(lower)) {
-                        card.style.display = '';
-                        visibleCount++;
-                    } else {
-                        card.style.display = 'none';
-                    }
-                });
-                $('#noResults').style.display = visibleCount === 0 ? 'block' : 'none';
-            };
-
-            if (auth) {
-                auth.onAuthStateChanged(user => {
-                    const statusDot = $('#authStatusDot');
-                    if (user) {
-                        document.body.classList.add('is-logged');
-                        $('#sidebarUserName').textContent = user.displayName || 'Membre DigitalPay';
-                        $('#sidebarUserEmail').textContent = user.email || '';
-                        const avatar = $('#sidebarAvatar');
-                        if (user.photoURL) avatar.innerHTML = `<img src="${user.photoURL}" alt="Avatar">`;
-                        else avatar.textContent = (user.displayName || user.email || 'U').charAt(0).toUpperCase();
-                        if (statusDot) statusDot.classList.add('connected');
-                        const logoutBtn = $('#logoutBtn');
-                        if (logoutBtn && !logoutBtn.dataset.listenerAttached) {
-                            logoutBtn.dataset.listenerAttached = 'true';
-                            logoutBtn.addEventListener('click', () => firebase.auth().signOut().then(() => location.reload()));
-                        }
-                    } else {
-                        document.body.classList.remove('is-logged');
-                        if (statusDot) statusDot.classList.remove('connected');
-                    }
-                });
-            }
-
-            applyLanguage(getCurrentLang());
+            // Appliquer la langue initiale (sans toast au premier chargement)
+            const initialLang = getCurrentLang();
+            localStorage.setItem('lang', initialLang);
+            document.documentElement.lang = initialLang;
+            $$('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (el.children.length === 0) el.textContent = t(key);
+                else {
+                    const textNode = Array.from(el.childNodes).find(n => n.nodeType === Node.TEXT_NODE && n.textContent.trim() !== '');
+                    if (textNode) textNode.textContent = t(key);
+                }
+            });
+            $$('[data-i18n-alt]').forEach(el => el.setAttribute('alt', t(el.getAttribute('data-i18n-alt'))));
+            $$('[data-i18n-placeholder]').forEach(el => el.placeholder = t(el.getAttribute('data-i18n-placeholder')));
         });
     </script>
 </body>
