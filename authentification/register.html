@@ -2,21 +2,18 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Inscription – DigitalPay</title>
     <meta name="description" content="Créez votre compte DigitalPay.">
 
-    <!-- Police -->
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"></noscript>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
-    <!-- Firebase -->
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
 
     <style>
-        /* ========== VARIABLES ========== */
         :root {
             --bg-primary: #F5F7FF;
             --bg-card: #FFFFFF;
@@ -35,7 +32,6 @@
             --radius-xl: 24px;
             --shadow-card: 0 4px 20px rgba(79,70,229,0.06);
             --shadow-float: 0 8px 30px rgba(79,70,229,0.1);
-            --shadow-hover: 0 12px 40px rgba(79,70,229,0.12);
             --transition: 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
         }
 
@@ -54,7 +50,7 @@
         a { color: inherit; text-decoration: none; }
         img { max-width: 100%; display: block; }
         button { font-family: inherit; cursor: pointer; border: none; background: none; }
-        .container { max-width: 800px; margin: 0 auto; padding: 0 20px; } /* agrandi */
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
 
         .orb {
             position: fixed; border-radius: 50%; pointer-events: none; z-index: -2;
@@ -63,70 +59,44 @@
         .orb-1 { width: 500px; height: 500px; background: var(--indigo-600); top: -100px; left: -100px; }
         .orb-2 { width: 400px; height: 400px; background: #A5B4FC; bottom: -100px; right: -100px; }
 
-        /* ========== HEADER ========== */
+        /* HEADER */
         header.site-header {
             position: sticky; top: 1rem; z-index: 50;
             background: rgba(255,255,255,0.75);
             backdrop-filter: blur(12px) saturate(140%);
-            -webkit-backdrop-filter: blur(12px) saturate(140%);
             border: 1px solid var(--border-glass);
             border-radius: var(--radius-xl);
             margin: 0 auto;
-            padding: 0.8rem 1.5rem;
+            padding: 0.6rem 1.5rem;
             max-width: 1200px;
             width: calc(100% - 2rem);
             display: flex; align-items: center; justify-content: space-between;
             transition: all var(--transition);
             box-shadow: var(--shadow-card);
         }
-        header.site-header.is-scrolled {
-            background: rgba(255,255,255,0.95);
-            box-shadow: var(--shadow-float);
-            border-color: rgba(79,70,229,0.2);
-        }
-        .brand img { height: 44px; }
+        .brand img { height: 40px; }
         .header-actions { display: flex; align-items: center; gap: 0.75rem; }
         .icon-btn {
-            width: 42px; height: 42px; border-radius: 12px;
-            background: var(--indigo-50);
-            border: 1px solid var(--border-glass);
+            width: 40px; height: 40px; border-radius: 12px;
+            background: var(--indigo-50); border: 1px solid var(--border-glass);
             display: flex; align-items: center; justify-content: center;
             color: var(--indigo-600); font-size: 1.2rem;
-            transition: all var(--transition);
-            cursor: pointer; position: relative;
+            transition: all var(--transition); cursor: pointer; position: relative;
         }
-        .icon-btn:hover {
-            background: var(--indigo-600);
-            color: #fff;
-            border-color: transparent;
-            transform: translateY(-1px);
-            box-shadow: 0 4px 15px rgba(79,70,229,0.3);
-        }
+        .icon-btn:hover { background: var(--indigo-600); color: #fff; border-color: transparent; }
         .status-dot {
             width: 8px; height: 8px; border-radius: 50%;
-            background: var(--text-muted);
-            position: absolute; bottom: 6px; right: 6px;
+            background: var(--text-muted); position: absolute; bottom: 6px; right: 6px;
             border: 2px solid #fff;
         }
         .status-dot.connected { background: var(--green); }
 
-        /* Sélecteur de langue */
-        .lang-selector-header {
-            position: relative;
-            display: flex;
-            align-items: center;
-        }
+        .lang-selector-header { position: relative; display: flex; align-items: center; }
         .lang-btn-header {
-            width: 42px; height: 42px; border-radius: 12px;
-            background: var(--indigo-50);
-            border: 1px solid var(--border-glass);
+            width: 40px; height: 40px; border-radius: 12px;
+            background: var(--indigo-50); border: 1px solid var(--border-glass);
             display: flex; align-items: center; justify-content: center;
-            color: var(--indigo-600); font-size: 1.1rem;
-            cursor: pointer; transition: all var(--transition);
-        }
-        .lang-btn-header:hover {
-            background: var(--indigo-100);
-            border-color: var(--indigo-600);
+            color: var(--indigo-600); font-size: 1.1rem; cursor: pointer;
         }
         .lang-menu-header {
             position: absolute; top: calc(100% + 6px); right: 0;
@@ -141,294 +111,153 @@
             background: transparent; color: var(--text); border-radius: 8px;
             font-size: 0.85rem; font-weight: 500; cursor: pointer;
         }
-        .lang-menu-header button:hover { background: var(--indigo-100); }
 
-        /* ========== SIDEBAR ========== */
+        /* SIDEBAR (identique) */
         .sidebar-overlay {
             position: fixed; inset: 0; background: rgba(0,0,0,0.3);
             backdrop-filter: blur(2px); z-index: 1999;
-            opacity: 0; visibility: hidden; transition: all 0.3s;
-            pointer-events: none;
+            opacity: 0; visibility: hidden; transition: all 0.3s; pointer-events: none;
         }
         .sidebar-overlay.open { opacity: 1; visibility: visible; pointer-events: auto; }
         .sidebar {
             position: fixed; top: 0; right: -420px; width: min(85vw, 420px); height: 100vh;
-            background: rgba(255,255,255,0.85);
-            backdrop-filter: blur(20px);
-            border-left: 1px solid var(--border-glass);
-            border-radius: 24px 0 0 24px;
-            z-index: 2000;
-            display: flex; flex-direction: column;
+            background: rgba(255,255,255,0.85); backdrop-filter: blur(20px);
+            border-left: 1px solid var(--border-glass); border-radius: 24px 0 0 24px;
+            z-index: 2000; display: flex; flex-direction: column;
             transition: right 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            box-shadow: -4px 0 20px rgba(0,0,0,0.08);
-            overflow-y: auto;
+            box-shadow: -4px 0 20px rgba(0,0,0,0.08); overflow-y: auto;
         }
         .sidebar.open { right: 0; }
-
         .sidebar-header {
             display: flex; align-items: center; justify-content: space-between;
-            padding: 1.2rem 1.5rem;
-            border-bottom: 1px solid var(--border-glass);
+            padding: 0.8rem 1rem; border-bottom: 1px solid var(--border-glass);
         }
-        .sidebar-logo {
-            display: flex; align-items: center; gap: 12px;
-            font-family: 'Inter', sans-serif;
-            font-weight: 800;
-            font-size: 1.4rem;
-            line-height: 1.2;
-            color: var(--black);
-        }
-        .sidebar-logo-text { display: flex; flex-direction: column; gap: 2px; }
-        .sidebar-logo-text span:first-child { font-weight: 800; font-size: 1.4rem; }
-        .sidebar-logo-text span:last-child { font-weight: 600; font-size: 1rem; color: var(--text-soft); }
+        .sidebar-logo { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 1.2rem; color: var(--black); }
         .sidebar-logo-badge {
-            width: 46px; height: 46px; border-radius: 12px;
-            background: linear-gradient(135deg, #EEF2FF 0%, #FFFFFF 100%);
-            display: flex; align-items: center; justify-content: center;
-            padding: 4px; flex-shrink: 0;
-        }
-        .sidebar-logo-badge img { width: 100%; height: 100%; object-fit: contain; border-radius: 8px; }
-        .sidebar-close {
-            width: 36px; height: 36px; border-radius: 50%;
-            background: transparent; border: 1px solid var(--border-glass); color: var(--text-soft); font-size: 1.1rem;
-            display: flex; align-items: center; justify-content: center; cursor: pointer;
-            transition: all 0.2s;
-        }
-        .sidebar-close:hover { background: var(--indigo-100); color: var(--indigo-600); border-color: var(--indigo-600); }
-
-        .sidebar-profile {
-            display: none; flex-direction: column; align-items: center; text-align: center;
-            margin: 1rem 1.5rem; padding: 1rem;
+            width: 36px; height: 36px; border-radius: 10px;
             background: linear-gradient(135deg, #EEF2FF, #FFFFFF);
-            border: 1px dashed var(--indigo-600);
-            border-radius: 20px;
+            display: flex; align-items: center; justify-content: center; padding: 3px;
         }
+        .sidebar-logo-badge img { width: 100%; height: 100%; object-fit: contain; }
+        .sidebar-close {
+            width: 30px; height: 30px; border-radius: 50%;
+            background: transparent; border: 1px solid var(--border-glass); color: var(--text-soft);
+            display: flex; align-items: center; justify-content: center; cursor: pointer;
+        }
+        .sidebar-profile { display: none; align-items: center; gap: 10px; margin: 0.6rem 1rem; padding: 0.5rem 0.7rem; background: linear-gradient(135deg, #EEF2FF, #FFFFFF); border: 1px solid var(--border-glass); border-radius: 10px; }
         body.is-logged .sidebar-profile { display: flex; }
-        .sidebar-avatar {
-            width: 60px; height: 60px; border-radius: 50%;
-            background: var(--indigo-100); color: var(--indigo-600);
-            display: flex; align-items: center; justify-content: center;
-            font-weight: 700; font-size: 1.5rem;
-            overflow: hidden; flex-shrink: 0; margin-bottom: 0.5rem;
-        }
-        .sidebar-avatar img { width: 100%; height: 100%; object-fit: cover; }
-        .sidebar-user-info { overflow: hidden; }
-        .sidebar-user-name { font-weight: 700; font-size: 0.95rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .sidebar-user-email { font-size: 0.75rem; color: var(--text-soft); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-
-        .sidebar-auth { display: flex; flex-direction: column; gap: 8px; margin: 1rem 1.5rem; }
+        .sidebar-avatar { width: 32px; height: 32px; border-radius: 50%; background: var(--indigo-100); color: var(--indigo-600); display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 0.9rem; }
+        .sidebar-user-info { overflow: hidden; flex: 1; }
+        .sidebar-user-name { font-weight: 600; font-size: 0.8rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .sidebar-user-email { font-size: 0.7rem; color: var(--text-soft); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .sidebar-auth { display: flex; flex-direction: column; gap: 6px; margin: 0.6rem 1rem; }
         body.is-logged .sidebar-auth { display: none; }
         .btn-login-side {
-            display: flex; align-items: center; justify-content: center; gap: 8px;
-            padding: 0.75rem; border-radius: 50px;
-            background: var(--indigo-600); color: #fff; font-weight: 600; font-size: 0.95rem;
-            transition: all 0.2s; border: none;
+            display: flex; align-items: center; justify-content: center; gap: 6px;
+            padding: 0.6rem; border-radius: 50px; background: var(--indigo-600); color: #fff;
+            font-weight: 600; font-size: 0.85rem;
         }
-        .btn-login-side:hover { background: var(--indigo-700); }
         .btn-register-side {
-            display: flex; align-items: center; justify-content: center; gap: 8px;
-            padding: 0.75rem; border-radius: 50px;
-            background: transparent; border: 1px solid var(--indigo-600);
-            color: var(--indigo-600); font-weight: 600; font-size: 0.95rem;
-            transition: all 0.2s;
+            display: flex; align-items: center; justify-content: center; gap: 6px;
+            padding: 0.6rem; border-radius: 50px; background: transparent;
+            border: 1px solid var(--indigo-600); color: var(--indigo-600); font-weight: 600; font-size: 0.85rem;
         }
-        .btn-register-side:hover { background: var(--indigo-50); }
-
-        .sidebar-nav { flex: 1; overflow-y: auto; padding: 0.4rem 1.5rem; }
-        .sidebar-section-title {
-            padding: 0.8rem 0 0.4rem;
-            font-size: 0.7rem; font-weight: 700; text-transform: uppercase;
-            letter-spacing: 0.08em; color: var(--text-muted);
-            display: flex; align-items: center; gap: 8px;
-        }
+        .sidebar-nav { flex: 1; overflow-y: auto; padding: 0.3rem 1rem; }
+        .sidebar-section-title { padding: 0.6rem 0 0.3rem; font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); display: flex; align-items: center; gap: 6px; }
         .sidebar-section-title::after { content: ''; flex: 1; border-bottom: 1px dotted var(--border-glass); }
         .nav-item {
-            display: flex; align-items: center; gap: 12px;
-            padding: 0.75rem 1rem; border-radius: 50px; margin-bottom: 6px;
-            color: var(--black); font-weight: 500; font-size: 0.9rem;
+            display: flex; align-items: center; gap: 10px;
+            padding: 0.6rem 0.8rem; border-radius: 50px; margin-bottom: 4px;
+            color: var(--black); font-weight: 500; font-size: 0.85rem;
             background: linear-gradient(135deg, #FFFFFF, #EEF2FF);
-            border: 1px solid var(--border-glass);
-            transition: all 0.2s;
-            position: relative;
+            border: 1px solid var(--border-glass); position: relative;
         }
-        .nav-item i {
-            width: 32px; height: 32px; border-radius: 50%;
-            background: var(--indigo-100); color: var(--indigo-600);
-            display: flex; align-items: center; justify-content: center;
-            font-size: 0.9rem; transition: all 0.2s;
-        }
-        .nav-item:hover { background: var(--indigo-50); border-color: var(--indigo-600); transform: translateX(4px); }
-        .nav-item:hover i { background: var(--indigo-600); color: #fff; }
-        .nav-item.active {
-            background: var(--indigo-100); border-color: var(--indigo-600);
-            font-weight: 600; color: var(--indigo-700);
-        }
+        .nav-item i { width: 28px; height: 28px; border-radius: 50%; background: var(--indigo-100); color: var(--indigo-600); display: flex; align-items: center; justify-content: center; font-size: 0.8rem; }
+        .nav-item.active { background: var(--indigo-100); border-color: var(--indigo-600); font-weight: 600; color: var(--indigo-700); }
         .nav-item.active i { background: var(--indigo-600); color: #fff; }
-        .nav-item.active::before {
-            content: ''; position: absolute; left: -1.5rem; top: 50%;
-            transform: translateY(-50%); width: 4px; height: 60%;
-            background: var(--indigo-600); border-radius: 4px;
-        }
-
-        .sidebar-footer {
-            padding: 1.2rem 1.5rem; border-top: 1px solid var(--border-glass);
-            display: flex; flex-direction: column; gap: 8px;
-        }
-        .btn-logout-side {
-            display: none; align-items: center; justify-content: center; gap: 10px;
-            padding: 0.75rem; border-radius: 50px; background: transparent;
-            border: 1px solid rgba(239,68,68,0.5); color: var(--red);
-            font-weight: 700; font-size: 0.95rem;
-            transition: all 0.2s;
-        }
-        .btn-logout-side:hover { background: rgba(239,68,68,0.05); border-color: var(--red); }
+        .sidebar-footer { padding: 0.6rem 1rem; border-top: 1px solid var(--border-glass); display: flex; flex-direction: column; gap: 6px; }
+        .btn-logout-side { display: none; align-items: center; justify-content: center; gap: 6px; padding: 0.6rem; border-radius: 50px; background: transparent; border: 1px solid rgba(239,68,68,0.5); color: var(--red); font-weight: 600; font-size: 0.85rem; }
         body.is-logged .btn-logout-side { display: flex; }
 
-        /* ========== FOOTER ========== */
-        footer.site {
-            background: #fff; border-top: 1px solid var(--border-glass);
-            padding: 2.5rem 1.5rem 2rem;
-            font-size: 0.85rem; color: var(--text-soft);
-        }
-        .footer-inner {
-            display: grid; grid-template-columns: 1fr; gap: 2rem; max-width: 1200px; margin: 0 auto;
-        }
-        @media (min-width: 720px) { .footer-inner { grid-template-columns: 2fr 1fr 1fr; } }
-        .footer-brand .brand-name { font-family: 'Inter', sans-serif; font-weight: 700; font-size: 1.3rem; color: var(--indigo-700); }
-        .footer-brand .brand-name span { color: var(--indigo-600); }
-        .footer-brand p { margin-top: 0.5rem; font-size: 0.9rem; }
-        .footer-links-title { font-weight: 700; margin-bottom: 0.8rem; color: var(--text); font-size: 1rem; }
-        .footer-links { display: flex; flex-direction: column; gap: 0.5rem; }
-        .footer-links a { font-size: 0.9rem; }
-        .footer-links a:hover { color: var(--indigo-600); }
-        .footer-social { display: flex; gap: 1rem; margin-top: 1rem; }
-        .footer-social a {
-            width: 48px; height: 48px; border-radius: 14px;
-            display: flex; align-items: center; justify-content: center;
-            background: var(--indigo-50); border: 1px solid var(--border-glass);
-            transition: all 0.2s;
-        }
-        .footer-social a.whatsapp { color: #25D366; font-size: 1.5rem; }
-        .footer-social a.whatsapp:hover { background: #25D366; color: #fff; }
-        .footer-social a.instagram {
-            background: radial-gradient(circle at 30% 110%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%);
-            -webkit-background-clip: text; background-clip: text; color: transparent;
-            font-size: 1.5rem;
-        }
-        .footer-social a.instagram:hover { background: #E1306C; color: #fff; -webkit-background-clip: border-box; background-clip: border-box; }
-        .footer-payments { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 1rem; }
-        .footer-payments span {
-            background: var(--indigo-50); padding: 0.4rem 0.7rem; border-radius: 6px; font-size: 0.8rem;
-            font-weight: 600; color: var(--indigo-600);
-        }
-        .footer-copy { text-align: center; margin-top: 2rem; font-size: 0.85rem; color: var(--text-muted); border-top: 1px solid var(--border-glass); padding-top: 1.2rem; }
-
-        /* ========== FORMULAIRE ========== */
+        /* FORMULAIRE */
         .auth-card {
             background: rgba(255,255,255,0.85);
             backdrop-filter: blur(20px);
             border: 1px solid var(--border-glass);
             border-radius: var(--radius-xl);
-            padding: 3rem 2.5rem;
+            padding: 2rem 2rem;
             box-shadow: var(--shadow-float);
             width: 100%;
+            max-width: 700px;
             margin: 2rem auto;
         }
-        .auth-title { font-size: 2.2rem; font-weight: 700; color: var(--text); text-align: center; margin-bottom: 0.5rem; }
-        .auth-subtitle { font-size: 1.05rem; color: var(--text-soft); text-align: center; margin-bottom: 2rem; }
-        .form-group { margin-bottom: 1.5rem; position: relative; }
-        .form-label { display: block; font-weight: 600; font-size: 0.95rem; color: var(--text); margin-bottom: 0.5rem; }
+        .auth-title { font-size: 1.6rem; font-weight: 700; color: var(--text); text-align: center; margin-bottom: 0.5rem; }
+        .auth-subtitle { font-size: 0.9rem; color: var(--text-soft); text-align: center; margin-bottom: 1.5rem; }
+        .form-group { margin-bottom: 1rem; position: relative; }
+        .form-label { display: block; font-weight: 600; font-size: 0.85rem; color: var(--text); margin-bottom: 0.3rem; }
         .form-input {
-            width: 100%; padding: 0.9rem 3rem 0.9rem 1rem;
-            border: 1px solid var(--border-glass); border-radius: 12px;
-            background: #fff; font-size: 1rem; color: var(--text);
-            transition: border-color 0.2s, box-shadow 0.2s;
+            width: 100%; padding: 0.7rem 2.5rem 0.7rem 0.9rem;
+            border: 1px solid var(--border-glass); border-radius: 10px;
+            background: #fff; font-size: 0.9rem; color: var(--text);
         }
         .form-input:focus { outline: none; border-color: var(--indigo-600); box-shadow: 0 0 0 3px rgba(79,70,229,0.1); }
-        .password-toggle {
-            position: absolute; right: 12px; top: 40px; background: none; border: none;
-            color: var(--text-muted); cursor: pointer; font-size: 1.1rem;
-        }
-        .password-toggle:hover { color: var(--indigo-600); }
-        .form-error { color: var(--red); font-size: 0.85rem; margin-top: 0.3rem; display: none; }
+        .password-toggle { position: absolute; right: 10px; top: 32px; background: none; border: none; color: var(--text-muted); cursor: pointer; }
+        .form-error { color: var(--red); font-size: 0.75rem; margin-top: 0.2rem; display: none; }
         .form-error.visible { display: block; }
         .btn-primary {
             display: flex; align-items: center; justify-content: center; gap: 8px;
-            width: 100%; padding: 0.9rem; border-radius: 50px;
-            background: var(--indigo-600); color: #fff; font-weight: 700; font-size: 1.05rem;
-            transition: all 0.25s; border: none; cursor: pointer;
+            width: 100%; padding: 0.75rem; border-radius: 50px;
+            background: var(--indigo-600); color: #fff; font-weight: 600; font-size: 0.95rem;
+            border: none; cursor: pointer;
         }
-        .btn-primary:hover { background: var(--indigo-700); transform: translateY(-1px); box-shadow: 0 6px 20px rgba(79,70,229,0.3); }
-        .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; transform: none; box-shadow: none; }
-        .auth-links { display: flex; justify-content: center; gap: 1rem; margin-top: 1.5rem; font-size: 0.95rem; flex-wrap: wrap; }
+        .btn-primary:hover { background: var(--indigo-700); }
+        .auth-links { display: flex; justify-content: center; gap: 1rem; margin-top: 1rem; font-size: 0.85rem; flex-wrap: wrap; }
         .auth-links a { color: var(--indigo-600); font-weight: 500; }
-        .auth-links a:hover { color: var(--indigo-700); }
         .btn-google {
-            display: flex; align-items: center; justify-content: center; gap: 12px;
-            width: 100%; padding: 0.9rem; border-radius: 50px;
+            display: flex; align-items: center; justify-content: center; gap: 10px;
+            width: 100%; padding: 0.75rem; border-radius: 50px;
             background: #fff; border: 1px solid var(--border-glass);
-            color: var(--text); font-weight: 600; font-size: 1.05rem;
-            transition: all 0.25s; cursor: pointer; margin-top: 1.5rem;
-            box-shadow: var(--shadow-card);
+            color: var(--text); font-weight: 600; font-size: 0.95rem;
+            cursor: pointer; margin-top: 1rem;
         }
-        .btn-google:hover { background: #f8fafc; border-color: #cbd5e1; transform: translateY(-1px); box-shadow: var(--shadow-float); }
-        .btn-google svg { width: 22px; height: 22px; }
+        .btn-google svg { width: 20px; height: 20px; }
         .btn-return-home {
             display: flex; align-items: center; justify-content: center; gap: 8px;
-            width: 100%; padding: 0.9rem; border-radius: 50px;
+            width: 100%; padding: 0.75rem; border-radius: 50px;
             background: transparent; border: 1px solid var(--indigo-600);
-            color: var(--indigo-600); font-weight: 700; font-size: 1.05rem;
-            transition: all 0.25s; cursor: pointer; margin-top: 1.5rem;
+            color: var(--indigo-600); font-weight: 600; font-size: 0.95rem;
+            cursor: pointer; margin-top: 1rem;
         }
-        .btn-return-home:hover { background: var(--indigo-50); }
 
         /* Toasts */
         .toast-container { position: fixed; top: 20px; right: 20px; z-index: 9999; display: flex; flex-direction: column; gap: 10px; }
         .toast {
-            padding: 1rem 1.5rem; border-radius: 12px; color: #fff; font-weight: 500;
+            padding: 0.8rem 1.2rem; border-radius: 10px; color: #fff; font-weight: 500;
             box-shadow: 0 8px 30px rgba(0,0,0,0.2);
             animation: slideIn 0.3s ease, fadeOut 0.5s ease 3s forwards;
-            display: flex; align-items: center; gap: 10px; min-width: 250px; max-width: 350px;
+            display: flex; align-items: center; gap: 8px; min-width: 200px; max-width: 300px;
         }
         .toast-success { background: var(--green); }
         .toast-error { background: var(--red); }
         .toast-info { background: var(--indigo-600); }
-        .toast i { font-size: 1.2rem; }
         @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
         @keyframes fadeOut { to { opacity: 0; transform: translateX(100%); } }
-
-        @media (max-width: 599px) {
-            .brand img { height: 36px; }
-            .auth-card { padding: 2rem 1.5rem; }
-            .auth-title { font-size: 1.8rem; }
-            .container { max-width: 100%; }
-        }
     </style>
 </head>
 <body>
-    <!-- Orbes -->
     <div class="orb orb-1"></div>
     <div class="orb orb-2"></div>
 
-    <!-- Toast container -->
     <div class="toast-container" id="toastContainer"></div>
 
-    <!-- SIDEBAR OVERLAY -->
     <div class="sidebar-overlay" id="sidebarOverlay"></div>
-
-    <!-- SIDEBAR -->
     <aside class="sidebar" id="sidebar" role="dialog" aria-modal="true" aria-label="Menu de navigation">
         <div class="sidebar-header">
             <div class="sidebar-logo">
-                <span class="sidebar-logo-badge">
-                    <img src="/assets/logo.png" alt="DigitalPay Haiti" onerror="this.style.display='none'">
-                </span>
-                <span class="sidebar-logo-text">
-                    <span>DigitalPay</span>
-                    <span>Haiti</span>
-                </span>
+                <span class="sidebar-logo-badge"><img src="/assets/logo.png" alt="DigitalPay Haiti" onerror="this.style.display='none'"></span>
+                <span>DigitalPay Haiti</span>
             </div>
-            <button class="sidebar-close" id="closeSidebar" type="button" aria-label="Fermer le menu"><i class="fa-solid fa-xmark"></i></button>
+            <button class="sidebar-close" id="closeSidebar" type="button"><i class="fa-solid fa-xmark"></i></button>
         </div>
 
         <div class="sidebar-profile">
@@ -439,36 +268,35 @@
             </div>
         </div>
         <div class="sidebar-auth">
-            <a href="/authentification/login.html" class="btn-login-side"><i class="fa-solid fa-right-to-bracket"></i> <span>Se Connecter</span></a>
-            <a href="/authentification/register.html" class="btn-register-side"><i class="fa-solid fa-user-plus"></i> <span>S'inscrire</span></a>
+            <a href="/authentification/login.html" class="btn-login-side"><i class="fa-solid fa-right-to-bracket"></i> Se Connecter</a>
+            <a href="/authentification/register.html" class="btn-register-side"><i class="fa-solid fa-user-plus"></i> S'inscrire</a>
         </div>
 
         <nav class="sidebar-nav">
             <div class="sidebar-section-title">Principal</div>
-            <a href="/index.html" class="nav-item"><i class="fa-solid fa-house"></i> <span>Accueil</span></a>
-            <a href="/wallet.html" class="nav-item"><i class="fa-solid fa-wallet"></i> <span>Portefeuille</span></a>
-            <a href="/commandes.html" class="nav-item"><i class="fa-solid fa-cart-shopping"></i> <span>Commandes</span></a>
-            <a href="/profil.html" class="nav-item"><i class="fa-solid fa-user"></i> <span>Profil</span></a>
-            <a href="/support/tutorial.html" class="nav-item"><i class="fa-solid fa-circle-question"></i> <span>Aide & Tutoriel</span></a>
+            <a href="/index.html" class="nav-item"><i class="fa-solid fa-house"></i> Accueil</a>
+            <a href="/wallet.html" class="nav-item"><i class="fa-solid fa-wallet"></i> Portefeuille</a>
+            <a href="/commandes.html" class="nav-item"><i class="fa-solid fa-cart-shopping"></i> Commandes</a>
+            <a href="/profil.html" class="nav-item"><i class="fa-solid fa-user"></i> Profil</a>
+            <a href="/support/support.html" class="nav-item"><i class="fa-solid fa-circle-question"></i> Centre d'aide</a>
             <div class="sidebar-section-title">Services</div>
-            <a href="/gaming/index.html" class="nav-item"><i class="fa-solid fa-gamepad"></i> <span>Jeux</span></a>
-            <a href="/streaming/index.html" class="nav-item"><i class="fa-solid fa-tv"></i> <span>Abonnements</span></a>
-            <a href="/finance/index.html" class="nav-item"><i class="fa-solid fa-coins"></i> <span>Finance</span></a>
-            <a href="/giftcard/index.html" class="nav-item"><i class="fa-solid fa-gift"></i> <span>Gift Cards</span></a>
-            <a href="/social/index.html" class="nav-item"><i class="fa-solid fa-share-nodes"></i> <span>Réseaux sociaux</span></a>
+            <a href="/gaming/index.html" class="nav-item"><i class="fa-solid fa-gamepad"></i> Jeux</a>
+            <a href="/streaming/index.html" class="nav-item"><i class="fa-solid fa-tv"></i> Abonnements</a>
+            <a href="/finance/index.html" class="nav-item"><i class="fa-solid fa-coins"></i> Finance</a>
+            <a href="/giftcard/index.html" class="nav-item"><i class="fa-solid fa-gift"></i> Gift Cards</a>
+            <a href="/social/index.html" class="nav-item"><i class="fa-solid fa-share-nodes"></i> Réseaux sociaux</a>
         </nav>
 
         <div class="sidebar-footer">
-            <button class="btn-logout-side" id="logoutBtn"><i class="fa-solid fa-arrow-right-from-bracket"></i> <span>Se Déconnecter</span></button>
+            <button class="btn-logout-side" id="logoutBtn"><i class="fa-solid fa-arrow-right-from-bracket"></i> Se Déconnecter</button>
         </div>
     </aside>
 
-    <!-- HEADER PRINCIPAL -->
     <header class="site-header" id="siteHeader">
         <a href="/index.html" class="brand"><img src="/assets/logo.png" alt="DigitalPay" onerror="this.style.display='none'"></a>
         <div class="header-actions">
             <div class="lang-selector-header">
-                <button class="lang-btn-header" id="langBtnHeader" aria-label="Langue"><i class="fa-solid fa-globe"></i></button>
+                <button class="lang-btn-header" id="langBtnHeader"><i class="fa-solid fa-globe"></i></button>
                 <div class="lang-menu-header" id="langMenuHeader">
                     <button data-lang="fr">🇫🇷 Français</button>
                     <button data-lang="en">🇺🇸 English</button>
@@ -476,52 +304,42 @@
                     <button data-lang="es">🇪🇸 Español</button>
                 </div>
             </div>
-            <button class="icon-btn" id="openSidebarBtn" aria-label="Menu"><i class="fa-solid fa-bars"></i><span class="status-dot" id="authStatusDot"></span></button>
+            <button class="icon-btn" id="openSidebarBtn"><i class="fa-solid fa-bars"></i></button>
         </div>
     </header>
 
-    <!-- CONTENU PRINCIPAL -->
     <main class="container">
         <div class="auth-card">
             <h1 class="auth-title">Inscription</h1>
             <p class="auth-subtitle">Créez votre compte DigitalPay</p>
-
             <form id="registerForm" novalidate>
                 <div class="form-group">
                     <label class="form-label" for="name">Nom complet</label>
-                    <input type="text" id="name" class="form-input" placeholder="Votre nom" required autocomplete="name">
+                    <input type="text" id="name" class="form-input" placeholder="Votre nom" required>
                     <div class="form-error" id="nameError">Veuillez saisir votre nom.</div>
                 </div>
-
                 <div class="form-group">
                     <label class="form-label" for="email">Adresse e-mail</label>
-                    <input type="email" id="email" class="form-input" placeholder="exemple@email.com" required autocomplete="email">
+                    <input type="email" id="email" class="form-input" placeholder="exemple@email.com" required>
                     <div class="form-error" id="emailError">Veuillez saisir une adresse e-mail valide.</div>
                 </div>
-
                 <div class="form-group">
                     <label class="form-label" for="password">Mot de passe</label>
-                    <input type="password" id="password" class="form-input" placeholder="Minimum 6 caractères" required autocomplete="new-password" minlength="6">
-                    <button type="button" class="password-toggle" id="togglePassword" aria-label="Afficher le mot de passe"><i class="fa-solid fa-eye"></i></button>
+                    <input type="password" id="password" class="form-input" placeholder="Minimum 6 caractères" required minlength="6">
+                    <button type="button" class="password-toggle" id="togglePassword"><i class="fa-solid fa-eye"></i></button>
                     <div class="form-error" id="passwordError">Le mot de passe doit contenir au moins 6 caractères.</div>
                 </div>
-
                 <div class="form-group">
                     <label class="form-label" for="confirmPassword">Confirmez le mot de passe</label>
-                    <input type="password" id="confirmPassword" class="form-input" placeholder="Répétez le mot de passe" required autocomplete="new-password">
-                    <button type="button" class="password-toggle" id="toggleConfirmPassword" aria-label="Afficher le mot de passe"><i class="fa-solid fa-eye"></i></button>
+                    <input type="password" id="confirmPassword" class="form-input" placeholder="Répétez le mot de passe" required>
+                    <button type="button" class="password-toggle" id="toggleConfirmPassword"><i class="fa-solid fa-eye"></i></button>
                     <div class="form-error" id="confirmError">Les mots de passe ne correspondent pas.</div>
                 </div>
-
-                <button type="submit" class="btn-primary" id="registerBtn">
-                    <i class="fa-solid fa-user-plus"></i> S'inscrire
-                </button>
-
+                <button type="submit" class="btn-primary" id="registerBtn"><i class="fa-solid fa-user-plus"></i> S'inscrire</button>
                 <div class="auth-links">
                     <a href="/authentification/login.html">Déjà un compte ? Connectez-vous</a>
                 </div>
             </form>
-
             <button class="btn-google" id="googleRegisterBtn">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
                     <path fill="#FFC107" d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24c0,11.045,8.955,20,20,20c11.045,0,20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z"/>
@@ -531,55 +349,15 @@
                 </svg>
                 Continuer avec Google
             </button>
-
-            <button class="btn-return-home" id="returnHomeBtn">
-                <i class="fa-solid fa-home"></i> Retour à l'accueil
-            </button>
+            <button class="btn-return-home" id="returnHomeBtn"><i class="fa-solid fa-home"></i> Retour à l'accueil</button>
         </div>
     </main>
 
-    <!-- FOOTER -->
-    <footer class="site">
-        <div class="footer-inner">
-            <div class="footer-brand">
-                <div class="brand-name">DigitalPay <span>Haiti</span></div>
-                <p>Services premium pour tous.</p>
-                <div class="footer-social">
-                    <a href="https://wa.me/50935669814" target="_blank" rel="noopener" class="whatsapp" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
-                    <a href="https://instagram.com/6_xntt" target="_blank" rel="noopener" class="instagram" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
-                </div>
-                <div class="footer-payments">
-                    <span>MonCash</span>
-                    <span>NatCash</span>
-                    <span>Meru</span>
-                    <span>Portefeuille DigitalPay</span>
-                </div>
-            </div>
-            <div>
-                <div class="footer-links-title">Liens rapides</div>
-                <div class="footer-links">
-                    <a href="/gaming/index.html">Jeux</a>
-                    <a href="/streaming/index.html">Abonnements</a>
-                    <a href="/finance/index.html">Finance</a>
-                    <a href="/giftcard/index.html">Gift Cards</a>
-                    <a href="/social/index.html">Réseaux sociaux</a>
-                </div>
-            </div>
-            <div>
-                <div class="footer-links-title">Support</div>
-                <div class="footer-links">
-                    <a href="/support">Support</a>
-                    <a href="/faq.html">FAQ</a>
-                    <a href="/cgu.html">CGU</a>
-                    <a href="/confidentialite.html">Confidentialité</a>
-                </div>
-            </div>
-        </div>
-        <div class="footer-copy">© 2026 DigitalPay. Tous droits réservés.</div>
+    <footer class="site" style="margin-top: auto; text-align: center; padding: 1rem; font-size: 0.75rem; color: var(--text-muted); border-top: 1px solid var(--border-glass); background: #fff;">
+        © 2026 DigitalPay. Tous droits réservés.
     </footer>
 
     <script>
-        // Firebase
         let auth = null;
         try {
             const firebaseConfig = {
@@ -595,7 +373,6 @@
             auth = firebase.auth();
         } catch (e) {}
 
-        // Toasts
         function showToast(message, type = 'info') {
             const container = document.getElementById('toastContainer');
             const toast = document.createElement('div');
@@ -607,30 +384,18 @@
         }
 
         document.addEventListener('DOMContentLoaded', function() {
-            // Sidebar
             const sidebar = document.getElementById('sidebar');
             const sidebarOverlay = document.getElementById('sidebarOverlay');
-            document.getElementById('openSidebarBtn').addEventListener('click', () => {
-                sidebar.classList.add('open'); sidebarOverlay.classList.add('open');
-            });
-            document.getElementById('closeSidebar').addEventListener('click', () => {
-                sidebar.classList.remove('open'); sidebarOverlay.classList.remove('open');
-            });
-            sidebarOverlay.addEventListener('click', () => {
-                sidebar.classList.remove('open'); sidebarOverlay.classList.remove('open');
-            });
+            document.getElementById('openSidebarBtn').addEventListener('click', () => { sidebar.classList.add('open'); sidebarOverlay.classList.add('open'); });
+            document.getElementById('closeSidebar').addEventListener('click', () => { sidebar.classList.remove('open'); sidebarOverlay.classList.remove('open'); });
+            sidebarOverlay.addEventListener('click', () => { sidebar.classList.remove('open'); sidebarOverlay.classList.remove('open'); });
             document.addEventListener('keydown', (e) => { if (e.key === 'Escape') { sidebar.classList.remove('open'); sidebarOverlay.classList.remove('open'); }});
 
-            // Langue
             const langBtn = document.getElementById('langBtnHeader');
             const langMenu = document.getElementById('langMenuHeader');
             langBtn.addEventListener('click', (e) => { e.stopPropagation(); langMenu.classList.toggle('open'); });
             document.addEventListener('click', (e) => { if (!langMenu.contains(e.target)) langMenu.classList.remove('open'); });
-            langMenu.querySelectorAll('button').forEach(btn => {
-                btn.addEventListener('click', function() { /* on pourrait appliquer la langue ici */ });
-            });
 
-            // Toggle mot de passe
             document.getElementById('togglePassword').addEventListener('click', function() {
                 const input = document.getElementById('password');
                 const type = input.getAttribute('type') === 'password' ? 'text' : 'password';
@@ -644,7 +409,6 @@
                 this.innerHTML = type === 'password' ? '<i class="fa-solid fa-eye"></i>' : '<i class="fa-solid fa-eye-slash"></i>';
             });
 
-            // Inscription email/mot de passe
             document.getElementById('registerForm').addEventListener('submit', async (e) => {
                 e.preventDefault();
                 const name = document.getElementById('name').value.trim();
@@ -676,7 +440,6 @@
                 }
             });
 
-            // Inscription Google
             document.getElementById('googleRegisterBtn').addEventListener('click', async () => {
                 try {
                     const provider = new firebase.auth.GoogleAuthProvider();
@@ -688,32 +451,20 @@
                 }
             });
 
-            // Retour accueil
             document.getElementById('returnHomeBtn').addEventListener('click', () => window.location.href = '/index.html');
 
-            // Mise à jour de l'état de connexion
             auth.onAuthStateChanged(user => {
-                const statusDot = document.getElementById('authStatusDot');
                 if (user) {
                     document.body.classList.add('is-logged');
-                    statusDot.classList.add('connected');
                     const avatar = document.getElementById('sidebarAvatar');
-                    const userName = document.getElementById('sidebarUserName');
-                    const userEmail = document.getElementById('sidebarUserEmail');
-                    userName.textContent = user.displayName || 'Membre DigitalPay';
-                    userEmail.textContent = user.email || '';
+                    document.getElementById('sidebarUserName').textContent = user.displayName || 'Membre DigitalPay';
+                    document.getElementById('sidebarUserEmail').textContent = user.email || '';
                     if (user.photoURL) avatar.innerHTML = `<img src="${user.photoURL}" alt="Avatar">`;
                     else avatar.textContent = (user.displayName || user.email || 'U').charAt(0).toUpperCase();
                 } else {
                     document.body.classList.remove('is-logged');
-                    statusDot.classList.remove('connected');
                 }
             });
-
-            // Scroll header
-            window.addEventListener('scroll', () => {
-                document.getElementById('siteHeader').classList.toggle('is-scrolled', window.scrollY > 10);
-            }, { passive: true });
         });
     </script>
 </body>
