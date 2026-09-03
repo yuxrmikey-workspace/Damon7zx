@@ -182,7 +182,6 @@
             border: 1px solid var(--indigo-600); color: var(--indigo-600); font-weight: 600; font-size: 0.85rem;
         }
 
-        /* Navigation sidebar */
         .sidebar-nav { flex: 1; overflow-y: auto; padding: 0.3rem 1rem; }
         .sidebar-section-title { padding: 0.6rem 0 0.3rem; font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); display: flex; align-items: center; gap: 6px; }
         .sidebar-section-title::after { content: ''; flex: 1; border-bottom: 1px dotted var(--border-glass); }
@@ -204,9 +203,8 @@
             background: var(--indigo-600); border-radius: 3px;
         }
 
-        /* Bouton déconnexion intégré comme item de menu */
         .btn-logout-side {
-            display: none;   /* masqué par défaut */
+            display: none;
             align-items: center;
             gap: 10px;
             padding: 0.6rem 0.8rem;
@@ -250,7 +248,6 @@
         .flyer-container img { width: 100%; aspect-ratio: 16/9; object-fit: cover; }
         @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* Catégories */
         .cat-scroll-container { padding: 1.5rem 0; overflow-x: auto; scrollbar-width: none; white-space: nowrap; }
         .cat-scroll-container::-webkit-scrollbar { display: none; }
         .cat-scroll { display: inline-flex; gap: 10px; padding: 0 4px; }
@@ -267,7 +264,6 @@
         .cat-pill.active { background: var(--indigo-600); border-color: var(--indigo-600); color: #fff; }
         .cat-pill.active i { color: #fff; }
 
-        /* Sections produits */
         section.block { padding: 2.5rem 0; }
         section.block.alt { background: rgba(255, 255, 255, 0.5); border-top: 1px solid var(--border-glass); border-bottom: 1px solid var(--border-glass); }
         .block-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem; }
@@ -299,7 +295,6 @@
         .product-card .btn-buy { display: block; width: 100%; padding: 0.6rem; background: linear-gradient(135deg, var(--indigo-600), #6D28D9); color: #fff; text-align: center; border-radius: 50px; font-weight: 600; font-size: 0.85rem; transition: all 0.2s; border: none; }
         .product-card .btn-buy:hover { background: linear-gradient(135deg, #6D28D9, var(--indigo-600)); box-shadow: 0 4px 15px rgba(79, 70, 229, 0.4); }
 
-        /* Témoignages */
         .testimonials-grid { display: grid; grid-template-columns: 1fr; gap: 1.2rem; margin-top: 1rem; }
         @media (min-width: 768px) { .testimonials-grid { grid-template-columns: repeat(3, 1fr); } }
         .testimonial-card { background: var(--bg-glass); border: 1px solid var(--border-glass); border-radius: var(--radius); padding: 1.2rem; backdrop-filter: blur(5px); transition: all 0.3s; }
@@ -311,7 +306,6 @@
         .testimonial-stars { color: #F59E0B; margin-bottom: 0.4rem; font-size: 0.85rem; }
         .testimonial-quote { font-style: italic; color: var(--text-soft); font-size: 0.9rem; }
 
-        /* FAQ */
         .faq-container { max-width: 800px; margin: 0 auto; }
         .faq-item { border-bottom: 1px solid var(--border-glass); }
         .faq-question { width: 100%; padding: 1rem 0; display: flex; justify-content: space-between; align-items: center; font-weight: 600; font-size: 1rem; cursor: pointer; transition: color 0.2s; background: transparent; }
@@ -321,7 +315,6 @@
         .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.3s ease, padding 0.3s; padding: 0; color: var(--text-soft); font-size: 0.95rem; }
         .faq-answer.open { max-height: 200px; padding-bottom: 1rem; }
 
-        /* Footer */
         footer.site {
             background: #fff; border-top: 1px solid var(--border-glass);
             padding: 2rem 1.2rem 1.5rem; font-size: 0.85rem; color: var(--text-soft);
@@ -359,7 +352,6 @@
         .footer-payments span { background: var(--bg-glass); padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.75rem; color: var(--text-soft); }
         .footer-copy { text-align: center; margin-top: 2rem; font-size: 0.8rem; color: var(--text-muted); border-top: 1px solid var(--border-glass); padding-top: 1rem; }
 
-        /* Toasts */
         .toast-container {
             position: fixed; bottom: 20px; right: 20px;
             z-index: 10000;
@@ -426,11 +418,6 @@
 
         <nav class="sidebar-nav" id="sidebarNav">
             <!-- Les liens seront générés par JavaScript -->
-            <!-- Bouton de déconnexion ajouté ici directement -->
-            <button class="btn-logout-side" id="logoutBtn">
-                <i class="fa-solid fa-arrow-right-from-bracket"></i>
-                <span data-i18n="logout">Se Déconnecter</span>
-            </button>
         </nav>
     </aside>
 
@@ -447,7 +434,7 @@
                     <button data-lang="es">🇪🇸 Español</button>
                 </div>
             </div>
-            <button class="icon-btn" id="openSidebarBtn"><i class="fa-solid fa-bars"></i></button>
+            <button class="icon-btn" id="openSidebarBtn"><i class="fa-solid fa-bars"></i><span class="status-dot" id="authStatusDot"></span></button>
         </div>
     </header>
 
@@ -480,16 +467,16 @@
                         <div class="info"><h3>Free Fire</h3><p class="price">Dès 157 HTG</p><a href="#" class="btn-buy"><span data-i18n="order">Commander</span></a></div>
                     </div>
                     <div class="product-card">
-                        <div class="thumb"><img src="/assets/roblox-logo.png" alt="Roblox" onerror="this.replaceWith(makeThumbFallback('RB'))"></div>
-                        <div class="info"><h3>Roblox</h3><p class="price">Dès 750 HTG</p><a href="#" class="btn-buy"><span data-i18n="order">Commander</span></a></div>
+                        <div class="thumb"><img src="/assets/callofduty.png" alt="Call of Duty" onerror="this.replaceWith(makeThumbFallback('COD'))"></div>
+                        <div class="info"><h3>Call of Duty</h3><p class="price">Recharges</p><a href="#" class="btn-buy"><span data-i18n="order">Commander</span></a></div>
                     </div>
                     <div class="product-card">
-                        <div class="thumb"><img src="/assets/pubgmobile-logo.png" alt="PUBG Mobile" onerror="this.replaceWith(makeThumbFallback('PUBG'))"></div>
-                        <div class="info"><h3>PUBG Mobile</h3><p class="price">Dès 180 HTG</p><a href="#" class="btn-buy"><span data-i18n="order">Commander</span></a></div>
+                        <div class="thumb"><img src="/assets/bloodstrike.png" alt="Blood Strike" onerror="this.replaceWith(makeThumbFallback('BS'))"></div>
+                        <div class="info"><h3>Blood Strike</h3><p class="price">Recharges</p><a href="#" class="btn-buy"><span data-i18n="order">Commander</span></a></div>
                     </div>
                     <div class="product-card">
-                        <div class="thumb"><img src="/assets/minecraft-logo.png" alt="Minecraft" onerror="this.replaceWith(makeThumbFallback('MC'))"></div>
-                        <div class="info"><h3>Minecraft</h3><p class="price">Dès 316 HTG</p><a href="#" class="btn-buy"><span data-i18n="order">Commander</span></a></div>
+                        <div class="thumb"><img src="/assets/lordsmobile.png" alt="Lords Mobile" onerror="this.replaceWith(makeThumbFallback('LM'))"></div>
+                        <div class="info"><h3>Lords Mobile</h3><p class="price">Recharges</p><a href="#" class="btn-buy"><span data-i18n="order">Commander</span></a></div>
                     </div>
                 </div>
             </div>
@@ -530,8 +517,6 @@
                     <div class="product-card"><div class="thumb"><img src="/assets/netflixgc.png" alt="Netflix" onerror="this.replaceWith(makeThumbFallback('NF'))"></div><div class="info"><h3>Netflix</h3><p class="price">Cartes cadeaux</p><a href="#" class="btn-buy"><span data-i18n="order">Commander</span></a></div></div>
                     <div class="product-card"><div class="thumb"><img src="/assets/nintendogc.png" alt="Nintendo" onerror="this.replaceWith(makeThumbFallback('NIN'))"></div><div class="info"><h3>Nintendo</h3><p class="price">eShop</p><a href="#" class="btn-buy"><span data-i18n="order">Commander</span></a></div></div>
                     <div class="product-card"><div class="thumb"><img src="/assets/playstationgc.png" alt="PlayStation" onerror="this.replaceWith(makeThumbFallback('PS'))"></div><div class="info"><h3>PlayStation</h3><p class="price">PSN</p><a href="#" class="btn-buy"><span data-i18n="order">Commander</span></a></div></div>
-                    <div class="product-card"><div class="thumb"><img src="/assets/steamgc.png" alt="Steam" onerror="this.replaceWith(makeThumbFallback('ST'))"></div><div class="info"><h3>Steam</h3><p class="price">Steam Wallet</p><a href="#" class="btn-buy"><span data-i18n="order">Commander</span></a></div></div>
-                    <div class="product-card"><div class="thumb"><img src="/assets/googleplaycard.png" alt="Google Play" onerror="this.replaceWith(makeThumbFallback('GP'))"></div><div class="info"><h3>Google Play</h3><p class="price">Cartes Android</p><a href="#" class="btn-buy"><span data-i18n="order">Commander</span></a></div></div>
                 </div>
             </div>
         </section>
@@ -655,7 +640,15 @@
         firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
 
-        // ========== TRADUCTIONS (sauf footer et avis) ==========
+        // Fonction de fallback pour les images
+        function makeThumbFallback(text) {
+            const span = document.createElement('span');
+            span.className = 'thumb-fallback';
+            span.textContent = text || 'Logo';
+            return span;
+        }
+
+        // ========== TRADUCTIONS ==========
         const translations = {
             fr: {
                 home: "Accueil", gaming: "Jeux", streaming: "Abonnements", finance: "Finance", giftcards: "Gift Cards", social: "Réseaux sociaux",
@@ -703,7 +696,6 @@
             }
         };
 
-        // ========== FONCTIONS UTILITAIRES ==========
         const $ = (selector) => document.querySelector(selector);
         const $$ = (selector) => document.querySelectorAll(selector);
 
@@ -764,7 +756,6 @@
             }, 300);
         }
 
-        // ========== GÉNÉRATION DU MENU SIDEBAR ==========
         const sidebarMenuItems = [
             { title: 'Menu', items: [
                 { href: '/index.html', icon: 'fa-house', textKey: 'home', isActive: true },
@@ -807,14 +798,18 @@
                     nav.appendChild(link);
                 });
             });
+
+            // Ajouter le bouton de déconnexion à la fin
+            const logoutBtn = document.createElement('button');
+            logoutBtn.className = 'btn-logout-side';
+            logoutBtn.id = 'logoutBtn';
+            logoutBtn.innerHTML = '<i class="fa-solid fa-arrow-right-from-bracket"></i> <span data-i18n="logout">Se Déconnecter</span>';
+            nav.appendChild(logoutBtn);
         }
 
-        // ========== INITIALISATION ==========
         document.addEventListener('DOMContentLoaded', function() {
-            // Créer le menu sidebar (sans le bouton logout déjà présent)
             createSidebarMenu();
 
-            // Gestion sidebar ouverture/fermeture
             const sidebar = document.getElementById('sidebar');
             const sidebarOverlay = document.getElementById('sidebarOverlay');
             const openSidebarBtn = document.getElementById('openSidebarBtn');
@@ -833,7 +828,6 @@
             sidebarOverlay.addEventListener('click', closeSidebar);
             document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeSidebar(); });
 
-            // Gestion du menu langue
             const langBtn = document.getElementById('langBtnHeader');
             const langMenu = document.getElementById('langMenuHeader');
             langBtn.addEventListener('click', (e) => { e.stopPropagation(); langMenu.classList.toggle('open'); });
@@ -844,7 +838,6 @@
                 });
             });
 
-            // Délégation pour le bouton de déconnexion
             document.addEventListener('click', function(e) {
                 if (e.target.closest('#logoutBtn')) {
                     e.preventDefault();
@@ -860,7 +853,6 @@
                 }
             });
 
-            // Gestion de l'authentification
             auth.onAuthStateChanged(user => {
                 const statusDot = document.getElementById('authStatusDot');
                 if (user) {
@@ -871,15 +863,12 @@
                     if (user.photoURL) avatar.innerHTML = `<img src="${user.photoURL}" alt="Avatar">`;
                     else avatar.textContent = (user.displayName || user.email || 'U').charAt(0).toUpperCase();
                     if (statusDot) statusDot.classList.add('connected');
-                    // Le bouton logout devient visible automatiquement via CSS body.is-logged
                 } else {
                     document.body.classList.remove('is-logged');
                     if (statusDot) statusDot.classList.remove('connected');
-                    // Le bouton logout est masqué par CSS
                 }
             });
 
-            // Gestion FAQ
             $$('.faq-question').forEach(btn => {
                 btn.addEventListener('click', () => {
                     const isOpen = btn.getAttribute('aria-expanded') === 'true';
@@ -894,12 +883,10 @@
                 });
             });
 
-            // Scroll header
             window.addEventListener('scroll', () => {
                 document.getElementById('siteHeader').classList.toggle('is-scrolled', window.scrollY > 10);
             }, { passive: true });
 
-            // Appliquer la langue initiale sans toast
             const initialLang = getCurrentLang();
             localStorage.setItem('lang', initialLang);
             document.documentElement.lang = initialLang;
