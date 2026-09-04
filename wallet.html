@@ -15,9 +15,7 @@
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
 
   <style>
-    /* ==========================================================================
-       FINTECH DESIGN SYSTEM — BLANC, NOIR & DÉGRADÉ BLEU ROYAL
-       ========================================================================== */
+    /* FINTECH DESIGN SYSTEM */
     :root {
       --bg: #FFFFFF;
       --surface: #FFFFFF;
@@ -49,6 +47,7 @@
       --shadow-sm: 0 2px 8px rgba(15, 23, 42, 0.04);
       --shadow-card: 0 4px 16px -2px rgba(15, 23, 42, 0.06);
       --shadow-balance: 0 10px 25px -3px rgba(29, 78, 216, 0.25);
+      --shadow-sheet: 0 -10px 35px rgba(15, 23, 42, 0.12);
       --font: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     }
 
@@ -65,19 +64,18 @@
     .header-btn { width: 38px; height: 38px; border-radius: var(--radius-md); background: #FFFFFF; border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; color: var(--text-black); cursor: pointer; position: relative; text-decoration: none; transition: transform 0.15s ease; }
     .header-btn:active { transform: scale(0.94); background: var(--surface-subtle); }
     .header-btn svg { width: 18px; height: 18px; stroke: currentColor; stroke-width: 2; fill: none; }
-    .badge-dot { position: absolute; top: 8px; right: 8px; width: 6px; height: 6px; border-radius: 50%; background: var(--royal-blue); box-shadow: 0 0 0 2px #FFFFFF; }
     .badge-num { position: absolute; top: -3px; right: -3px; background: var(--royal-blue); color: #FFFFFF; font-size: 10px; font-weight: 800; width: 17px; height: 17px; border-radius: var(--radius-full); display: flex; align-items: center; justify-content: center; box-shadow: 0 0 0 2px #FFFFFF; }
 
-    /* CORPS WALLET */
+    /* CORPS DU PORTEFEUILLE */
     .wallet-main { padding: 20px 16px 40px; flex: 1; display: flex; flex-direction: column; }
 
-    /* CARTE SOLDE PRINCIPALE HAUTE GAMME */
+    /* CARTE SOLDE BLEU ROYAL HAUT DE GAMME */
     .balance-card {
       background: var(--royal-gradient);
       color: #FFFFFF;
       border-radius: var(--radius-card);
       padding: 24px 20px;
-      margin-bottom: 24px;
+      margin-bottom: 20px;
       box-shadow: var(--shadow-balance);
       position: relative;
       overflow: hidden;
@@ -114,7 +112,7 @@
     }
 
     .balance-val {
-      font-size: 32px;
+      font-size: 34px;
       font-weight: 900;
       letter-spacing: -1px;
       line-height: 1;
@@ -137,14 +135,43 @@
       opacity: 0.9;
     }
 
-    /* SECTION FORMULAIRE DE RECHARGE */
+    /* BARRE D'ACTION HAUTE GAMME (LE BOUTON DÉPÔT PRO) */
+    .wallet-actions-row {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+      margin-bottom: 24px;
+    }
+
+    .btn-action-deposit {
+      height: 48px;
+      background: var(--royal-gradient);
+      color: #FFFFFF;
+      border: none;
+      border-radius: var(--radius-md);
+      font-size: 13px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      cursor: pointer;
+      box-shadow: 0 4px 14px rgba(29, 78, 216, 0.25);
+      font-family: inherit;
+      transition: transform 0.15s ease;
+    }
+
+    .btn-action-deposit:active {
+      transform: scale(0.99);
+    }
+
+    /* HISTORIQUE TRANSACTIONS PRO */
     .section-card {
       background: #FFFFFF;
       border: 1px solid var(--border);
       border-radius: var(--radius-card);
-      padding: 18px 16px;
+      padding: 16px;
       box-shadow: var(--shadow-sm);
-      margin-bottom: 24px;
     }
 
     .section-heading {
@@ -157,6 +184,158 @@
       display: flex;
       align-items: center;
       gap: 8px;
+    }
+
+    .transactions-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .tx-item {
+      background: #FFFFFF;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 12px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .tx-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .tx-icon-circle {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: var(--surface-subtle);
+      border: 1px solid var(--border-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--royal-blue);
+      flex-shrink: 0;
+    }
+
+    .tx-title {
+      font-size: 13px;
+      font-weight: 800;
+      color: var(--text-black);
+      line-height: 1.2;
+    }
+
+    .tx-date {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .tx-right {
+      text-align: right;
+    }
+
+    .tx-amount {
+      font-size: 13px;
+      font-weight: 900;
+      color: var(--success);
+    }
+
+    .tx-status-badge {
+      font-size: 10px;
+      font-weight: 800;
+      padding: 2px 8px;
+      border-radius: var(--radius-full);
+      display: inline-block;
+      margin-top: 3px;
+    }
+
+    .tx-status-badge.valide { background: var(--success-soft); color: var(--success); }
+    .tx-status-badge.en_attente { background: var(--warning-soft); color: var(--warning); }
+    .tx-status-badge.rejete { background: var(--danger-soft); color: var(--danger); }
+
+    .empty-tx-box {
+      text-align: center;
+      padding: 40px 10px;
+      color: var(--text-muted);
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    /* MODALE BOTTOM SHEET DU DÉPÔT */
+    .sheet-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.55);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      z-index: 120;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.2s ease;
+    }
+
+    .sheet-backdrop.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .sheet-modal {
+      position: fixed;
+      bottom: 0;
+      left: 50%;
+      transform: translate(-50%, 100%);
+      width: 100%;
+      max-width: 480px;
+      max-height: 88vh;
+      background: #FFFFFF;
+      border-radius: var(--radius-card) var(--radius-card) 0 0;
+      z-index: 121;
+      display: flex;
+      flex-direction: column;
+      box-shadow: var(--shadow-sheet);
+      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .sheet-backdrop.active .sheet-modal {
+      transform: translate(-50%, 0);
+    }
+
+    .sheet-header {
+      padding: 16px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .sheet-title {
+      font-size: 14px;
+      font-weight: 800;
+      color: var(--text-black);
+    }
+
+    .sheet-close-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--surface-subtle);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-muted);
+      cursor: pointer;
+      font-weight: 800;
+    }
+
+    .sheet-body {
+      padding: 16px;
+      overflow-y: auto;
+      flex: 1;
     }
 
     .deposit-methods-grid {
@@ -270,6 +449,12 @@
       border-color: var(--royal-blue);
     }
 
+    .sheet-footer {
+      padding: 14px 16px;
+      border-top: 1px solid var(--border);
+      background: var(--surface-subtle);
+    }
+
     .btn-submit-deposit {
       width: 100%;
       height: 46px;
@@ -286,99 +471,11 @@
       gap: 8px;
       box-shadow: 0 4px 14px rgba(29, 78, 216, 0.25);
       font-family: inherit;
-      margin-top: 4px;
-    }
-
-    .btn-submit-deposit:active {
-      transform: scale(0.99);
     }
 
     .btn-submit-deposit:disabled {
       opacity: 0.6;
       cursor: not-allowed;
-    }
-
-    /* HISTORIQUE DES TRANSACTIONS */
-    .transactions-list {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .tx-item {
-      background: #FFFFFF;
-      border: 1px solid var(--border);
-      border-radius: var(--radius-md);
-      padding: 12px 14px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .tx-left {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .tx-icon-circle {
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      background: var(--surface-subtle);
-      border: 1px solid var(--border-light);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--royal-blue);
-    }
-
-    .tx-title {
-      font-size: 13px;
-      font-weight: 800;
-      color: var(--text-black);
-      line-height: 1.2;
-    }
-
-    .tx-date {
-      font-size: 11px;
-      color: var(--text-muted);
-      margin-top: 2px;
-    }
-
-    .tx-right {
-      text-align: right;
-    }
-
-    .tx-amount {
-      font-size: 13px;
-      font-weight: 900;
-      color: var(--text-black);
-    }
-
-    .tx-amount.credit {
-      color: var(--success);
-    }
-
-    .tx-status-badge {
-      font-size: 10px;
-      font-weight: 800;
-      padding: 2px 8px;
-      border-radius: var(--radius-full);
-      display: inline-block;
-      margin-top: 2px;
-    }
-
-    .tx-status-badge.complete { background: var(--success-soft); color: var(--success); }
-    .tx-status-badge.en_attente { background: var(--warning-soft); color: var(--warning); }
-    .tx-status-badge.rejete { background: var(--danger-soft); color: var(--danger); }
-
-    .empty-tx-box {
-      text-align: center;
-      padding: 30px 10px;
-      color: var(--text-muted);
-      font-size: 12px;
-      font-weight: 600;
     }
 
     /* TOAST */
@@ -411,9 +508,6 @@
     .sidebar-auth-zone { margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--border); }
     .btn-auth { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; height: 40px; border-radius: var(--radius-md); font-size: 13px; font-weight: 700; text-decoration: none; cursor: pointer; }
     .btn-logout { background: var(--danger-soft); color: var(--danger); border: 1px solid rgba(220, 38, 38, 0.2); }
-
-    .notif-panel { position: absolute; top: 64px; right: 16px; width: calc(100% - 32px); max-width: 360px; background: #FFFFFF; border: 1px solid var(--border); border-radius: var(--radius-md); box-shadow: 0 10px 25px rgba(0,0,0,0.08); z-index: 60; display: none; padding: 14px; }
-    .notif-panel.open { display: block; }
   </style>
 </head>
 <body>
@@ -422,7 +516,7 @@
 
   <div class="app-shell">
 
-    <!-- HEADER PRO EXACT -->
+    <!-- HEADER PRO -->
     <header class="site-header">
       <div class="header-top">
         <a href="index.html">
@@ -438,14 +532,6 @@
             <span class="badge-num" id="cart-indicator">0</span>
           </a>
 
-          <!-- Notifications -->
-          <button class="header-btn" onclick="toggleNotifications()" aria-label="Notifications">
-            <svg viewBox="0 0 24 24">
-              <path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 01-3.46 0" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-            <span class="badge-dot"></span>
-          </button>
-
           <!-- Sidebar -->
           <button class="header-btn" onclick="openSidebar()" aria-label="Menu">
             <svg viewBox="0 0 24 24">
@@ -456,22 +542,10 @@
       </div>
     </header>
 
-    <!-- NOTIF BROADCAST ADMIN -->
-    <div class="notif-panel" id="notif-panel">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-        <strong style="font-size:12px; text-transform:uppercase;">Annonces Globales</strong>
-        <button onclick="toggleNotifications()" style="border:none; background:none; cursor:pointer; font-weight:700;">✕</button>
-      </div>
-      <div style="padding:10px; background:var(--surface-subtle); border-left:3px solid var(--royal-blue); border-radius:4px; font-size:12px;">
-        <strong>Validation Portefeuille</strong>
-        <p>Les dépôts MonCash, NatCash et Meru sont vérifiés et crédités par l'administrateur en moins de 15 minutes.</p>
-      </div>
-    </div>
-
-    <!-- CORPS DU PORTEFEUILLE -->
+    <!-- CORPS DU PORTEFEUILLE ÉPURÉ -->
     <main class="wallet-main">
 
-      <!-- CARTE SOLDE BLEU ROYAL HAUT DE GAMME -->
+      <!-- CARTE SOLDE BLEU ROYAL -->
       <div class="balance-card">
         <div class="balance-sub-label">
           <span style="width:6px; height:6px; border-radius:50%; background:#38BDF8;"></span>
@@ -487,70 +561,23 @@
         </div>
       </div>
 
-      <!-- SECTION DÉPÔT / RECHARGE -->
-      <div class="section-card">
-        <div class="section-heading">
-          <svg class="icon-svg" viewBox="0 0 24 24" style="stroke:var(--royal-blue);"><path d="M12 4v16m8-8H4" stroke-linecap="round"/></svg>
-          <span id="i18n-deposit-title">Recharger mon portefeuille</span>
-        </div>
-
-        <!-- Choix de méthode de recharge -->
-        <div class="deposit-methods-grid">
-          <div class="dep-pill active" data-method="moncash" onclick="selectDepositMethod('moncash')">
-            <img src="moncash-logo.png" class="dep-pill-icon" onerror="this.src='assets/moncash-logo.png'; this.onerror=null;">
-            <span class="dep-pill-name">MonCash</span>
-          </div>
-
-          <div class="dep-pill" data-method="natcash" onclick="selectDepositMethod('natcash')">
-            <img src="natcash-logo.png" class="dep-pill-icon" onerror="this.src='assets/natcash-logo.png'; this.onerror=null;">
-            <span class="dep-pill-name">NatCash</span>
-          </div>
-
-          <div class="dep-pill" data-method="meru" onclick="selectDepositMethod('meru')">
-            <img src="meru.png" class="dep-pill-icon" onerror="this.src='assets/meru.png'; this.onerror=null;">
-            <span class="dep-pill-name">Meru USD</span>
-          </div>
-        </div>
-
-        <!-- Coordonnées et calculatrice -->
-        <div class="deposit-info-box">
-          <div class="dep-info-header">
-            <span class="dep-target-label" id="dep-target-label">Envoyer le dépôt au numéro :</span>
-            <button class="btn-copy-target" onclick="copyDepositTarget()" id="i18n-copy-btn">COPIER</button>
-          </div>
-          <div class="dep-target-value" id="dep-target-value">+509 3643-5649</div>
-
-          <div class="field-group">
-            <label class="field-label" id="i18n-amount-label">Montant à créditer (en HTG) :</label>
-            <input type="number" id="dep-amount-input" class="text-input" placeholder="Ex: 1500" min="50" oninput="handleAmountInput(this.value)">
-            <span id="meru-calc-hint" style="font-size:11px; color:var(--royal-blue); font-weight:700; display:none; margin-top:2px;"></span>
-          </div>
-
-          <div class="field-group">
-            <label class="field-label" id="i18n-txid-label">ID de Transaction / Numéro Expéditeur :</label>
-            <input type="text" id="dep-txid-input" class="text-input" placeholder="Ex: 882910392">
-          </div>
-
-          <div class="field-group" style="margin-bottom:0;">
-            <label class="field-label" id="i18n-proof-label">Capture de reçu (Image Max 1 Mo) :</label>
-            <input type="file" id="dep-proof-file" accept="image/*" class="text-input" style="padding-top:8px;" onchange="validateFileSize(this)">
-          </div>
-        </div>
-
-        <button class="btn-submit-deposit" id="btn-submit-deposit" onclick="submitDepositRequest()">
-          <span id="i18n-btn-deposit">Soumettre la Recharge</span>
+      <!-- BOUTON DÉPOSER PRO -->
+      <div class="wallet-actions-row">
+        <button class="btn-action-deposit" onclick="openDepositModal()">
+          <svg class="icon-svg" viewBox="0 0 24 24" style="stroke:#FFFFFF;"><path d="M12 4v16m8-8H4" stroke-linecap="round"/></svg>
+          <span id="i18n-btn-open-deposit">Déposer des fonds</span>
         </button>
       </div>
 
-      <!-- SECTION HISTORIQUE DES MOUVEMENTS -->
-      <div class="section-card" style="margin-bottom:0;">
+      <!-- SECTION HISTORIQUE DES RECHARGES -->
+      <div class="section-card">
         <div class="section-heading">
           <svg class="icon-svg" viewBox="0 0 24 24" style="stroke:var(--royal-blue);"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round"/></svg>
           <span id="i18n-history-title">Historique des Recharges</span>
         </div>
 
         <div class="transactions-list" id="tx-history-target">
-          <!-- Rendu dynamique depuis Firestore -->
+          <div class="empty-tx-box">Chargement de l'historique...</div>
         </div>
       </div>
 
@@ -574,7 +601,6 @@
             <button class="sidebar-close-btn" onclick="closeSidebar()">✕</button>
           </div>
 
-          <!-- 4 Langues avec drapeaux -->
           <div class="sidebar-section-title">Langue / Lang</div>
           <div class="lang-switcher-grid">
             <button class="lang-option active" onclick="setLang('fr', this)"><span>🇫🇷</span> Français</button>
@@ -583,7 +609,6 @@
             <button class="lang-option" onclick="setLang('es', this)"><span>🇪🇸</span> Español</button>
           </div>
 
-          <!-- Navigation -->
           <div class="sidebar-section-title">Navigation</div>
           <nav class="sidebar-menu-nav">
             <a href="index.html" class="menu-link">
@@ -613,9 +638,72 @@
       </aside>
     </div>
 
+    <!-- MODALE BOTTOM SHEET DU FORMULAIRE DE DÉPÔT -->
+    <div class="sheet-backdrop" id="deposit-sheet-backdrop" onclick="closeDepositModal()">
+      <div class="sheet-modal" onclick="event.stopPropagation()">
+        
+        <div class="sheet-header">
+          <span class="sheet-title" id="i18n-modal-dep-title">Recharger mon portefeuille</span>
+          <button class="sheet-close-btn" onclick="closeDepositModal()">✕</button>
+        </div>
+
+        <div class="sheet-body">
+          <!-- Choix de méthode de recharge -->
+          <div class="deposit-methods-grid">
+            <div class="dep-pill active" data-method="moncash" onclick="selectDepositMethod('moncash')">
+              <img src="moncash-logo.png" class="dep-pill-icon" onerror="this.src='assets/moncash-logo.png'; this.onerror=null;">
+              <span class="dep-pill-name">MonCash</span>
+            </div>
+
+            <div class="dep-pill" data-method="natcash" onclick="selectDepositMethod('natcash')">
+              <img src="natcash-logo.png" class="dep-pill-icon" onerror="this.src='assets/natcash-logo.png'; this.onerror=null;">
+              <span class="dep-pill-name">NatCash</span>
+            </div>
+
+            <div class="dep-pill" data-method="meru" onclick="selectDepositMethod('meru')">
+              <img src="meru.png" class="dep-pill-icon" onerror="this.src='assets/meru.png'; this.onerror=null;">
+              <span class="dep-pill-name">Meru USD</span>
+            </div>
+          </div>
+
+          <!-- Coordonnées et calculatrice -->
+          <div class="deposit-info-box">
+            <div class="dep-info-header">
+              <span class="dep-target-label" id="dep-target-label">Envoyer le dépôt au numéro :</span>
+              <button class="btn-copy-target" onclick="copyDepositTarget()" id="i18n-copy-btn">COPIER</button>
+            </div>
+            <div class="dep-target-value" id="dep-target-value">+509 3643-5649</div>
+
+            <div class="field-group">
+              <label class="field-label" id="i18n-amount-label">Montant à créditer (en HTG) :</label>
+              <input type="number" id="dep-amount-input" class="text-input" placeholder="Ex: 1500" min="50" oninput="handleAmountInput(this.value)">
+              <span id="meru-calc-hint" style="font-size:11px; color:var(--royal-blue); font-weight:700; display:none; margin-top:2px;"></span>
+            </div>
+
+            <div class="field-group">
+              <label class="field-label" id="i18n-txid-label">ID de Transaction / Numéro Expéditeur :</label>
+              <input type="text" id="dep-txid-input" class="text-input" placeholder="Ex: 882910392">
+            </div>
+
+            <div class="field-group" style="margin-bottom:0;">
+              <label class="field-label" id="i18n-proof-label">Capture de reçu (Image Max 1 Mo) :</label>
+              <input type="file" id="dep-proof-file" accept="image/*" class="text-input" style="padding-top:8px;" onchange="validateFileSize(this)">
+            </div>
+          </div>
+        </div>
+
+        <div class="sheet-footer">
+          <button class="btn-submit-deposit" id="btn-submit-deposit" onclick="submitDepositRequest()">
+            <span id="i18n-btn-deposit">Soumettre la Recharge</span>
+          </button>
+        </div>
+
+      </div>
+    </div>
+
   </div>
 
-  <!-- ==================== JAVASCRIPT LOGIQUE WALLET ==================== -->
+  <!-- JAVASCRIPT ET TRANSACTION FIRESTORE ROBUSTE -->
   <script>
     /* 1. CONFIGURATION FIREBASE */
     const firebaseConfig = {
@@ -631,7 +719,7 @@
     const auth = firebase.auth();
     const db = firebase.firestore();
 
-    /* 2. ÉTAT DU PORTEFEUILLE */
+    /* 2. ÉTAT LOCAL */
     let currentUser = null;
     let currentBalance = 0;
     let selectedDepositMethod = 'moncash';
@@ -645,7 +733,8 @@
         authRequired: "Veuillez vous connecter pour accéder à votre portefeuille.",
         balanceLabel: "Solde Disponible",
         instantStatus: "Paiements 1-sec actifs",
-        depositTitle: "Recharger mon portefeuille",
+        btnOpenDeposit: "Déposer des fonds",
+        modalDepTitle: "Recharger mon portefeuille",
         targetPhone: "Envoyer le dépôt au numéro :",
         targetEmail: "Envoyer le dépôt à l'adresse Meru :",
         copyBtn: "COPIER",
@@ -671,7 +760,8 @@
         authRequired: "Tanpri konekte pou w ka jere bous ou.",
         balanceLabel: "Kòb Ki Disponib",
         instantStatus: "Peman 1-segonn aktif",
-        depositTitle: "Rechaje bous mwen",
+        btnOpenDeposit: "Depoze kòb sou bous la",
+        modalDepTitle: "Rechaje bous mwen",
         targetPhone: "Voye depo a sou nimewo sa :",
         targetEmail: "Voye depo a sou adrès Meru sa :",
         copyBtn: "KOPIYE",
@@ -697,7 +787,8 @@
         authRequired: "Please log in to access your wallet.",
         balanceLabel: "Available Balance",
         instantStatus: "1-sec payments active",
-        depositTitle: "Top-up Wallet",
+        btnOpenDeposit: "Deposit funds",
+        modalDepTitle: "Top-up Wallet",
         targetPhone: "Send deposit to phone number:",
         targetEmail: "Send deposit to Meru email:",
         copyBtn: "COPY",
@@ -723,7 +814,8 @@
         authRequired: "Inicie sesión para acceder a su billetera.",
         balanceLabel: "Saldo Disponible",
         instantStatus: "Pagos 1-seg activos",
-        depositTitle: "Recargar Billetera",
+        btnOpenDeposit: "Depositar fondos",
+        modalDepTitle: "Recargar Billetera",
         targetPhone: "Enviar depósito al número:",
         targetEmail: "Enviar depósito al correo Meru:",
         copyBtn: "COPIAR",
@@ -777,7 +869,8 @@
       const dict = I18N[code];
       document.getElementById('i18n-balance-label').innerText = dict.balanceLabel;
       document.getElementById('i18n-instant-status').innerText = dict.instantStatus;
-      document.getElementById('i18n-deposit-title').innerText = dict.depositTitle;
+      document.getElementById('i18n-btn-open-deposit').innerText = dict.btnOpenDeposit;
+      document.getElementById('i18n-modal-dep-title').innerText = dict.modalDepTitle;
       document.getElementById('i18n-copy-btn').innerText = dict.copyBtn;
       document.getElementById('i18n-txid-label').innerText = dict.txidLabel;
       document.getElementById('i18n-proof-label').innerText = dict.proofLabel;
@@ -794,7 +887,15 @@
       showToast(dict.toastLang);
     }
 
-    /* 6. MÉTHODES DE DÉPÔT ET COORDONNÉES OFFICIELLES */
+    /* 6. MODALE DE DÉPÔT */
+    function openDepositModal() {
+      document.getElementById('deposit-sheet-backdrop').classList.add('active');
+    }
+
+    function closeDepositModal() {
+      document.getElementById('deposit-sheet-backdrop').classList.remove('active');
+    }
+
     function selectDepositMethod(method) {
       selectedDepositMethod = method;
       document.querySelectorAll('.dep-pill').forEach(pill => {
@@ -863,7 +964,7 @@
       }
     }
 
-    /* 7. SOUMISSION RÉELLE DU DÉPÔT DANS FIRESTORE */
+    /* 7. SOUMISSION ET ENREGISTREMENT SANS PERTE */
     async function submitDepositRequest() {
       const amountInput = document.getElementById('dep-amount-input').value.trim();
       const txId = document.getElementById('dep-txid-input').value.trim();
@@ -885,23 +986,31 @@
       btn.disabled = true;
       btn.innerText = "...";
 
-      try {
-        const depositId = "DEP-" + Math.floor(100000 + Math.random() * 900000);
+      const depositId = "DEP-" + Math.floor(100000 + Math.random() * 900000);
+      const newDeposit = {
+        depositId: depositId,
+        userId: currentUser.uid,
+        userEmail: currentUser.email,
+        method: selectedDepositMethod,
+        depositedAmount: rawAmount,
+        creditHTG: creditHTG,
+        transactionId: txId,
+        proofFileName: proofFile.name,
+        status: "en_attente",
+        createdAt: Date.now() // Timestamp JavaScript direct
+      };
 
-        // Création du document dans la collection "deposits" pour validation par l'Admin
+      try {
+        // Enregistrement Firestore
         await db.collection('deposits').doc(depositId).set({
-          depositId: depositId,
-          userId: currentUser.uid,
-          userEmail: currentUser.email,
-          userName: currentUser.displayName || "Utilisateur",
-          method: selectedDepositMethod,
-          depositedAmount: rawAmount,
-          creditHTG: creditHTG,
-          transactionId: txId,
-          proofFileName: proofFile.name,
-          status: "en_attente",
-          createdAt: firebase.firestore.FieldValue.serverTimestamp()
+          ...newDeposit,
+          createdAtServer: firebase.firestore.FieldValue.serverTimestamp()
         });
+
+        // Secours LocalStorage pour affichage immédiat sans index
+        let localDeposits = JSON.parse(localStorage.getItem(`dp_dep_${currentUser.uid}`) || '[]');
+        localDeposits.unshift(newDeposit);
+        localStorage.setItem(`dp_dep_${currentUser.uid}`, JSON.stringify(localDeposits));
 
         btn.disabled = false;
         btn.innerText = dict.btnDeposit;
@@ -910,60 +1019,85 @@
         document.getElementById('dep-proof-file').value = "";
         document.getElementById('meru-calc-hint').style.display = "none";
 
+        closeDepositModal();
         showToast(dict.depositSubmitted);
+        renderDepositsList(localDeposits);
       } catch (err) {
         btn.disabled = false;
         btn.innerText = dict.btnDeposit;
-        showToast("Erreur lors de l'enregistrement : " + err.message, true);
+        showToast("Erreur d'enregistrement : " + err.message, true);
       }
     }
 
-    /* 8. HISTORIQUE DES TRANSACTIONS EN DIRECT */
-    function listenToUserDeposits() {
+    /* 8. HISTORIQUE DES RECHARGES (SANS ERREUR D'INDEX COMPOSITE) */
+    function renderDepositsList(deposits) {
       const target = document.getElementById('tx-history-target');
       const dict = I18N[currentLang];
 
+      if (!deposits || deposits.length === 0) {
+        target.innerHTML = `<div class="empty-tx-box">${dict.emptyHistory}</div>`;
+        return;
+      }
+
+      target.innerHTML = '';
+      deposits.forEach(data => {
+        const dateStr = data.createdAt ? new Date(data.createdAt).toLocaleDateString() : "Récent";
+        
+        let statusClass = "en_attente";
+        let statusText = dict.statusPending;
+
+        if (data.status === "valide") { statusClass = "valide"; statusText = dict.statusApproved; }
+        else if (data.status === "rejete") { statusClass = "rejete"; statusText = dict.statusRejected; }
+
+        const item = document.createElement('div');
+        item.className = 'tx-item';
+        item.innerHTML = `
+          <div class="tx-left">
+            <div class="tx-icon-circle">
+              <svg class="icon-svg" viewBox="0 0 24 24"><path d="M12 4v16m8-8H4" stroke-linecap="round"/></svg>
+            </div>
+            <div>
+              <div class="tx-title">Dépôt ${data.method ? data.method.toUpperCase() : 'MONCASH'}</div>
+              <div class="tx-date">${dateStr} • Réf: ${data.depositId}</div>
+            </div>
+          </div>
+          <div class="tx-right">
+            <div class="tx-amount">+${data.creditHTG ? data.creditHTG.toLocaleString() : data.depositedAmount} HTG</div>
+            <span class="tx-status-badge ${statusClass}">${statusText}</span>
+          </div>
+        `;
+        target.appendChild(item);
+      });
+    }
+
+    function listenToUserDeposits() {
+      // 1. Affiche immédiatement le cache local
+      let localDeposits = JSON.parse(localStorage.getItem(`dp_dep_${currentUser.uid}`) || '[]');
+      renderDepositsList(localDeposits);
+
+      // 2. Écoute Firestore sans orderBy pour éviter le crash d'index composite
       db.collection('deposits')
         .where('userId', '==', currentUser.uid)
-        .orderBy('createdAt', 'desc')
         .onSnapshot(snapshot => {
-          if (snapshot.empty) {
-            target.innerHTML = `<div class="empty-tx-box">${dict.emptyHistory}</div>`;
-            return;
-          }
-
-          target.innerHTML = '';
+          let list = [];
           snapshot.forEach(doc => {
             const data = doc.data();
-            const dateStr = data.createdAt ? new Date(data.createdAt.toDate()).toLocaleDateString() : "Récent";
-            
-            let statusText = dict.statusPending;
-            if (data.status === "valide") statusText = dict.statusApproved;
-            if (data.status === "rejete") statusText = dict.statusRejected;
-
-            const item = document.createElement('div');
-            item.className = 'tx-item';
-            item.innerHTML = `
-              <div class="tx-left">
-                <div class="tx-icon-circle">
-                  <svg class="icon-svg" viewBox="0 0 24 24"><path d="M12 4v16m8-8H4" stroke-linecap="round"/></svg>
-                </div>
-                <div>
-                  <div class="tx-title">Dépôt ${data.method.toUpperCase()}</div>
-                  <div class="tx-date">${dateStr} • Réf: ${data.depositId}</div>
-                </div>
-              </div>
-              <div class="tx-right">
-                <div class="tx-amount credit">+${data.creditHTG.toLocaleString()} HTG</div>
-                <span class="tx-status-badge ${data.status}">${statusText}</span>
-              </div>
-            `;
-            target.appendChild(item);
+            list.push({
+              ...data,
+              createdAt: data.createdAtServer ? data.createdAtServer.toMillis() : (data.createdAt || Date.now())
+            });
           });
+
+          // Tri en mémoire JavaScript ultra-sécurisé
+          list.sort((a, b) => b.createdAt - a.createdAt);
+          localStorage.setItem(`dp_dep_${currentUser.uid}`, JSON.stringify(list));
+          renderDepositsList(list);
+        }, err => {
+          console.warn("Firestore sync : utilisation du cache local", err);
         });
     }
 
-    /* 9. SYNCHRONISATION FIREBASE EN TEMPS RÉEL DU SOLDE */
+    /* 9. AUTH ET CHARGEMENT DU SOLDE */
     auth.onAuthStateChanged(user => {
       if (!user) {
         showToast(I18N[currentLang].authRequired, true);
@@ -974,11 +1108,13 @@
       currentUser = user;
       document.getElementById('wallet-user-name').innerText = user.displayName || user.email;
 
-      // Écoute temps réel du solde dans Firestore
+      // Écoute temps réel du solde utilisateur
       db.collection('users').doc(user.uid).onSnapshot(doc => {
         if (doc.exists) {
           currentBalance = doc.data().walletBalance || 0;
           document.getElementById('wallet-balance-val').innerText = currentBalance.toLocaleString();
+        } else {
+          document.getElementById('wallet-balance-val').innerText = "0";
         }
       });
 
@@ -1009,10 +1145,8 @@
       auth.signOut().then(() => window.location.href = "index.html");
     }
 
-    /* 10. SIDEBAR & NOTIFICATIONS */
     function openSidebar() { document.getElementById('sidebar-overlay').classList.add('active'); }
     function closeSidebar() { document.getElementById('sidebar-overlay').classList.remove('active'); }
-    function toggleNotifications() { document.getElementById('notif-panel').classList.toggle('open'); }
 
     window.addEventListener('DOMContentLoaded', () => {
       const cart = JSON.parse(localStorage.getItem('dp_cart') || '[]');
