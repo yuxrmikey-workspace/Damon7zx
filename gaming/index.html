@@ -61,11 +61,9 @@
         .orb-1 { width: 500px; height: 500px; background: var(--indigo-600); top: -100px; left: -100px; animation: floatOrb 8s ease-in-out infinite alternate; }
         .orb-2 { width: 400px; height: 400px; background: #A5B4FC; bottom: -100px; right: -100px; animation: floatOrb 10s ease-in-out infinite alternate; }
         .orb-3 { width: 300px; height: 300px; background: #C7D2FE; top: 40%; left: 60%; animation: floatOrb 12s ease-in-out infinite alternate; }
-        @keyframes floatOrb {
-            0% { transform: translate(0,0) scale(1); }
-            100% { transform: translate(30px, -30px) scale(1.2); }
-        }
+        @keyframes floatOrb { 0% { transform: translate(0,0) scale(1); } 100% { transform: translate(30px, -30px) scale(1.2); } }
 
+        /* ========== HEADER ========== */
         header.site-header {
             position: sticky; top: 1rem; z-index: 50;
             background: rgba(255, 255, 255, 0.75);
@@ -95,11 +93,7 @@
             transition: all var(--transition); cursor: pointer; position: relative;
         }
         .icon-btn:hover { background: var(--indigo-600); color: #fff; border-color: transparent; transform: translateY(-2px); box-shadow: 0 4px 15px rgba(79, 70, 229, 0.4); }
-        .status-dot {
-            width: 8px; height: 8px; border-radius: 50%;
-            background: var(--text-muted); position: absolute; bottom: 6px; right: 6px;
-            border: 2px solid #fff;
-        }
+        .status-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--text-muted); position: absolute; bottom: 6px; right: 6px; border: 2px solid #fff; }
         .status-dot.connected { background: var(--green); }
 
         .lang-selector-header { position: relative; display: flex; align-items: center; }
@@ -117,17 +111,10 @@
             box-shadow: var(--shadow-float); z-index: 100;
         }
         .lang-menu-header.open { display: flex; }
-        .lang-menu-header button {
-            display: flex; align-items: center; gap: 8px; padding: 8px 10px;
-            background: transparent; color: var(--text); border-radius: 8px;
-            font-size: 0.85rem; font-weight: 500; cursor: pointer;
-        }
+        .lang-menu-header button { display: flex; align-items: center; gap: 8px; padding: 8px 10px; background: transparent; color: var(--text); border-radius: 8px; font-size: 0.85rem; font-weight: 500; cursor: pointer; }
 
-        .sidebar-overlay {
-            position: fixed; inset: 0; background: rgba(0,0,0,0.25);
-            backdrop-filter: blur(2px); z-index: 1999;
-            opacity: 0; visibility: hidden; transition: all 0.3s; pointer-events: none;
-        }
+        /* ========== SIDEBAR ========== */
+        .sidebar-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.25); backdrop-filter: blur(2px); z-index: 1999; opacity: 0; visibility: hidden; transition: all 0.3s; pointer-events: none; }
         .sidebar-overlay.open { opacity: 1; visibility: visible; pointer-events: auto; }
         .sidebar {
             position: fixed; top: 0; right: -420px; width: min(85vw, 420px); height: 100vh;
@@ -138,25 +125,14 @@
             box-shadow: -4px 0 20px rgba(0,0,0,0.08); overflow-y: auto;
         }
         .sidebar.open { right: 0; }
-        .sidebar-header {
-            display: flex; align-items: center; justify-content: space-between;
-            padding: 0.8rem 1rem; border-bottom: 1px solid var(--border-glass);
-        }
+        .sidebar-header { display: flex; align-items: center; justify-content: space-between; padding: 0.8rem 1rem; border-bottom: 1px solid var(--border-glass); }
         .sidebar-logo { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 1.2rem; color: var(--text); }
-        .sidebar-logo-badge {
-            width: 36px; height: 36px; border-radius: 10px;
-            background: linear-gradient(135deg, var(--indigo-50), #FFFFFF);
-            display: flex; align-items: center; justify-content: center; padding: 3px;
-        }
+        .sidebar-logo-badge { width: 36px; height: 36px; border-radius: 10px; background: linear-gradient(135deg, var(--indigo-50), #FFFFFF); display: flex; align-items: center; justify-content: center; padding: 3px; }
         .sidebar-logo-badge img { width: 100%; height: 100%; object-fit: contain; border-radius: 6px; }
         .sidebar-logo-text { display: flex; flex-direction: column; line-height: 1.1; }
         .sidebar-logo-text .brand-top { font-size: 1.2rem; font-weight: 700; color: var(--text); }
         .sidebar-logo-text .brand-bottom { font-size: 0.9rem; font-weight: 500; color: var(--text-soft); }
-        .sidebar-close {
-            width: 30px; height: 30px; border-radius: 50%;
-            background: transparent; border: 1px solid var(--border-glass); color: var(--text-soft);
-            display: flex; align-items: center; justify-content: center; cursor: pointer;
-        }
+        .sidebar-close { width: 30px; height: 30px; border-radius: 50%; background: transparent; border: 1px solid var(--border-glass); color: var(--text-soft); display: flex; align-items: center; justify-content: center; cursor: pointer; }
         .sidebar-profile { display: none; align-items: center; gap: 10px; margin: 0.6rem 1rem; padding: 0.5rem 0.7rem; background: var(--bg-glass); border: 1px solid var(--border-glass); border-radius: 10px; }
         body.is-logged .sidebar-profile { display: flex; }
         .sidebar-avatar { width: 32px; height: 32px; border-radius: 50%; background: var(--indigo-100); color: var(--indigo-600); display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 0.9rem; }
@@ -165,403 +141,218 @@
         .sidebar-user-email { font-size: 0.7rem; color: var(--text-soft); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .sidebar-auth { display: flex; flex-direction: column; gap: 6px; margin: 0.6rem 1rem; }
         body.is-logged .sidebar-auth { display: none; }
-        .btn-login-side {
-            display: flex; align-items: center; justify-content: center; gap: 6px;
-            padding: 0.6rem; border-radius: 50px; background: var(--indigo-600); color: #fff;
-            font-weight: 600; font-size: 0.85rem;
-        }
-        .btn-register-side {
-            display: flex; align-items: center; justify-content: center; gap: 6px;
-            padding: 0.6rem; border-radius: 50px; background: transparent;
-            border: 1px solid var(--indigo-600); color: var(--indigo-600); font-weight: 600; font-size: 0.85rem;
-        }
+        .btn-login-side { display: flex; align-items: center; justify-content: center; gap: 6px; padding: 0.6rem; border-radius: 50px; background: var(--indigo-600); color: #fff; font-weight: 600; font-size: 0.85rem; }
+        .btn-register-side { display: flex; align-items: center; justify-content: center; gap: 6px; padding: 0.6rem; border-radius: 50px; background: transparent; border: 1px solid var(--indigo-600); color: var(--indigo-600); font-weight: 600; font-size: 0.85rem; }
 
         .sidebar-nav { flex: 1; overflow-y: auto; padding: 0.3rem 1rem; }
         .sidebar-section-title { padding: 0.6rem 0 0.3rem; font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); display: flex; align-items: center; gap: 6px; }
         .sidebar-section-title::after { content: ''; flex: 1; border-bottom: 1px dotted var(--border-glass); }
-        .nav-item {
-            display: flex; align-items: center; gap: 10px;
-            padding: 0.6rem 0.8rem; border-radius: 50px; margin-bottom: 4px;
-            color: var(--text-soft); font-weight: 500; font-size: 0.85rem;
-            background: var(--bg-glass);
-            border: 1px solid var(--border-glass); position: relative;
-            transition: all 0.2s;
-        }
+        .nav-item { display: flex; align-items: center; gap: 10px; padding: 0.6rem 0.8rem; border-radius: 50px; margin-bottom: 4px; color: var(--text-soft); font-weight: 500; font-size: 0.85rem; background: var(--bg-glass); border: 1px solid var(--border-glass); position: relative; transition: all 0.2s; }
         .nav-item i { width: 28px; height: 28px; border-radius: 50%; background: var(--indigo-100); color: var(--indigo-600); display: flex; align-items: center; justify-content: center; font-size: 0.8rem; transition: all 0.2s; }
         .nav-item:hover { background: var(--indigo-50); border-color: var(--indigo-600); transform: translateX(3px); }
         .nav-item.active { background: var(--indigo-100); border-color: var(--indigo-600); font-weight: 600; color: var(--indigo-700); }
         .nav-item.active i { background: var(--indigo-600); color: #fff; }
-        .nav-item.active::before {
-            content: ''; position: absolute; left: -1rem; top: 50%;
-            transform: translateY(-50%); width: 3px; height: 50%;
-            background: var(--indigo-600); border-radius: 3px;
-        }
-        .btn-logout-side {
-            display: none;
-            align-items: center;
-            gap: 10px;
-            padding: 0.6rem 0.8rem;
-            border-radius: 50px;
-            margin-top: 8px;
-            background: transparent;
-            border: 1px solid rgba(239, 68, 68, 0.5);
-            color: var(--red);
-            font-weight: 600;
-            font-size: 0.85rem;
-            cursor: pointer;
-            transition: all 0.2s;
-            width: 100%;
-            justify-content: flex-start;
-        }
-        .btn-logout-side i {
-            width: 28px;
-            height: 28px;
-            border-radius: 50%;
-            background: rgba(239, 68, 68, 0.1);
-            color: var(--red);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.8rem;
-        }
-        .btn-logout-side:hover {
-            background: rgba(239, 68, 68, 0.05);
-            border-color: var(--red);
-        }
+        .nav-item.active::before { content: ''; position: absolute; left: -1rem; top: 50%; transform: translateY(-50%); width: 3px; height: 50%; background: var(--indigo-600); border-radius: 3px; }
+        .btn-logout-side { display: none; align-items: center; gap: 10px; padding: 0.6rem 0.8rem; border-radius: 50px; margin-top: 8px; background: transparent; border: 1px solid rgba(239, 68, 68, 0.5); color: var(--red); font-weight: 600; font-size: 0.85rem; cursor: pointer; transition: all 0.2s; width: 100%; justify-content: flex-start; }
+        .btn-logout-side i { width: 28px; height: 28px; border-radius: 50%; background: rgba(239, 68, 68, 0.1); color: var(--red); display: flex; align-items: center; justify-content: center; font-size: 0.8rem; }
+        .btn-logout-side:hover { background: rgba(239, 68, 68, 0.05); border-color: var(--red); }
         body.is-logged .btn-logout-side { display: flex; }
 
+        /* ========== CONTENU PRINCIPAL ========== */
         .main-content { flex: 1; padding: 2rem 0; }
         .section-title {
-            font-size: 2rem;
-            font-weight: 700;
-            margin-bottom: 2rem;
-            text-align: center;
+            font-size: 2rem; font-weight: 700; margin-bottom: 2rem; text-align: center;
             background: linear-gradient(135deg, var(--text), var(--indigo-600));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
 
+        /* ========== GRILLE DE JEUX STYLÉE ========== */
         .game-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-            gap: 1.2rem;
+            gap: 1.5rem;
         }
-        @media (min-width: 768px) {
-            .game-grid { grid-template-columns: repeat(4, 1fr); }
-        }
+        @media (min-width: 768px) { .game-grid { grid-template-columns: repeat(4, 1fr); } }
         .game-card {
-            background: var(--bg-glass);
+            background: rgba(255,255,255,0.85);
             border: 1px solid var(--border-glass);
-            border-radius: var(--radius);
+            border-radius: 20px;
             overflow: hidden;
-            transition: all 0.3s;
+            transition: all 0.4s cubic-bezier(0.25, 0.1, 0.25, 1);
             position: relative;
-            backdrop-filter: blur(5px);
+            backdrop-filter: blur(10px);
             cursor: pointer;
             display: flex;
             flex-direction: column;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.05);
         }
         .game-card:hover {
-            transform: translateY(-6px);
+            transform: translateY(-8px) scale(1.02);
             border-color: var(--indigo-600);
-            box-shadow: 0 15px 30px rgba(79, 70, 229, 0.15);
+            box-shadow: 0 20px 40px rgba(79, 70, 229, 0.2);
         }
         .game-card .thumb {
             aspect-ratio: 1;
-            background: var(--indigo-50);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-            padding: 0;
+            background: linear-gradient(135deg, var(--indigo-50), #FFFFFF);
+            display: flex; align-items: center; justify-content: center;
+            overflow: hidden; padding: 0;
         }
         .game-card .thumb img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
+            width: 85%; height: 85%; object-fit: contain;
             transition: transform 0.5s ease;
         }
-        .game-card:hover .thumb img { transform: scale(1.08); }
+        .game-card:hover .thumb img { transform: scale(1.1) rotate(2deg); }
         .game-card .info {
             padding: 0.8rem 1rem 1rem;
             background: #fff;
             border-top: 1px solid var(--border-glass);
+            text-align: center;
         }
-        .game-card .info h3 {
-            font-weight: 600;
-            font-size: 0.95rem;
-            margin-bottom: 0.2rem;
-            color: var(--text);
-        }
-        .game-card .info p {
-            color: var(--indigo-600);
-            font-weight: 600;
-            font-size: 0.85rem;
-            margin-bottom: 0.6rem;
-        }
+        .game-card .info h3 { font-weight: 700; font-size: 0.95rem; margin-bottom: 0.2rem; color: var(--text); }
+        .game-card .info p { color: var(--indigo-600); font-weight: 600; font-size: 0.85rem; }
         .game-card .badge {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            background: var(--indigo-600);
-            color: #fff;
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-size: 0.7rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            z-index: 10;
+            position: absolute; top: 10px; left: 10px;
+            background: linear-gradient(135deg, var(--indigo-600), #6D28D9);
+            color: #fff; padding: 4px 10px; border-radius: 20px;
+            font-size: 0.7rem; font-weight: 600; text-transform: uppercase; z-index: 10;
         }
 
+        /* ========== MODAL STYLÉE ========== */
         .modal-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,0.5);
-            backdrop-filter: blur(4px);
-            z-index: 3000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s;
+            position: fixed; inset: 0; background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(6px); z-index: 3000;
+            display: flex; align-items: center; justify-content: center;
+            opacity: 0; visibility: hidden; transition: all 0.3s;
         }
         .modal-overlay.open { opacity: 1; visibility: visible; }
-
         .modal {
-            background: #fff;
-            border-radius: var(--radius-xl);
-            width: min(92%, 560px);
-            max-height: 90vh;
-            overflow-y: auto;
+            background: #fff; border-radius: 28px;
+            width: min(95%, 600px); max-height: 90vh; overflow-y: auto;
             padding: 2rem 1.5rem;
-            box-shadow: var(--shadow-float);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.2);
             border: 1px solid var(--border-glass);
             position: relative;
         }
         .modal-close {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            width: 35px;
-            height: 35px;
-            border-radius: 50%;
-            background: var(--bg-glass);
-            border: 1px solid var(--border-glass);
-            color: var(--text-soft);
-            font-size: 1rem;
-            cursor: pointer;
-            transition: all 0.2s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            position: absolute; top: 15px; right: 15px;
+            width: 38px; height: 38px; border-radius: 50%;
+            background: var(--bg-glass); border: 1px solid var(--border-glass);
+            color: var(--text-soft); font-size: 1rem; cursor: pointer;
+            transition: all 0.2s; display: flex; align-items: center; justify-content: center;
         }
-        .modal-close:hover {
-            background: var(--indigo-600);
-            color: #fff;
-        }
+        .modal-close:hover { background: var(--indigo-600); color: #fff; }
         .modal-header {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            margin-bottom: 1.5rem;
+            display: flex; align-items: center; gap: 15px; margin-bottom: 1.5rem;
         }
         .modal-header .modal-game-logo {
-            width: 80px;
-            height: 80px;
-            border-radius: 16px;
-            background: var(--indigo-50);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-            flex-shrink: 0;
+            width: 90px; height: 90px; border-radius: 20px;
+            background: linear-gradient(135deg, var(--indigo-50), #FFFFFF);
+            display: flex; align-items: center; justify-content: center;
+            overflow: hidden; flex-shrink: 0;
         }
-        .modal-header .modal-game-logo img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        .modal-header .modal-game-info h2 {
-            font-size: 1.3rem;
-            font-weight: 700;
-            color: var(--text);
-        }
-        .modal-header .modal-game-info p {
-            font-size: 0.85rem;
-            color: var(--text-soft);
-        }
+        .modal-header .modal-game-logo img { width: 100%; height: 100%; object-fit: contain; }
+        .modal-header .modal-game-info h2 { font-size: 1.4rem; font-weight: 700; color: var(--text); }
+        .modal-header .modal-game-info p { font-size: 0.9rem; color: var(--text-soft); }
 
+        /* Offres sous forme de cartes */
         .offers-container {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-            margin-bottom: 1rem;
+            display: flex; flex-direction: column; gap: 1rem; margin-bottom: 1rem;
         }
         .offers-category {
-            font-size: 0.7rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.06em;
-            color: var(--text-muted);
-            margin-bottom: 0.3rem;
+            font-size: 0.7rem; font-weight: 700; text-transform: uppercase;
+            letter-spacing: 0.06em; color: var(--text-muted); margin-bottom: 0.5rem;
+        }
+        .offer-grid {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 0.8rem;
         }
         .offer-item {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0.8rem 1rem;
-            border: 1px solid var(--border-glass);
-            border-radius: 12px;
-            background: var(--bg-glass);
-            cursor: pointer;
-            transition: all 0.2s;
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 0.9rem 1rem; border: 2px solid var(--border-glass);
+            border-radius: 16px; background: rgba(255,255,255,0.9);
+            cursor: pointer; transition: all 0.3s;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.03);
         }
         .offer-item:hover {
             border-color: var(--indigo-600);
-            background: var(--indigo-50);
+            background: #fff;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(79, 70, 229, 0.1);
         }
         .offer-item.selected {
             border-color: var(--indigo-600);
             background: var(--indigo-100);
+            box-shadow: 0 10px 25px rgba(79, 70, 229, 0.2);
         }
-        .offer-item .offer-name {
-            font-weight: 500;
-            font-size: 0.9rem;
-            color: var(--text);
-        }
+        .offer-item .offer-name { font-weight: 600; font-size: 0.95rem; color: var(--text); }
         .offer-item .offer-price {
-            color: var(--indigo-600);
-            font-weight: 600;
-            font-size: 0.9rem;
-            white-space: nowrap;
+            background: var(--indigo-600); color: #fff;
+            padding: 0.3rem 0.8rem; border-radius: 20px;
+            font-weight: 700; font-size: 0.85rem; white-space: nowrap;
         }
+        .offer-item.selected .offer-price { background: var(--indigo-700); }
 
-        .delivery-form {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-            margin-top: 1rem;
-        }
-        .form-group {
-            display: flex;
-            flex-direction: column;
-            gap: 0.3rem;
-        }
-        .form-group label {
-            font-weight: 600;
-            font-size: 0.85rem;
-            color: var(--text);
-        }
+        /* Formulaire */
+        .delivery-form { display: flex; flex-direction: column; gap: 1rem; margin-top: 1.5rem; }
+        .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
+        .form-group label { font-weight: 600; font-size: 0.85rem; color: var(--text); }
         .form-group input {
-            padding: 0.7rem 1rem;
-            border: 1px solid var(--border-glass);
-            border-radius: 10px;
-            font-family: inherit;
-            font-size: 0.9rem;
-            color: var(--text);
-            transition: border-color 0.2s;
+            padding: 0.8rem 1rem; border: 2px solid var(--border-glass);
+            border-radius: 12px; font-family: inherit; font-size: 0.9rem;
+            color: var(--text); transition: border-color 0.2s;
+            background: #fff;
         }
         .form-group input:focus {
-            outline: none;
-            border-color: var(--indigo-600);
-            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+            outline: none; border-color: var(--indigo-600);
+            box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1);
         }
 
         .btn-add-cart {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            width: 100%;
-            margin-top: 0.5rem;
-            padding: 0.9rem;
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+            width: 100%; margin-top: 1rem; padding: 1rem;
             border-radius: 50px;
             background: linear-gradient(135deg, var(--indigo-600), #6D28D9);
-            color: #fff;
-            font-weight: 600;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: all 0.2s;
-            border: none;
+            color: #fff; font-weight: 700; font-size: 1.1rem;
+            cursor: pointer; transition: all 0.3s; border: none;
+            box-shadow: 0 10px 25px rgba(79, 70, 229, 0.4);
         }
         .btn-add-cart:hover {
             background: linear-gradient(135deg, #6D28D9, var(--indigo-600));
-            box-shadow: 0 4px 15px rgba(79, 70, 229, 0.4);
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(79, 70, 229, 0.5);
         }
         .btn-add-cart:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-            box-shadow: none;
+            opacity: 0.6; cursor: not-allowed; box-shadow: none; transform: none;
         }
 
+        /* Bouton panier flottant */
         .floating-cart {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            width: 55px;
-            height: 55px;
-            border-radius: 50%;
-            background: var(--indigo-600);
-            color: #fff;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            box-shadow: var(--shadow-float);
-            cursor: pointer;
-            z-index: 1500;
-            opacity: 0;
-            visibility: hidden;
-            transform: scale(0.8);
+            position: fixed; bottom: 20px; right: 20px;
+            width: 60px; height: 60px; border-radius: 50%;
+            background: linear-gradient(135deg, var(--indigo-600), #6D28D9);
+            color: #fff; display: flex; align-items: center; justify-content: center;
+            font-size: 1.5rem; box-shadow: 0 10px 30px rgba(79, 70, 229, 0.5);
+            cursor: pointer; z-index: 1500;
+            opacity: 0; visibility: hidden; transform: scale(0.7);
             transition: all 0.3s;
         }
-        .floating-cart.show {
-            opacity: 1;
-            visibility: visible;
-            transform: scale(1);
-        }
-        .floating-cart:hover {
-            background: var(--indigo-700);
-            transform: scale(1.1);
-        }
+        .floating-cart.show { opacity: 1; visibility: visible; transform: scale(1); }
+        .floating-cart:hover { transform: scale(1.1); }
         .floating-cart .cart-count {
-            position: absolute;
-            top: -5px;
-            right: -5px;
-            width: 22px;
-            height: 22px;
-            border-radius: 50%;
-            background: var(--red);
-            color: #fff;
-            font-size: 0.7rem;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            position: absolute; top: -5px; right: -5px;
+            width: 24px; height: 24px; border-radius: 50%;
+            background: var(--red); color: #fff;
+            font-size: 0.75rem; font-weight: 700;
+            display: flex; align-items: center; justify-content: center;
         }
 
-        .toast-container {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            z-index: 10000;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
+        /* Toasts */
+        .toast-container { position: fixed; bottom: 20px; right: 20px; z-index: 10000; display: flex; flex-direction: column; gap: 8px; }
         .toast {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            background: #fff;
-            color: var(--text);
-            padding: 0.8rem 1.2rem;
-            border-radius: 12px;
-            box-shadow: var(--shadow-float);
-            border: 1px solid var(--border-glass);
-            font-weight: 500;
-            font-size: 0.9rem;
+            display: flex; align-items: center; gap: 10px; background: #fff;
+            color: var(--text); padding: 0.8rem 1.2rem; border-radius: 12px;
+            box-shadow: var(--shadow-float); border: 1px solid var(--border-glass);
+            font-weight: 500; font-size: 0.9rem;
             animation: toastIn 0.3s ease, toastOut 0.3s ease 3s forwards;
             max-width: 300px;
         }
@@ -582,8 +373,10 @@
 
     <div class="toast-container" id="toastContainer"></div>
 
+    <!-- Sidebar Overlay -->
     <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
+    <!-- Sidebar -->
     <aside class="sidebar" id="sidebar" role="dialog" aria-modal="true" aria-label="Menu de navigation">
         <div class="sidebar-header">
             <div class="sidebar-logo">
@@ -608,9 +401,12 @@
             <a href="/authentification/register.html" class="btn-register-side"><i class="fa-solid fa-user-plus"></i> S'inscrire</a>
         </div>
 
-        <nav class="sidebar-nav" id="sidebarNav"></nav>
+        <nav class="sidebar-nav" id="sidebarNav">
+            <!-- généré en JS -->
+        </nav>
     </aside>
 
+    <!-- Header -->
     <header class="site-header" id="siteHeader">
         <a href="/index.html" class="brand"><img src="/assets/logo.png" alt="DigitalPay" onerror="this.style.display='none'"></a>
         <div class="header-actions">
@@ -630,10 +426,13 @@
     <main class="main-content">
         <div class="container">
             <h1 class="section-title">JEUX VIDÉO</h1>
-            <div class="game-grid" id="gameGrid"></div>
+            <div class="game-grid" id="gameGrid">
+                <!-- Généré en JS -->
+            </div>
         </div>
     </main>
 
+    <!-- Modal offres -->
     <div class="modal-overlay" id="modalOverlay">
         <div class="modal" id="offerModal">
             <button class="modal-close" id="closeModalBtn"><i class="fa-solid fa-xmark"></i></button>
@@ -646,12 +445,14 @@
         </div>
     </div>
 
+    <!-- Bouton panier flottant -->
     <button class="floating-cart" id="floatingCartBtn" aria-label="Panier">
         <i class="fa-solid fa-cart-shopping"></i>
         <span class="cart-count" id="cartCount">0</span>
     </button>
 
     <script>
+        // ========== CONFIG FIREBASE ==========
         const firebaseConfig = {
             apiKey: "AIzaSyB9o8-LYeKrg2q84dxQM5Z1wFKHjt9yHFo",
             authDomain: "digital-pay-haiti.firebaseapp.com",
@@ -671,6 +472,7 @@
             return span;
         }
 
+        // ========== TRADUCTIONS ==========
         const translations = {
             fr: {
                 home: "Accueil", gaming: "Jeux", streaming: "Abonnements", finance: "Finance", giftcards: "Gift Cards", social: "Réseaux sociaux",
@@ -742,9 +544,8 @@
             }
         };
 
-        const $ = (s) => document.querySelector(s);
-        const $$ = (s) => document.querySelectorAll(s);
-
+        const $ = s => document.querySelector(s);
+        const $$ = s => document.querySelectorAll(s);
         function getCurrentLang() { return localStorage.getItem('lang') || 'fr'; }
         function t(key) { return translations[getCurrentLang()]?.[key] || translations.fr[key] || key; }
 
@@ -765,10 +566,7 @@
             $$('[data-i18n]').forEach(el => {
                 const key = el.getAttribute('data-i18n');
                 if (el.children.length === 0) el.textContent = t(key);
-                else {
-                    const textNode = Array.from(el.childNodes).find(n => n.nodeType === Node.TEXT_NODE && n.textContent.trim() !== '');
-                    if (textNode) textNode.textContent = t(key);
-                }
+                else { const textNode = Array.from(el.childNodes).find(n => n.nodeType === Node.TEXT_NODE && n.textContent.trim() !== ''); if (textNode) textNode.textContent = t(key); }
             });
             $$('[data-i18n-alt]').forEach(el => el.setAttribute('alt', t(el.getAttribute('data-i18n-alt'))));
             $$('[data-i18n-placeholder]').forEach(el => el.placeholder = t(el.getAttribute('data-i18n-placeholder')));
@@ -777,6 +575,7 @@
             setTimeout(() => showToast(t('toastLangSuccess'), 'success'), 300);
         }
 
+        // ========== DONNÉES DES JEUX ==========
         const games = [
             { id: 'efootball', name: 'E-Football', logo: '/assets/efootball.png', description: 'Pièces pour E-Football', deliveryFields: ['email','password','whatsapp'], categories: [{ name: 'Pièces', offers: [ { name: '130 pièces', price: '220 HTG' }, { name: '300 pièces', price: '550 HTG' }, { name: '550 pièces', price: '885 HTG' }, { name: '1 040 pièces', price: '1 625 HTG' }, { name: '2 130 pièces', price: '3 140 HTG' }, { name: '3 250 pièces', price: '4 675 HTG' }, { name: '12 800 pièces', price: '16 230 HTG' } ] }] },
             { id: 'freefire', name: 'Free Fire', logo: '/assets/freefire-logo.png', description: 'Diamants, Pass et Abonnements', deliveryFields: [], categories: [ { name: 'Diamants', offers: [ { name: '110 + 10 diamants', price: '157 HTG' }, { name: '310 + 31 diamants', price: '471 HTG' }, { name: '520 + 52 diamants', price: '775 HTG' }, { name: '1060 + 106 diamants', price: '1 550 HTG' }, { name: '2180 + 218 diamants', price: '3 100 HTG' }, { name: '5600 + 560 diamants', price: '7 750 HTG' } ] }, { name: 'Pass', deliveryFields: ['email','password','whatsapp'], offers: [ { name: 'Booyah Pass', price: '400 HTG' }, { name: 'Level Up Pass', price: '800 HTG' } ] }, { name: 'Abonnement', deliveryFields: ['email','password','whatsapp'], offers: [ { name: 'Semaine', price: '325 HTG' }, { name: 'Mois', price: '1 600 HTG' } ] }] },
@@ -793,6 +592,7 @@
             { id: 'mobilelegends', name: 'Mobile Legends', logo: '/assets/mobilelegends.png', description: 'Bientôt disponible', deliveryFields: [], categories: [] }
         ];
 
+        // ========== GÉNÉRATION DES CARTES ==========
         const gameGrid = document.getElementById('gameGrid');
         games.forEach(game => {
             const card = document.createElement('div');
@@ -806,6 +606,7 @@
             gameGrid.appendChild(card);
         });
 
+        // ========== MODAL ==========
         const modalOverlay = document.getElementById('modalOverlay');
         const modalHeader = document.getElementById('modalHeader');
         const offersContainer = document.getElementById('offersContainer');
@@ -835,18 +636,21 @@
                     catTitle.textContent = category.name;
                     offersContainer.appendChild(catTitle);
 
+                    const offerGrid = document.createElement('div');
+                    offerGrid.className = 'offer-grid';
                     category.offers.forEach(offer => {
                         const item = document.createElement('div');
                         item.className = 'offer-item';
                         item.innerHTML = `<span class="offer-name">${offer.name}</span><span class="offer-price">${offer.price}</span>`;
                         item.addEventListener('click', () => {
-                            $$('.offer-item').forEach(el => el.classList.remove('selected'));
+                            offerGrid.querySelectorAll('.offer-item').forEach(el => el.classList.remove('selected'));
                             item.classList.add('selected');
                             selectedOffer = offer;
                             showDeliveryForm(category);
                         });
-                        offersContainer.appendChild(item);
+                        offerGrid.appendChild(item);
                     });
+                    offersContainer.appendChild(offerGrid);
                 });
             }
             modalOverlay.classList.add('open');
@@ -859,7 +663,6 @@
                 addToCartBtn.disabled = false;
                 return;
             }
-
             let html = '';
             fields.forEach(field => {
                 html += `<div class="form-group"><label>${t(field)}</label><input type="text" name="${field}" placeholder="${t(field)}"></div>`;
@@ -892,6 +695,7 @@
             closeModal();
         });
 
+        // ========== PANIER ==========
         let cart = JSON.parse(localStorage.getItem('digitalpay_cart')) || [];
         function saveCart() {
             localStorage.setItem('digitalpay_cart', JSON.stringify(cart));
@@ -909,6 +713,7 @@
         }
         document.getElementById('floatingCartBtn').addEventListener('click', () => window.location.href = '/panier.html');
 
+        // ========== INITIALISATION ==========
         document.addEventListener('DOMContentLoaded', () => {
             updateCartCount();
 
@@ -954,9 +759,8 @@
             document.addEventListener('click', (e) => {
                 if (e.target.closest('#logoutBtn')) {
                     e.preventDefault();
-                    if (auth.currentUser) {
-                        auth.signOut().then(() => window.location.href = '/index.html');
-                    } else window.location.href = '/authentification/login.html';
+                    if (auth.currentUser) auth.signOut().then(() => window.location.href = '/index.html');
+                    else window.location.href = '/authentification/login.html';
                 }
             });
 
