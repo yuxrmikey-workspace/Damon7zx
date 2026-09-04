@@ -66,7 +66,6 @@
             100% { transform: translate(30px, -30px) scale(1.2); }
         }
 
-        /* Header */
         header.site-header {
             position: sticky; top: 1rem; z-index: 50;
             background: rgba(255, 255, 255, 0.75);
@@ -124,7 +123,6 @@
             font-size: 0.85rem; font-weight: 500; cursor: pointer;
         }
 
-        /* Sidebar */
         .sidebar-overlay {
             position: fixed; inset: 0; background: rgba(0,0,0,0.25);
             backdrop-filter: blur(2px); z-index: 1999;
@@ -151,11 +149,7 @@
             display: flex; align-items: center; justify-content: center; padding: 3px;
         }
         .sidebar-logo-badge img { width: 100%; height: 100%; object-fit: contain; border-radius: 6px; }
-        .sidebar-logo-text {
-            display: flex;
-            flex-direction: column;
-            line-height: 1.1;
-        }
+        .sidebar-logo-text { display: flex; flex-direction: column; line-height: 1.1; }
         .sidebar-logo-text .brand-top { font-size: 1.2rem; font-weight: 700; color: var(--text); }
         .sidebar-logo-text .brand-bottom { font-size: 0.9rem; font-weight: 500; color: var(--text-soft); }
         .sidebar-close {
@@ -236,7 +230,6 @@
         }
         body.is-logged .btn-logout-side { display: flex; }
 
-        /* Contenu principal */
         .main-content { flex: 1; padding: 2rem 0; }
         .section-title {
             font-size: 2rem;
@@ -320,7 +313,6 @@
             z-index: 10;
         }
 
-        /* Modal */
         .modal-overlay {
             position: fixed;
             inset: 0;
@@ -400,7 +392,6 @@
             color: var(--text-soft);
         }
 
-        /* Offres */
         .offers-container {
             display: flex;
             flex-direction: column;
@@ -446,7 +437,6 @@
             white-space: nowrap;
         }
 
-        /* Formulaire livraison */
         .delivery-form {
             display: flex;
             flex-direction: column;
@@ -505,7 +495,6 @@
             box-shadow: none;
         }
 
-        /* Bouton panier flottant */
         .floating-cart {
             position: fixed;
             bottom: 20px;
@@ -552,7 +541,6 @@
             justify-content: center;
         }
 
-        /* Toasts */
         .toast-container {
             position: fixed;
             bottom: 20px;
@@ -594,10 +582,8 @@
 
     <div class="toast-container" id="toastContainer"></div>
 
-    <!-- Sidebar Overlay -->
     <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
-    <!-- Sidebar -->
     <aside class="sidebar" id="sidebar" role="dialog" aria-modal="true" aria-label="Menu de navigation">
         <div class="sidebar-header">
             <div class="sidebar-logo">
@@ -622,12 +608,9 @@
             <a href="/authentification/register.html" class="btn-register-side"><i class="fa-solid fa-user-plus"></i> S'inscrire</a>
         </div>
 
-        <nav class="sidebar-nav" id="sidebarNav">
-            <!-- Les liens seront générés par JavaScript -->
-        </nav>
+        <nav class="sidebar-nav" id="sidebarNav"></nav>
     </aside>
 
-    <!-- Header -->
     <header class="site-header" id="siteHeader">
         <a href="/index.html" class="brand"><img src="/assets/logo.png" alt="DigitalPay" onerror="this.style.display='none'"></a>
         <div class="header-actions">
@@ -647,13 +630,10 @@
     <main class="main-content">
         <div class="container">
             <h1 class="section-title">JEUX VIDÉO</h1>
-            <div class="game-grid" id="gameGrid">
-                <!-- Les cartes de jeux seront générées ici -->
-            </div>
+            <div class="game-grid" id="gameGrid"></div>
         </div>
     </main>
 
-    <!-- Modal pour les offres -->
     <div class="modal-overlay" id="modalOverlay">
         <div class="modal" id="offerModal">
             <button class="modal-close" id="closeModalBtn"><i class="fa-solid fa-xmark"></i></button>
@@ -666,14 +646,12 @@
         </div>
     </div>
 
-    <!-- Bouton panier flottant -->
     <button class="floating-cart" id="floatingCartBtn" aria-label="Panier">
         <i class="fa-solid fa-cart-shopping"></i>
         <span class="cart-count" id="cartCount">0</span>
     </button>
 
     <script>
-        // ========== CONFIGURATION FIREBASE ==========
         const firebaseConfig = {
             apiKey: "AIzaSyB9o8-LYeKrg2q84dxQM5Z1wFKHjt9yHFo",
             authDomain: "digital-pay-haiti.firebaseapp.com",
@@ -693,7 +671,6 @@
             return span;
         }
 
-        // ========== TRADUCTIONS ==========
         const translations = {
             fr: {
                 home: "Accueil", gaming: "Jeux", streaming: "Abonnements", finance: "Finance", giftcards: "Gift Cards", social: "Réseaux sociaux",
@@ -712,11 +689,8 @@
                 addedToCart: "Ajouté au panier",
                 offers: "Offres disponibles",
                 noOffers: "Aucune offre disponible pour le moment",
-                email: "Email",
-                password: "Mot de passe",
-                whatsapp: "Numéro WhatsApp",
-                playerId: "ID joueur",
-                username: "Nom d'utilisateur"
+                email: "Email", password: "Mot de passe", whatsapp: "Numéro WhatsApp",
+                playerId: "ID joueur", username: "Nom d'utilisateur"
             },
             ht: {
                 home: "Akèy", gaming: "Jwèt", streaming: "Abònman", finance: "Finans", giftcards: "Kat kado", social: "Rezo sosyal",
@@ -729,17 +703,10 @@
                 toastLangLoading: "Chajman lang...",
                 toastLangSuccess: "Lang chanje avèk siksè !",
                 addToCart: "Ajoute nan panyen",
-                chooseOffer: "Chwazi yon òf",
-                close: "Fèmen",
-                unavailable: "Pral disponib byento",
-                addedToCart: "Ajoute nan panyen",
-                offers: "Òf disponib",
-                noOffers: "Pa gen òf disponib pou kounye a",
-                email: "Imèl",
-                password: "Modpas",
-                whatsapp: "Nimewo WhatsApp",
-                playerId: "ID jwè",
-                username: "Non itilizatè"
+                chooseOffer: "Chwazi yon òf", close: "Fèmen", unavailable: "Pral disponib byento",
+                addedToCart: "Ajoute nan panyen", offers: "Òf disponib", noOffers: "Pa gen òf disponib pou kounye a",
+                email: "Imèl", password: "Modpas", whatsapp: "Nimewo WhatsApp",
+                playerId: "ID jwè", username: "Non itilizatè"
             },
             en: {
                 home: "Home", gaming: "Games", streaming: "Subscriptions", finance: "Finance", giftcards: "Gift Cards", social: "Social Media",
@@ -751,18 +718,11 @@
                 logout: "Log Out",
                 toastLangLoading: "Loading language...",
                 toastLangSuccess: "Language changed successfully!",
-                addToCart: "Add to cart",
-                chooseOffer: "Choose an offer",
-                close: "Close",
-                unavailable: "Coming soon",
-                addedToCart: "Added to cart",
-                offers: "Available offers",
+                addToCart: "Add to cart", chooseOffer: "Choose an offer", close: "Close",
+                unavailable: "Coming soon", addedToCart: "Added to cart", offers: "Available offers",
                 noOffers: "No offers available yet",
-                email: "Email",
-                password: "Password",
-                whatsapp: "WhatsApp number",
-                playerId: "Player ID",
-                username: "Username"
+                email: "Email", password: "Password", whatsapp: "WhatsApp number",
+                playerId: "Player ID", username: "Username"
             },
             es: {
                 home: "Inicio", gaming: "Juegos", streaming: "Suscripciones", finance: "Finanzas", giftcards: "Tarjetas de Regalo", social: "Redes Sociales",
@@ -774,161 +734,79 @@
                 logout: "Cerrar Sesión",
                 toastLangLoading: "Cargando idioma...",
                 toastLangSuccess: "¡Idioma cambiado con éxito!",
-                addToCart: "Añadir al carrito",
-                chooseOffer: "Elige una oferta",
-                close: "Cerrar",
-                unavailable: "Próximamente",
-                addedToCart: "Añadido al carrito",
-                offers: "Ofertas disponibles",
-                noOffers: "No hay ofertas disponibles por el momento",
-                email: "Correo",
-                password: "Contraseña",
-                whatsapp: "Número de WhatsApp",
-                playerId: "ID de jugador",
-                username: "Nombre de usuario"
+                addToCart: "Añadir al carrito", chooseOffer: "Elige una oferta", close: "Cerrar",
+                unavailable: "Próximamente", addedToCart: "Añadido al carrito",
+                offers: "Ofertas disponibles", noOffers: "No hay ofertas disponibles por el momento",
+                email: "Correo", password: "Contraseña", whatsapp: "Número de WhatsApp",
+                playerId: "ID de jugador", username: "Nombre de usuario"
             }
         };
 
-        const $ = (selector) => document.querySelector(selector);
-        const $$ = (selector) => document.querySelectorAll(selector);
+        const $ = (s) => document.querySelector(s);
+        const $$ = (s) => document.querySelectorAll(s);
 
-        function getCurrentLang() {
-            return localStorage.getItem('lang') || 'fr';
-        }
-
-        function t(key) {
-            const lang = getCurrentLang();
-            return translations[lang]?.[key] || translations.fr[key] || key;
-        }
+        function getCurrentLang() { return localStorage.getItem('lang') || 'fr'; }
+        function t(key) { return translations[getCurrentLang()]?.[key] || translations.fr[key] || key; }
 
         function showToast(message, type = 'info') {
             const container = document.getElementById('toastContainer');
             const toast = document.createElement('div');
             toast.className = `toast toast-${type}`;
-            const icons = {
-                info: 'fa-circle-info',
-                success: 'fa-circle-check',
-                error: 'fa-circle-exclamation',
-                loading: 'fa-spinner'
-            };
+            const icons = { info: 'fa-circle-info', success: 'fa-circle-check', error: 'fa-circle-exclamation', loading: 'fa-spinner' };
             toast.innerHTML = `<i class="fa-solid ${icons[type]}"></i> ${message}`;
             container.appendChild(toast);
-            setTimeout(() => {
-                toast.remove();
-            }, 3000);
+            setTimeout(() => toast.remove(), 3000);
         }
 
         function applyLanguage(lang) {
             showToast(t('toastLangLoading'), 'loading');
             localStorage.setItem('lang', lang);
             document.documentElement.lang = lang;
-
             $$('[data-i18n]').forEach(el => {
                 const key = el.getAttribute('data-i18n');
-                if (el.children.length === 0) {
-                    el.textContent = t(key);
-                } else {
+                if (el.children.length === 0) el.textContent = t(key);
+                else {
                     const textNode = Array.from(el.childNodes).find(n => n.nodeType === Node.TEXT_NODE && n.textContent.trim() !== '');
                     if (textNode) textNode.textContent = t(key);
                 }
             });
-
-            $$('[data-i18n-alt]').forEach(el => {
-                el.setAttribute('alt', t(el.getAttribute('data-i18n-alt')));
-            });
-
-            $$('[data-i18n-placeholder]').forEach(el => {
-                el.placeholder = t(el.getAttribute('data-i18n-placeholder'));
-            });
-
+            $$('[data-i18n-alt]').forEach(el => el.setAttribute('alt', t(el.getAttribute('data-i18n-alt'))));
+            $$('[data-i18n-placeholder]').forEach(el => el.placeholder = t(el.getAttribute('data-i18n-placeholder')));
             const langMenuHeader = document.getElementById('langMenuHeader');
             if (langMenuHeader) langMenuHeader.classList.remove('open');
-
-            setTimeout(() => {
-                showToast(t('toastLangSuccess'), 'success');
-            }, 300);
+            setTimeout(() => showToast(t('toastLangSuccess'), 'success'), 300);
         }
 
-        // ========== DONNÉES DES JEUX ==========
         const games = [
-            {
-                id: 'efootball',
-                name: 'E-Football',
-                logo: '/assets/efootball.png',
-                description: 'Pièces pour E-Football',
-                deliveryFields: ['email', 'password', 'whatsapp'],
-                categories: [
-                    { name: 'Pièces', offers: [
-                        { name: '130 pièces', price: '220 HTG' },
-                        { name: '300 pièces', price: '550 HTG' },
-                        { name: '550 pièces', price: '885 HTG' },
-                        { name: '1 040 pièces', price: '1 625 HTG' },
-                        { name: '2 130 pièces', price: '3 140 HTG' },
-                        { name: '3 250 pièces', price: '4 675 HTG' },
-                        { name: '12 800 pièces', price: '16 230 HTG' }
-                    ]}
-                ]
-            },
-            {
-                id: 'freefire',
-                name: 'Free Fire',
-                logo: '/assets/freefire-logo.png',
-                description: 'Diamants, Pass et Abonnements',
-                deliveryFields: [], // pour diamants : pas de formulaire, pour pass/abo : email, password, whatsapp
-                categories: [
-                    { name: 'Diamants', offers: [
-                        { name: '110 + 10 diamants', price: '157 HTG' },
-                        { name: '310 + 31 diamants', price: '471 HTG' },
-                        { name: '520 + 52 diamants', price: '775 HTG' },
-                        { name: '1060 + 106 diamants', price: '1 550 HTG' },
-                        { name: '2180 + 218 diamants', price: '3 100 HTG' },
-                        { name: '5600 + 560 diamants', price: '7 750 HTG' }
-                    ]},
-                    { name: 'Pass', deliveryFields: ['email', 'password', 'whatsapp'], offers: [
-                        { name: 'Booyah Pass', price: '400 HTG' },
-                        { name: 'Level Up Pass', price: '800 HTG' }
-                    ]},
-                    { name: 'Abonnement', deliveryFields: ['email', 'password', 'whatsapp'], offers: [
-                        { name: 'Semaine', price: '325 HTG' },
-                        { name: 'Mois', price: '1 600 HTG' }
-                    ]}
-                ]
-            },
-            { id: 'fcmobile', name: 'FC Mobile', logo: '/assets/fcmobile.png', description: 'Points pour FC Mobile', deliveryFields: ['email', 'password', 'whatsapp'], categories: [ { name: 'Points', offers: [ { name: '40 Points', price: '95 Gdes' }, { name: '100 Points', price: '210 Gdes' }, { name: '500 + 20 Points Bonus', price: '1 085 Gdes' }, { name: '1000 + 70 Points Bonus', price: '2 192 Gdes' }, { name: '2000 + 200 Points Bonus', price: '4 250 Gdes' }, { name: '5000 + 750 Points Bonus', price: '20 750 Gdes' }, { name: '10000 + 2000 Points Bonus', price: '10 500 Gdes' } ] } ] },
-            { id: 'pubg', name: 'PUBG Mobile', logo: '/assets/pubgmobile-logo.png', description: 'UC pour PUBG Mobile', deliveryFields: ['playerId', 'whatsapp'], categories: [ { name: 'UC', offers: [ { name: '60 UC', price: '180 HTG' }, { name: '300 + 25 UC', price: '891 HTG' }, { name: '600 + 60 UC', price: '1 780 HTG' }, { name: '1500 + 300 UC', price: '4 130 HTG' }, { name: '3000 + 850 UC', price: '8 075 HTG' } ] } ] },
-            { id: 'bloodstrike', name: 'Blood Strike', logo: '/assets/bloodstrike.png', description: 'Gold et Pass pour Blood Strike', deliveryFields: ['playerId', 'whatsapp'], categories: [ { name: 'Gold', offers: [ { name: '50 + 1 Gold', price: '80 Gdes' }, { name: '100 + 5 Gold', price: '157 Gdes' }, { name: '300 + 20 Gold', price: '471 Gdes' }, { name: '500 + 40 Gold', price: '785 Gdes' }, { name: '1000 + 100 Gold', price: '1 571 Gdes' }, { name: '5000 + 800 Gold', price: '9 100 Gdes' } ] }, { name: 'Pass', offers: [ { name: 'Strike Pass Elite', price: '640 Gdes' }, { name: 'Strike Pass Premium', price: '1 485 Gdes' }, { name: 'Level Up Pass', price: '330 Gdes' } ] } ] },
-            { id: 'roblox', name: 'Roblox', logo: '/assets/roblox-logo.png', description: 'Robux pour Roblox', deliveryFields: ['username', 'password'], categories: [ { name: 'Robux', offers: [ { name: '500 Robux', price: '750 HTG' }, { name: '1 000 Robux', price: '1 460 HTG' }, { name: '2 000 Robux', price: '2 950 HTG' }, { name: '5 250 Robux', price: '7 350 HTG' }, { name: '11 000 Robux', price: '14 661 HTG' }, { name: '24 000 Robux', price: '29 575 HTG' } ] } ] },
-            { id: 'dls', name: 'Dream League Soccer', logo: '/assets/dreamleaguesoccer.png', description: 'Coins, Gems et Pass pour DLS', deliveryFields: ['email', 'password', 'whatsapp'], categories: [ { name: 'Coins', offers: [ { name: '900 Coins', price: '400 HTG' }, { name: '1 950 Coins', price: '825 HTG' }, { name: '3 450 Coins', price: '1 400 HTG' }, { name: '6 700 Coins', price: '2 375 HTG' }, { name: '14 500 Coins', price: '4 000 HTG' }, { name: '40 500 Coins', price: '9 250 HTG' } ] }, { name: 'Gems', offers: [ { name: '90 Gems', price: '400 HTG' }, { name: '400 Gems', price: '1 600 HTG' }, { name: '910 Gems', price: '3 400 HTG' }, { name: '2 700 Gems', price: '8 850 HTG' }, { name: '6 000 Gems', price: '20 250 HTG' } ] }, { name: 'Pass', offers: [ { name: 'Season Pass', price: '810 HTG' }, { name: 'Season Pass Premium', price: '2 025 HTG' } ] } ] },
+            { id: 'efootball', name: 'E-Football', logo: '/assets/efootball.png', description: 'Pièces pour E-Football', deliveryFields: ['email','password','whatsapp'], categories: [{ name: 'Pièces', offers: [ { name: '130 pièces', price: '220 HTG' }, { name: '300 pièces', price: '550 HTG' }, { name: '550 pièces', price: '885 HTG' }, { name: '1 040 pièces', price: '1 625 HTG' }, { name: '2 130 pièces', price: '3 140 HTG' }, { name: '3 250 pièces', price: '4 675 HTG' }, { name: '12 800 pièces', price: '16 230 HTG' } ] }] },
+            { id: 'freefire', name: 'Free Fire', logo: '/assets/freefire-logo.png', description: 'Diamants, Pass et Abonnements', deliveryFields: [], categories: [ { name: 'Diamants', offers: [ { name: '110 + 10 diamants', price: '157 HTG' }, { name: '310 + 31 diamants', price: '471 HTG' }, { name: '520 + 52 diamants', price: '775 HTG' }, { name: '1060 + 106 diamants', price: '1 550 HTG' }, { name: '2180 + 218 diamants', price: '3 100 HTG' }, { name: '5600 + 560 diamants', price: '7 750 HTG' } ] }, { name: 'Pass', deliveryFields: ['email','password','whatsapp'], offers: [ { name: 'Booyah Pass', price: '400 HTG' }, { name: 'Level Up Pass', price: '800 HTG' } ] }, { name: 'Abonnement', deliveryFields: ['email','password','whatsapp'], offers: [ { name: 'Semaine', price: '325 HTG' }, { name: 'Mois', price: '1 600 HTG' } ] }] },
+            { id: 'fcmobile', name: 'FC Mobile', logo: '/assets/fcmobile.png', description: 'Points pour FC Mobile', deliveryFields: ['email','password','whatsapp'], categories: [{ name: 'Points', offers: [ { name: '40 Points', price: '95 Gdes' }, { name: '100 Points', price: '210 Gdes' }, { name: '500 + 20 Points Bonus', price: '1 085 Gdes' }, { name: '1000 + 70 Points Bonus', price: '2 192 Gdes' }, { name: '2000 + 200 Points Bonus', price: '4 250 Gdes' }, { name: '5000 + 750 Points Bonus', price: '20 750 Gdes' }, { name: '10000 + 2000 Points Bonus', price: '10 500 Gdes' } ] }] },
+            { id: 'pubg', name: 'PUBG Mobile', logo: '/assets/pubgmobile-logo.png', description: 'UC pour PUBG Mobile', deliveryFields: ['playerId','whatsapp'], categories: [{ name: 'UC', offers: [ { name: '60 UC', price: '180 HTG' }, { name: '300 + 25 UC', price: '891 HTG' }, { name: '600 + 60 UC', price: '1 780 HTG' }, { name: '1500 + 300 UC', price: '4 130 HTG' }, { name: '3000 + 850 UC', price: '8 075 HTG' } ] }] },
+            { id: 'bloodstrike', name: 'Blood Strike', logo: '/assets/bloodstrike.png', description: 'Gold et Pass pour Blood Strike', deliveryFields: ['playerId','whatsapp'], categories: [ { name: 'Gold', offers: [ { name: '50 + 1 Gold', price: '80 Gdes' }, { name: '100 + 5 Gold', price: '157 Gdes' }, { name: '300 + 20 Gold', price: '471 Gdes' }, { name: '500 + 40 Gold', price: '785 Gdes' }, { name: '1000 + 100 Gold', price: '1 571 Gdes' }, { name: '5000 + 800 Gold', price: '9 100 Gdes' } ] }, { name: 'Pass', offers: [ { name: 'Strike Pass Elite', price: '640 Gdes' }, { name: 'Strike Pass Premium', price: '1 485 Gdes' }, { name: 'Level Up Pass', price: '330 Gdes' } ] }] },
+            { id: 'roblox', name: 'Roblox', logo: '/assets/roblox-logo.png', description: 'Robux pour Roblox', deliveryFields: ['username','password'], categories: [{ name: 'Robux', offers: [ { name: '500 Robux', price: '750 HTG' }, { name: '1 000 Robux', price: '1 460 HTG' }, { name: '2 000 Robux', price: '2 950 HTG' }, { name: '5 250 Robux', price: '7 350 HTG' }, { name: '11 000 Robux', price: '14 661 HTG' }, { name: '24 000 Robux', price: '29 575 HTG' } ] }] },
+            { id: 'dls', name: 'Dream League Soccer', logo: '/assets/dreamleaguesoccer.png', description: 'Coins, Gems et Pass pour DLS', deliveryFields: ['email','password','whatsapp'], categories: [ { name: 'Coins', offers: [ { name: '900 Coins', price: '400 HTG' }, { name: '1 950 Coins', price: '825 HTG' }, { name: '3 450 Coins', price: '1 400 HTG' }, { name: '6 700 Coins', price: '2 375 HTG' }, { name: '14 500 Coins', price: '4 000 HTG' }, { name: '40 500 Coins', price: '9 250 HTG' } ] }, { name: 'Gems', offers: [ { name: '90 Gems', price: '400 HTG' }, { name: '400 Gems', price: '1 600 HTG' }, { name: '910 Gems', price: '3 400 HTG' }, { name: '2 700 Gems', price: '8 850 HTG' }, { name: '6 000 Gems', price: '20 250 HTG' } ] }, { name: 'Pass', offers: [ { name: 'Season Pass', price: '810 HTG' }, { name: 'Season Pass Premium', price: '2 025 HTG' } ] }] },
+            { id: 'flexcity', name: 'Flex City', logo: '/assets/flexcity.png', description: 'Diamonds et Gold pour Flex City', deliveryFields: ['email','password','whatsapp'], categories: [ { name: 'Diamonds', offers: [ { name: '100 Diamonds', price: '215 HTG' }, { name: '310 Diamonds', price: '628 HTG' }, { name: '520 Diamonds', price: '1 100 HTG' }, { name: '1 060 Diamonds', price: '2 150 HTG' }, { name: '4 320 Diamonds', price: '4 500 HTG' }, { name: '11 200 Diamonds', price: '10 800 HTG' } ] }, { name: 'Gold', offers: [ { name: '500 Gold', price: '195 HTG' }, { name: '2 100 Gold', price: '628 HTG' }, { name: '6 250 Gold', price: '1 800 HTG' }, { name: '17 000 Gold', price: '4 750 HTG' }, { name: '40 000 Gold', price: '10 000 HTG' }, { name: '77 500 Gold', price: '18 000 HTG' } ] }] },
+            { id: 'callofduty', name: 'Call of Duty', logo: '/assets/callofduty.png', description: 'Points Call of Duty', deliveryFields: ['email','password','whatsapp'], categories: [{ name: 'Points CP', offers: [ { name: '80 + 8 CP', price: '180 HTG' }, { name: '400 + 60 CP', price: '925 HTG' }, { name: '800 + 160 CP', price: '1 850 HTG' }, { name: '2000 + 600 CP', price: '4 625 HTG' }, { name: '4000 + 1400 CP', price: '9 500 HTG' }, { name: '8000 + 3600 CP', price: '19 000 HTG' } ] }] },
+            { id: 'lordsmobile', name: 'Lords Mobile', logo: '/assets/lordsmobile.png', description: 'Diamants Lords Mobile', deliveryFields: ['email','password','whatsapp'], categories: [{ name: 'Diamants', offers: [ { name: '99 Diamants', price: '185 HTG' }, { name: '199 Diamants', price: '370 HTG' }, { name: '499 Diamants', price: '925 HTG' }, { name: '999 Diamants', price: '1 800 HTG' }, { name: '1 999 Diamants', price: '3 600 HTG' }, { name: '2 999 Diamants', price: '5 400 HTG' }, { name: '4 999 Diamants', price: '9 000 HTG' }, { name: '9 999 Diamants', price: '18 000 HTG' }, { name: '29 999 Diamants', price: '54 000 HTG' } ] }] },
             { id: 'minecraft', name: 'Minecraft', logo: '/assets/minecraft-logo.png', description: 'Service non disponible', deliveryFields: [], categories: [] },
-            { id: 'flexcity', name: 'Flex City', logo: '/assets/flexcity.png', description: 'Diamonds et Gold pour Flex City', deliveryFields: ['email', 'password', 'whatsapp'], categories: [ { name: 'Diamonds', offers: [ { name: '100 Diamonds', price: '215 HTG' }, { name: '310 Diamonds', price: '628 HTG' }, { name: '520 Diamonds', price: '1 100 HTG' }, { name: '1 060 Diamonds', price: '2 150 HTG' }, { name: '4 320 Diamonds', price: '4 500 HTG' }, { name: '11 200 Diamonds', price: '10 800 HTG' } ] }, { name: 'Gold', offers: [ { name: '500 Gold', price: '195 HTG' }, { name: '2 100 Gold', price: '628 HTG' }, { name: '6 250 Gold', price: '1 800 HTG' }, { name: '17 000 Gold', price: '4 750 HTG' }, { name: '40 000 Gold', price: '10 000 HTG' }, { name: '77 500 Gold', price: '18 000 HTG' } ] } ] },
-            { id: 'callofduty', name: 'Call of Duty', logo: '/assets/callofduty.png', description: 'Recharges Call of Duty', deliveryFields: ['email', 'password', 'whatsapp'], categories: [ { name: 'Points', offers: [ { name: '100 Points', price: '150 HTG' }, { name: '500 Points', price: '700 HTG' } ] } ] },
-            { id: 'lordsmobile', name: 'Lords Mobile', logo: '/assets/lordsmobile.png', description: 'Recharges Lords Mobile', deliveryFields: ['email', 'password', 'whatsapp'], categories: [ { name: 'Packs', offers: [ { name: 'Pack 1', price: '200 HTG' } ] } ] },
             { id: 'onestate', name: 'One State', logo: '/assets/onestate.png', description: 'Bientôt disponible', deliveryFields: [], categories: [] },
             { id: 'mobilelegends', name: 'Mobile Legends', logo: '/assets/mobilelegends.png', description: 'Bientôt disponible', deliveryFields: [], categories: [] }
         ];
 
-        // ========== GÉNÉRATION DES CARTES ==========
         const gameGrid = document.getElementById('gameGrid');
         games.forEach(game => {
             const card = document.createElement('div');
             card.className = 'game-card';
             card.innerHTML = `
                 ${game.categories.length > 0 ? '<span class="badge">Disponible</span>' : '<span class="badge" style="background: var(--text-muted);">Bientôt</span>'}
-                <div class="thumb">
-                    <img src="${game.logo}" alt="${game.name}" onerror="this.style.display='none'">
-                </div>
-                <div class="info">
-                    <h3>${game.name}</h3>
-                    <p>${game.categories.length > 0 ? t('chooseOffer') : t('unavailable')}</p>
-                </div>
+                <div class="thumb"><img src="${game.logo}" alt="${game.name}" onerror="this.style.display='none'"></div>
+                <div class="info"><h3>${game.name}</h3><p>${game.categories.length > 0 ? t('chooseOffer') : t('unavailable')}</p></div>
             `;
             card.addEventListener('click', () => openOfferModal(game));
             gameGrid.appendChild(card);
         });
 
-        // ========== MODAL AVEC OFFRES ET FORMULAIRE ==========
         const modalOverlay = document.getElementById('modalOverlay');
-        const offerModal = document.getElementById('offerModal');
         const modalHeader = document.getElementById('modalHeader');
         const offersContainer = document.getElementById('offersContainer');
         const deliveryForm = document.getElementById('deliveryForm');
@@ -943,38 +821,28 @@
             deliveryForm.innerHTML = '';
 
             modalHeader.innerHTML = `
-                <div class="modal-game-logo">
-                    <img src="${game.logo}" alt="${game.name}" onerror="this.style.display='none'">
-                </div>
-                <div class="modal-game-info">
-                    <h2>${game.name}</h2>
-                    <p>${game.description}</p>
-                </div>
+                <div class="modal-game-logo"><img src="${game.logo}" alt="${game.name}" onerror="this.style.display='none'"></div>
+                <div class="modal-game-info"><h2>${game.name}</h2><p>${game.description}</p></div>
             `;
 
             offersContainer.innerHTML = '';
-
             if (game.categories.length === 0) {
-                offersContainer.innerHTML = `<p style="text-align:center; color: var(--text-soft);">${t('noOffers')}</p>`;
+                offersContainer.innerHTML = `<p style="text-align:center;color:var(--text-soft);">${t('noOffers')}</p>`;
             } else {
                 game.categories.forEach(category => {
-                    const categoryTitle = document.createElement('div');
-                    categoryTitle.className = 'offers-category';
-                    categoryTitle.textContent = category.name;
-                    offersContainer.appendChild(categoryTitle);
+                    const catTitle = document.createElement('div');
+                    catTitle.className = 'offers-category';
+                    catTitle.textContent = category.name;
+                    offersContainer.appendChild(catTitle);
 
                     category.offers.forEach(offer => {
                         const item = document.createElement('div');
                         item.className = 'offer-item';
-                        item.innerHTML = `
-                            <span class="offer-name">${offer.name}</span>
-                            <span class="offer-price">${offer.price}</span>
-                        `;
+                        item.innerHTML = `<span class="offer-name">${offer.name}</span><span class="offer-price">${offer.price}</span>`;
                         item.addEventListener('click', () => {
                             $$('.offer-item').forEach(el => el.classList.remove('selected'));
                             item.classList.add('selected');
                             selectedOffer = offer;
-                            // Afficher le formulaire en fonction du type de catégorie
                             showDeliveryForm(category);
                         });
                         offersContainer.appendChild(item);
@@ -994,12 +862,7 @@
 
             let html = '';
             fields.forEach(field => {
-                html += `
-                    <div class="form-group">
-                        <label for="field-${field}">${t(field)}</label>
-                        <input type="text" id="field-${field}" name="${field}" />
-                    </div>
-                `;
+                html += `<div class="form-group"><label>${t(field)}</label><input type="text" name="${field}" placeholder="${t(field)}"></div>`;
             });
             deliveryForm.innerHTML = html;
             addToCartBtn.disabled = false;
@@ -1014,130 +877,71 @@
         }
 
         document.getElementById('closeModalBtn').addEventListener('click', closeModal);
-        modalOverlay.addEventListener('click', (e) => {
-            if (e.target === modalOverlay) closeModal();
-        });
+        modalOverlay.addEventListener('click', (e) => { if (e.target === modalOverlay) closeModal(); });
 
         addToCartBtn.addEventListener('click', () => {
             if (!currentGame || !selectedOffer) return;
-            // Récupérer les champs de livraison remplis
             const inputs = deliveryForm.querySelectorAll('input');
             const deliveryData = {};
-            inputs.forEach(input => {
-                deliveryData[input.name] = input.value.trim();
-            });
-
-            // Vérifier que les champs requis ne sont pas vides
-            const requiredFields = currentGame.deliveryFields || [];
-            for (const field of requiredFields) {
-                if (!deliveryData[field]) {
-                    showToast('Veuillez remplir tous les champs', 'error');
-                    return;
-                }
+            inputs.forEach(input => deliveryData[input.name] = input.value.trim());
+            const required = currentGame.deliveryFields || [];
+            for (const f of required) {
+                if (!deliveryData[f]) { showToast('Veuillez remplir tous les champs', 'error'); return; }
             }
-
             addToCart(currentGame, selectedOffer, deliveryData);
             closeModal();
         });
 
-        // ========== PANIER ==========
         let cart = JSON.parse(localStorage.getItem('digitalpay_cart')) || [];
-
         function saveCart() {
             localStorage.setItem('digitalpay_cart', JSON.stringify(cart));
             updateCartCount();
         }
-
         function updateCartCount() {
             document.getElementById('cartCount').textContent = cart.length;
-            if (cart.length > 0) {
-                document.getElementById('floatingCartBtn').classList.add('show');
-            } else {
-                document.getElementById('floatingCartBtn').classList.remove('show');
-            }
+            if (cart.length > 0) document.getElementById('floatingCartBtn').classList.add('show');
+            else document.getElementById('floatingCartBtn').classList.remove('show');
         }
-
         function addToCart(game, offer, deliveryData) {
-            const item = {
-                id: Date.now(),
-                game: game.name,
-                logo: game.logo,
-                offer: offer.name,
-                price: offer.price,
-                delivery: deliveryData
-            };
-            cart.push(item);
+            cart.push({ id: Date.now(), game: game.name, logo: game.logo, offer: offer.name, price: offer.price, delivery: deliveryData });
             saveCart();
             showToast(t('addedToCart'), 'success');
         }
+        document.getElementById('floatingCartBtn').addEventListener('click', () => window.location.href = '/panier.html');
 
-        document.getElementById('floatingCartBtn').addEventListener('click', () => {
-            window.location.href = '/panier.html';
-        });
-
-        // ========== INITIALISATION ==========
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', () => {
             updateCartCount();
 
             const sidebarMenuItems = [
-                { title: 'Menu', items: [
-                    { href: '/index.html', icon: 'fa-house', textKey: 'home', isActive: false },
-                    { href: '/wallet.html', icon: 'fa-wallet', textKey: 'wallet' },
-                    { href: '/commandes.html', icon: 'fa-cart-shopping', textKey: 'orders' }
-                ]},
-                { title: 'Services', items: [
-                    { href: '/gaming/index.html', icon: 'fa-gamepad', textKey: 'gaming', isActive: true },
-                    { href: '/streaming/index.html', icon: 'fa-tv', textKey: 'streaming' },
-                    { href: '/finance/index.html', icon: 'fa-coins', textKey: 'finance' },
-                    { href: '/giftcard/index.html', icon: 'fa-gift', textKey: 'giftcards' },
-                    { href: '/social/index.html', icon: 'fa-share-nodes', textKey: 'social' }
-                ]}
+                { title: 'Menu', items: [ { href: '/index.html', icon: 'fa-house', textKey: 'home', isActive: false }, { href: '/wallet.html', icon: 'fa-wallet', textKey: 'wallet' }, { href: '/commandes.html', icon: 'fa-cart-shopping', textKey: 'orders' } ] },
+                { title: 'Services', items: [ { href: '/gaming/index.html', icon: 'fa-gamepad', textKey: 'gaming', isActive: true }, { href: '/streaming/index.html', icon: 'fa-tv', textKey: 'streaming' }, { href: '/finance/index.html', icon: 'fa-coins', textKey: 'finance' }, { href: '/giftcard/index.html', icon: 'fa-gift', textKey: 'giftcards' }, { href: '/social/index.html', icon: 'fa-share-nodes', textKey: 'social' } ] }
             ];
 
-            function createSidebarMenu() {
-                const nav = document.getElementById('sidebarNav');
-                if (!nav) return;
-                nav.innerHTML = '';
-
-                sidebarMenuItems.forEach(section => {
-                    const sectionTitle = document.createElement('div');
-                    sectionTitle.className = 'sidebar-section-title';
-                    sectionTitle.textContent = section.title;
-                    nav.appendChild(sectionTitle);
-
-                    section.items.forEach(item => {
-                        const link = document.createElement('a');
-                        link.href = item.href;
-                        link.className = 'nav-item' + (item.isActive ? ' active' : '');
-                        link.innerHTML = `<i class="fa-solid ${item.icon}"></i><span data-i18n="${item.textKey}">${t(item.textKey)}</span>`;
-                        nav.appendChild(link);
-                    });
+            const nav = document.getElementById('sidebarNav');
+            sidebarMenuItems.forEach(section => {
+                const st = document.createElement('div');
+                st.className = 'sidebar-section-title';
+                st.textContent = section.title;
+                nav.appendChild(st);
+                section.items.forEach(item => {
+                    const link = document.createElement('a');
+                    link.href = item.href;
+                    link.className = 'nav-item' + (item.isActive ? ' active' : '');
+                    link.innerHTML = `<i class="fa-solid ${item.icon}"></i><span>${t(item.textKey)}</span>`;
+                    nav.appendChild(link);
                 });
-
-                const logoutBtn = document.createElement('button');
-                logoutBtn.className = 'btn-logout-side';
-                logoutBtn.id = 'logoutBtn';
-                logoutBtn.innerHTML = '<i class="fa-solid fa-arrow-right-from-bracket"></i> <span data-i18n="logout">Se Déconnecter</span>';
-                nav.appendChild(logoutBtn);
-            }
-
-            createSidebarMenu();
+            });
+            const logoutBtn = document.createElement('button');
+            logoutBtn.className = 'btn-logout-side';
+            logoutBtn.id = 'logoutBtn';
+            logoutBtn.innerHTML = '<i class="fa-solid fa-arrow-right-from-bracket"></i> Se Déconnecter';
+            nav.appendChild(logoutBtn);
 
             const sidebar = document.getElementById('sidebar');
             const sidebarOverlay = document.getElementById('sidebarOverlay');
-            const openSidebarBtn = document.getElementById('openSidebarBtn');
-            const closeSidebarBtn = document.getElementById('closeSidebar');
-
-            function openSidebar() {
-                sidebar.classList.add('open');
-                sidebarOverlay.classList.add('open');
-            }
-            function closeSidebar() {
-                sidebar.classList.remove('open');
-                sidebarOverlay.classList.remove('open');
-            }
-            openSidebarBtn.addEventListener('click', openSidebar);
-            closeSidebarBtn.addEventListener('click', closeSidebar);
+            document.getElementById('openSidebarBtn').addEventListener('click', () => { sidebar.classList.add('open'); sidebarOverlay.classList.add('open'); });
+            function closeSidebar() { sidebar.classList.remove('open'); sidebarOverlay.classList.remove('open'); }
+            document.getElementById('closeSidebar').addEventListener('click', closeSidebar);
             sidebarOverlay.addEventListener('click', closeSidebar);
             document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeSidebar(); });
 
@@ -1145,41 +949,23 @@
             const langMenu = document.getElementById('langMenuHeader');
             langBtn.addEventListener('click', (e) => { e.stopPropagation(); langMenu.classList.toggle('open'); });
             document.addEventListener('click', (e) => { if (!langMenu.contains(e.target)) langMenu.classList.remove('open'); });
-            langMenu.querySelectorAll('button').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    applyLanguage(btn.getAttribute('data-lang'));
-                });
-            });
+            langMenu.querySelectorAll('button').forEach(btn => btn.addEventListener('click', () => applyLanguage(btn.dataset.lang)));
 
-            document.addEventListener('click', function(e) {
+            document.addEventListener('click', (e) => {
                 if (e.target.closest('#logoutBtn')) {
                     e.preventDefault();
-                    if (auth && auth.currentUser) {
-                        auth.signOut().then(() => {
-                            window.location.href = '/index.html';
-                        }).catch(() => {
-                            showToast('Erreur lors de la déconnexion', 'error');
-                        });
-                    } else {
-                        window.location.href = '/authentification/login.html';
-                    }
+                    if (auth.currentUser) {
+                        auth.signOut().then(() => window.location.href = '/index.html');
+                    } else window.location.href = '/authentification/login.html';
                 }
             });
 
             auth.onAuthStateChanged(user => {
-                const statusDot = document.getElementById('authStatusDot');
                 if (user) {
                     document.body.classList.add('is-logged');
-                    document.getElementById('sidebarUserName').textContent = user.displayName || 'Membre DigitalPay';
+                    document.getElementById('sidebarUserName').textContent = user.displayName || 'Membre';
                     document.getElementById('sidebarUserEmail').textContent = user.email || '';
-                    const avatar = document.getElementById('sidebarAvatar');
-                    if (user.photoURL) avatar.innerHTML = `<img src="${user.photoURL}" alt="Avatar">`;
-                    else avatar.textContent = (user.displayName || user.email || 'U').charAt(0).toUpperCase();
-                    if (statusDot) statusDot.classList.add('connected');
-                } else {
-                    document.body.classList.remove('is-logged');
-                    if (statusDot) statusDot.classList.remove('connected');
-                }
+                } else document.body.classList.remove('is-logged');
             });
 
             window.addEventListener('scroll', () => {
