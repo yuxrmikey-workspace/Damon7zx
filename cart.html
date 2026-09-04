@@ -34,7 +34,6 @@
       --danger: #DC2626;
       --danger-soft: rgba(220, 38, 38, 0.08);
       --success: #10B981;
-      --success-soft: rgba(16, 185, 129, 0.08);
 
       --radius-sm: 8px;
       --radius-md: 12px;
@@ -43,7 +42,6 @@
       --radius-full: 9999px;
 
       --shadow-sm: 0 2px 8px rgba(15, 23, 42, 0.04);
-      --shadow-card: 0 4px 16px -2px rgba(15, 23, 42, 0.06);
       --font: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     }
 
@@ -62,7 +60,7 @@
     .header-btn svg { width: 18px; height: 18px; stroke: currentColor; stroke-width: 2; fill: none; }
     .badge-dot { position: absolute; top: 8px; right: 8px; width: 6px; height: 6px; border-radius: 50%; background: var(--royal-blue); box-shadow: 0 0 0 2px #FFFFFF; }
 
-    /* CONTENU PANIER */
+    /* CORPS DU PANIER */
     .cart-main { padding: 20px 16px 40px; flex: 1; display: flex; flex-direction: column; }
     .cart-header-title { display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px; }
     .cart-title { font-size: 20px; font-weight: 900; color: var(--text-black); letter-spacing: -0.5px; }
@@ -72,7 +70,7 @@
     .cart-card { background: #FFFFFF; border: 1px solid var(--border); border-radius: var(--radius-card); padding: 12px 14px; display: flex; align-items: center; justify-content: space-between; box-shadow: var(--shadow-sm); }
     .cart-card-left { display: flex; align-items: center; gap: 12px; flex: 1; overflow: hidden; }
     
-    /* LOGO DU PRODUIT RÉEL DANS LE PANIER */
+    /* LOGO DU PRODUIT RÉEL */
     .cart-thumb { width: 48px; height: 48px; border-radius: var(--radius-square); overflow: hidden; background: var(--surface-subtle); border: 1px solid var(--border-light); flex-shrink: 0; }
     .cart-thumb img { width: 100%; height: 100%; object-fit: cover; }
 
@@ -91,7 +89,7 @@
     .empty-cart-sub { font-size: 12px; color: var(--text-muted); margin-bottom: 20px; }
     .btn-return-shop { background: var(--royal-gradient); color: #FFFFFF; padding: 10px 24px; border-radius: var(--radius-md); font-size: 13px; font-weight: 800; text-decoration: none; box-shadow: 0 4px 12px rgba(29, 78, 216, 0.2); }
 
-    /* CHECKOUT FINTECH */
+    /* CHECKOUT */
     .checkout-section { background: #FFFFFF; border: 1px solid var(--border); border-radius: var(--radius-card); padding: 16px; box-shadow: var(--shadow-sm); margin-bottom: 20px; }
     .section-subtitle { font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.6px; color: var(--text-black); margin-bottom: 12px; }
     .payment-methods-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-bottom: 14px; }
@@ -292,9 +290,14 @@
       }, 2400);
     }
 
-    /* RENDU DU PANIER AVEC LOGO DU PRODUIT RÉEL ET INFOS */
+    /* RENDU DU PANIER AVEC LE LOGO EXACT DU PRODUIT */
     function renderCart() {
-      cartItems = JSON.parse(localStorage.getItem('dp_cart') || '[]');
+      try {
+        cartItems = JSON.parse(localStorage.getItem('dp_cart') || '[]');
+      } catch (e) {
+        cartItems = [];
+      }
+
       const target = document.getElementById('cart-list-target');
       const checkoutContainer = document.getElementById('checkout-container');
       const badge = document.getElementById('cart-item-count-badge');
@@ -325,7 +328,6 @@
         subtotal += item.price;
         const logo = item.logo || 'logo.png';
 
-        // Formatage des détails de livraison
         let delivText = '';
         if (item.isPinAutomated) {
           delivText = 'Livraison PIN Instantanée';
@@ -373,7 +375,7 @@
       renderCart();
     }
 
-    /* GESTION DES MÉTHODES DE PAIEMENT */
+    /* GESTION DES MODES DE PAIEMENT */
     function selectPaymentMethod(method) {
       selectedMethod = method;
       document.querySelectorAll('.pay-pill').forEach(pill => {
@@ -440,20 +442,24 @@
       }
     }
 
-    /* TRANSACTION SÉCURISÉE FIRESTORE : LIVRAISON ATOMIQUE PIN 24H */
+    /* VALIDATION ET RÈGLEMENT DE COMMANDE */
     async function processOrderCheckout() {
       if (cartItems.length === 0) return;
+
+      if (!currentUser) {
+        showToast("Veuillez vous connecter pour valider.", true);
+        setTimeout(() => window.location.href = "authentification/login.html", 1000);
+        return;
+      }
 
       const total = cartItems.reduce((acc, i) => acc + i.price, 0);
       const btn = document.getElementById('btn-submit-order');
 
-      // CAS PORTEFEUILLE
       if (selectedMethod === 'wallet' && userWalletBalance < total) {
         showToast("Solde Portefeuille insuffisant.", true);
         return;
       }
 
-      // CAS MANUEL
       let txId = "";
       let proofName = "";
       if (selectedMethod !== 'wallet') {
@@ -467,51 +473,52 @@
       }
 
       btn.disabled = true;
-      btn.innerText = "Traitement sécurisé...";
+      btn.innerText = "Traitement en cours...";
 
       try {
         // Déduction portefeuille si applicable
         if (selectedMethod === 'wallet') {
-          await db.collection('users').doc(currentUser.uid).update({
+          await db.collection('users').doc(currentUser.uid).set({
             walletBalance: firebase.firestore.FieldValue.increment(-total)
-          });
+          }, { merge: true });
         }
 
-        // TRAITEMENT ARTICLE PAR ARTICLE
+        // Traitement de chaque article du panier
         for (const item of cartItems) {
           const orderId = "DP-" + Math.floor(100000 + Math.random() * 900000);
           let assignedPin = null;
-          let orderStatus = "en_attente"; // Tout est en attente de validation admin...
+          let orderStatus = "en_attente";
 
-          // ...SAUF LES PACKS DE DIAMANTS FREE FIRE (AUTOMATISÉS ATOMIQUEMENT)
+          // Prélèvement sécurisé du PIN Free Fire si applicable
           if (item.isPinAutomated && item.packId) {
-            // TRANSACTION ATOMIQUE SUR FIRESTORE
-            await db.runTransaction(async (transaction) => {
-              const pinsQuery = await db.collection("freefire_pins")
+            try {
+              const pinSnapshot = await db.collection("freefire_pins")
                 .where("packId", "==", item.packId)
                 .where("status", "==", "disponible")
                 .limit(1)
                 .get();
 
-              if (!pinsQuery.empty) {
-                const pinDoc = pinsQuery.docs[0];
+              if (!pinSnapshot.empty) {
+                const pinDoc = pinSnapshot.docs[0];
                 assignedPin = pinDoc.data().pinCode;
 
-                // EFFACE DE LA LISTE DISPONIBLE EN LE MARQUANT COMME VENDU (JAMAIS RÉUTILISABLE)
-                transaction.update(pinDoc.ref, {
+                await pinDoc.ref.update({
                   status: "vendu",
                   orderId: orderId,
                   buyerId: currentUser.uid,
                   soldAt: firebase.firestore.FieldValue.serverTimestamp()
                 });
-                orderStatus = "livre"; // Livré immédiatement !
+                orderStatus = "livre";
               } else {
-                orderStatus = "en_attente_stock"; // Si rupture dans la base
+                orderStatus = "en_attente_stock";
               }
-            });
+            } catch (pinErr) {
+              console.warn("Stock PIN Free Fire inaccessible :", pinErr);
+              orderStatus = "en_attente_stock";
+            }
           }
 
-          // Enregistrement de la commande
+          // Écriture du document de commande
           await db.collection('orders').doc(orderId).set({
             orderId: orderId,
             userId: currentUser.uid,
@@ -521,7 +528,7 @@
             transactionId: txId,
             proofFileName: proofName,
             status: orderStatus,
-            pinCode: assignedPin, // Le PIN secret prélevé
+            pinCode: assignedPin,
             redeemUrl: assignedPin ? "https://redeem.hype.games/" : null,
             createdAt: firebase.firestore.FieldValue.serverTimestamp()
           });
@@ -534,7 +541,7 @@
       } catch (err) {
         btn.disabled = false;
         btn.innerText = "Confirmer la Commande";
-        showToast("Erreur lors de la validation : " + err.message, true);
+        showToast("Erreur de commande : " + err.message, true);
       }
     }
 
@@ -542,19 +549,33 @@
       document.getElementById('notif-panel').classList.toggle('open');
     }
 
+    /* VÉRIFICATION UTILISATEUR EN DIRECT */
     auth.onAuthStateChanged(async user => {
       if (!user) {
-        showToast("Veuillez vous connecter pour accéder à votre panier.", true);
-        setTimeout(() => window.location.href = "authentification/login.html", 1000);
+        showToast("Veuillez vous connecter pour voir votre panier.", true);
+        setTimeout(() => window.location.href = "authentification/login.html", 1200);
         return;
       }
 
       currentUser = user;
-      const userDoc = await db.collection('users').doc(user.uid).get();
-      if (userDoc.exists) {
-        userWalletBalance = userDoc.data().walletBalance || 0;
+
+      try {
+        const userDoc = await db.collection('users').doc(user.uid).get();
+        if (userDoc.exists) {
+          userWalletBalance = userDoc.data().walletBalance || 0;
+        } else {
+          userWalletBalance = 0;
+        }
+      } catch (e) {
+        userWalletBalance = 0;
       }
 
+      const total = cartItems.reduce((acc, i) => acc + i.price, 0);
+      checkWalletBalance(total);
+    });
+
+    // Chargement immédiat dès que le DOM est prêt
+    window.addEventListener('DOMContentLoaded', () => {
       renderCart();
     });
   </script>
