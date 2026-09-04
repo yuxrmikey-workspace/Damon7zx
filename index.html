@@ -15,7 +15,7 @@
 
   <style>
     /* ==========================================================================
-       FINTECH DESIGN SYSTEM — BLANC PUR, NOIR & DÉGRADÉ BLEU ROYAL
+       FINTECH DESIGN SYSTEM — BLANC, NOIR & DÉGRADÉ BLEU ROYAL
        ========================================================================== */
     :root {
       --bg: #FFFFFF;
@@ -533,46 +533,39 @@
     }
 
     /* ==========================================================================
-       FOOTER COURT ET STRUCTURÉ
+       FOOTER ULTRA-ÉPURÉ (ZÉRO TEXTE SUPERFLU)
        ========================================================================== */
     .site-footer {
       background: #FFFFFF;
       border-top: 1px solid var(--border);
-      padding: 24px 16px;
+      padding: 18px 16px;
       margin-top: 32px;
     }
 
-    .footer-links {
-      display: flex;
-      justify-content: space-between;
-      gap: 16px;
-      margin-bottom: 16px;
-    }
-
-    .footer-col h6 {
-      font-size: 11px;
-      font-weight: 900;
-      color: var(--text-black);
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      margin-bottom: 6px;
-    }
-
-    .footer-col p {
-      font-size: 11px;
-      color: var(--text-muted);
-      line-height: 1.5;
-    }
-
-    .footer-bottom {
-      border-top: 1px solid var(--border-light);
-      padding-top: 12px;
+    .footer-minimal-row {
       display: flex;
       justify-content: space-between;
       align-items: center;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text-muted);
+    }
+
+    .footer-status-pill {
+      display: flex;
+      align-items: center;
+      gap: 6px;
       font-size: 10px;
-      color: var(--text-light);
-      font-weight: 600;
+      color: var(--royal-blue);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .footer-status-indicator {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--royal-blue);
     }
 
     /* ==========================================================================
@@ -616,7 +609,7 @@
     }
 
     /* ==========================================================================
-       SIDEBAR MENU
+       SIDEBAR MENU HAUT DE GAMME (BOUTONS REHAUSSÉS)
        ========================================================================== */
     .sidebar-overlay {
       position: fixed;
@@ -666,7 +659,7 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding-bottom: 20px;
+      padding-bottom: 16px;
       border-bottom: 1px solid var(--border);
     }
 
@@ -728,7 +721,7 @@
       text-transform: uppercase;
       letter-spacing: 0.8px;
       color: var(--text-light);
-      margin: 20px 0 10px;
+      margin: 16px 0 8px;
     }
 
     .lang-switcher-grid {
@@ -740,7 +733,7 @@
     .lang-option {
       background: var(--surface-subtle);
       border: 1px solid var(--border);
-      padding: 8px 10px;
+      padding: 7px 10px;
       border-radius: var(--radius-sm);
       display: flex;
       align-items: center;
@@ -759,18 +752,17 @@
     }
 
     .sidebar-menu-nav {
-      margin-top: 14px;
+      margin-top: 10px;
       display: flex;
       flex-direction: column;
-      gap: 4px;
-      flex: 1;
+      gap: 3px;
     }
 
     .menu-link {
       display: flex;
       align-items: center;
       gap: 12px;
-      padding: 10px 12px;
+      padding: 9px 12px;
       border-radius: var(--radius-md);
       color: var(--text-black);
       text-decoration: none;
@@ -793,9 +785,10 @@
       fill: none;
     }
 
+    /* ZONE AUTH REHAUSSÉE IMMÉDIATE (PLUS DE VIDE EN BAS) */
     .sidebar-auth-zone {
-      margin-top: auto;
-      padding-top: 20px;
+      margin-top: 16px;
+      padding-top: 16px;
       border-top: 1px solid var(--border);
     }
 
@@ -805,7 +798,7 @@
       justify-content: center;
       gap: 8px;
       width: 100%;
-      height: 42px;
+      height: 40px;
       border-radius: var(--radius-md);
       font-size: 13px;
       font-weight: 700;
@@ -817,6 +810,7 @@
       background: var(--royal-gradient);
       color: #FFFFFF;
       margin-bottom: 8px;
+      box-shadow: 0 4px 12px rgba(29, 78, 216, 0.2);
     }
 
     .btn-register {
@@ -832,7 +826,7 @@
     }
 
     /* ==========================================================================
-       MODALE BOTTOM SHEET DES OFFRES PRO
+       MODALE BOTTOM SHEET DES OFFRES
        ========================================================================== */
     .sheet-backdrop {
       position: fixed;
@@ -1158,21 +1152,14 @@
 
     </main>
 
-    <!-- ==================== FOOTER ==================== -->
+    <!-- ==================== FOOTER ULTRA-ÉPURÉ (ZÉRO TEXTE SUPERFLU) ==================== -->
     <footer class="site-footer">
-      <div class="footer-links">
-        <div class="footer-col">
-          <h6 id="foot-about-title">DigitalPay Haiti</h6>
-          <p id="foot-about-desc">Plateforme officielle de distribution de services digitaux et recharges gaming.</p>
-        </div>
-        <div class="footer-col">
-          <h6 id="foot-security-title">Sécurité</h6>
-          <p>Taux Fixe Garanti<br>Support: +509 3536-2631</p>
-        </div>
-      </div>
-      <div class="footer-bottom">
+      <div class="footer-minimal-row">
         <span>© 2026 DigitalPay S.A.</span>
-        <span id="foot-rights">Tous droits réservés</span>
+        <div class="footer-status-pill">
+          <span class="footer-status-indicator"></span>
+          <span>Système 24/7</span>
+        </div>
       </div>
     </footer>
 
@@ -1204,7 +1191,7 @@
             <button class="lang-option" onclick="setLang('es', this)"><span>🇪🇸</span> Español</button>
           </div>
 
-          <!-- Navigation (Verrouillage des pages privées) -->
+          <!-- Navigation -->
           <div class="sidebar-section-title">Navigation</div>
           <nav class="sidebar-menu-nav">
             <a href="index.html" class="menu-link active">
@@ -1229,9 +1216,9 @@
             </a>
           </nav>
 
-          <!-- Zone Connexion / Déconnexion Dynamique -->
+          <!-- Zone Connexion / Déconnexion Rehaussée -->
           <div class="sidebar-auth-zone" id="sidebar-auth-zone">
-            <!-- Rempli en JS selon Firebase Auth -->
+            <!-- Rempli dynamiquement en JS -->
           </div>
 
         </div>
@@ -1270,7 +1257,7 @@
 
   </div>
 
-  <!-- ==================== LOGIQUE JAVASCRIPT & SÉCURITÉ AUTH ==================== -->
+  <!-- ==================== LOGIQUE JAVASCRIPT ==================== -->
   <script>
     /* 1. CONFIGURATION FIREBASE */
     const firebaseConfig = {
@@ -1287,7 +1274,7 @@
     }
     const auth = firebase.auth();
 
-    /* 2. CATALOGUE DE SERVICES */
+    /* 2. CATALOGUE COMPLET */
     const PRODUCTS = [
       // JEUX (13)
       { id: "freefire", title: "Free Fire", category: "gaming", logo: "freefire-logo.png", offers: [
@@ -1404,14 +1391,13 @@
       { id: 'giftcard', titleKey: 'catGiftcard' }
     ];
 
-    /* 3. ÉTAT LOCAL DU SYSTÈME */
-    let currentUser = null; // Géré par Firebase Auth
+    let currentUser = null;
     let currentFilter = 'all';
     let selectedProduct = null;
     let selectedPrice = 0;
     let currentLang = 'fr';
 
-    /* 4. DICTIONNAIRE GLOBAL DE TRADUCTION */
+    /* 3. DICTIONNAIRE GLOBAL DE TRADUCTION */
     const I18N = {
       fr: {
         toastMsg: "Langue changée : Français",
@@ -1423,7 +1409,6 @@
         reviewsTitle: "Avis des Clients", faqTitle: "Questions Fréquentes",
         faqQ1: "Comment sont livrées les recharges de jeux ?", faqA1: "Les recharges par UID sont créditées automatiquement dès confirmation.",
         faqQ2: "Quels sont les moyens de paiement acceptés ?", faqA2: "MonCash, NatCash, Meru, et Portefeuille DigitalPay.",
-        footDesc: "Plateforme officielle de distribution de services digitaux et recharges gaming.", footRights: "Tous droits réservés.",
         navHome: "Accueil", navHistory: "Historique", navWallet: "Wallet", navShop: "Boutique", navSupport: "Support",
         authLogin: "Se Connecter", authRegister: "S'inscrire", authLogout: "Se Déconnecter",
         modalOffersSub: "Sélectionnez votre offre", modalTotal: "Total à régler", modalOrder: "Commander",
@@ -1439,7 +1424,6 @@
         reviewsTitle: "Avi Kliyan Nou Yo", faqTitle: "Kesyon yo poze souvan",
         faqQ1: "Kijan rechaj jwèt yo livre ?", faqA1: "Rechaj pa UID yo fèt otomatikman depi peman an konfime.",
         faqQ2: "Ki mwayen peman nou aksepte ?", faqA2: "MonCash, NatCash, Meru, ak Bous DigitalPay.",
-        footDesc: "Platfòm ofisyèl pou achte sèvis dijital ak rechaj jwèt an Ayiti.", footRights: "Tout dwa rezève.",
         navHome: "Akèy", navHistory: "Istorik", navWallet: "Bous", navShop: "Boutik", navSupport: "Sipò",
         authLogin: "Konekte", authRegister: "Enskri", authLogout: "Dekonekte",
         modalOffersSub: "Chwazi fòmil ou vle a", modalTotal: "Total pou peye", modalOrder: "Kòmande",
@@ -1455,7 +1439,6 @@
         reviewsTitle: "Customer Reviews", faqTitle: "Frequently Asked Questions",
         faqQ1: "How are game top-ups delivered?", faqA1: "UID-based top-ups are credited instantly upon payment confirmation.",
         faqQ2: "What payment methods do you accept?", faqA2: "MonCash, NatCash, Meru, and DigitalPay Wallet.",
-        footDesc: "Official digital services and gaming recharge platform in Haiti.", footRights: "All rights reserved.",
         navHome: "Home", navHistory: "History", navWallet: "Wallet", navShop: "Shop", navSupport: "Support",
         authLogin: "Sign In", authRegister: "Sign Up", authLogout: "Log Out",
         modalOffersSub: "Select your package", modalTotal: "Total to pay", modalOrder: "Order Now",
@@ -1471,7 +1454,6 @@
         reviewsTitle: "Opiniones de Clientes", faqTitle: "Preguntas Frecuentes",
         faqQ1: "¿Cómo se entregan las recargas de juegos?", faqA1: "Las recargas por UID se acreditan al instante tras confirmarse el pago.",
         faqQ2: "¿Qué métodos de pago aceptan?", faqA2: "MonCash, NatCash, Meru y Billetera DigitalPay.",
-        footDesc: "Plataforma oficial para servicios digitales y recargas gaming en Haití.", footRights: "Todos los derechos reservados.",
         navHome: "Inicio", navHistory: "Historial", navWallet: "Billetera", navShop: "Tienda", navSupport: "Soporte",
         authLogin: "Iniciar Sesión", authRegister: "Registrarse", authLogout: "Cerrar Sesión",
         modalOffersSub: "Seleccione su paquete", modalTotal: "Total a pagar", modalOrder: "Pedir",
@@ -1479,7 +1461,7 @@
       }
     };
 
-    /* 5. TOAST HAUTE GAMME (AVEC GESTION DES ERREURS D'AUTH) */
+    /* 4. TOAST NOTIFICATION PRO */
     function showToast(text, isDanger = false) {
       const container = document.getElementById('toast-container');
       container.innerHTML = '';
@@ -1501,7 +1483,7 @@
       }, 2200);
     }
 
-    /* 6. VERROU D'AUTHENTIFICATION STRICT */
+    /* 5. VERIFICATION AUTHENTIFICATION STRICTE */
     function checkAuthOrRedirect() {
       if (!currentUser) {
         showToast(I18N[currentLang].authRequired, true);
@@ -1513,14 +1495,13 @@
       return true;
     }
 
-    // Protection des clics sur les pages privées (Cart, Wallet, Historique)
     function protectLink(url) {
       if (checkAuthOrRedirect()) {
         window.location.href = url;
       }
     }
 
-    /* 7. CHANGEMENT DE LANGUE */
+    /* 6. CHANGEMENT DE LANGUE */
     function setLang(code, btn) {
       currentLang = code;
       document.querySelectorAll('.lang-option').forEach(b => b.classList.remove('active'));
@@ -1546,9 +1527,6 @@
       document.getElementById('faq-q2').innerText = dict.faqQ2;
       document.getElementById('faq-a2').innerText = dict.faqA2;
 
-      document.getElementById('foot-about-desc').innerText = dict.footDesc;
-      document.getElementById('foot-rights').innerText = dict.footRights;
-
       document.getElementById('nav-link-home').innerText = dict.navHome;
       document.getElementById('nav-link-history').innerText = dict.navHistory;
       document.getElementById('nav-link-wallet').innerText = dict.navWallet;
@@ -1564,7 +1542,7 @@
       showToast(dict.toastMsg);
     }
 
-    /* 8. RENDU DU CATALOGUE (4 CATÉGORIES DE 4 SERVICES SUR "TOUT") */
+    /* 7. RENDU DU CATALOGUE : 4 SECTIONS DE 4 SERVICES SUR "TOUT" */
     function renderMainCatalog() {
       const target = document.getElementById('catalog-container');
       target.innerHTML = '';
@@ -1575,7 +1553,7 @@
           const catProducts = PRODUCTS.filter(p => p.category === cat.id);
           if (catProducts.length === 0) return;
 
-          // 4 services uniquement
+          // Exactement 4 services affichés
           const topFourProducts = catProducts.slice(0, 4);
 
           const sectionBlock = document.createElement('div');
@@ -1659,6 +1637,7 @@
       }
     }
 
+    /* 8. NAVIGATION DU BOUTON "VOIR PLUS" VERS LA PILULE */
     function navigateToCategoryPill(catId) {
       const targetPill = document.getElementById(`pill-${catId}`);
       if (targetPill) {
@@ -1756,9 +1735,8 @@
       document.getElementById('sheet-backdrop').classList.remove('active');
     }
 
-    /* 10. AJOUT AU PANIER AVEC CONTRÔLE DE CONNEXION OBLIGATOIRE */
+    /* 10. AJOUT AU PANIER VERROUILLÉ SI NON CONNECTÉ */
     function addToCart() {
-      // RÈGLE STRICTE : INTERDICTION D'AJOUTER AU PANIER SANS ÊTRE CONNECTÉ
       if (!checkAuthOrRedirect()) {
         closeOffersModal();
         return;
@@ -1769,7 +1747,6 @@
         return;
       }
 
-      // Enregistrement dans le panier (LocalStorage)
       let cart = JSON.parse(localStorage.getItem('dp_cart') || '[]');
       cart.push({
         title: selectedProduct.title,
@@ -1831,7 +1808,7 @@
       target.appendChild(sectionBlock);
     }
 
-    /* 12. GESTION DES NOTIFICATIONS, FAQ & SIDEBAR */
+    /* 12. SIDEBAR, NOTIFICATIONS & FAQ */
     function openSidebar() {
       document.getElementById('sidebar-overlay').classList.add('active');
     }
@@ -1849,17 +1826,17 @@
       item.classList.toggle('open');
     }
 
-    /* 13. GESTION FIREBASE AUTH EN DIRECT */
+    /* 13. INTERFACE AUTH SIDEBAR COMPACTE ET REHAUSSÉE */
     function updateSidebarAuthUI() {
       const container = document.getElementById('sidebar-auth-zone');
       const dict = I18N[currentLang];
 
       if (currentUser) {
         container.innerHTML = `
-          <div style="font-size:12px; font-weight:800; color:var(--text-black); margin-bottom:4px;">
+          <div style="font-size:12px; font-weight:800; color:var(--text-black); margin-bottom:2px;">
             ${currentUser.displayName || 'Utilisateur DigitalPay'}
           </div>
-          <div style="font-size:11px; color:var(--text-muted); margin-bottom:12px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+          <div style="font-size:11px; color:var(--text-muted); margin-bottom:10px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
             ${currentUser.email}
           </div>
           <button class="btn-auth btn-logout" onclick="handleLogout()">
@@ -1885,7 +1862,6 @@
       });
     }
 
-    // Écouteur en temps réel de l'état d'authentification
     auth.onAuthStateChanged(user => {
       currentUser = user;
       updateSidebarAuthUI();
