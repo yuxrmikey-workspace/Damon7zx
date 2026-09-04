@@ -15,9 +15,7 @@
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
 
   <style>
-    /* ==========================================================================
-       FINTECH DESIGN SYSTEM — BLANC, NOIR & DÉGRADÉ BLEU ROYAL
-       ========================================================================== */
+    /* FINTECH DESIGN SYSTEM */
     :root {
       --bg: #FFFFFF;
       --surface: #FFFFFF;
@@ -49,794 +47,105 @@
       --font: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      -webkit-tap-highlight-color: transparent;
-    }
-
-    body {
-      background-color: var(--bg);
-      color: var(--text-black);
-      font-family: var(--font);
-      font-size: 14px;
-      line-height: 1.5;
-      overflow-x: hidden;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .app-shell {
-      max-width: 480px;
-      margin: 0 auto;
-      min-height: 100vh;
-      background: #FFFFFF;
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      border-left: 1px solid var(--border-light);
-      border-right: 1px solid var(--border-light);
-    }
-
-    .icon-svg {
-      width: 16px;
-      height: 16px;
-      stroke: currentColor;
-      stroke-width: 2;
-      fill: none;
-      display: inline-block;
-      vertical-align: middle;
-    }
-
-    /* ==========================================================================
-       HEADER IDENTIQUE À INDEX
-       ========================================================================== */
-    .site-header {
-      position: sticky;
-      top: 0;
-      z-index: 40;
-      background: rgba(255, 255, 255, 0.96);
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
-      border-bottom: 1px solid var(--border);
-      padding: 10px 16px;
-    }
-
-    .header-top {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      height: 44px;
-    }
-
-    .brand-logo-only {
-      height: 34px;
-      width: auto;
-      max-width: 120px;
-      object-fit: contain;
-      cursor: pointer;
-    }
-
-    .header-icons {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .header-btn {
-      width: 38px;
-      height: 38px;
-      border-radius: var(--radius-md);
-      background: #FFFFFF;
-      border: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--text-black);
-      cursor: pointer;
-      position: relative;
-      text-decoration: none;
-      transition: transform 0.15s ease;
-    }
-
-    .header-btn:active {
-      transform: scale(0.94);
-      background: var(--surface-subtle);
-    }
-
-    .header-btn svg {
-      width: 18px;
-      height: 18px;
-      stroke: currentColor;
-      stroke-width: 2;
-      fill: none;
-    }
-
-    .badge-dot {
-      position: absolute;
-      top: 8px;
-      right: 8px;
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: var(--royal-blue);
-      box-shadow: 0 0 0 2px #FFFFFF;
-    }
-
-    /* ==========================================================================
-       CONTENU DU PANIER
-       ========================================================================== */
-    .cart-main {
-      padding: 20px 16px 40px;
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .cart-header-title {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 18px;
-    }
-
-    .cart-title {
-      font-size: 20px;
-      font-weight: 900;
-      color: var(--text-black);
-      letter-spacing: -0.5px;
-    }
-
-    .cart-badge-count {
-      background: var(--surface-subtle);
-      border: 1px solid var(--border);
-      color: var(--royal-blue);
-      font-size: 12px;
-      font-weight: 800;
-      padding: 4px 10px;
-      border-radius: var(--radius-full);
-    }
-
-    /* Liste des articles */
-    .cart-items-list {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      margin-bottom: 24px;
-    }
-
-    .cart-card {
-      background: #FFFFFF;
-      border: 1px solid var(--border);
-      border-radius: var(--radius-card);
-      padding: 12px 14px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      box-shadow: var(--shadow-sm);
-    }
-
-    .cart-card-left {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      flex: 1;
-      overflow: hidden;
-    }
-
-    .cart-thumb {
-      width: 44px;
-      height: 44px;
-      border-radius: var(--radius-md);
-      overflow: hidden;
-      background: var(--surface-subtle);
-      border: 1px solid var(--border-light);
-      flex-shrink: 0;
-    }
-
-    .cart-thumb img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    .cart-info {
-      flex: 1;
-      overflow: hidden;
-    }
-
-    .cart-prod-title {
-      font-size: 13px;
-      font-weight: 800;
-      color: var(--text-black);
-      line-height: 1.2;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .cart-prod-offer {
-      font-size: 11px;
-      color: var(--text-muted);
-      margin: 2px 0 4px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .cart-prod-price {
-      font-size: 13px;
-      font-weight: 900;
-      color: var(--royal-blue);
-    }
-
-    .btn-remove-item {
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      background: var(--surface-subtle);
-      border: 1px solid var(--border);
-      color: var(--text-muted);
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-      margin-left: 8px;
-    }
-
-    .btn-remove-item:active {
-      color: var(--danger);
-      background: var(--danger-soft);
-    }
-
-    .empty-cart-box {
-      text-align: center;
-      padding: 60px 20px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .empty-cart-box svg {
-      width: 48px;
-      height: 48px;
-      stroke: var(--text-light);
-      margin-bottom: 12px;
-    }
-
-    .empty-cart-title {
-      font-size: 16px;
-      font-weight: 800;
-      color: var(--text-black);
-      margin-bottom: 4px;
-    }
-
-    .empty-cart-sub {
-      font-size: 12px;
-      color: var(--text-muted);
-      margin-bottom: 20px;
-    }
-
-    .btn-return-shop {
-      background: var(--royal-gradient);
-      color: #FFFFFF;
-      padding: 10px 24px;
-      border-radius: var(--radius-md);
-      font-size: 13px;
-      font-weight: 800;
-      text-decoration: none;
-      box-shadow: 0 4px 12px rgba(29, 78, 216, 0.2);
-    }
-
-    /* ==========================================================================
-       TUNNEL DE RÈGLEMENT (MÉTHODES FINTECH)
-       ========================================================================== */
-    .checkout-section {
-      background: #FFFFFF;
-      border: 1px solid var(--border);
-      border-radius: var(--radius-card);
-      padding: 16px;
-      box-shadow: var(--shadow-sm);
-      margin-bottom: 20px;
-    }
-
-    .section-subtitle {
-      font-size: 12px;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 0.6px;
-      color: var(--text-black);
-      margin-bottom: 12px;
-    }
-
-    .payment-methods-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 8px;
-      margin-bottom: 14px;
-    }
-
-    .pay-pill {
-      border: 1px solid var(--border);
-      border-radius: var(--radius-md);
-      padding: 10px;
-      background: #FFFFFF;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      transition: all 0.15s ease;
-    }
-
-    .pay-pill.active {
-      border-color: var(--royal-blue);
-      background: var(--royal-soft);
-    }
-
-    .pay-pill-icon {
-      width: 24px;
-      height: 24px;
-      object-fit: contain;
-      flex-shrink: 0;
-    }
-
-    .pay-pill-name {
-      font-size: 12px;
-      font-weight: 700;
-      color: var(--text-black);
-    }
-
-    /* Boîte d'instructions de paiement */
-    .pay-details-box {
-      background: var(--surface-subtle);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-md);
-      padding: 14px;
-      margin-bottom: 14px;
-    }
-
-    .pay-instruction-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 8px;
-    }
-
-    .pay-target-label {
-      font-size: 11px;
-      font-weight: 700;
-      color: var(--text-muted);
-    }
-
-    .btn-copy-target {
-      background: #FFFFFF;
-      border: 1px solid var(--border);
-      color: var(--royal-blue);
-      font-size: 11px;
-      font-weight: 800;
-      padding: 4px 10px;
-      border-radius: var(--radius-sm);
-      cursor: pointer;
-    }
-
-    .pay-target-value {
-      font-family: monospace;
-      font-size: 14px;
-      font-weight: 900;
-      color: var(--text-black);
-      margin-bottom: 12px;
-      word-break: break-all;
-    }
-
-    .field-group {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-      margin-bottom: 10px;
-    }
-
-    .field-group:last-child {
-      margin-bottom: 0;
-    }
-
-    .field-label {
-      font-size: 11px;
-      font-weight: 800;
-      color: var(--text-black);
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
-    .text-input {
-      width: 100%;
-      height: 42px;
-      background: #FFFFFF;
-      border: 1px solid var(--border);
-      border-radius: var(--radius-sm);
-      padding: 0 12px;
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--text-black);
-      outline: none;
-      font-family: inherit;
-    }
-
-    .text-input:focus {
-      border-color: var(--royal-blue);
-    }
-
-    /* Récapitulatif financier */
-    .summary-card {
-      background: var(--surface-subtle);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-md);
-      padding: 14px;
-      margin-bottom: 16px;
-    }
-
-    .summary-line {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 12px;
-      font-weight: 600;
-      color: var(--text-muted);
-      margin-bottom: 8px;
-    }
-
-    .summary-line.total {
-      border-top: 1px solid var(--border);
-      padding-top: 10px;
-      margin-top: 6px;
-      margin-bottom: 0;
-      font-size: 14px;
-      font-weight: 900;
-      color: var(--text-black);
-    }
-
-    .summary-line.total span:last-child {
-      font-size: 18px;
-      color: var(--royal-blue);
-    }
-
-    .btn-confirm-checkout {
-      width: 100%;
-      height: 48px;
-      background: var(--royal-gradient);
-      color: #FFFFFF;
-      border: none;
-      border-radius: var(--radius-md);
-      font-size: 13px;
-      font-weight: 800;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      box-shadow: 0 4px 14px rgba(29, 78, 216, 0.25);
-      font-family: inherit;
-    }
-
-    .btn-confirm-checkout:active {
-      transform: scale(0.99);
-    }
-
-    .btn-confirm-checkout:disabled {
-      opacity: 0.6;
-      cursor: not-allowed;
-    }
-
-    /* Solde insuffisant portefeuille */
-    .wallet-alert-box {
-      background: var(--danger-soft);
-      border: 1px solid rgba(220, 38, 38, 0.2);
-      padding: 12px;
-      border-radius: var(--radius-md);
-      margin-bottom: 12px;
-      display: none;
-    }
-
-    .wallet-alert-text {
-      color: var(--danger);
-      font-size: 12px;
-      font-weight: 700;
-      margin-bottom: 8px;
-    }
-
-    .btn-topup-wallet {
-      background: var(--text-black);
-      color: #FFFFFF;
-      padding: 8px 14px;
-      border-radius: var(--radius-sm);
-      font-size: 11px;
-      font-weight: 800;
-      text-decoration: none;
-      display: inline-block;
-    }
-
-    /* ==========================================================================
-       TOAST SYSTEM
-       ========================================================================== */
-    #toast-container {
-      position: fixed;
-      top: 16px;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 300;
-      width: calc(100% - 32px);
-      max-width: 380px;
-      pointer-events: none;
-    }
-
-    .toast-pro {
-      background: #0F172A;
-      color: #FFFFFF;
-      padding: 12px 16px;
-      border-radius: var(--radius-md);
-      font-size: 12px;
-      font-weight: 700;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-      transform: translateY(-20px);
-      opacity: 0;
-      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    .toast-pro.toast-danger {
-      background: #991B1B;
-      border-left: 4px solid #EF4444;
-    }
-
-    .toast-pro.show {
-      transform: translateY(0);
-      opacity: 1;
-    }
-
-    /* ==========================================================================
-       SIDEBAR & NOTIF
-       ========================================================================== */
-    .sidebar-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(15, 23, 42, 0.45);
-      backdrop-filter: blur(4px);
-      -webkit-backdrop-filter: blur(4px);
-      z-index: 100;
-      opacity: 0;
-      visibility: hidden;
-      transition: all 0.25s ease;
-    }
-
-    .sidebar-overlay.active {
-      opacity: 1;
-      visibility: visible;
-    }
-
-    .sidebar-drawer {
-      position: fixed;
-      top: 0;
-      right: 0;
-      width: min(82vw, 340px);
-      height: 100vh;
-      background: #FFFFFF;
-      z-index: 101;
-      transform: translateX(100%);
-      transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
-      display: flex;
-      flex-direction: column;
-      box-shadow: -10px 0 30px rgba(0, 0, 0, 0.08);
-    }
-
-    .sidebar-overlay.active .sidebar-drawer {
-      transform: translateX(0);
-    }
-
-    .sidebar-content {
-      padding: 24px 20px;
-      display: flex;
-      flex-direction: column;
-      height: 100%;
-      overflow-y: auto;
-    }
-
-    .sidebar-header-pro {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding-bottom: 16px;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .sidebar-brand-box {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .logo-container-square {
-      width: 44px;
-      height: 44px;
-      border-radius: var(--radius-square);
-      background: var(--surface-subtle);
-      border: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-    }
-
-    .logo-container-square img {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-    }
-
-    .sidebar-brand-title {
-      font-size: 16px;
-      font-weight: 900;
-      color: #000000;
-      letter-spacing: -0.4px;
-    }
-
-    .sidebar-brand-sub {
-      font-size: 12px;
-      font-weight: 700;
-      color: #000000;
-      letter-spacing: 0.5px;
-    }
-
-    .sidebar-close-btn {
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      background: var(--surface-subtle);
-      border: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--text-muted);
-      cursor: pointer;
-      font-weight: 800;
-    }
-
-    .sidebar-section-title {
-      font-size: 10px;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 0.8px;
-      color: var(--text-light);
-      margin: 16px 0 8px;
-    }
-
-    .lang-switcher-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 6px;
-    }
-
-    .lang-option {
-      background: var(--surface-subtle);
-      border: 1px solid var(--border);
-      padding: 7px 10px;
-      border-radius: var(--radius-sm);
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 12px;
-      font-weight: 600;
-      color: var(--text-black);
-      cursor: pointer;
-    }
-
-    .lang-option.active {
-      border-color: var(--royal-blue);
-      background: var(--royal-soft);
-      color: var(--royal-blue);
-      font-weight: 800;
-    }
-
-    .sidebar-menu-nav {
-      margin-top: 10px;
-      display: flex;
-      flex-direction: column;
-      gap: 3px;
-    }
-
-    .menu-link {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 9px 12px;
-      border-radius: var(--radius-md);
-      color: var(--text-black);
-      text-decoration: none;
-      font-size: 13px;
-      font-weight: 600;
-      transition: all 0.15s ease;
-      cursor: pointer;
-    }
-
-    .menu-link:hover, .menu-link.active {
-      background: var(--surface-subtle);
-      color: var(--royal-blue);
-    }
-
-    .menu-link svg {
-      width: 18px;
-      height: 18px;
-      stroke: currentColor;
-      stroke-width: 2;
-      fill: none;
-    }
-
-    .sidebar-auth-zone {
-      margin-top: 16px;
-      padding-top: 16px;
-      border-top: 1px solid var(--border);
-    }
-
-    .btn-auth {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      width: 100%;
-      height: 40px;
-      border-radius: var(--radius-md);
-      font-size: 13px;
-      font-weight: 700;
-      text-decoration: none;
-      cursor: pointer;
-    }
-
-    .btn-logout {
-      background: var(--danger-soft);
-      color: var(--danger);
-      border: 1px solid rgba(220, 38, 38, 0.2);
-    }
-
-    .notif-panel {
-      position: absolute;
-      top: 64px;
-      right: 16px;
-      width: calc(100% - 32px);
-      max-width: 360px;
-      background: #FFFFFF;
-      border: 1px solid var(--border);
-      border-radius: var(--radius-md);
-      box-shadow: 0 10px 25px rgba(0,0,0,0.08);
-      z-index: 60;
-      display: none;
-      padding: 14px;
-    }
-
-    .notif-panel.open {
-      display: block;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+    body { background-color: var(--bg); color: var(--text-black); font-family: var(--font); font-size: 14px; line-height: 1.5; overflow-x: hidden; min-height: 100vh; display: flex; flex-direction: column; }
+    .app-shell { max-width: 480px; margin: 0 auto; min-height: 100vh; background: #FFFFFF; position: relative; display: flex; flex-direction: column; border-left: 1px solid var(--border-light); border-right: 1px solid var(--border-light); }
+    .icon-svg { width: 16px; height: 16px; stroke: currentColor; stroke-width: 2; fill: none; display: inline-block; vertical-align: middle; }
+
+    /* HEADER */
+    .site-header { position: sticky; top: 0; z-index: 40; background: rgba(255, 255, 255, 0.96); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-bottom: 1px solid var(--border); padding: 10px 16px; }
+    .header-top { display: flex; align-items: center; justify-content: space-between; height: 44px; }
+    .brand-logo-only { height: 34px; width: auto; max-width: 120px; object-fit: contain; cursor: pointer; }
+    .header-icons { display: flex; align-items: center; gap: 6px; }
+    .header-btn { width: 38px; height: 38px; border-radius: var(--radius-md); background: #FFFFFF; border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; color: var(--text-black); cursor: pointer; position: relative; text-decoration: none; transition: transform 0.15s ease; }
+    .header-btn:active { transform: scale(0.94); background: var(--surface-subtle); }
+    .header-btn svg { width: 18px; height: 18px; stroke: currentColor; stroke-width: 2; fill: none; }
+    .badge-dot { position: absolute; top: 8px; right: 8px; width: 6px; height: 6px; border-radius: 50%; background: var(--royal-blue); box-shadow: 0 0 0 2px #FFFFFF; }
+
+    /* CONTENU PANIER */
+    .cart-main { padding: 20px 16px 40px; flex: 1; display: flex; flex-direction: column; }
+    .cart-header-title { display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px; }
+    .cart-title { font-size: 20px; font-weight: 900; color: var(--text-black); letter-spacing: -0.5px; }
+    .cart-badge-count { background: var(--surface-subtle); border: 1px solid var(--border); color: var(--royal-blue); font-size: 12px; font-weight: 800; padding: 4px 10px; border-radius: var(--radius-full); }
+
+    .cart-items-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 24px; }
+    .cart-card { background: #FFFFFF; border: 1px solid var(--border); border-radius: var(--radius-card); padding: 12px 14px; display: flex; align-items: center; justify-content: space-between; box-shadow: var(--shadow-sm); }
+    .cart-card-left { display: flex; align-items: center; gap: 12px; flex: 1; overflow: hidden; }
+    
+    /* LOGO DU PRODUIT RÉEL DANS LE PANIER */
+    .cart-thumb { width: 48px; height: 48px; border-radius: var(--radius-square); overflow: hidden; background: var(--surface-subtle); border: 1px solid var(--border-light); flex-shrink: 0; }
+    .cart-thumb img { width: 100%; height: 100%; object-fit: cover; }
+
+    .cart-info { flex: 1; overflow: hidden; }
+    .cart-prod-title { font-size: 13px; font-weight: 800; color: var(--text-black); line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .cart-prod-offer { font-size: 11px; color: var(--text-muted); margin: 2px 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .cart-prod-deliv { font-size: 10px; color: var(--royal-blue); font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .cart-prod-price { font-size: 13px; font-weight: 900; color: var(--royal-blue); margin-top: 2px; }
+
+    .btn-remove-item { width: 32px; height: 32px; border-radius: 50%; background: var(--surface-subtle); border: 1px solid var(--border); color: var(--text-muted); cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-left: 8px; }
+    .btn-remove-item:active { color: var(--danger); background: var(--danger-soft); }
+
+    .empty-cart-box { text-align: center; padding: 60px 20px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+    .empty-cart-box svg { width: 48px; height: 48px; stroke: var(--text-light); margin-bottom: 12px; }
+    .empty-cart-title { font-size: 16px; font-weight: 800; color: var(--text-black); margin-bottom: 4px; }
+    .empty-cart-sub { font-size: 12px; color: var(--text-muted); margin-bottom: 20px; }
+    .btn-return-shop { background: var(--royal-gradient); color: #FFFFFF; padding: 10px 24px; border-radius: var(--radius-md); font-size: 13px; font-weight: 800; text-decoration: none; box-shadow: 0 4px 12px rgba(29, 78, 216, 0.2); }
+
+    /* CHECKOUT FINTECH */
+    .checkout-section { background: #FFFFFF; border: 1px solid var(--border); border-radius: var(--radius-card); padding: 16px; box-shadow: var(--shadow-sm); margin-bottom: 20px; }
+    .section-subtitle { font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.6px; color: var(--text-black); margin-bottom: 12px; }
+    .payment-methods-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-bottom: 14px; }
+    .pay-pill { border: 1px solid var(--border); border-radius: var(--radius-md); padding: 10px; background: #FFFFFF; cursor: pointer; display: flex; align-items: center; gap: 8px; transition: all 0.15s ease; }
+    .pay-pill.active { border-color: var(--royal-blue); background: var(--royal-soft); }
+    .pay-pill-icon { width: 24px; height: 24px; object-fit: contain; flex-shrink: 0; }
+    .pay-pill-name { font-size: 12px; font-weight: 700; color: var(--text-black); }
+
+    .pay-details-box { background: var(--surface-subtle); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 14px; margin-bottom: 14px; }
+    .pay-instruction-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+    .pay-target-label { font-size: 11px; font-weight: 700; color: var(--text-muted); }
+    .btn-copy-target { background: #FFFFFF; border: 1px solid var(--border); color: var(--royal-blue); font-size: 11px; font-weight: 800; padding: 4px 10px; border-radius: var(--radius-sm); cursor: pointer; }
+    .pay-target-value { font-family: monospace; font-size: 14px; font-weight: 900; color: var(--text-black); margin-bottom: 12px; word-break: break-all; }
+
+    .field-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 10px; }
+    .field-group:last-child { margin-bottom: 0; }
+    .field-label { font-size: 11px; font-weight: 800; color: var(--text-black); text-transform: uppercase; letter-spacing: 0.5px; }
+    .text-input { width: 100%; height: 42px; background: #FFFFFF; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 0 12px; font-size: 13px; font-weight: 600; color: var(--text-black); outline: none; font-family: inherit; }
+    .text-input:focus { border-color: var(--royal-blue); }
+
+    .summary-card { background: var(--surface-subtle); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 14px; margin-bottom: 16px; }
+    .summary-line { display: flex; justify-content: space-between; align-items: center; font-size: 12px; font-weight: 600; color: var(--text-muted); margin-bottom: 8px; }
+    .summary-line.total { border-top: 1px solid var(--border); padding-top: 10px; margin-top: 6px; margin-bottom: 0; font-size: 14px; font-weight: 900; color: var(--text-black); }
+    .summary-line.total span:last-child { font-size: 18px; color: var(--royal-blue); }
+
+    .btn-confirm-checkout { width: 100%; height: 48px; background: var(--royal-gradient); color: #FFFFFF; border: none; border-radius: var(--radius-md); font-size: 13px; font-weight: 800; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 14px rgba(29, 78, 216, 0.25); font-family: inherit; }
+    .btn-confirm-checkout:disabled { opacity: 0.6; cursor: not-allowed; }
+
+    .wallet-alert-box { background: var(--danger-soft); border: 1px solid rgba(220, 38, 38, 0.2); padding: 12px; border-radius: var(--radius-md); margin-bottom: 12px; display: none; }
+    .wallet-alert-text { color: var(--danger); font-size: 12px; font-weight: 700; margin-bottom: 8px; }
+    .btn-topup-wallet { background: var(--text-black); color: #FFFFFF; padding: 8px 14px; border-radius: var(--radius-sm); font-size: 11px; font-weight: 800; text-decoration: none; display: inline-block; }
+
+    #toast-container { position: fixed; top: 16px; left: 50%; transform: translateX(-50%); z-index: 300; width: calc(100% - 32px); max-width: 380px; pointer-events: none; }
+    .toast-pro { background: #0F172A; color: #FFFFFF; padding: 12px 16px; border-radius: var(--radius-md); font-size: 12px; font-weight: 700; display: flex; align-items: center; gap: 10px; box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2); transform: translateY(-20px); opacity: 0; transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1); }
+    .toast-pro.toast-danger { background: #991B1B; border-left: 4px solid #EF4444; }
+    .toast-pro.show { transform: translateY(0); opacity: 1; }
+
+    .notif-panel { position: absolute; top: 64px; right: 16px; width: calc(100% - 32px); max-width: 360px; background: #FFFFFF; border: 1px solid var(--border); border-radius: var(--radius-md); box-shadow: 0 10px 25px rgba(0,0,0,0.08); z-index: 60; display: none; padding: 14px; }
+    .notif-panel.open { display: block; }
   </style>
 </head>
 <body>
 
-  <!-- TOAST CONTAINER -->
   <div id="toast-container"></div>
 
   <div class="app-shell">
 
-    <!-- ==================== HEADER ==================== -->
+    <!-- HEADER -->
     <header class="site-header">
       <div class="header-top">
-        <!-- Logo vers Accueil -->
         <a href="index.html">
           <img src="logo.png" alt="DigitalPay Logo" class="brand-logo-only" onerror="this.src='assets/logo.png'; this.onerror=null;">
         </a>
 
-        <!-- 2 Icônes Droite -->
         <div class="header-icons">
           <button class="header-btn" onclick="toggleNotifications()" aria-label="Notifications">
             <svg viewBox="0 0 24 24">
@@ -844,17 +153,10 @@
             </svg>
             <span class="badge-dot"></span>
           </button>
-
-          <button class="header-btn" onclick="openSidebar()" aria-label="Menu">
-            <svg viewBox="0 0 24 24">
-              <path d="M4 6h16M4 12h16M4 18h16" stroke-linecap="round"/>
-            </svg>
-          </button>
         </div>
       </div>
     </header>
 
-    <!-- Panneau Notifications Broadcast Admin -->
     <div class="notif-panel" id="notif-panel">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
         <strong style="font-size:12px; text-transform:uppercase;">Annonces Globales</strong>
@@ -862,168 +164,95 @@
       </div>
       <div style="padding:10px; background:var(--surface-subtle); border-left:3px solid var(--royal-blue); border-radius:4px; font-size:12px;">
         <strong>Validation Automatique</strong>
-        <p>Toutes les commandes réglées par portefeuille DigitalPay sont livrées instantanément.</p>
+        <p>Les packs de diamants Free Fire sont livrés immédiatement par code PIN Firestore.</p>
       </div>
     </div>
 
-    <!-- ==================== CORPS DU PANIER ==================== -->
+    <!-- CORPS DU PANIER -->
     <main class="cart-main">
       <div class="cart-header-title">
-        <h1 class="cart-title" id="i18n-cart-title">Votre Panier</h1>
+        <h1 class="cart-title">Votre Panier</h1>
         <span class="cart-badge-count" id="cart-item-count-badge">0 article</span>
       </div>
 
-      <!-- Liste dynamique des articles ou état vide -->
       <div class="cart-items-list" id="cart-list-target"></div>
 
-      <!-- Tunnel de Paiement (affiché uniquement si panier non vide) -->
+      <!-- TUNNEL CHECKOUT -->
       <div id="checkout-container" style="display: none;">
-        
         <div class="checkout-section">
-          <div class="section-subtitle" id="i18n-pay-method-title">Moyen de Règlement</div>
+          <div class="section-subtitle">Moyen de Règlement</div>
           
           <div class="payment-methods-grid">
-            <!-- 1. Portefeuille -->
             <div class="pay-pill active" data-method="wallet" onclick="selectPaymentMethod('wallet')">
               <span style="font-size: 12px; font-weight: 900; color: var(--royal-blue);">DP</span>
               <span class="pay-pill-name">Portefeuille</span>
             </div>
 
-            <!-- 2. MonCash -->
             <div class="pay-pill" data-method="moncash" onclick="selectPaymentMethod('moncash')">
               <img src="moncash-logo.png" class="pay-pill-icon" onerror="this.src='assets/moncash-logo.png'; this.onerror=null;">
               <span class="pay-pill-name">MonCash</span>
             </div>
 
-            <!-- 3. NatCash -->
             <div class="pay-pill" data-method="natcash" onclick="selectPaymentMethod('natcash')">
               <img src="natcash-logo.png" class="pay-pill-icon" onerror="this.src='assets/natcash-logo.png'; this.onerror=null;">
               <span class="pay-pill-name">NatCash</span>
             </div>
 
-            <!-- 4. Meru USD -->
             <div class="pay-pill" data-method="meru" onclick="selectPaymentMethod('meru')">
               <img src="meru.png" class="pay-pill-icon" onerror="this.src='assets/meru.png'; this.onerror=null;">
               <span class="pay-pill-name">Meru USD</span>
             </div>
           </div>
 
-          <!-- Alerte solde portefeuille insuffisant -->
           <div class="wallet-alert-box" id="wallet-alert-box">
-            <div class="wallet-alert-text" id="i18n-wallet-low-text">Solde Portefeuille insuffisant.</div>
-            <a href="wallet.html" class="btn-topup-wallet" id="i18n-wallet-recharge-btn">Recharger le Portefeuille</a>
+            <div class="wallet-alert-text">Solde Portefeuille insuffisant.</div>
+            <a href="wallet.html" class="btn-topup-wallet">Recharger le Portefeuille</a>
           </div>
 
-          <!-- Boîte d'instructions manuelles (MonCash, NatCash, Meru) -->
           <div class="pay-details-box" id="pay-details-box" style="display: none;">
             <div class="pay-instruction-header">
               <span class="pay-target-label" id="pay-target-label">Transférer vers le numéro :</span>
-              <button class="btn-copy-target" onclick="copyPaymentTarget()" id="i18n-copy-btn">COPIER</button>
+              <button class="btn-copy-target" onclick="copyPaymentTarget()">COPIER</button>
             </div>
             <div class="pay-target-value" id="pay-target-value">+509 3643-5649</div>
 
             <div class="field-group">
-              <label class="field-label" for="tx-id-input" id="i18n-txid-label">ID de Transaction / Numéro Expéditeur :</label>
+              <label class="field-label" for="tx-id-input">ID de Transaction / Numéro Expéditeur :</label>
               <input type="text" id="tx-id-input" class="text-input" placeholder="Ex: 882910392">
             </div>
 
             <div class="field-group">
-              <label class="field-label" for="proof-file-input" id="i18n-proof-label">Capture de reçu (Image Max 1 Mo) :</label>
+              <label class="field-label" for="proof-file-input">Capture de reçu (Image Max 1 Mo) :</label>
               <input type="file" id="proof-file-input" accept="image/*" class="text-input" style="padding-top: 8px;" onchange="validateFileSize(this)">
             </div>
           </div>
 
-          <!-- Récapitulatif financier -->
           <div class="summary-card">
             <div class="summary-line">
-              <span id="i18n-subtotal-label">Sous-total</span>
+              <span>Sous-total</span>
               <span id="summary-subtotal">0 HTG</span>
             </div>
             <div class="summary-line">
-              <span id="i18n-fees-label">Frais de livraison</span>
-              <span style="color: var(--success); font-weight: 800;" id="i18n-fees-free">Gratuit (0 HTG)</span>
+              <span>Frais de livraison</span>
+              <span style="color: var(--success); font-weight: 800;">Gratuit (0 HTG)</span>
             </div>
             <div class="summary-line total">
-              <span id="i18n-total-label">Total</span>
+              <span>Total</span>
               <span id="summary-total">0 HTG</span>
             </div>
           </div>
 
           <button class="btn-confirm-checkout" id="btn-submit-order" onclick="processOrderCheckout()">
-            <span id="i18n-btn-confirm">Confirmer la Commande</span>
+            <span>Confirmer la Commande</span>
           </button>
-
         </div>
-
       </div>
     </main>
 
-    <!-- ==================== SIDEBAR-MENU ==================== -->
-    <div class="sidebar-overlay" id="sidebar-overlay" onclick="closeSidebar()">
-      <aside class="sidebar-drawer" onclick="event.stopPropagation()">
-        <div class="sidebar-content">
-          
-          <div class="sidebar-header-pro">
-            <div class="sidebar-brand-box">
-              <div class="logo-container-square">
-                <img src="logo.png" alt="DigitalPay Logo" onerror="this.src='assets/logo.png'; this.onerror=null;">
-              </div>
-              <div>
-                <div class="sidebar-brand-title">DigitalPay</div>
-                <div class="sidebar-brand-sub">Haiti</div>
-              </div>
-            </div>
-            <button class="sidebar-close-btn" onclick="closeSidebar()">✕</button>
-          </div>
-
-          <!-- 4 Langues avec drapeaux -->
-          <div class="sidebar-section-title">Langue / Lang</div>
-          <div class="lang-switcher-grid">
-            <button class="lang-option active" onclick="setLang('fr', this)"><span>🇫🇷</span> Français</button>
-            <button class="lang-option" onclick="setLang('ht', this)"><span>🇭🇹</span> Kreyòl</button>
-            <button class="lang-option" onclick="setLang('en', this)"><span>🇺🇸</span> English</button>
-            <button class="lang-option" onclick="setLang('es', this)"><span>🇪🇸</span> Español</button>
-          </div>
-
-          <!-- Navigation -->
-          <div class="sidebar-section-title">Navigation</div>
-          <nav class="sidebar-menu-nav">
-            <a href="index.html" class="menu-link">
-              <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><path d="M9 22V12h6v10"/></svg>
-              <span id="nav-link-home">Accueil</span>
-            </a>
-            <a href="Commande.html" class="menu-link">
-              <svg viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
-              <span id="nav-link-history">Historique</span>
-            </a>
-            <a href="wallet.html" class="menu-link">
-              <svg viewBox="0 0 24 24"><path d="M20 12V8H6a2 2 0 01-2-2c0-1.1.9-2 2-2h12v4"/><path d="M4 6v12a2 2 0 002 2h14v-4"/><circle cx="16" cy="14" r="2"/></svg>
-              <span id="nav-link-wallet">Wallet</span>
-            </a>
-            <a href="index.html#catalog-container" class="menu-link">
-              <svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
-              <span id="nav-link-shop">Boutique</span>
-            </a>
-            <a href="help.html" class="menu-link">
-              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-              <span id="nav-link-support">Support</span>
-            </a>
-          </nav>
-
-          <!-- Zone Profil et Déconnexion -->
-          <div class="sidebar-auth-zone" id="sidebar-auth-zone">
-            <!-- Rempli en JS -->
-          </div>
-
-        </div>
-      </aside>
-    </div>
-
   </div>
 
-  <!-- ==================== JAVASCRIPT ET TRANSACTION FIREBASE ==================== -->
   <script>
-    /* 1. CONFIGURATION FIREBASE */
+    /* CONFIGURATION FIREBASE */
     const firebaseConfig = {
       apiKey: "AIzaSyB9o8-LYeKrg2q84dxQM5Z1wFKHjt9yHFo",
       authDomain: "digital-pay-haiti.firebaseapp.com",
@@ -1033,132 +262,15 @@
       appId: "1:182015693140:web:8a2486b9446bfb791bf8c1"
     };
 
-    if (!firebase.apps.length) {
-      firebase.initializeApp(firebaseConfig);
-    }
+    if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
     const db = firebase.firestore();
 
-    /* 2. ÉTAT LOCAL */
     let currentUser = null;
     let userWalletBalance = 0;
     let cartItems = [];
     let selectedMethod = 'wallet';
-    let currentLang = 'fr';
 
-    /* 3. DICTIONNAIRE GLOBAL MULTILINGUE */
-    const I18N = {
-      fr: {
-        toastLang: "Langue changée : Français",
-        authRequired: "Veuillez vous connecter pour accéder à votre panier.",
-        cartTitle: "Votre Panier",
-        emptyTitle: "Votre panier est vide",
-        emptySub: "Découvrez nos offres et rechargez vos jeux dès maintenant.",
-        btnReturnShop: "Explorer la boutique",
-        payMethodTitle: "Moyen de Règlement",
-        targetNumber: "Transférer vers le numéro :",
-        targetEmail: "Transférer vers l'adresse Meru :",
-        copyBtn: "COPIER",
-        txidLabel: "ID de Transaction / Numéro Expéditeur :",
-        proofLabel: "Capture de reçu (Image Max 1 Mo) :",
-        subtotalLabel: "Sous-total",
-        feesLabel: "Frais de livraison",
-        feesFree: "Gratuit (0 HTG)",
-        totalLabel: "Total",
-        btnConfirm: "Confirmer la Commande",
-        walletLowText: "Solde Portefeuille insuffisant.",
-        walletRechargeBtn: "Recharger le Portefeuille",
-        orderSuccess: "Commande validée avec succès !",
-        fileTooLarge: "Fichier trop lourd (Maximum 1 Mo).",
-        fillAllFields: "Veuillez renseigner tous les champs de vérification.",
-        copied: "Coordonnées copiées avec succès !",
-        authLogout: "Se Déconnecter",
-        navHome: "Accueil", navHistory: "Historique", navWallet: "Wallet", navShop: "Boutique", navSupport: "Support"
-      },
-      ht: {
-        toastLang: "Lang chanje : Kreyòl Ayisyen",
-        authRequired: "Tanpri konekte pou w ka jere panyen w.",
-        cartTitle: "Panyen Ou",
-        emptyTitle: "Panyen ou vid",
-        emptySub: "Gade tout sèvis nou yo epi fè rechaj ou fasilman.",
-        btnReturnShop: "Al nan boutik la",
-        payMethodTitle: "Mwayen Peman",
-        targetNumber: "Voye kòb la sou nimewo sa :",
-        targetEmail: "Voye kòb la sou adrès Meru sa :",
-        copyBtn: "KOPIYE",
-        txidLabel: "ID Transaksyon / Nimewo ki Voye a :",
-        proofLabel: "Prèv Peman (Foto Max 1 Mo) :",
-        subtotalLabel: "Sou-total",
-        feesLabel: "Frè livrezon",
-        feesFree: "Gratis (0 HTG)",
-        totalLabel: "Total",
-        btnConfirm: "Konfime Kòmand lan",
-        walletLowText: "Kòb nan bous ou pa ase.",
-        walletRechargeBtn: "Rechaje Bous Mwen",
-        orderSuccess: "Kòmand ou valide avèk siksè !",
-        fileTooLarge: "Foto a twò lou (Maksimòm 1 Mo).",
-        fillAllFields: "Tanpri mete tout enfòmasyon prèv yo.",
-        copied: "Kowòdone yo kopye avèk siksè !",
-        authLogout: "Dekonekte",
-        navHome: "Akèy", navHistory: "Istorik", navWallet: "Bous", navShop: "Boutik", navSupport: "Sipò"
-      },
-      en: {
-        toastLang: "Language changed: English",
-        authRequired: "Please log in to view your cart.",
-        cartTitle: "Your Cart",
-        emptyTitle: "Your cart is empty",
-        emptySub: "Explore our offers and top up your gaming services now.",
-        btnReturnShop: "Explore Shop",
-        payMethodTitle: "Payment Method",
-        targetNumber: "Transfer to phone number:",
-        targetEmail: "Transfer to Meru email:",
-        copyBtn: "COPY",
-        txidLabel: "Transaction ID / Sender Number:",
-        proofLabel: "Payment Receipt (Image Max 1 MB):",
-        subtotalLabel: "Subtotal",
-        feesLabel: "Delivery Fees",
-        feesFree: "Free (0 HTG)",
-        totalLabel: "Total",
-        btnConfirm: "Confirm Order",
-        walletLowText: "Insufficient wallet balance.",
-        walletRechargeBtn: "Top-up Wallet",
-        orderSuccess: "Order successfully placed!",
-        fileTooLarge: "File too large (Maximum 1 MB).",
-        fillAllFields: "Please fill in all payment verification fields.",
-        copied: "Payment details copied!",
-        authLogout: "Log Out",
-        navHome: "Home", navHistory: "History", navWallet: "Wallet", navShop: "Shop", navSupport: "Support"
-      },
-      es: {
-        toastLang: "Idioma cambiado: Español",
-        authRequired: "Inicie sesión para ver su carrito.",
-        cartTitle: "Su Carrito",
-        emptyTitle: "Su carrito está vacío",
-        emptySub: "Descubra nuestros servicios y recargue sus juegos ahora.",
-        btnReturnShop: "Explorar la tienda",
-        payMethodTitle: "Método de Pago",
-        targetNumber: "Transferir al número:",
-        targetEmail: "Transferir al correo de Meru:",
-        copyBtn: "COPIAR",
-        txidLabel: "ID de Transacción / Número Remitente:",
-        proofLabel: "Comprobante de Pago (Máx 1 MB):",
-        subtotalLabel: "Subtotal",
-        feesLabel: "Gastos de envío",
-        feesFree: "Gratis (0 HTG)",
-        totalLabel: "Total",
-        btnConfirm: "Confirmar Pedido",
-        walletLowText: "Saldo de billetera insuficiente.",
-        walletRechargeBtn: "Recargar Billetera",
-        orderSuccess: "¡Pedido confirmado con éxito!",
-        fileTooLarge: "Archivo demasiado pesado (Máximo 1 MB).",
-        fillAllFields: "Por favor, complete todos los campos de verificación.",
-        copied: "¡Datos copiados con éxito!",
-        authLogout: "Cerrar Sesión",
-        navHome: "Inicio", navHistory: "Historial", navWallet: "Billetera", navShop: "Tienda", navSupport: "Soporte"
-      }
-    };
-
-    /* 4. SYSTÈME DE TOAST */
     function showToast(text, isDanger = false) {
       const container = document.getElementById('toast-container');
       container.innerHTML = '';
@@ -1180,45 +292,12 @@
       }, 2400);
     }
 
-    /* 5. GESTION DES LANGUES */
-    function setLang(code, btn) {
-      currentLang = code;
-      document.querySelectorAll('.lang-option').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-
-      const dict = I18N[code];
-
-      document.getElementById('i18n-cart-title').innerText = dict.cartTitle;
-      document.getElementById('i18n-pay-method-title').innerText = dict.payMethodTitle;
-      document.getElementById('i18n-copy-btn').innerText = dict.copyBtn;
-      document.getElementById('i18n-txid-label').innerText = dict.txidLabel;
-      document.getElementById('i18n-proof-label').innerText = dict.proofLabel;
-      document.getElementById('i18n-subtotal-label').innerText = dict.subtotalLabel;
-      document.getElementById('i18n-fees-label').innerText = dict.feesLabel;
-      document.getElementById('i18n-fees-free').innerText = dict.feesFree;
-      document.getElementById('i18n-total-label').innerText = dict.totalLabel;
-      document.getElementById('i18n-btn-confirm').innerText = dict.btnConfirm;
-      document.getElementById('i18n-wallet-low-text').innerText = dict.walletLowText;
-      document.getElementById('i18n-wallet-recharge-btn').innerText = dict.walletRechargeBtn;
-
-      document.getElementById('nav-link-home').innerText = dict.navHome;
-      document.getElementById('nav-link-history').innerText = dict.navHistory;
-      document.getElementById('nav-link-wallet').innerText = dict.navWallet;
-      document.getElementById('nav-link-shop').innerText = dict.navShop;
-      document.getElementById('nav-link-support').innerText = dict.navSupport;
-
-      renderCart();
-      updatePaymentInstructions();
-      showToast(dict.toastLang);
-    }
-
-    /* 6. RENDU DU PANIER */
+    /* RENDU DU PANIER AVEC LOGO DU PRODUIT RÉEL ET INFOS */
     function renderCart() {
       cartItems = JSON.parse(localStorage.getItem('dp_cart') || '[]');
       const target = document.getElementById('cart-list-target');
       const checkoutContainer = document.getElementById('checkout-container');
       const badge = document.getElementById('cart-item-count-badge');
-      const dict = I18N[currentLang];
 
       const count = cartItems.length;
       badge.innerText = `${count} ${count > 1 ? 'articles' : 'article'}`;
@@ -1229,9 +308,9 @@
             <svg viewBox="0 0 24 24">
               <path d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
-            <div class="empty-cart-title">${dict.emptyTitle}</div>
-            <div class="empty-cart-sub">${dict.emptySub}</div>
-            <a href="index.html" class="btn-return-shop">${dict.btnReturnShop}</a>
+            <div class="empty-cart-title">Votre panier est vide</div>
+            <div class="empty-cart-sub">Découvrez nos offres et rechargez vos jeux dès maintenant.</div>
+            <a href="index.html" class="btn-return-shop">Explorer la boutique</a>
           </div>
         `;
         checkoutContainer.style.display = 'none';
@@ -1245,6 +324,22 @@
       cartItems.forEach((item, index) => {
         subtotal += item.price;
         const logo = item.logo || 'logo.png';
+
+        // Formatage des détails de livraison
+        let delivText = '';
+        if (item.isPinAutomated) {
+          delivText = 'Livraison PIN Instantanée';
+        } else if (item.deliveryInfo) {
+          const parts = [];
+          if (item.deliveryInfo.playerId) parts.push(`ID: ${item.deliveryInfo.playerId}`);
+          if (item.deliveryInfo.email) parts.push(item.deliveryInfo.email);
+          if (item.deliveryInfo.username) parts.push(`User: ${item.deliveryInfo.username}`);
+          if (item.deliveryInfo.whatsapp) parts.push(`WA: ${item.deliveryInfo.whatsapp}`);
+          if (item.deliveryInfo.meruTag) parts.push(`Tag: ${item.deliveryInfo.meruTag}`);
+          if (item.deliveryInfo.walletAddress) parts.push(`TRC20: ${item.deliveryInfo.walletAddress}`);
+          delivText = parts.join(' • ');
+        }
+
         const card = document.createElement('div');
         card.className = 'cart-card';
         card.innerHTML = `
@@ -1254,7 +349,8 @@
             </div>
             <div class="cart-info">
               <div class="cart-prod-title">${item.title}</div>
-              <div class="cart-prod-offer">${item.offerName || 'Forfait Standard'}</div>
+              <div class="cart-prod-offer">${item.offerName}</div>
+              ${delivText ? `<div class="cart-prod-deliv">${delivText}</div>` : ''}
               <div class="cart-prod-price">${item.price} HTG</div>
             </div>
           </div>
@@ -1277,52 +373,47 @@
       renderCart();
     }
 
-    /* 7. MÉTHODES DE PAIEMENT FINTECH */
+    /* GESTION DES MÉTHODES DE PAIEMENT */
     function selectPaymentMethod(method) {
       selectedMethod = method;
       document.querySelectorAll('.pay-pill').forEach(pill => {
         pill.classList.toggle('active', pill.dataset.method === method);
       });
 
-      updatePaymentInstructions();
+      const detailsBox = document.getElementById('pay-details-box');
+      const label = document.getElementById('pay-target-label');
+      const val = document.getElementById('pay-target-value');
+
+      if (method === 'wallet') {
+        detailsBox.style.display = 'none';
+      } else {
+        detailsBox.style.display = 'block';
+        if (method === 'moncash') {
+          label.innerText = "Transférer vers le numéro MonCash :";
+          val.innerText = "+509 3643-5649";
+        } else if (method === 'natcash') {
+          label.innerText = "Transférer vers le numéro NatCash :";
+          val.innerText = "+509 3566-9814";
+        } else if (method === 'meru') {
+          label.innerText = "Transférer vers l'adresse Meru :";
+          val.innerText = "lemarquis3944@gmail.com";
+        }
+      }
+
       const total = cartItems.reduce((acc, i) => acc + i.price, 0);
       checkWalletBalance(total);
     }
 
-    function updatePaymentInstructions() {
-      const detailsBox = document.getElementById('pay-details-box');
-      const label = document.getElementById('pay-target-label');
-      const val = document.getElementById('pay-target-value');
-      const dict = I18N[currentLang];
-
-      if (selectedMethod === 'wallet') {
-        detailsBox.style.display = 'none';
-      } else {
-        detailsBox.style.display = 'block';
-
-        if (selectedMethod === 'moncash') {
-          label.innerText = dict.targetNumber;
-          val.innerText = "+509 3643-5649";
-        } else if (selectedMethod === 'natcash') {
-          label.innerText = dict.targetNumber;
-          val.innerText = "+509 3566-9814";
-        } else if (selectedMethod === 'meru') {
-          label.innerText = dict.targetEmail;
-          val.innerText = "lemarquis3944@gmail.com";
-        }
-      }
-    }
-
     function copyPaymentTarget() {
-      const targetText = document.getElementById('pay-target-value').innerText;
-      navigator.clipboard.writeText(targetText);
-      showToast(I18N[currentLang].copied);
+      const text = document.getElementById('pay-target-value').innerText;
+      navigator.clipboard.writeText(text);
+      showToast("Coordonnées copiées avec succès !");
     }
 
     function validateFileSize(input) {
       if (input.files && input.files[0]) {
-        if (input.files[0].size > 1048576) { // 1 Mo strict
-          showToast(I18N[currentLang].fileTooLarge, true);
+        if (input.files[0].size > 1048576) {
+          showToast("Fichier trop lourd (Maximum 1 Mo).", true);
           input.value = "";
         }
       }
@@ -1349,149 +440,121 @@
       }
     }
 
-    /* 8. SOUMISSION ET VALIDATION RÉELLE DE LA COMMANDE DANS FIRESTORE */
+    /* TRANSACTION SÉCURISÉE FIRESTORE : LIVRAISON ATOMIQUE PIN 24H */
     async function processOrderCheckout() {
       if (cartItems.length === 0) return;
 
       const total = cartItems.reduce((acc, i) => acc + i.price, 0);
       const btn = document.getElementById('btn-submit-order');
-      const dict = I18N[currentLang];
 
-      let orderPayload = {
-        orderId: "DP-" + Math.floor(100000 + Math.random() * 900000),
-        userId: currentUser.uid,
-        userEmail: currentUser.email,
-        items: cartItems,
-        totalAmount: total,
-        paymentMethod: selectedMethod,
-        createdAt: firebase.firestore.FieldValue.serverTimestamp()
-      };
-
-      // Cas 1 : Portefeuille
-      if (selectedMethod === 'wallet') {
-        if (userWalletBalance < total) {
-          showToast(dict.walletLowText, true);
-          return;
-        }
-
-        btn.disabled = true;
-        btn.innerText = "...";
-
-        try {
-          // Déduction atomique du solde utilisateur
-          await db.collection('users').doc(currentUser.uid).update({
-            walletBalance: firebase.firestore.FieldValue.increment(-total)
-          });
-
-          orderPayload.status = "complete";
-          await db.collection('orders').doc(orderPayload.orderId).set(orderPayload);
-
-          localStorage.removeItem('dp_cart');
-          showToast(dict.orderSuccess);
-          setTimeout(() => {
-            window.location.href = "Commande.html";
-          }, 1200);
-        } catch (e) {
-          btn.disabled = false;
-          btn.innerText = dict.btnConfirm;
-          showToast("Erreur lors du règlement par portefeuille.", true);
-        }
-      } 
-      // Cas 2 : Paiements Manuels (MonCash, NatCash, Meru)
-      else {
-        const txId = document.getElementById('tx-id-input').value.trim();
-        const proofFile = document.getElementById('proof-file-input').files[0];
-
-        if (!txId || !proofFile) {
-          showToast(dict.fillAllFields, true);
-          return;
-        }
-
-        btn.disabled = true;
-        btn.innerText = "...";
-
-        try {
-          orderPayload.status = "en_attente";
-          orderPayload.transactionId = txId;
-          orderPayload.proofFileName = proofFile.name;
-
-          await db.collection('orders').doc(orderPayload.orderId).set(orderPayload);
-
-          localStorage.removeItem('dp_cart');
-          showToast(dict.orderSuccess);
-          setTimeout(() => {
-            window.location.href = "Commande.html";
-          }, 1200);
-        } catch (e) {
-          btn.disabled = false;
-          btn.innerText = dict.btnConfirm;
-          showToast("Erreur d'envoi. Veuillez réessayer.", true);
-        }
-      }
-    }
-
-    /* 9. FIREBASE AUTH ET SYNCHRONISATION EN DIRECT */
-    auth.onAuthStateChanged(async user => {
-      if (!user) {
-        // Redirection forcée si non connecté
-        showToast(I18N[currentLang].authRequired, true);
-        setTimeout(() => {
-          window.location.href = "authentification/login.html";
-        }, 1000);
+      // CAS PORTEFEUILLE
+      if (selectedMethod === 'wallet' && userWalletBalance < total) {
+        showToast("Solde Portefeuille insuffisant.", true);
         return;
       }
 
-      currentUser = user;
-
-      // Récupération du solde portefeuille en direct
-      const userDoc = await db.collection('users').doc(user.uid).get();
-      if (userDoc.exists) {
-        userWalletBalance = userDoc.data().walletBalance || 0;
+      // CAS MANUEL
+      let txId = "";
+      let proofName = "";
+      if (selectedMethod !== 'wallet') {
+        txId = document.getElementById('tx-id-input').value.trim();
+        const proofFile = document.getElementById('proof-file-input').files[0];
+        if (!txId || !proofFile) {
+          showToast("Veuillez remplir l'ID de transaction et joindre le reçu.", true);
+          return;
+        }
+        proofName = proofFile.name;
       }
 
-      updateSidebarAuthUI();
-      renderCart();
-    });
+      btn.disabled = true;
+      btn.innerText = "Traitement sécurisé...";
 
-    function updateSidebarAuthUI() {
-      const container = document.getElementById('sidebar-auth-zone');
-      const dict = I18N[currentLang];
+      try {
+        // Déduction portefeuille si applicable
+        if (selectedMethod === 'wallet') {
+          await db.collection('users').doc(currentUser.uid).update({
+            walletBalance: firebase.firestore.FieldValue.increment(-total)
+          });
+        }
 
-      if (currentUser) {
-        container.innerHTML = `
-          <div style="font-size:12px; font-weight:800; color:var(--text-black); margin-bottom:2px;">
-            ${currentUser.displayName || 'Utilisateur DigitalPay'}
-          </div>
-          <div style="font-size:11px; color:var(--text-muted); margin-bottom:10px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
-            ${currentUser.email}
-          </div>
-          <button class="btn-auth btn-logout" onclick="handleLogout()">
-            ${dict.authLogout}
-          </button>
-        `;
+        // TRAITEMENT ARTICLE PAR ARTICLE
+        for (const item of cartItems) {
+          const orderId = "DP-" + Math.floor(100000 + Math.random() * 900000);
+          let assignedPin = null;
+          let orderStatus = "en_attente"; // Tout est en attente de validation admin...
+
+          // ...SAUF LES PACKS DE DIAMANTS FREE FIRE (AUTOMATISÉS ATOMIQUEMENT)
+          if (item.isPinAutomated && item.packId) {
+            // TRANSACTION ATOMIQUE SUR FIRESTORE
+            await db.runTransaction(async (transaction) => {
+              const pinsQuery = await db.collection("freefire_pins")
+                .where("packId", "==", item.packId)
+                .where("status", "==", "disponible")
+                .limit(1)
+                .get();
+
+              if (!pinsQuery.empty) {
+                const pinDoc = pinsQuery.docs[0];
+                assignedPin = pinDoc.data().pinCode;
+
+                // EFFACE DE LA LISTE DISPONIBLE EN LE MARQUANT COMME VENDU (JAMAIS RÉUTILISABLE)
+                transaction.update(pinDoc.ref, {
+                  status: "vendu",
+                  orderId: orderId,
+                  buyerId: currentUser.uid,
+                  soldAt: firebase.firestore.FieldValue.serverTimestamp()
+                });
+                orderStatus = "livre"; // Livré immédiatement !
+              } else {
+                orderStatus = "en_attente_stock"; // Si rupture dans la base
+              }
+            });
+          }
+
+          // Enregistrement de la commande
+          await db.collection('orders').doc(orderId).set({
+            orderId: orderId,
+            userId: currentUser.uid,
+            userEmail: currentUser.email,
+            item: item,
+            paymentMethod: selectedMethod,
+            transactionId: txId,
+            proofFileName: proofName,
+            status: orderStatus,
+            pinCode: assignedPin, // Le PIN secret prélevé
+            redeemUrl: assignedPin ? "https://redeem.hype.games/" : null,
+            createdAt: firebase.firestore.FieldValue.serverTimestamp()
+          });
+        }
+
+        localStorage.removeItem('dp_cart');
+        showToast("Commande confirmée avec succès !");
+        setTimeout(() => window.location.href = "Commande.html", 1200);
+
+      } catch (err) {
+        btn.disabled = false;
+        btn.innerText = "Confirmer la Commande";
+        showToast("Erreur lors de la validation : " + err.message, true);
       }
-    }
-
-    function handleLogout() {
-      auth.signOut().then(() => {
-        window.location.href = "index.html";
-      });
-    }
-
-    /* 10. SIDEBAR & NOTIFICATIONS */
-    function openSidebar() {
-      document.getElementById('sidebar-overlay').classList.add('active');
-    }
-
-    function closeSidebar() {
-      document.getElementById('sidebar-overlay').classList.remove('active');
     }
 
     function toggleNotifications() {
       document.getElementById('notif-panel').classList.toggle('open');
     }
 
-    window.addEventListener('DOMContentLoaded', () => {
+    auth.onAuthStateChanged(async user => {
+      if (!user) {
+        showToast("Veuillez vous connecter pour accéder à votre panier.", true);
+        setTimeout(() => window.location.href = "authentification/login.html", 1000);
+        return;
+      }
+
+      currentUser = user;
+      const userDoc = await db.collection('users').doc(user.uid).get();
+      if (userDoc.exists) {
+        userWalletBalance = userDoc.data().walletBalance || 0;
+      }
+
       renderCart();
     });
   </script>
