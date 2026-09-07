@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Admin Dashboard — DigitalPay</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+
+  <style>
+    :root {
+      --bg: #F8FAFC;
+      --surface: #FFFFFF;
+      --border: #E2E8F0;
+      --text: #0F172A;
+      --royal: #1D4ED8;
+      --success: #10B981;
+      --danger: #DC2626;
+      --radius: 14px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; font-size: 13px; line-height: 1.5; padding: 16px; }
+    .admin-container { max-width: 600px; margin: 0 auto; display: flex; flex-direction: column; gap: 20px; }
+
+    .header-box { display: flex; align-items: center; justify-content: space-between; padding-bottom: 14px; border-bottom: 1px solid var(--border); }
+    .header-box h1 { font-size: 18px; font-weight: 900; }
+
+    .admin-card { background: #FFFFFF; border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
+    .card-title { font-size: 14px; font-weight: 800; margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between; }
+
+    /* FORMULAIRE AJOUT PIN */
+    .pin-form { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
+    .pin-input, select { width: 100%; height: 42px; border: 1px solid var(--border); border-radius: 8px; padding: 0 10px; font-size: 12px; outline: none; }
+    .btn-add-pin { grid-column: span 2; height: 42px; background: var(--royal); color: #fff; border: none; border-radius: 8px; font-weight: 800; cursor: pointer; }
+
+    /* LISTES D'APPROBATION */
+    .dep-row { border: 1px solid var(--border); border-radius: 10px; padding: 12px; margin-bottom: 10px; display: flex; flex-direction: column; gap: 6px; }
+    .dep-row-top { display: flex; justify-content: space-between; font-weight: 800; font-size: 13px; }
+    .dep-actions { display: flex; gap: 8px; margin-top: 6px; }
+    .btn-action { flex: 1; height: 36px; border: none; border-radius: 8px; font-weight: 800; font-size: 12px; cursor: pointer; color: #fff; }
+    .btn-valide { background: var(--success); }
+    .btn-rejete { background: var(--danger); }
+  </style>
+</head>
+<body>
+
+  <div class="admin-container" id="admin-app" style="display: none;">
+    
+    <div class="header-box">
+      <div>
+        <h1>DigitalPay Admin Panel</h1>
+        <span id="admin-email-text" style="color:#64748B; font-size:11px;"></span>
+      </div>
+      <button onclick="auth.signOut().then(()=>location.href='index.html')" style="border:none; background:#E2E8F0; padding:6px 12px; border-radius:6px; font-weight:700; cursor:pointer;">Quitter</button>
+    </div>
+
+    <!-- 1. AJOUT DE STOCKS PIN FREE FIRE DIRECT DANS FIRESTORE -->
+    <div class="admin-card">
+      <div class="card-title">Ajouter un PIN Free Fire au Stock</div>
+      <div class="pin-form">
+        <select id="pin-pack-select">
+          <option value="ff_110">110 + 10 Diamants (157 HTG)</option>
+          <option value="ff_310">310 + 31 Diamants (471 HTG)</option>
+          <option value="ff_520">520 + 52 Diamants (775 HTG)</option>
+          <option value="ff_1060">1060 + 106 Diamants (1550 HTG)</option>
+          <option value="ff_2180">2180 + 218 Diamants (3100 HTG)</option>
+          <option value="ff_5600">5600 + 560 Diamants (7750 HTG)</option>
+        </select>
+        <input type="text" id="pin-code-input" class="pin-input" placeholder="Code PIN (Ex: HYPE-XXXX)">
+        <button class="btn-add-pin" onclick="addPinToStock()">Enregistrer le PIN dans le stock</button>
+      </div>
+    </div>
+
+    <!-- 2. GESTION DES RECHARGES DE PORTEFEUILLE (DEPOTS) -->
+    <div class="admin-card">
+      <div class="card-title">Dépôts en attente d'approbation</div>
+      <div id="pending-deposits-list">Chargement des dépôts...</div>
+    </div>
+
+    <!-- 3. COMMANDES MANUELLES (CALL OF DUTY, PASS, STREAMING...) -->
+    <div class="admin-card">
+      <div class="card-title">Commandes manuelles en cours</div>
+      <div id="pending-orders-list">Chargement des commandes...</div>
+    </div>
+
+  </div>
+
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyDOSMtCknVXQs3XL1piE047Ussc6KeCDmY",
+      authDomain: "digitalpayht-officiel.firebaseapp.com",
+      projectId: "digitalpayht-officiel",
+      storageBucket: "digitalpayht-officiel.firebasestorage.app",
+      messagingSenderId: "492314684302",
+      appId: "1:492314684302:web:dc36ab9445877df2dcd2df"
+    };
+
+    if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+
+    // REMPLACE ICI PAR TON ADRESSE EMAIL OFFICIELLE ADMIN
+    const ADMIN_EMAILS = ["mmasked36@gmail.com", "mmasked36@gmail.com"]; 
+
+    auth.onAuthStateChanged(user => {
+      if (!user) {
+        alert("Accès refusé. Veuillez vous connecter d'abord.");
+        window.location.href = "authentification/login.html";
+        return;
+      }
+
+      // Si tu veux tester sans restriction d'email au début, commente la condition ci-dessous :
+      /*
+      if (!ADMIN_EMAILS.includes(user.email.toLowerCase())) {
+        alert("Vous n'êtes pas administrateur.");
+        window.location.href = "index.html";
+        return;
+      }
+      */
+
+      document.getElementById('admin-email-text').innerText = user.email;
+      document.getElementById('admin-app').style.display = 'flex';
+
+      loadPendingDeposits();
+      loadPendingOrders();
+    });
+
+    /* AJOUTER UN PIN AU STOCK FIRESTORE EN UN CLIC */
+    async function addPinToStock() {
+      const packId = document.getElementById('pin-pack-select').value;
+      const pinCode = document.getElementById('pin-code-input').value.trim();
+
+      if (!pinCode) {
+        alert("Veuillez saisir un code PIN.");
+        return;
+      }
+
+      try {
+        await db.collection("freefire_pins").add({
+          packId: packId,
+          pinCode: pinCode,
+          status: "disponible",
+          createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+
+        document.getElementById('pin-code-input').value = "";
+        alert("PIN ajouté avec succès au stock !");
+      } catch (e) {
+        alert("Erreur : " + e.message);
+      }
+    }
+
+    /* CHARGEMENT ET VALIDATION DES DÉPÔTS (MONCASH / NATCASH) */
+    function loadPendingDeposits() {
+      const target = document.getElementById('pending-deposits-list');
+
+      db.collection('deposits').where('status', '==', 'en_attente').onSnapshot(snapshot => {
+        if (snapshot.empty) {
+          target.innerHTML = `<p style="color:#64748B;">Aucune demande de dépôt en attente.</p>`;
+          return;
+        }
+
+        target.innerHTML = '';
+        snapshot.forEach(doc => {
+          const d = doc.data();
+          const div = document.createElement('div');
+          div.className = 'dep-row';
+          div.innerHTML = `
+            <div class="dep-row-top">
+              <span>${d.userName || d.userEmail}</span>
+              <span style="color:var(--royal);">+${d.creditHTG} HTG</span>
+            </div>
+            <div>Méthode : <strong>${d.method ? d.method.toUpperCase() : ''}</strong> • ID : ${d.transactionId}</div>
+            <div>Preuve : <strong>${d.proofFileName || 'Aucune'}</strong></div>
+            <div class="dep-actions">
+              <button class="btn-action btn-valide" onclick="approveDeposit('${d.depositId}', '${d.userId}', ${d.creditHTG})">Valider et Créditer</button>
+              <button class="btn-action btn-rejete" onclick="rejectDeposit('${d.depositId}')">Rejeter</button>
+            </div>
+          `;
+          target.appendChild(div);
+        });
+      });
+    }
+
+    /* APPROUVER LE DÉPÔT : CRÉDITE AUTOMATIQUEMENT L'UTILISATEUR DANS FIRESTORE */
+    async function approveDeposit(depositId, userId, amount) {
+      if (!confirm(`Valider et créditer ${amount} HTG à l'utilisateur ?`)) return;
+
+      try {
+        // 1. Passe le statut à valide
+        await db.collection('deposits').doc(depositId).update({ status: 'valide' });
+
+        // 2. Crédite automatiquement son solde dans la collection users
+        await db.collection('users').doc(userId).set({
+          walletBalance: firebase.firestore.FieldValue.increment(amount)
+        }, { merge: true });
+
+        alert("Dépôt validé et solde crédité en temps réel !");
+      } catch (e) {
+        alert("Erreur : " + e.message);
+      }
+    }
+
+    async function rejectDeposit(depositId) {
+      if (!confirm("Rejeter ce dépôt ?")) return;
+      await db.collection('deposits').doc(depositId).update({ status: 'rejete' });
+    }
+
+    /* COMMANDES MANUELLES */
+    function loadPendingOrders() {
+      const target = document.getElementById('pending-orders-list');
+
+      db.collection('orders').where('status', '==', 'en_attente').onSnapshot(snapshot => {
+        if (snapshot.empty) {
+          target.innerHTML = `<p style="color:#64748B;">Aucune commande manuelle en attente.</p>`;
+          return;
+        }
+
+        target.innerHTML = '';
+        snapshot.forEach(doc => {
+          const ord = doc.data();
+          const item = ord.item || {};
+          const deliv = item.deliveryInfo || {};
+          
+          let delivText = [];
+          if (deliv.playerId) delivText.push(`ID: ${deliv.playerId}`);
+          if (deliv.email) delivText.push(`Email: ${deliv.email} / Pass: ${deliv.password}`);
+          if (deliv.whatsapp) delivText.push(`WA: ${deliv.whatsapp}`);
+
+          const div = document.createElement('div');
+          div.className = 'dep-row';
+          div.innerHTML = `
+            <div class="dep-row-top">
+              <span>${item.title || ''} — ${item.offerName || ''}</span>
+              <span style="color:var(--royal);">${item.price || 0} HTG</span>
+            </div>
+            <div>Client : ${ord.userEmail}</div>
+            <div style="background:#F1F5F9; padding:6px; border-radius:6px; font-weight:700;">
+              ${delivText.join(' • ') || 'Aucune info'}
+            </div>
+            <div class="dep-actions">
+              <button class="btn-action btn-valide" onclick="markOrderDelivered('${ord.orderId}')">Marquer comme Livré</button>
+            </div>
+          `;
+          target.appendChild(div);
+        });
+      });
+    }
+
+    async function markOrderDelivered(orderId) {
+      await db.collection('orders').doc(orderId).update({ status: 'livre' });
+      alert("Commande marquée comme livrée !");
+    }
+  </script>
+</body>
+</html>
