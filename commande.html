@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Historique des Commandes — DigitalPay Haiti</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <!-- Firebase SDKs Compat -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+
+  <style>
+    /* ==========================================================================
+       FINTECH DESIGN SYSTEM — STYLE REVOLUT / STRIPE (BLANC, NOIR, BLEU ROYAL)
+       ========================================================================== */
+    :root {
+      --bg: #FFFFFF;
+      --surface: #FFFFFF;
+      --surface-subtle: #F8FAFC;
+      --border: #E2E8F0;
+      --border-light: #F1F5F9;
+
+      --text-black: #0F172A;
+      --text-muted: #64748B;
+      --text-light: #94A3B8;
+
+      --royal-blue: #1D4ED8;
+      --royal-gradient: linear-gradient(135deg, #1D4ED8 0%, #2563EB 50%, #3B82F6 100%);
+      --royal-soft: rgba(29, 78, 216, 0.08);
+
+      --danger: #DC2626;
+      --danger-soft: rgba(220, 38, 38, 0.08);
+      --success: #10B981;
+      --success-soft: rgba(16, 185, 129, 0.08);
+      --warning: #F59E0B;
+      --warning-soft: rgba(245, 158, 11, 0.08);
+
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-square: 16px;
+      --radius-card: 18px;
+      --radius-full: 9999px;
+
+      --shadow-sm: 0 2px 8px rgba(15, 23, 42, 0.04);
+      --shadow-card: 0 4px 16px -2px rgba(15, 23, 42, 0.06);
+      --font: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+    body { background-color: var(--bg); color: var(--text-black); font-family: var(--font); font-size: 14px; line-height: 1.5; overflow-x: hidden; min-height: 100vh; display: flex; flex-direction: column; }
+    .app-shell { max-width: 480px; margin: 0 auto; min-height: 100vh; background: #FFFFFF; position: relative; display: flex; flex-direction: column; border-left: 1px solid var(--border-light); border-right: 1px solid var(--border-light); }
+    .icon-svg { width: 16px; height: 16px; stroke: currentColor; stroke-width: 2; fill: none; display: inline-block; vertical-align: middle; }
+
+    /* HEADER */
+    .site-header { position: sticky; top: 0; z-index: 40; background: rgba(255, 255, 255, 0.96); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-bottom: 1px solid var(--border); padding: 10px 16px; }
+    .header-top { display: flex; align-items: center; justify-content: space-between; height: 44px; }
+    .brand-logo-only { height: 34px; width: auto; max-width: 120px; object-fit: contain; cursor: pointer; }
+    .header-icons { display: flex; align-items: center; gap: 6px; }
+    .header-btn { width: 38px; height: 38px; border-radius: var(--radius-md); background: #FFFFFF; border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; color: var(--text-black); cursor: pointer; position: relative; text-decoration: none; }
+    .badge-num { position: absolute; top: -3px; right: -3px; background: var(--royal-blue); color: #FFFFFF; font-size: 10px; font-weight: 800; width: 17px; height: 17px; border-radius: var(--radius-full); display: flex; align-items: center; justify-content: center; box-shadow: 0 0 0 2px #FFFFFF; }
+
+    /* CORPS COMMANDES */
+    .orders-main { padding: 20px 16px 40px; flex: 1; display: flex; flex-direction: column; }
+    .orders-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
+    .orders-title { font-size: 20px; font-weight: 900; color: var(--text-black); letter-spacing: -0.5px; }
+
+    .orders-list { display: flex; flex-direction: column; gap: 14px; }
+    
+    .order-card {
+      background: #FFFFFF;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-card);
+      padding: 16px;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .order-card-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--border-light);
+      padding-bottom: 10px;
+    }
+
+    .order-ref { font-size: 11px; font-weight: 800; color: var(--text-muted); text-transform: uppercase; }
+    .order-date { font-size: 11px; color: var(--text-light); }
+
+    .order-card-body { display: flex; align-items: center; gap: 12px; }
+    .order-thumb { width: 44px; height: 44px; border-radius: var(--radius-square); overflow: hidden; background: var(--surface-subtle); border: 1px solid var(--border-light); flex-shrink: 0; }
+    .order-thumb img { width: 100%; height: 100%; object-fit: cover; }
+
+    .order-details { flex: 1; overflow: hidden; }
+    .order-prod-title { font-size: 14px; font-weight: 800; color: var(--text-black); line-height: 1.2; }
+    .order-prod-offer { font-size: 12px; color: var(--text-muted); margin: 2px 0; }
+    .order-prod-price { font-size: 13px; font-weight: 900; color: var(--royal-blue); }
+
+    .order-status-badge {
+      font-size: 10px;
+      font-weight: 800;
+      padding: 3px 8px;
+      border-radius: var(--radius-full);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .order-status-badge.livre { background: var(--success-soft); color: var(--success); }
+    .order-status-badge.en_attente { background: var(--warning-soft); color: var(--warning); }
+    .order-status-badge.rejete { background: var(--danger-soft); color: var(--danger); }
+
+    /* ZONE EXCLUSIVE PIN FREE FIRE (SÉCURISÉE 24H) */
+    .pin-delivery-box {
+      background: #0F172A;
+      color: #FFFFFF;
+      border-radius: var(--radius-md);
+      padding: 14px;
+      margin-top: 4px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .pin-label-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 10px;
+      font-weight: 800;
+      color: #94A3B8;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+    }
+
+    .pin-code-display {
+      font-family: monospace;
+      font-size: 16px;
+      font-weight: 900;
+      color: #38BDF8;
+      letter-spacing: 2px;
+      word-break: break-all;
+    }
+
+    .pin-actions-row {
+      display: flex;
+      gap: 8px;
+      margin-top: 4px;
+    }
+
+    .btn-pin-copy {
+      background: var(--royal-blue);
+      color: #FFFFFF;
+      border: none;
+      border-radius: var(--radius-sm);
+      padding: 8px 14px;
+      font-size: 11px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .btn-pin-redeem {
+      background: #334155;
+      color: #FFFFFF;
+      border-radius: var(--radius-sm);
+      padding: 8px 14px;
+      font-size: 11px;
+      font-weight: 700;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .pin-countdown {
+      font-size: 10px;
+      color: #F87171;
+      font-weight: 700;
+    }
+
+    .empty-orders-box { text-align: center; padding: 60px 20px; color: var(--text-muted); }
+    .empty-orders-box svg { width: 48px; height: 48px; stroke: var(--text-light); margin-bottom: 12px; }
+
+    /* TOAST */
+    #toast-container { position: fixed; top: 16px; left: 50%; transform: translateX(-50%); z-index: 300; width: calc(100% - 32px); max-width: 380px; pointer-events: none; }
+    .toast-pro { background: #0F172A; color: #FFFFFF; padding: 12px 16px; border-radius: var(--radius-md); font-size: 12px; font-weight: 700; display: flex; align-items: center; gap: 10px; box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2); transform: translateY(-20px); opacity: 0; transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1); }
+    .toast-pro.show { transform: translateY(0); opacity: 1; }
+
+    /* SIDEBAR */
+    .sidebar-overlay { position: fixed; inset: 0; background: rgba(15, 23, 42, 0.45); backdrop-filter: blur(4px); z-index: 100; opacity: 0; visibility: hidden; transition: all 0.25s ease; }
+    .sidebar-overlay.active { opacity: 1; visibility: visible; }
+    .sidebar-drawer { position: fixed; top: 0; right: 0; width: min(82vw, 340px); height: 100vh; background: #FFFFFF; z-index: 101; transform: translateX(100%); transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1); display: flex; flex-direction: column; box-shadow: -10px 0 30px rgba(0, 0, 0, 0.08); }
+    .sidebar-overlay.active .sidebar-drawer { transform: translateX(0); }
+    .sidebar-content { padding: 24px 20px; display: flex; flex-direction: column; height: 100%; overflow-y: auto; }
+    .sidebar-header-pro { display: flex; align-items: center; justify-content: space-between; padding-bottom: 16px; border-bottom: 1px solid var(--border); }
+    .sidebar-brand-box { display: flex; align-items: center; gap: 12px; }
+    .logo-container-square { width: 44px; height: 44px; border-radius: var(--radius-square); background: var(--surface-subtle); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; overflow: hidden; }
+    .logo-container-square img { width: 100%; height: 100%; object-fit: contain; }
+    .sidebar-brand-title { font-size: 16px; font-weight: 900; color: #000000; letter-spacing: -0.4px; }
+    .sidebar-brand-sub { font-size: 12px; font-weight: 700; color: #000000; letter-spacing: 0.5px; }
+    .sidebar-close-btn { width: 32px; height: 32px; border-radius: 50%; background: var(--surface-subtle); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; color: var(--text-muted); cursor: pointer; font-weight: 800; }
+    .sidebar-menu-nav { margin-top: 14px; display: flex; flex-direction: column; gap: 4px; }
+    .menu-link { display: flex; align-items: center; gap: 12px; padding: 10px 12px; border-radius: var(--radius-md); color: var(--text-black); text-decoration: none; font-size: 13px; font-weight: 600; }
+    .menu-link.active { background: var(--surface-subtle); color: var(--royal-blue); }
+    .menu-link svg { width: 18px; height: 18px; stroke: currentColor; stroke-width: 2; fill: none; }
+  </style>
+</head>
+<body>
+
+  <div id="toast-container"></div>
+
+  <div class="app-shell">
+
+    <header class="site-header">
+      <div class="header-top">
+        <a href="index.html">
+          <img src="logo.png" alt="DigitalPay Logo" class="brand-logo-only" onerror="this.src='assets/logo.png'; this.onerror=null;">
+        </a>
+
+        <div class="header-icons">
+          <a href="cart.html" class="header-btn" aria-label="Panier">
+            <svg viewBox="0 0 24 24">
+              <path d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span class="badge-num" id="cart-indicator">0</span>
+          </a>
+
+          <button class="header-btn" onclick="openSidebar()" aria-label="Menu">
+            <svg viewBox="0 0 24 24">
+              <path d="M4 6h16M4 12h16M4 18h16" stroke-linecap="round"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main class="orders-main">
+      <div class="orders-header">
+        <h1 class="orders-title">Mes Commandes</h1>
+      </div>
+
+      <div class="orders-list" id="orders-target">
+        <div class="empty-orders-box">Chargement de vos commandes...</div>
+      </div>
+    </main>
+
+    <!-- SIDEBAR -->
+    <div class="sidebar-overlay" id="sidebar-overlay" onclick="closeSidebar()">
+      <aside class="sidebar-drawer" onclick="event.stopPropagation()">
+        <div class="sidebar-content">
+          <div class="sidebar-header-pro">
+            <div class="sidebar-brand-box">
+              <div class="logo-container-square">
+                <img src="logo.png" alt="DigitalPay Logo" onerror="this.src='assets/logo.png'; this.onerror=null;">
+              </div>
+              <div>
+                <div class="sidebar-brand-title">DigitalPay</div>
+                <div class="sidebar-brand-sub">Haiti</div>
+              </div>
+            </div>
+            <button class="sidebar-close-btn" onclick="closeSidebar()">✕</button>
+          </div>
+
+          <nav class="sidebar-menu-nav">
+            <a href="index.html" class="menu-link">
+              <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><path d="M9 22V12h6v10"/></svg>
+              Accueil
+            </a>
+            <a href="Commande.html" class="menu-link active">
+              <svg viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+              Historique
+            </a>
+            <a href="wallet.html" class="menu-link">
+              <svg viewBox="0 0 24 24"><path d="M20 12V8H6a2 2 0 01-2-2c0-1.1.9-2 2-2h12v4"/><path d="M4 6v12a2 2 0 002 2h14v-4"/><circle cx="16" cy="14" r="2"/></svg>
+              Wallet
+            </a>
+            <a href="index.html#catalog-container" class="menu-link">
+              <svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+              Boutique
+            </a>
+          </nav>
+        </div>
+      </aside>
+    </div>
+
+  </div>
+
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyDOSMtCknVXQs3XL1piE047Ussc6KeCDmY",
+      authDomain: "digitalpayht-officiel.firebaseapp.com",
+      projectId: "digitalpayht-officiel",
+      storageBucket: "digitalpayht-officiel.firebasestorage.app",
+      messagingSenderId: "492314684302",
+      appId: "1:492314684302:web:dc36ab9445877df2dcd2df"
+    };
+
+    if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+
+    let currentUser = null;
+
+    function showToast(text) {
+      const container = document.getElementById('toast-container');
+      container.innerHTML = '';
+      const toast = document.createElement('div');
+      toast.className = 'toast-pro show';
+      toast.innerText = text;
+      container.appendChild(toast);
+      setTimeout(() => toast.remove(), 2200);
+    }
+
+    function copyText(val) {
+      navigator.clipboard.writeText(val);
+      showToast("Code PIN copié !");
+    }
+
+    function renderOrders(orders) {
+      const target = document.getElementById('orders-target');
+      if (!orders || orders.length === 0) {
+        target.innerHTML = `
+          <div class="empty-orders-box">
+            <svg viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+            <p>Vous n'avez pas encore passé de commande.</p>
+          </div>
+        `;
+        return;
+      }
+
+      target.innerHTML = '';
+      const now = Date.now();
+
+      orders.forEach(ord => {
+        const item = ord.item || {};
+        const logo = item.logo || 'logo.png';
+        const dateStr = ord.createdAt ? new Date(ord.createdAt).toLocaleDateString() : 'Aujourd\'hui';
+        
+        let statusBadge = `<span class="order-status-badge ${ord.status}">${ord.status === 'livre' ? 'Livré' : 'En attente'}</span>`;
+
+        // GESTION STRICTE DU CODE PIN 24H POUR FREE FIRE
+        let pinBlock = '';
+        if (ord.pinCode) {
+          const createdAtTime = ord.createdAt || now;
+          const isExpired = (now - createdAtTime) > (24 * 3600 * 1000);
+
+          if (isExpired) {
+            pinBlock = `
+              <div style="font-size:11px; font-weight:700; color:var(--danger); margin-top:6px;">
+                Délai de sécurité dépassé (Le code PIN a expiré après 24 heures).
+              </div>
+            `;
+          } else {
+            const timeLeftHours = Math.max(0, Math.floor((24 * 3600 * 1000 - (now - createdAtTime)) / (3600 * 1000)));
+            pinBlock = `
+              <div class="pin-delivery-box">
+                <div class="pin-label-row">
+                  <span>Code PIN Free Fire (Usage Unique)</span>
+                  <span class="pin-countdown">Expire dans ${timeLeftHours}h</span>
+                </div>
+                <div class="pin-code-display">${ord.pinCode}</div>
+                <div class="pin-actions-row">
+                  <button class="btn-pin-copy" onclick="copyText('${ord.pinCode}')">COPIER</button>
+                  <a href="${ord.redeemUrl || 'https://redeem.hype.games/'}" target="_blank" class="btn-pin-redeem">
+                    <span>Activer sur redeem.hype.games</span>
+                    <svg class="icon-svg" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6m4-3h6v6m-11 5L21 3" stroke-linecap="round"/></svg>
+                  </a>
+                </div>
+              </div>
+            `;
+          }
+        }
+
+        const card = document.createElement('div');
+        card.className = 'order-card';
+        card.innerHTML = `
+          <div class="order-card-head">
+            <span class="order-ref">Réf: ${ord.orderId}</span>
+            <div>${statusBadge}</div>
+          </div>
+          <div class="order-card-body">
+            <div class="order-thumb">
+              <img src="${logo}" alt="" onerror="this.src='assets/${logo}'; this.onerror=()=>{this.src='logo.png';};">
+            </div>
+            <div class="order-details">
+              <div class="order-prod-title">${item.title || 'Service DigitalPay'}</div>
+              <div class="order-prod-offer">${item.offerName || ''}</div>
+              <div class="order-prod-price">${item.price ? item.price + ' HTG' : ''}</div>
+            </div>
+          </div>
+          ${pinBlock}
+          <div style="font-size:10px; color:var(--text-light); text-align:right;">Date : ${dateStr}</div>
+        `;
+        target.appendChild(card);
+      });
+    }
+
+    function listenToUserOrders() {
+      // Sans index composite (tri JavaScript en mémoire)
+      db.collection('orders')
+        .where('userId', '==', currentUser.uid)
+        .onSnapshot(snapshot => {
+          let list = [];
+          snapshot.forEach(doc => {
+            const data = doc.data();
+            list.push({
+              ...data,
+              createdAt: data.createdAt ? (data.createdAt.toMillis ? data.createdAt.toMillis() : data.createdAt) : Date.now()
+            });
+          });
+
+          list.sort((a, b) => b.createdAt - a.createdAt);
+          renderOrders(list);
+        });
+    }
+
+    auth.onAuthStateChanged(user => {
+      if (!user) {
+        window.location.href = "authentification/login.html";
+        return;
+      }
+      currentUser = user;
+      listenToUserOrders();
+    });
+
+    function openSidebar() { document.getElementById('sidebar-overlay').classList.add('active'); }
+    function closeSidebar() { document.getElementById('sidebar-overlay').classList.remove('active'); }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      const cart = JSON.parse(localStorage.getItem('dp_cart') || '[]');
+      document.getElementById('cart-indicator').innerText = cart.length;
+    });
+  </script>
+</body>
+</html>
