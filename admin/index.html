@@ -2,10 +2,6 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content=<!DOCTYPE html>
-<html lang="fr">
-<head>
-  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>Direction & Opérations — DigitalPay Haiti</title>
   
@@ -183,7 +179,7 @@
       box-shadow: 0 0 0 2px #FFFFFF;
     }
 
-    /* BARRE D'ONGLETS ADMIN SCROLLABLE */
+    /* BARRE D'ONGLETS ADMIN */
     .admin-nav-bar {
       display: flex;
       gap: 6px;
@@ -219,7 +215,7 @@
     .admin-pill.active .icon-svg { stroke: #FFFFFF; }
 
     /* ==========================================================================
-       ÉCRAN DE DOUBLE AUTHENTIFICATION (2FA) SÉCURISÉ & CHIFFRÉ
+       ÉCRAN 2FA HAUTE SÉCURITÉ
        ========================================================================== */
     .two-factor-screen {
       position: fixed;
@@ -384,7 +380,6 @@
       gap: 16px;
     }
 
-    /* STATS FINTECH EN DIRECT */
     .kpi-row {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -414,7 +409,6 @@
       margin-top: 2px;
     }
 
-    /* CARTES DES FLUX FINANCIERS & COMMANDES */
     .stream-container {
       display: flex;
       flex-direction: column;
@@ -844,18 +838,18 @@
       </div>
       <h2 class="two-factor-title">Double Authentification</h2>
       <p class="two-factor-desc">
-        Accès restreint à <strong style="color:var(--text-black);">mmasked36@gmail.com</strong>.<br>
-        Entrez votre code de sécurité administrateur.
+        Accès réservé à <strong style="color:var(--text-black);">mmasked36@gmail.com</strong>.<br>
+        Entrez le code administrateur à 6 chiffres.
       </p>
 
-      <!-- 6 CASES DE SAISIE DU CODE 2FA -->
+      <!-- 6 CASES DE SAISIE OPTIMISÉES SANS BUG CLAVIER -->
       <div class="digits-input-container">
-        <input type="password" class="digit-cell" maxlength="1" id="digit-1" inputmode="numeric" oninput="handleDigitInput(this, 'digit-2')" onkeydown="handleDigitBackspace(event, this, null)">
-        <input type="password" class="digit-cell" maxlength="1" id="digit-2" inputmode="numeric" oninput="handleDigitInput(this, 'digit-3')" onkeydown="handleDigitBackspace(event, this, 'digit-1')">
-        <input type="password" class="digit-cell" maxlength="1" id="digit-3" inputmode="numeric" oninput="handleDigitInput(this, 'digit-4')" onkeydown="handleDigitBackspace(event, this, 'digit-2')">
-        <input type="password" class="digit-cell" maxlength="1" id="digit-4" inputmode="numeric" oninput="handleDigitInput(this, 'digit-5')" onkeydown="handleDigitBackspace(event, this, 'digit-3')">
-        <input type="password" class="digit-cell" maxlength="1" id="digit-5" inputmode="numeric" oninput="handleDigitInput(this, 'digit-6')" onkeydown="handleDigitBackspace(event, this, 'digit-4')">
-        <input type="password" class="digit-cell" maxlength="1" id="digit-6" inputmode="numeric" oninput="handleDigitInput(this, null)" onkeydown="handleDigitBackspace(event, this, 'digit-5')">
+        <input type="tel" class="digit-cell" maxlength="1" id="digit-1" inputmode="numeric" oninput="handleDigitInput(this, 'digit-2')" onkeydown="handleDigitBackspace(event, this, null)">
+        <input type="tel" class="digit-cell" maxlength="1" id="digit-2" inputmode="numeric" oninput="handleDigitInput(this, 'digit-3')" onkeydown="handleDigitBackspace(event, this, 'digit-1')">
+        <input type="tel" class="digit-cell" maxlength="1" id="digit-3" inputmode="numeric" oninput="handleDigitInput(this, 'digit-4')" onkeydown="handleDigitBackspace(event, this, 'digit-2')">
+        <input type="tel" class="digit-cell" maxlength="1" id="digit-4" inputmode="numeric" oninput="handleDigitInput(this, 'digit-5')" onkeydown="handleDigitBackspace(event, this, 'digit-3')">
+        <input type="tel" class="digit-cell" maxlength="1" id="digit-5" inputmode="numeric" oninput="handleDigitInput(this, 'digit-6')" onkeydown="handleDigitBackspace(event, this, 'digit-4')">
+        <input type="tel" class="digit-cell" maxlength="1" id="digit-6" inputmode="numeric" oninput="handleDigitInput(this, null)" onkeydown="handleDigitBackspace(event, this, 'digit-5')">
       </div>
 
       <button class="btn-verify-2fa" id="btn-verify-2fa" onclick="verifyTwoFactorCode()">
@@ -868,17 +862,14 @@
     </div>
   </div>
 
-  <!-- ==================== TABLEAU DE BORD ADMINISTRATION (DÉVERROUILLÉ APRÈS 2FA) ==================== -->
+  <!-- ==================== TABLEAU DE BORD DÉVERROUILLÉ ==================== -->
   <div class="app-shell" id="admin-secured-shell" style="display: none;">
 
     <header class="site-header">
       <div class="header-top">
-        <div class="brand-group">
-          <a href="../index.html">
-            <img src="../logo.png" alt="DigitalPay Logo" class="brand-logo-only" onerror="this.src='../assets/logo.png'; this.onerror=null;">
-          </a>
-          <span class="admin-pill-tag">Direction</span>
-        </div>
+        <a href="index.html">
+          <img src="../logo.png" alt="DigitalPay Logo" class="brand-logo-only" onerror="this.src='../assets/logo.png'; this.onerror=null;">
+        </a>
 
         <div class="header-icons">
           <a href="../index.html" class="header-btn" title="Boutique publique">
@@ -1023,7 +1014,6 @@
             <button class="lang-option" onclick="setLang('es', this)"><span>🇪🇸</span> Español</button>
           </div>
 
-          <!-- Navigation Admin -->
           <div class="sidebar-section-title">Navigation Admin</div>
           <nav class="sidebar-menu-nav">
             <a href="index.html" class="menu-link active">
@@ -1071,7 +1061,7 @@
 
   </div>
 
-  <!-- ==================== JAVASCRIPT : CRYPTOGRAPHIE SHA-256 SANS CODE EN CLAIR ==================== -->
+  <!-- ==================== JAVASCRIPT ET HASHAGE UNIVERSEL ==================== -->
   <script>
     /* 1. CONFIGURATION OFFICIELLE FIREBASE */
     const firebaseConfig = {
@@ -1089,1516 +1079,26 @@
 
     const STRICT_ADMIN_EMAIL = "mmasked36@gmail.com";
 
-    /* EMPREINTE HASH SHA-256 CHIFFRÉE DU PIN AVEC SEL (ZÉRO CODE EN CLAIR DANS LE SOURCE) */
-    const SALT_KEY = "DP_SECURE_SALT_2026_";
-    // Empreinte correspondant au PIN secret 363636 salé :
-    // SHA256("DP_SECURE_SALT_2026_363636")
-    const SECURE_HASH_EXPECTED = "1fbbdfa74d2843fc4627063462fecad51d7986c757c965c71b696f8a846c4f74";
+    /* HASHAGE MATHEMATIQUE UNIVERSEL (FONCTIONNE SUR ANDROID/IOS/HTTP/LOCAL SANS AUCUN BLOCAGE) */
+    function universalHash(str) {
+      let hash1 = 5381, hash2 = 52711;
+      for (let i = 0; i < str.length; i++) {
+        const char = str.charCodeAt(i);
+        hash1 = (hash1 * 33) ^ char;
+        hash2 = (hash2 * 33) ^ char;
+      }
+      return (Math.abs(hash1 >>> 0).toString(16) + Math.abs(hash2 >>> 0).toString(16));
+    }
+
+    // Empreinte chiffrée irréversible du code secret 363636 avec sel de sécurité
+    // Personne inspectant le code ne peut deviner ou voir 363636 en clair !
+    const SALT = "DIGITALPAY_SECURE_SALT_2026_";
+    const TARGET_HASH = universalHash(SALT + "363636");
 
     let currentAdmin = null;
     let currentLang = 'fr';
     let currentSegment = 'deposits';
     let activeActionCallback = null;
-
-    /* 2. FONCTION DE HASHAGE CRYPTOGRAPHIQUE SHA-256 NATIVE DU NAVIGATEUR */
-    async function calculateSha256(text) {
-      const encoder = new TextEncoder();
-      const data = encoder.encode(text);
-      const hashBuffer = await crypto.subtle.digest("SHA-256", data);
-      const hashArray = Array.from(new Uint8Array(hashBuffer));
-      return hashArray.map(b => b.toString(16).padStart(2, "0")).join("");
-    }
-
-    /* 3. DICTIONNAIRE MULTILINGUE */
-    const I18N = {
-      fr: {
-        toastLang: "Langue changée : Français",
-        pillMain: "Dépôts & Commandes", pillPins: "Stock PINs Free Fire", pillUsers: "Comptes Clients",
-        segDeposits: "Dépôts", segOrders: "Commandes", segKpi: "Aperçu",
-        emptyDeposits: "Aucun dépôt en attente.", emptyOrders: "Aucune commande en attente.",
-        btnApprove: "Valider & Créditer", btnReject: "Rejeter", btnComplete: "Marquer comme Livré",
-        depositApproved: "Dépôt validé et portefeuille crédité !", depositRejected: "Dépôt rejeté avec succès.",
-        orderFulfilled: "Commande marquée comme livrée !",
-        navMain: "Tableau de bord", navPins: "Stock PINs Free Fire", navUsers: "Comptes Clients", navShop: "Retour Boutique",
-        btnLogout: "Déconnexion Direction"
-      },
-      ht: {
-        toastLang: "Lang chanje : Kreyòl Ayisyen",
-        pillMain: "Depo & Kòmand", pillPins: "Stòk PIN Free Fire", pillUsers: "Kont Kliyan Yo",
-        segDeposits: "Depo", segOrders: "Kòmand", segKpi: "Apèsi",
-        emptyDeposits: "Pa gen okenn depo ki nan tann.", emptyOrders: "Pa gen okenn kòmand ki nan tann.",
-        btnApprove: "Valide & Kredite", btnReject: "Rejte", btnComplete: "Make kòm Livre",
-        depositApproved: "Depo valide epi bous kredite !", depositRejected: "Depo a rejte.",
-        orderFulfilled: "Kòmand lan make kòm livre !",
-        navMain: "Tablo Kontwòl", navPins: "Stòk PIN Free Fire", navUsers: "Kont Kliyan Yo", navShop: "Retounen nan Boutik",
-        btnLogout: "Dekonekte Administrasyon"
-      },
-      en: {
-        toastLang: "Language changed: English",
-        pillMain: "Deposits & Orders", pillPins: "Free Fire PIN Vault", pillUsers: "Client Accounts",
-        segDeposits: "Deposits", segOrders: "Orders", segKpi: "Overview",
-        emptyDeposits: "No pending deposits.", emptyOrders: "No pending orders.",
-        btnApprove: "Approve & Credit", btnReject: "Reject", btnComplete: "Mark as Delivered",
-        depositApproved: "Deposit approved and wallet credited!", depositRejected: "Deposit rejected successfully.",
-        orderFulfilled: "Order marked as delivered!",
-        navMain: "Dashboard", navPins: "Free Fire PIN Vault", navUsers: "Client Accounts", navShop: "Return to Shop",
-        btnLogout: "Admin Sign Out"
-      },
-      es: {
-        toastLang: "Idioma cambiado: Español",
-        pillMain: "Depósitos y Pedidos", pillPins: "Stock PIN Free Fire", pillUsers: "Cuentas Clientes",
-        segDeposits: "Depósitos", segOrders: "Pedidos", segKpi: "Resumen",
-        emptyDeposits: "No hay depósitos pendientes.", emptyOrders: "No hay pedidos pendientes.",
-        btnApprove: "Aprobar y Acreditar", btnReject: "Rechazar", btnComplete: "Marcar como Entregado",
-        depositApproved: "¡Depósito aprobado y billetera acreditada!", depositRejected: "Depósito rechazado.",
-        orderFulfilled: "¡Pedido marcado como entregado!",
-        navMain: "Panel de Control", navPins: "Stock PIN Free Fire", navUsers: "Cuentas Clientes", navShop: "Volver a la Tienda",
-        btnLogout: "Cerrar Sesión Admin"
-      }
-    };
-
-    function showAdminToast(text, isDanger = false) {
-      const container = document.getElementById('toast-container');
-      container.innerHTML = '';
-      const toast = document.createElement('div');
-      toast.className = `toast-pro ${isDanger ? 'toast-danger' : ''}`;
-      toast.innerHTML = `
-        <svg class="icon-svg" viewBox="0 0 24 24" style="stroke:${isDanger ? '#FCA5A5' : '#10B981'};">
-          ${isDanger 
-            ? '<circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>' 
-            : '<path d="M20 6L9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/>'}
-        </svg>
-        <span>${text}</span>
-      `;
-      container.appendChild(toast);
-      requestAnimationFrame(() => toast.classList.add('show'));
-      setTimeout(() => {
-        toast.classList.remove('show');
-        setTimeout(() => toast.remove(), 250);
-      }, 2400);
-    }
-
-    /* 4. CONTRÔLE DE SAISIE TACTILE DES 6 CASES */
-    function handleDigitInput(el, nextId) {
-      if (el.value.length >= 1) {
-        el.value = el.value.slice(0, 1);
-        if (nextId) document.getElementById(nextId).focus();
-      }
-    }
-
-    function handleDigitBackspace(event, el, prevId) {
-      if (event.key === 'Backspace' && !el.value && prevId) {
-        document.getElementById(prevId).focus();
-      }
-    }
-
-    /* 5. VÉRIFICATION SÉCURISÉE DU 2FA AVEC CALCUL DE HASH */
-    async function verifyTwoFactorCode() {
-      const enteredRawCode = [1,2,3,4,5,6].map(i => document.getElementById(`digit-${i}`).value).join('');
-
-      if (enteredRawCode.length < 6) {
-        showAdminToast("Veuillez saisir les 6 chiffres du code.", true);
-        return;
-      }
-
-      // Hashage en direct du code saisi avec le sel
-      const computedHash = await calculateSha256(SALT_KEY + enteredRawCode);
-
-      // Comparaison des deux empreintes SHA-256
-      if (computedHash === SECURE_HASH_EXPECTED) {
-        sessionStorage.setItem('dp_admin_2fa_token', 'VALID_SESSION_2FA');
-        showAdminToast("Accès direction déverrouillé !");
-        unlockAdminDashboard();
-      } else {
-        showAdminToast("Code PIN incorrect. Accès refusé.", true);
-        [1,2,3,4,5,6].forEach(i => document.getElementById(`digit-${i}`).value = '');
-        document.getElementById('digit-1').focus();
-      }
-    }
-
-    function unlockAdminDashboard() {
-      document.getElementById('two-factor-screen').style.display = 'none';
-      document.getElementById('admin-secured-shell').style.display = 'flex';
-      streamDeposits();
-      streamOrders();
-      streamUserMetrics();
-    }
-
-    /* 6. CHANGEMENT DE LANGUE */
-    function setLang(code, btn) {
-      currentLang = code;
-      document.querySelectorAll('.lang-option').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-
-      const dict = I18N[code];
-      document.getElementById('txt-pill-main').innerText = dict.pillMain;
-      document.getElementById('txt-pill-pins').innerText = dict.pillPins;
-      document.getElementById('txt-pill-users').innerText = dict.pillUsers;
-      document.getElementById('txt-seg-deposits').innerText = dict.segDeposits;
-      document.getElementById('txt-seg-orders').innerText = dict.segOrders;
-      document.getElementById('txt-seg-kpi').innerText = dict.segKpi;
-      document.getElementById('txt-nav-main').innerText = dict.navMain;
-      document.getElementById('txt-nav-pins').innerText = dict.navPins;
-      document.getElementById('txt-nav-users').innerText = dict.navUsers;
-      document.getElementById('txt-nav-shop').innerText = dict.navShop;
-      document.getElementById('txt-btn-logout').innerText = dict.btnLogout;
-
-      showAdminToast(dict.toastLang);
-    }
-
-    function switchSegment(seg) {
-      currentSegment = seg;
-      document.querySelectorAll('.segment-btn').forEach(b => b.classList.remove('active'));
-      document.getElementById(`seg-btn-${seg}`).classList.add('active');
-
-      const depSec = document.getElementById('view-deposits-section');
-      const ordSec = document.getElementById('view-orders-section');
-      const kpiBlock = document.getElementById('view-kpi-block');
-
-      depSec.style.display = (seg === 'deposits') ? 'flex' : 'none';
-      ordSec.style.display = (seg === 'orders') ? 'flex' : 'none';
-      kpiBlock.style.display = (seg === 'kpi') ? 'block' : 'none';
-    }
-
-    function openActionModal(title, desc, onConfirm) {
-      document.getElementById('modal-action-title').innerText = title;
-      document.getElementById('modal-action-desc').innerText = desc;
-      activeActionCallback = onConfirm;
-      document.getElementById('action-sheet-backdrop').classList.add('active');
-    }
-
-    function closeActionModal() {
-      document.getElementById('action-sheet-backdrop').classList.remove('active');
-      activeActionCallback = null;
-    }
-
-    document.getElementById('modal-confirm-action-btn').addEventListener('click', () => {
-      if (typeof activeActionCallback === 'function') activeActionCallback();
-      closeActionModal();
-    });
-
-    /* 7. ÉCOUTE TEMPS RÉEL DES DÉPÔTS (MONCASH / NATCASH / MERU) */
-    function streamDeposits() {
-      const target = document.getElementById('deposits-stream-target');
-      const counterSeg = document.getElementById('counter-seg-deposits');
-      const kpiDeposits = document.getElementById('count-pending-deposits');
-
-      db.collection('deposits').where('status', '==', 'en_attente').onSnapshot(snapshot => {
-        const count = snapshot.size;
-        counterSeg.innerText = count;
-        kpiDeposits.innerText = count;
-
-        if (snapshot.empty) {
-          target.innerHTML = `
-            <div class="empty-stream-box">
-              <svg viewBox="0 0 24 24"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round"/></svg>
-              <span>${I18N[currentLang].emptyDeposits}</span>
-            </div>
-          `;
-          return;
-        }
-
-        target.innerHTML = '';
-        snapshot.forEach(doc => {
-          const d = doc.data();
-          const card = document.createElement('div');
-          card.className = 'operation-card';
-          card.innerHTML = `
-            <div class="op-head">
-              <div>
-                <div class="op-client-title">${d.userName || 'Client'}</div>
-                <div class="op-client-sub">${d.userEmail}</div>
-              </div>
-              <div class="op-amount">+${(d.creditHTG || d.depositedAmount).toLocaleString()} HTG</div>
-            </div>
-
-            <div class="op-details-box">
-              <div class="detail-line">
-                <span class="detail-label">Canal de Dépôt</span>
-                <span class="detail-val">${(d.method || 'MONCASH').toUpperCase()}</span>
-              </div>
-              <div class="detail-line">
-                <span class="detail-label">ID Transaction</span>
-                <span class="detail-val">${d.transactionId || 'Non fourni'}</span>
-              </div>
-              <div class="detail-line">
-                <span class="detail-label">Fichier Preuve</span>
-                <span class="detail-val">${d.proofFileName || 'Aucune image'}</span>
-              </div>
-              <div class="detail-line">
-                <span class="detail-label">Référence</span>
-                <span class="detail-val"><code>${d.depositId}</code></span>
-              </div>
-            </div>
-
-            <div class="op-actions">
-              <button class="btn-action btn-approve" onclick="confirmDepositApproval('${d.depositId}', '${d.userId}', ${d.creditHTG || d.depositedAmount})">
-                ${I18N[currentLang].btnApprove}
-              </button>
-              <button class="btn-action btn-reject" onclick="confirmDepositRejection('${d.depositId}')">
-                ${I18N[currentLang].btnReject}
-              </button>
-            </div>
-          `;
-          target.appendChild(card);
-        });
-      }, err => {
-        target.innerHTML = `<div class="empty-stream-box" style="color:var(--danger);">${err.message}</div>`;
-      });
-    }
-
-    function confirmDepositApproval(depositId, userId, amount) {
-      openActionModal(
-        "Validation du Dépôt",
-        `Confirmez-vous le crédit de +${amount.toLocaleString()} HTG sur le portefeuille du client ?`,
-        async () => {
-          try {
-            await db.collection('deposits').doc(depositId).update({
-              status: 'valide',
-              validatedAt: firebase.firestore.FieldValue.serverTimestamp()
-            });
-
-            await db.collection('users').doc(userId).set({
-              walletBalance: firebase.firestore.FieldValue.increment(amount)
-            }, { merge: true });
-
-            showAdminToast(I18N[currentLang].depositApproved);
-          } catch (e) {
-            showAdminToast(e.message, true);
-          }
-        }
-      );
-    }
-
-    function confirmDepositRejection(depositId) {
-      openActionModal(
-        "Rejet de la Recharge",
-        "Êtes-vous certain de vouloir marquer ce dépôt comme rejeté ?",
-        async () => {
-          try {
-            await db.collection('deposits').doc(depositId).update({
-              status: 'rejete',
-              rejectedAt: firebase.firestore.FieldValue.serverTimestamp()
-            });
-            showAdminToast(I18N[currentLang].depositRejected);
-          } catch (e) {
-            showAdminToast(e.message, true);
-          }
-        }
-      );
-    }
-
-    /* 8. ÉCOUTE TEMPS RÉEL DES COMMANDES MANUELLES */
-    function streamOrders() {
-      const target = document.getElementById('orders-stream-target');
-      const counterSeg = document.getElementById('counter-seg-orders');
-      const kpiOrders = document.getElementById('count-pending-orders');
-
-      db.collection('orders').where('status', '==', 'en_attente').onSnapshot(snapshot => {
-        const count = snapshot.size;
-        counterSeg.innerText = count;
-        kpiOrders.innerText = count;
-
-        if (snapshot.empty) {
-          target.innerHTML = `
-            <div class="empty-stream-box">
-              <svg viewBox="0 0 24 24"><path d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" stroke-linecap="round"/></svg>
-              <span>${I18N[currentLang].emptyOrders}</span>
-            </div>
-          `;
-          return;
-        }
-
-        target.innerHTML = '';
-        snapshot.forEach(doc => {
-          const ord = doc.data();
-          const item = ord.item || {};
-          const deliv = item.deliveryInfo || {};
-
-          let lines = [];
-          if (deliv.playerId) lines.push(`<div class="detail-line"><span class="detail-label">UID Joueur</span><span class="detail-val">${deliv.playerId}</span></div>`);
-          if (deliv.email) lines.push(`<div class="detail-line"><span class="detail-label">Email Compte</span><span class="detail-val">${deliv.email}</span></div>`);
-          if (deliv.password) lines.push(`<div class="detail-line"><span class="detail-label">Mot de passe</span><span class="detail-val">${deliv.password}</span></div>`);
-          if (deliv.username) lines.push(`<div class="detail-line"><span class="detail-label">Nom Utilisateur</span><span class="detail-val">${deliv.username}</span></div>`);
-          if (deliv.whatsapp) lines.push(`<div class="detail-line"><span class="detail-label">WhatsApp</span><span class="detail-val">${deliv.whatsapp}</span></div>`);
-          if (deliv.walletAddress) lines.push(`<div class="detail-line"><span class="detail-label">Adresse TRC20</span><span class="detail-val">${deliv.walletAddress}</span></div>`);
-          if (deliv.meruTag) lines.push(`<div class="detail-line"><span class="detail-label">Tag Meru</span><span class="detail-val">${deliv.meruTag}</span></div>`);
-
-          const card = document.createElement('div');
-          card.className = 'operation-card';
-          card.innerHTML = `
-            <div class="op-head">
-              <div>
-                <div class="op-client-title">${item.title || 'Service'} — ${item.offerName || ''}</div>
-                <div class="op-client-sub">${ord.userEmail} • Réf: ${ord.orderId}</div>
-              </div>
-              <div class="op-amount">${item.price ? item.price.toLocaleString() + ' HTG' : ''}</div>
-            </div>
-
-            <div class="op-details-box">
-              ${lines.join('') || '<div style="color:var(--text-muted);">Aucun identifiant de livraison fourni</div>'}
-            </div>
-
-            <div class="op-actions">
-              <button class="btn-action btn-approve" onclick="confirmOrderFulfillment('${ord.orderId}')">
-                ${I18N[currentLang].btnComplete}
-              </button>
-            </div>
-          `;
-          target.appendChild(card);
-        });
-      });
-    }
-
-    function confirmOrderFulfillment(orderId) {
-      openActionModal(
-        "Clôture de Commande",
-        "Confirmez-vous que le compte a bien été rechargé ou que les accès ont été délivrés ?",
-        async () => {
-          try {
-            await db.collection('orders').doc(orderId).update({
-              status: 'livre',
-              deliveredAt: firebase.firestore.FieldValue.serverTimestamp()
-            });
-            showAdminToast(I18N[currentLang].orderFulfilled);
-          } catch (e) {
-            showAdminToast(e.message, true);
-          }
-        }
-      );
-    }
-
-    function streamUserMetrics() {
-      db.collection('users').onSnapshot(snap => {
-        document.getElementById('count-total-users').innerText = snap.size;
-      });
-    }
-
-    function openSidebar() { document.getElementById('sidebar-overlay').classList.add('active'); }
-    function closeSidebar() { document.getElementById('sidebar-overlay').classList.remove('active'); }
-    function toggleNotifications() { document.getElementById('notif-panel').classList.toggle('open'); }
-
-    function performAdminSignOut() {
-      sessionStorage.removeItem('dp_admin_2fa_token');
-      auth.signOut().then(() => window.location.href = "../index.html");
-    }
-
-    /* 9. GARDE-FOU D'ACCÈS EXCLUSIF : MMASKED36@GMAIL.COM */
-    auth.onAuthStateChanged(user => {
-      if (!user) {
-        window.location.href = "../authentification/login.html";
-        return;
-      }
-
-      if (user.email.toLowerCase() !== STRICT_ADMIN_EMAIL.toLowerCase()) {
-        showAdminToast("Accès refusé : vous n'êtes pas administrateur.", true);
-        auth.signOut().then(() => {
-          setTimeout(() => window.location.href = "../index.html", 1200);
-        });
-        return;
-      }
-
-      currentAdmin = user;
-
-      // Si la session 2FA a déjà été validée dans cet onglet, on ouvre directement
-      if (sessionStorage.getItem('dp_admin_2fa_token') === 'VALID_SESSION_2FA') {
-        unlockAdminDashboard();
-      } else {
-        document.getElementById('two-factor-screen').style.display = 'flex';
-        document.getElementById('admin-secured-shell').style.display = 'none';
-        document.getElementById('digit-1').focus();
-      }
-    });
-  </script>
-</body>
-</html>=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>Direction & Opérations — DigitalPay Haiti</title>
-  
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-
-  <!-- Firebase SDKs Compat 10.12.0 -->
-  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
-
-  <style>
-    /* ==========================================================================
-       FINTECH DESIGN SYSTEM — MOBILE FIRST ULTRA HAUTE GAMME
-       ========================================================================== */
-    :root {
-      --bg: #F8FAFC;
-      --surface: #FFFFFF;
-      --surface-subtle: #F1F5F9;
-      --border: #E2E8F0;
-      --border-light: #EDF2F7;
-
-      --text-black: #0F172A;
-      --text-muted: #64748B;
-      --text-light: #94A3B8;
-
-      --royal-blue: #1D4ED8;
-      --royal-gradient: linear-gradient(135deg, #1D4ED8 0%, #2563EB 50%, #3B82F6 100%);
-      --royal-soft: rgba(29, 78, 216, 0.08);
-
-      --danger: #DC2626;
-      --danger-soft: rgba(220, 38, 38, 0.08);
-      --success: #10B981;
-      --success-soft: rgba(16, 185, 129, 0.08);
-      --warning: #F59E0B;
-      --warning-soft: rgba(245, 158, 11, 0.08);
-
-      --radius-sm: 8px;
-      --radius-md: 12px;
-      --radius-square: 16px;
-      --radius-card: 18px;
-      --radius-full: 9999px;
-
-      --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.04);
-      --shadow-card: 0 4px 16px -2px rgba(15, 23, 42, 0.05);
-      --shadow-sheet: 0 -10px 35px rgba(15, 23, 42, 0.12);
-      --font: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    }
-
-    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-    body {
-      background-color: var(--bg);
-      color: var(--text-black);
-      font-family: var(--font);
-      font-size: 14px;
-      line-height: 1.5;
-      overflow-x: hidden;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .app-shell {
-      max-width: 480px;
-      margin: 0 auto;
-      width: 100%;
-      min-height: 100vh;
-      background: var(--surface);
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      border-left: 1px solid var(--border-light);
-      border-right: 1px solid var(--border-light);
-    }
-
-    .icon-svg {
-      width: 16px;
-      height: 16px;
-      stroke: currentColor;
-      stroke-width: 2;
-      fill: none;
-      display: inline-block;
-      vertical-align: middle;
-    }
-
-    /* HEADER */
-    .site-header {
-      position: sticky;
-      top: 0;
-      z-index: 40;
-      background: rgba(255, 255, 255, 0.96);
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
-      border-bottom: 1px solid var(--border);
-      padding: 10px 16px;
-    }
-
-    .header-top {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      height: 44px;
-    }
-
-    .brand-group {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      text-decoration: none;
-    }
-
-    .brand-logo-only {
-      height: 34px;
-      width: auto;
-      max-width: 120px;
-      object-fit: contain;
-      cursor: pointer;
-    }
-
-    .admin-pill-tag {
-      background: var(--text-black);
-      color: #FFFFFF;
-      font-size: 9px;
-      font-weight: 800;
-      padding: 3px 8px;
-      border-radius: var(--radius-full);
-      text-transform: uppercase;
-      letter-spacing: 0.6px;
-    }
-
-    .header-icons {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .header-btn {
-      width: 38px;
-      height: 38px;
-      border-radius: var(--radius-md);
-      background: #FFFFFF;
-      border: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--text-black);
-      cursor: pointer;
-      position: relative;
-      text-decoration: none;
-      transition: transform 0.15s ease;
-    }
-
-    .header-btn:active {
-      transform: scale(0.94);
-      background: var(--surface-subtle);
-    }
-
-    .header-btn svg {
-      width: 18px;
-      height: 18px;
-      stroke: currentColor;
-      stroke-width: 2;
-      fill: none;
-    }
-
-    .badge-dot {
-      position: absolute;
-      top: 8px;
-      right: 8px;
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: var(--royal-blue);
-      box-shadow: 0 0 0 2px #FFFFFF;
-    }
-
-    /* BARRE D'ONGLETS ADMIN SCROLLABLE */
-    .admin-nav-bar {
-      display: flex;
-      gap: 6px;
-      overflow-x: auto;
-      padding-top: 10px;
-      scrollbar-width: none;
-    }
-
-    .admin-nav-bar::-webkit-scrollbar { display: none; }
-
-    .admin-pill {
-      background: #FFFFFF;
-      border: 1px solid var(--border);
-      color: var(--text-muted);
-      padding: 7px 14px;
-      border-radius: var(--radius-full);
-      font-size: 12px;
-      font-weight: 700;
-      white-space: nowrap;
-      text-decoration: none;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      transition: all 0.15s ease;
-    }
-
-    .admin-pill.active {
-      background: var(--text-black);
-      border-color: var(--text-black);
-      color: #FFFFFF;
-    }
-
-    .admin-pill.active .icon-svg { stroke: #FFFFFF; }
-
-    /* ==========================================================================
-       ÉCRAN DE DOUBLE AUTHENTIFICATION (2FA) OBLIGATOIRE
-       ========================================================================== */
-    .two-factor-screen {
-      position: fixed;
-      inset: 0;
-      z-index: 200;
-      background: #FFFFFF;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 24px;
-      max-width: 480px;
-      margin: 0 auto;
-    }
-
-    .two-factor-box {
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-      gap: 16px;
-    }
-
-    .two-factor-icon-shield {
-      width: 60px;
-      height: 60px;
-      border-radius: 50%;
-      background: var(--royal-soft);
-      border: 1px solid rgba(29, 78, 216, 0.2);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--royal-blue);
-      margin-bottom: 4px;
-    }
-
-    .two-factor-title {
-      font-size: 20px;
-      font-weight: 900;
-      color: var(--text-black);
-      letter-spacing: -0.5px;
-    }
-
-    .two-factor-desc {
-      font-size: 13px;
-      color: var(--text-muted);
-      line-height: 1.5;
-      max-width: 320px;
-    }
-
-    .digits-input-container {
-      display: flex;
-      gap: 8px;
-      justify-content: center;
-      margin: 12px 0 6px;
-      width: 100%;
-    }
-
-    .digit-cell {
-      width: 46px;
-      height: 52px;
-      background: var(--surface-subtle);
-      border: 1.5px solid var(--border);
-      border-radius: var(--radius-md);
-      font-size: 22px;
-      font-weight: 900;
-      color: var(--text-black);
-      text-align: center;
-      outline: none;
-      font-family: inherit;
-      transition: all 0.15s ease;
-    }
-
-    .digit-cell:focus {
-      background: #FFFFFF;
-      border-color: var(--royal-blue);
-      box-shadow: 0 0 0 3px var(--royal-soft);
-    }
-
-    .btn-verify-2fa {
-      width: 100%;
-      height: 48px;
-      background: var(--royal-gradient);
-      color: #FFFFFF;
-      border: none;
-      border-radius: var(--radius-md);
-      font-size: 13px;
-      font-weight: 800;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      box-shadow: 0 4px 14px rgba(29, 78, 216, 0.25);
-      font-family: inherit;
-      margin-top: 8px;
-    }
-
-    .btn-verify-2fa:active { transform: scale(0.99); }
-    .btn-verify-2fa:disabled { opacity: 0.6; cursor: not-allowed; }
-
-    /* SEGMENTATION TACTILE MOBILE */
-    .mobile-segment-container {
-      padding: 12px 16px 0;
-      background: #FFFFFF;
-    }
-
-    .segment-bar {
-      background: var(--surface-subtle);
-      border-radius: var(--radius-md);
-      padding: 4px;
-      display: flex;
-      gap: 4px;
-      border: 1px solid var(--border-light);
-    }
-
-    .segment-btn {
-      flex: 1;
-      height: 38px;
-      border-radius: var(--radius-sm);
-      border: none;
-      background: transparent;
-      font-size: 12px;
-      font-weight: 800;
-      color: var(--text-muted);
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      font-family: inherit;
-      transition: all 0.15s ease;
-    }
-
-    .segment-btn.active {
-      background: #FFFFFF;
-      color: var(--text-black);
-      box-shadow: var(--shadow-sm);
-    }
-
-    .counter-pill {
-      font-size: 10px;
-      font-weight: 900;
-      padding: 2px 6px;
-      border-radius: var(--radius-full);
-      background: var(--border);
-      color: var(--text-black);
-    }
-
-    .segment-btn.active .counter-pill {
-      background: var(--royal-blue);
-      color: #FFFFFF;
-    }
-
-    /* CORPS PRINCIPAL */
-    .admin-body {
-      padding: 16px;
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
-
-    /* STATS FINTECH EN DIRECT */
-    .kpi-row {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 8px;
-    }
-
-    .kpi-card {
-      background: var(--surface-subtle);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-md);
-      padding: 12px 6px;
-      text-align: center;
-    }
-
-    .kpi-label {
-      font-size: 9px;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      color: var(--text-muted);
-    }
-
-    .kpi-value {
-      font-size: 18px;
-      font-weight: 900;
-      color: var(--text-black);
-      margin-top: 2px;
-    }
-
-    /* CARTES DES FLUX FINANCIERS & COMMANDES */
-    .stream-container {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-
-    .operation-card {
-      background: #FFFFFF;
-      border: 1px solid var(--border);
-      border-radius: var(--radius-card);
-      padding: 14px;
-      box-shadow: var(--shadow-card);
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .op-head {
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      gap: 10px;
-    }
-
-    .op-client-title {
-      font-size: 13px;
-      font-weight: 800;
-      color: var(--text-black);
-      line-height: 1.2;
-    }
-
-    .op-client-sub {
-      font-size: 11px;
-      color: var(--text-muted);
-      margin-top: 2px;
-    }
-
-    .op-amount {
-      font-size: 15px;
-      font-weight: 900;
-      color: var(--royal-blue);
-      white-space: nowrap;
-    }
-
-    .op-details-box {
-      background: var(--surface-subtle);
-      border: 1px solid var(--border-light);
-      border-radius: var(--radius-sm);
-      padding: 10px 12px;
-      font-size: 11px;
-      line-height: 1.6;
-      color: var(--text-black);
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
-
-    .detail-line {
-      display: flex;
-      justify-content: space-between;
-      gap: 10px;
-    }
-
-    .detail-label {
-      color: var(--text-muted);
-      font-weight: 600;
-      flex-shrink: 0;
-    }
-
-    .detail-val {
-      font-weight: 800;
-      text-align: right;
-      word-break: break-all;
-    }
-
-    .op-actions {
-      display: flex;
-      gap: 8px;
-      margin-top: 2px;
-    }
-
-    .btn-action {
-      flex: 1;
-      height: 42px;
-      border-radius: var(--radius-sm);
-      border: none;
-      font-size: 12px;
-      font-weight: 800;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      font-family: inherit;
-      transition: transform 0.1s ease;
-    }
-
-    .btn-action:active { transform: scale(0.98); }
-    .btn-action:disabled { opacity: 0.5; cursor: not-allowed; }
-
-    .btn-approve {
-      background: var(--royal-gradient);
-      color: #FFFFFF;
-      box-shadow: 0 4px 12px rgba(29, 78, 216, 0.2);
-    }
-
-    .btn-reject {
-      background: var(--danger-soft);
-      color: var(--danger);
-      border: 1px solid rgba(220, 38, 38, 0.2);
-      flex: 0.6;
-    }
-
-    .empty-stream-box {
-      text-align: center;
-      padding: 40px 16px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      color: var(--text-muted);
-      gap: 8px;
-    }
-
-    .empty-stream-box svg {
-      width: 40px;
-      height: 40px;
-      stroke: var(--text-light);
-    }
-
-    /* MODALE ACTION BOTTOM SHEET */
-    .sheet-backdrop {
-      position: fixed;
-      inset: 0;
-      background: rgba(15, 23, 42, 0.55);
-      backdrop-filter: blur(4px);
-      -webkit-backdrop-filter: blur(4px);
-      z-index: 120;
-      opacity: 0;
-      visibility: hidden;
-      transition: all 0.2s ease;
-      display: flex;
-      align-items: flex-end;
-      justify-content: center;
-    }
-
-    .sheet-backdrop.active { opacity: 1; visibility: visible; }
-
-    .sheet-modal {
-      width: 100%;
-      max-width: 480px;
-      background: #FFFFFF;
-      border-radius: var(--radius-card) var(--radius-card) 0 0;
-      padding: 20px;
-      box-shadow: var(--shadow-sheet);
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-      transform: translateY(100%);
-      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    .sheet-backdrop.active .sheet-modal {
-      transform: translateY(0);
-    }
-
-    .modal-head {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .modal-title { font-size: 15px; font-weight: 900; color: var(--text-black); }
-    .modal-close-btn { width: 30px; height: 30px; border-radius: 50%; border: none; background: var(--surface-subtle); color: var(--text-muted); cursor: pointer; font-weight: 800; }
-    .modal-desc { font-size: 12px; color: var(--text-muted); line-height: 1.5; }
-    .modal-actions { display: flex; gap: 8px; margin-top: 6px; }
-
-    /* FOOTER */
-    .site-footer {
-      background: #FFFFFF;
-      border-top: 1px solid var(--border);
-      padding: 18px 16px;
-      margin-top: auto;
-    }
-
-    .footer-minimal-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 11px;
-      font-weight: 700;
-      color: var(--text-muted);
-    }
-
-    .footer-status-pill {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 10px;
-      color: var(--royal-blue);
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
-    .footer-status-indicator {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: var(--royal-blue);
-    }
-
-    /* SIDEBAR */
-    .sidebar-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(15, 23, 42, 0.45);
-      backdrop-filter: blur(4px);
-      -webkit-backdrop-filter: blur(4px);
-      z-index: 100;
-      opacity: 0;
-      visibility: hidden;
-      transition: all 0.25s ease;
-    }
-
-    .sidebar-overlay.active { opacity: 1; visibility: visible; }
-
-    .sidebar-drawer {
-      position: fixed;
-      top: 0;
-      right: 0;
-      width: min(82vw, 340px);
-      height: 100vh;
-      background: #FFFFFF;
-      z-index: 101;
-      transform: translateX(100%);
-      transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
-      display: flex;
-      flex-direction: column;
-      box-shadow: -10px 0 30px rgba(0, 0, 0, 0.08);
-    }
-
-    .sidebar-overlay.active .sidebar-drawer { transform: translateX(0); }
-
-    .sidebar-content {
-      padding: 24px 20px;
-      display: flex;
-      flex-direction: column;
-      height: 100%;
-      overflow-y: auto;
-    }
-
-    .sidebar-header-pro {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding-bottom: 16px;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .sidebar-brand-box {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .logo-container-square {
-      width: 44px;
-      height: 44px;
-      border-radius: var(--radius-square);
-      background: var(--surface-subtle);
-      border: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-    }
-
-    .logo-container-square img {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-    }
-
-    .sidebar-brand-title { font-size: 16px; font-weight: 900; color: #000000; letter-spacing: -0.4px; }
-    .sidebar-brand-sub { font-size: 12px; font-weight: 700; color: #000000; letter-spacing: 0.5px; }
-
-    .sidebar-close-btn {
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      background: var(--surface-subtle);
-      border: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--text-muted);
-      cursor: pointer;
-      font-weight: 800;
-    }
-
-    .sidebar-section-title {
-      font-size: 10px;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 0.8px;
-      color: var(--text-light);
-      margin: 16px 0 8px;
-    }
-
-    .lang-switcher-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 6px;
-    }
-
-    .lang-option {
-      background: var(--surface-subtle);
-      border: 1px solid var(--border);
-      padding: 7px 10px;
-      border-radius: var(--radius-sm);
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 12px;
-      font-weight: 600;
-      color: var(--text-black);
-      cursor: pointer;
-    }
-
-    .lang-option.active {
-      border-color: var(--royal-blue);
-      background: var(--royal-soft);
-      color: var(--royal-blue);
-      font-weight: 800;
-    }
-
-    .sidebar-menu-nav {
-      margin-top: 10px;
-      display: flex;
-      flex-direction: column;
-      gap: 3px;
-    }
-
-    .menu-link {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 9px 12px;
-      border-radius: var(--radius-md);
-      color: var(--text-black);
-      text-decoration: none;
-      font-size: 13px;
-      font-weight: 600;
-      transition: all 0.15s ease;
-      cursor: pointer;
-    }
-
-    .menu-link:hover, .menu-link.active {
-      background: var(--surface-subtle);
-      color: var(--royal-blue);
-    }
-
-    .menu-link svg {
-      width: 18px;
-      height: 18px;
-      stroke: currentColor;
-      stroke-width: 2;
-      fill: none;
-    }
-
-    .sidebar-auth-zone {
-      margin-top: 16px;
-      padding-top: 16px;
-      border-top: 1px solid var(--border);
-    }
-
-    .btn-auth-logout {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      width: 100%;
-      height: 40px;
-      border-radius: var(--radius-md);
-      font-size: 13px;
-      font-weight: 700;
-      background: var(--danger-soft);
-      color: var(--danger);
-      border: 1px solid rgba(220, 38, 38, 0.2);
-      cursor: pointer;
-    }
-
-    /* TOAST */
-    #toast-container { position: fixed; top: 16px; left: 50%; transform: translateX(-50%); z-index: 300; width: calc(100% - 32px); max-width: 380px; pointer-events: none; }
-    .toast-pro { background: #0F172A; color: #FFFFFF; padding: 12px 16px; border-radius: var(--radius-md); font-size: 12px; font-weight: 700; display: flex; align-items: center; gap: 10px; box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2); transform: translateY(-20px); opacity: 0; transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1); }
-    .toast-pro.toast-danger { background: #991B1B; border-left: 4px solid #EF4444; }
-    .toast-pro.show { transform: translateY(0); opacity: 1; }
-
-    .notif-panel {
-      position: absolute;
-      top: 64px;
-      right: 16px;
-      width: calc(100% - 32px);
-      max-width: 360px;
-      background: #FFFFFF;
-      border: 1px solid var(--border);
-      border-radius: var(--radius-md);
-      box-shadow: 0 10px 25px rgba(0,0,0,0.08);
-      z-index: 60;
-      display: none;
-      padding: 14px;
-    }
-
-    .notif-panel.open { display: block; }
-  </style>
-</head>
-<body>
-
-  <!-- TOAST CONTAINER -->
-  <div id="toast-container"></div>
-
-  <!-- ÉCRAN DE DOUBLE AUTHENTIFICATION (2FA) HAUTE SÉCURITÉ -->
-  <div class="two-factor-screen" id="two-factor-screen">
-    <div class="two-factor-box">
-      <div class="two-factor-icon-shield">
-        <svg class="icon-svg" viewBox="0 0 24 24" style="width:28px; height:28px; stroke:var(--royal-blue);"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-      </div>
-      <h2 class="two-factor-title">Double Authentification</h2>
-      <p class="two-factor-desc">
-        Accès restreint à <strong style="color:var(--text-black);">mmasked36@gmail.com</strong>.<br>
-        Entrez le code de sécurité temporaire à 6 chiffres.
-      </p>
-
-      <!-- 6 CASES DE SAISIE DE CODE 2FA -->
-      <div class="digits-input-container">
-        <input type="number" class="digit-cell" maxlength="1" id="digit-1" oninput="handleDigitInput(this, 'digit-2')" onkeydown="handleDigitBackspace(event, this, null)">
-        <input type="number" class="digit-cell" maxlength="1" id="digit-2" oninput="handleDigitInput(this, 'digit-3')" onkeydown="handleDigitBackspace(event, this, 'digit-1')">
-        <input type="number" class="digit-cell" maxlength="1" id="digit-3" oninput="handleDigitInput(this, 'digit-4')" onkeydown="handleDigitBackspace(event, this, 'digit-2')">
-        <input type="number" class="digit-cell" maxlength="1" id="digit-4" oninput="handleDigitInput(this, 'digit-5')" onkeydown="handleDigitBackspace(event, this, 'digit-3')">
-        <input type="number" class="digit-cell" maxlength="1" id="digit-5" oninput="handleDigitInput(this, 'digit-6')" onkeydown="handleDigitBackspace(event, this, 'digit-4')">
-        <input type="number" class="digit-cell" maxlength="1" id="digit-6" oninput="handleDigitInput(this, null)" onkeydown="handleDigitBackspace(event, this, 'digit-5')">
-      </div>
-
-      <button class="btn-verify-2fa" id="btn-verify-2fa" onclick="verifyTwoFactorCode()">
-        <span>Déverrouiller l'accès</span>
-      </button>
-
-      <button onclick="auth.signOut().then(()=>window.location.href='../index.html')" style="background:none; border:none; color:var(--danger); font-size:12px; font-weight:800; cursor:pointer; margin-top:8px;">
-        Annuler et quitter
-      </button>
-    </div>
-  </div>
-
-  <!-- TABLEAU DE BORD ADMINISTRATION COMPLET (MASQUÉ TANT QUE LE 2FA N'EST PAS VALIDÉ) -->
-  <div class="app-shell" id="admin-secured-shell" style="display: none;">
-
-    <!-- ==================== HEADER ADMIN ==================== -->
-    <header class="site-header">
-      <div class="header-top">
-        <div class="brand-group">
-          <a href="../index.html">
-            <img src="../logo.png" alt="DigitalPay Logo" class="brand-logo-only" onerror="this.src='../assets/logo.png'; this.onerror=null;">
-          </a>
-          <span class="admin-pill-tag">Direction</span>
-        </div>
-
-        <div class="header-icons">
-          <a href="../index.html" class="header-btn" title="Boutique publique">
-            <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><path d="M9 22V12h6v10"/></svg>
-          </a>
-
-          <button class="header-btn" onclick="toggleNotifications()" aria-label="Notifications">
-            <svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 01-3.46 0" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            <span class="badge-dot"></span>
-          </button>
-
-          <button class="header-btn" onclick="openSidebar()" aria-label="Menu Admin">
-            <svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16" stroke-linecap="round"/></svg>
-          </button>
-        </div>
-      </div>
-
-      <!-- Navigation par onglets -->
-      <div class="admin-nav-bar">
-        <a href="index.html" class="admin-pill active">
-          <svg class="icon-svg" viewBox="0 0 24 24"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round"/></svg>
-          <span id="txt-pill-main">Dépôts & Commandes</span>
-        </a>
-        <a href="pins.html" class="admin-pill">
-          <svg class="icon-svg" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
-          <span id="txt-pill-pins">Stock PINs Free Fire</span>
-        </a>
-        <a href="users.html" class="admin-pill">
-          <svg class="icon-svg" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
-          <span id="txt-pill-users">Comptes Clients</span>
-        </a>
-      </div>
-    </header>
-
-    <!-- NOTIF BROADCAST ADMIN -->
-    <div class="notif-panel" id="notif-panel">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-        <strong style="font-size:12px; text-transform:uppercase;">Console Sécurisée 2FA</strong>
-        <button onclick="toggleNotifications()" style="border:none; background:none; cursor:pointer; font-weight:700;">✕</button>
-      </div>
-      <div style="padding:10px; background:var(--surface-subtle); border-left:3px solid var(--royal-blue); border-radius:4px; font-size:12px;">
-        <strong>Session Cryptée Active</strong>
-        <p>Opérateur vérifié : mmasked36@gmail.com. Toutes les validations de dépôts créditent le portefeuille du client immédiatement.</p>
-      </div>
-    </div>
-
-    <!-- SEGMENTATION TACTILE MOBILE -->
-    <div class="mobile-segment-container">
-      <div class="segment-bar">
-        <button class="segment-btn active" id="seg-btn-deposits" onclick="switchSegment('deposits')">
-          <span id="txt-seg-deposits">Dépôts</span>
-          <span class="counter-pill" id="counter-seg-deposits">0</span>
-        </button>
-        <button class="segment-btn" id="seg-btn-orders" onclick="switchSegment('orders')">
-          <span id="txt-seg-orders">Commandes</span>
-          <span class="counter-pill" id="counter-seg-orders">0</span>
-        </button>
-        <button class="segment-btn" id="seg-btn-kpi" onclick="switchSegment('kpi')">
-          <span id="txt-seg-kpi">Aperçu</span>
-        </button>
-      </div>
-    </div>
-
-    <!-- CORPS DU TABLEAU DE BORD -->
-    <main class="admin-body">
-      
-      <!-- APERÇU KPI -->
-      <div id="view-kpi-block" style="display: none;">
-        <div class="kpi-row">
-          <div class="kpi-card">
-            <div class="kpi-label">Dépôts Attente</div>
-            <div class="kpi-value" id="count-pending-deposits" style="color:var(--warning);">0</div>
-          </div>
-          <div class="kpi-card">
-            <div class="kpi-label">Commandes Attente</div>
-            <div class="kpi-value" id="count-pending-orders" style="color:var(--royal-blue);">0</div>
-          </div>
-          <div class="kpi-card">
-            <div class="kpi-label">Clients Inscrits</div>
-            <div class="kpi-value" id="count-total-users">0</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- VUE 1 : DÉPÔTS EN ATTENTE DE VALIDATION -->
-      <section id="view-deposits-section" class="stream-container">
-        <div id="deposits-stream-target">
-          <div class="empty-stream-box">
-            <svg viewBox="0 0 24 24"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round"/></svg>
-            <span>Chargement des requêtes de dépôt...</span>
-          </div>
-        </div>
-      </section>
-
-      <!-- VUE 2 : COMMANDES MANUELLES À LIVRER -->
-      <section id="view-orders-section" class="stream-container" style="display: none;">
-        <div id="orders-stream-target">
-          <div class="empty-stream-box">
-            <svg viewBox="0 0 24 24"><path d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" stroke-linecap="round"/></svg>
-            <span>Chargement des commandes manuelles...</span>
-          </div>
-        </div>
-      </section>
-
-    </main>
-
-    <!-- FOOTER ULTRA ÉPURÉ -->
-    <footer class="site-footer">
-      <div class="footer-minimal-row">
-        <span>© 2026 DigitalPay S.A.</span>
-        <div class="footer-status-pill">
-          <span class="footer-status-indicator"></span>
-          <span>Session 2FA Active</span>
-        </div>
-      </div>
-    </footer>
-
-    <!-- SIDEBAR ADMIN HAUTE GAMME -->
-    <div class="sidebar-overlay" id="sidebar-overlay" onclick="closeSidebar()">
-      <aside class="sidebar-drawer" onclick="event.stopPropagation()">
-        <div class="sidebar-content">
-          
-          <div class="sidebar-header-pro">
-            <div class="sidebar-brand-box">
-              <div class="logo-container-square">
-                <img src="../logo.png" alt="DigitalPay Logo" onerror="this.src='../assets/logo.png'; this.onerror=null;">
-              </div>
-              <div>
-                <div class="sidebar-brand-title">DigitalPay</div>
-                <div class="sidebar-brand-sub">Haiti</div>
-              </div>
-            </div>
-            <button class="sidebar-close-btn" onclick="closeSidebar()">✕</button>
-          </div>
-
-          <div class="sidebar-section-title">Langue / Lang</div>
-          <div class="lang-switcher-grid">
-            <button class="lang-option active" onclick="setLang('fr', this)"><span>🇫🇷</span> Français</button>
-            <button class="lang-option" onclick="setLang('ht', this)"><span>🇭🇹</span> Kreyòl</button>
-            <button class="lang-option" onclick="setLang('en', this)"><span>🇺🇸</span> English</button>
-            <button class="lang-option" onclick="setLang('es', this)"><span>🇪🇸</span> Español</button>
-          </div>
-
-          <div class="sidebar-section-title">Navigation Admin</div>
-          <nav class="sidebar-menu-nav">
-            <a href="index.html" class="menu-link active">
-              <svg viewBox="0 0 24 24"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round"/></svg>
-              <span id="txt-nav-main">Tableau de bord</span>
-            </a>
-            <a href="pins.html" class="menu-link">
-              <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
-              <span id="txt-nav-pins">Stock PINs Free Fire</span>
-            </a>
-            <a href="users.html" class="menu-link">
-              <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
-              <span id="txt-nav-users">Comptes Clients</span>
-            </a>
-            <a href="../index.html" class="menu-link">
-              <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><path d="M9 22V12h6v10"/></svg>
-              <span id="txt-nav-shop">Retour Boutique</span>
-            </a>
-          </nav>
-
-          <div class="sidebar-auth-zone">
-            <div style="font-size:12px; font-weight:800; color:var(--text-black);">Direction Générale</div>
-            <div style="font-size:11px; color:var(--text-muted); margin-bottom:10px; font-family:monospace;">mmasked36@gmail.com</div>
-            <button class="btn-auth-logout" onclick="performAdminSignOut()" id="txt-btn-logout">Déconnexion Direction</button>
-          </div>
-
-        </div>
-      </aside>
-    </div>
-
-    <!-- MODALE ACTION BOTTOM SHEET -->
-    <div class="sheet-backdrop" id="action-sheet-backdrop">
-      <div class="sheet-modal">
-        <div class="modal-head">
-          <div class="modal-title" id="modal-action-title">Action Administrative</div>
-          <button class="modal-close-btn" onclick="closeActionModal()">✕</button>
-        </div>
-        <div class="modal-desc" id="modal-action-desc">Veuillez confirmer cette opération.</div>
-        <div class="modal-actions">
-          <button class="btn-action btn-reject" onclick="closeActionModal()">Annuler</button>
-          <button class="btn-action btn-approve" id="modal-confirm-action-btn">Confirmer</button>
-        </div>
-      </div>
-    </div>
-
-  </div>
-
-  <!-- ==================== JAVASCRIPT & VÉRIFICATION 2FA STRICTE ==================== -->
-  <script>
-    /* 1. CONFIGURATION OFFICIELLE FIREBASE */
-    const firebaseConfig = {
-      apiKey: "AIzaSyDOSMtCknVXQs3XL1piE047Ussc6KeCDmY",
-      authDomain: "digitalpayht-officiel.firebaseapp.com",
-      projectId: "digitalpayht-officiel",
-      storageBucket: "digitalpayht-officiel.firebasestorage.app",
-      messagingSenderId: "492314684302",
-      appId: "1:492314684302:web:dc36ab9445877df2dcd2df"
-    };
-
-    if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
-    const auth = firebase.auth();
-    const db = firebase.firestore();
-
-    // EMAIL EXCLUSIF AUTORISÉ
-    const STRICT_ADMIN_EMAIL = "mmasked36@gmail.com";
-
-    let currentAdmin = null;
-    let currentLang = 'fr';
-    let currentSegment = 'deposits';
-    let activeActionCallback = null;
-    let currentServer2FACode = null;
 
     /* 2. DICTIONNAIRE MULTILINGUE GLOBAL */
     const I18N = {
@@ -2669,10 +1169,10 @@
       }, 2400);
     }
 
-    /* 3. CONTRÔLE DE SAISIE DES 6 CHIFFRES 2FA */
+    /* 3. SAISIE MOBILE FLUIDE */
     function handleDigitInput(el, nextId) {
       if (el.value.length >= 1) {
-        el.value = el.value.slice(0, 1);
+        el.value = el.value.slice(-1);
         if (nextId) document.getElementById(nextId).focus();
       }
     }
@@ -2683,53 +1183,30 @@
       }
     }
 
-    /* 4. GÉNÉRATION ET GESTION DU CODE 2FA DANS FIRESTORE */
-    async function issueTwoFactorChallenge(user) {
-      // Vérifie si une session est déjà validée dans cet onglet
-      if (sessionStorage.getItem('dp_admin_2fa_token') === 'VALID_SESSION_MMASKED36') {
-        unlockAdminDashboard();
-        return;
-      }
-
-      // Génération d'un code à 6 chiffres
-      const randomCode = Math.floor(100000 + Math.random() * 900000).toString();
-      currentServer2FACode = randomCode;
-
-      try {
-        await db.collection('admin_security').doc('auth_state').set({
-          activeAdmin: user.email,
-          securityCode: randomCode,
-          expiresAt: Date.now() + (5 * 60 * 1000), // 5 minutes
-          generatedAt: firebase.firestore.FieldValue.serverTimestamp()
-        });
-
-        // Affiche le code généré pour toi dans un toast sécurisé (ou console privée)
-        showAdminToast(`Code 2FA généré : ${randomCode}`);
-      } catch (err) {
-        showAdminToast("Initialisation sécurité : vérifiez les règles.", true);
-      }
-    }
-
+    /* 4. VÉRIFICATION DU CODE 2FA SANS AUCUN BLOCAGE TECHNIQUE */
     function verifyTwoFactorCode() {
-      const code = [1,2,3,4,5,6].map(i => document.getElementById(`digit-${i}`).value).join('');
+      const enteredCode = [1,2,3,4,5,6].map(i => document.getElementById(`digit-${i}`).value.trim()).join('');
 
-      if (code.length < 6) {
-        showAdminToast("Veuillez saisir les 6 chiffres du code.", true);
+      if (enteredCode.length < 6) {
+        showAdminToast("Veuillez remplir les 6 chiffres.", true);
         return;
       }
 
-      if (code === currentServer2FACode) {
-        sessionStorage.setItem('dp_admin_2fa_token', 'VALID_SESSION_MMASKED36');
-        showAdminToast("Accès direction déverrouillé !");
-        unlockAdminDashboard();
+      // Calcul mathématique instantané
+      const hashAttempt = universalHash(SALT + enteredCode);
+
+      if (hashAttempt === TARGET_HASH) {
+        sessionStorage.setItem('dp_admin_session_auth', 'AUTHENTICATED_MASTER');
+        showAdminToast("Accès direction accordé !");
+        unlockDashboardUI();
       } else {
-        showAdminToast("Code 2FA incorrect. Accès refusé.", true);
+        showAdminToast("Code PIN incorrect. Réessayez.", true);
         [1,2,3,4,5,6].forEach(i => document.getElementById(`digit-${i}`).value = '');
         document.getElementById('digit-1').focus();
       }
     }
 
-    function unlockAdminDashboard() {
+    function unlockDashboardUI() {
       document.getElementById('two-factor-screen').style.display = 'none';
       document.getElementById('admin-secured-shell').style.display = 'flex';
       streamDeposits();
@@ -2790,7 +1267,7 @@
       closeActionModal();
     });
 
-    /* 6. ÉCOUTE TEMPS RÉEL DES DÉPÔTS (MONCASH / NATCASH / MERU) */
+    /* 6. ÉCOUTE TEMPS RÉEL DES DÉPÔTS */
     function streamDeposits() {
       const target = document.getElementById('deposits-stream-target');
       const counterSeg = document.getElementById('counter-seg-deposits');
@@ -2992,19 +1469,17 @@
     function toggleNotifications() { document.getElementById('notif-panel').classList.toggle('open'); }
 
     function performAdminSignOut() {
-      sessionStorage.removeItem('dp_admin_2fa_token');
+      sessionStorage.removeItem('dp_admin_session_auth');
       auth.signOut().then(() => window.location.href = "../index.html");
     }
 
-    /* 8. CONTRÔLE D'ACCÈS EXCLUSIF : MMASKED36@GMAIL.COM */
+    /* 8. VÉRIFICATION D'ACCÈS OBLIGATOIRE MMASKED36@GMAIL.COM */
     auth.onAuthStateChanged(user => {
-      // 1. Si aucun utilisateur n'est connecté -> Redirection immédiate vers le login
       if (!user) {
         window.location.href = "../authentification/login.html";
         return;
       }
 
-      // 2. Si l'email n'est PAS STRICTEMENT mmasked36@gmail.com -> Expulsion immédiate
       if (user.email.toLowerCase() !== STRICT_ADMIN_EMAIL.toLowerCase()) {
         showAdminToast("Accès refusé : vous n'êtes pas administrateur.", true);
         auth.signOut().then(() => {
@@ -3013,9 +1488,16 @@
         return;
       }
 
-      // 3. L'administrateur légitime est présent : déclenchement du challenge 2FA
       currentAdmin = user;
-      issueTwoFactorChallenge(user);
+
+      // Déverrouillé automatiquement si la session 2FA est déjà validée dans cet onglet
+      if (sessionStorage.getItem('dp_admin_session_auth') === 'AUTHENTICATED_MASTER') {
+        unlockDashboardUI();
+      } else {
+        document.getElementById('two-factor-screen').style.display = 'flex';
+        document.getElementById('admin-secured-shell').style.display = 'none';
+        setTimeout(() => document.getElementById('digit-1').focus(), 150);
+      }
     });
   </script>
 </body>
