@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Direction Générale — DigitalPay Haiti</title>
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -15,16 +15,16 @@
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
 
   <style>
-    /* DESIGN SYSTEM FINTECH HAUT DE GAMME */
+    /* FINTECH DESIGN SYSTEM HAUTE GAMME */
     :root {
-      --bg: #F8FAFC;
+      --bg: #FFFFFF;
       --surface: #FFFFFF;
-      --surface-subtle: #F1F5F9;
+      --surface-subtle: #F8FAFC;
       --border: #E2E8F0;
-      --border-light: #EDF2F7;
+      --border-light: #F1F5F9;
 
       --text-black: #0F172A;
-      --text-muted: #64748B;
+      --text-muted: #475569;
       --text-light: #94A3B8;
 
       --royal-blue: #1D4ED8;
@@ -40,476 +40,118 @@
 
       --radius-sm: 8px;
       --radius-md: 12px;
-      --radius-square: 16px;
-      --radius-card: 18px;
+      --radius-card: 16px;
       --radius-full: 9999px;
 
-      --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.04);
-      --shadow-card: 0 4px 16px -2px rgba(15, 23, 42, 0.05);
+      --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.05);
+      --shadow-card: 0 4px 14px -2px rgba(15, 23, 42, 0.06);
       --shadow-sheet: 0 -10px 35px rgba(15, 23, 42, 0.12);
       --font: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-    body {
-      background-color: var(--bg);
-      color: var(--text-black);
-      font-family: var(--font);
-      font-size: 14px;
-      line-height: 1.5;
-      overflow-x: hidden;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .app-shell {
-      max-width: 480px;
-      margin: 0 auto;
-      width: 100%;
-      min-height: 100vh;
-      background: var(--surface);
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      border-left: 1px solid var(--border-light);
-      border-right: 1px solid var(--border-light);
-    }
-
-    .icon-svg {
-      width: 16px;
-      height: 16px;
-      stroke: currentColor;
-      stroke-width: 2;
-      fill: none;
-      display: inline-block;
-      vertical-align: middle;
-    }
+    body { background-color: var(--bg); color: var(--text-black); font-family: var(--font); font-size: 14px; line-height: 1.5; overflow-x: hidden; min-height: 100vh; }
+    .app-shell { width: 100%; max-width: 480px; margin: 0 auto; min-height: 100vh; background: var(--surface); position: relative; display: flex; flex-direction: column; border-left: 1px solid var(--border-light); border-right: 1px solid var(--border-light); }
+    .icon-svg { width: 16px; height: 16px; stroke: currentColor; stroke-width: 2; fill: none; display: inline-block; vertical-align: middle; }
 
     /* HEADER */
-    .site-header {
-      position: sticky;
-      top: 0;
-      z-index: 40;
-      background: rgba(255, 255, 255, 0.96);
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
-      border-bottom: 1px solid var(--border);
-      padding: 10px 16px;
-    }
+    .site-header { position: sticky; top: 0; z-index: 40; background: rgba(255, 255, 255, 0.98); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-bottom: 1px solid var(--border); padding: 10px 16px; }
+    .header-top { display: flex; align-items: center; justify-content: space-between; height: 44px; }
+    .brand-group { display: flex; align-items: center; gap: 8px; text-decoration: none; }
+    .brand-logo-only { height: 34px; width: auto; max-width: 120px; object-fit: contain; cursor: pointer; }
+    .admin-pill-tag { background: var(--text-black); color: #FFFFFF; font-size: 9px; font-weight: 800; padding: 3px 8px; border-radius: var(--radius-full); text-transform: uppercase; letter-spacing: 0.6px; }
+    .header-icons { display: flex; align-items: center; gap: 6px; }
+    .header-btn { width: 38px; height: 38px; border-radius: var(--radius-md); background: #FFFFFF; border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; color: var(--text-black); cursor: pointer; position: relative; text-decoration: none; transition: transform 0.15s ease; }
+    .header-btn:active { transform: scale(0.94); background: var(--surface-subtle); }
+    .header-btn svg { width: 18px; height: 18px; stroke: currentColor; stroke-width: 2; fill: none; }
+    .badge-dot { position: absolute; top: 8px; right: 8px; width: 6px; height: 6px; border-radius: 50%; background: var(--royal-blue); box-shadow: 0 0 0 2px #FFFFFF; }
 
-    .header-top {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      height: 44px;
-    }
-
-    .brand-group {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      text-decoration: none;
-    }
-
-    .brand-logo-only {
-      height: 34px;
-      width: auto;
-      max-width: 120px;
-      object-fit: contain;
-      cursor: pointer;
-    }
-
-    .admin-pill-tag {
-      background: var(--text-black);
-      color: #FFFFFF;
-      font-size: 9px;
-      font-weight: 800;
-      padding: 3px 8px;
-      border-radius: var(--radius-full);
-      text-transform: uppercase;
-      letter-spacing: 0.6px;
-    }
-
-    .header-icons {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .header-btn {
-      width: 38px;
-      height: 38px;
-      border-radius: var(--radius-md);
-      background: #FFFFFF;
-      border: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--text-black);
-      cursor: pointer;
-      position: relative;
-      text-decoration: none;
-      transition: transform 0.15s ease;
-    }
-
-    .header-btn:active {
-      transform: scale(0.94);
-      background: var(--surface-subtle);
-    }
-
-    .header-btn svg {
-      width: 18px;
-      height: 18px;
-      stroke: currentColor;
-      stroke-width: 2;
-      fill: none;
-    }
-
-    .badge-dot {
-      position: absolute;
-      top: 8px;
-      right: 8px;
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: var(--royal-blue);
-      box-shadow: 0 0 0 2px #FFFFFF;
-    }
-
-    /* BARRE DE NAVIGATION PAR ONGLETS */
-    .admin-tabs-nav {
-      display: flex;
-      gap: 6px;
-      overflow-x: auto;
-      padding-top: 10px;
-      scrollbar-width: none;
-    }
-
+    /* ONGLETS HORIZONTAUX DU PANEL ADMIN */
+    .admin-tabs-nav { display: flex; gap: 6px; overflow-x: auto; padding-top: 10px; scrollbar-width: none; }
     .admin-tabs-nav::-webkit-scrollbar { display: none; }
-
-    .tab-pill {
-      background: #FFFFFF;
-      border: 1px solid var(--border);
-      color: var(--text-muted);
-      padding: 7px 12px;
-      border-radius: var(--radius-full);
-      font-size: 11px;
-      font-weight: 700;
-      white-space: nowrap;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      cursor: pointer;
-      font-family: inherit;
-      transition: all 0.15s ease;
-    }
-
-    .tab-pill.active {
-      background: var(--text-black);
-      border-color: var(--text-black);
-      color: #FFFFFF;
-    }
-
+    .tab-pill { background: #FFFFFF; border: 1px solid var(--border); color: var(--text-muted); padding: 7px 12px; border-radius: var(--radius-full); font-size: 11px; font-weight: 700; white-space: nowrap; display: flex; align-items: center; gap: 6px; cursor: pointer; font-family: inherit; transition: all 0.15s ease; }
+    .tab-pill.active { background: var(--text-black); border-color: var(--text-black); color: #FFFFFF; }
     .tab-pill.active .icon-svg { stroke: #FFFFFF; }
-    .tab-count {
-      background: rgba(0, 0, 0, 0.08);
-      padding: 1px 6px;
-      border-radius: var(--radius-full);
-      font-size: 10px;
-      font-weight: 800;
-    }
-    .tab-pill.active .tab-count {
-      background: var(--royal-blue);
-      color: #FFFFFF;
-    }
+    .tab-count { background: rgba(0, 0, 0, 0.08); padding: 1px 6px; border-radius: var(--radius-full); font-size: 10px; font-weight: 800; }
+    .tab-pill.active .tab-count { background: var(--royal-blue); color: #FFFFFF; }
 
     /* ÉCRAN 2FA */
-    .two-factor-screen {
-      position: fixed;
-      inset: 0;
-      z-index: 200;
-      background: #FFFFFF;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 24px;
-      max-width: 480px;
-      margin: 0 auto;
-    }
-
-    .two-factor-box {
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-      gap: 16px;
-    }
-
-    .two-factor-icon-shield {
-      width: 60px;
-      height: 60px;
-      border-radius: 50%;
-      background: var(--royal-soft);
-      border: 1px solid rgba(29, 78, 216, 0.2);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--royal-blue);
-    }
-
+    .two-factor-screen { position: fixed; inset: 0; z-index: 200; background: #FFFFFF; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 24px; max-width: 480px; margin: 0 auto; }
+    .two-factor-box { width: 100%; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 16px; }
+    .two-factor-icon-shield { width: 60px; height: 60px; border-radius: 50%; background: var(--royal-soft); border: 1px solid rgba(29, 78, 216, 0.2); display: flex; align-items: center; justify-content: center; color: var(--royal-blue); }
     .two-factor-title { font-size: 20px; font-weight: 900; color: var(--text-black); letter-spacing: -0.5px; }
     .two-factor-desc { font-size: 13px; color: var(--text-muted); line-height: 1.5; max-width: 320px; }
-
     .digits-input-container { display: flex; gap: 8px; justify-content: center; margin: 12px 0 6px; width: 100%; }
-    .digit-cell {
-      width: 46px;
-      height: 52px;
-      background: var(--surface-subtle);
-      border: 1.5px solid var(--border);
-      border-radius: var(--radius-md);
-      font-size: 22px;
-      font-weight: 900;
-      color: var(--text-black);
-      text-align: center;
-      outline: none;
-      font-family: inherit;
-    }
+    .digit-cell { width: 46px; height: 52px; background: var(--surface-subtle); border: 1.5px solid var(--border); border-radius: var(--radius-md); font-size: 22px; font-weight: 900; color: var(--text-black); text-align: center; outline: none; font-family: inherit; }
+    .digit-cell:focus { background: #FFFFFF; border-color: var(--royal-blue); box-shadow: 0 0 0 3px var(--royal-soft); }
+    .btn-verify-2fa { width: 100%; height: 48px; background: var(--royal-gradient); color: #FFFFFF; border: none; border-radius: var(--radius-md); font-size: 13px; font-weight: 800; cursor: pointer; box-shadow: 0 4px 14px rgba(29, 78, 216, 0.25); }
 
-    .digit-cell:focus {
-      background: #FFFFFF;
-      border-color: var(--royal-blue);
-      box-shadow: 0 0 0 3px var(--royal-soft);
-    }
-
-    .btn-verify-2fa {
-      width: 100%;
-      height: 48px;
-      background: var(--royal-gradient);
-      color: #FFFFFF;
-      border: none;
-      border-radius: var(--radius-md);
-      font-size: 13px;
-      font-weight: 800;
-      cursor: pointer;
-      box-shadow: 0 4px 14px rgba(29, 78, 216, 0.25);
-    }
-
-    /* CORPS PRINCIPAL */
+    /* CORPS DU PANEL */
     .admin-body { padding: 16px; flex: 1; display: flex; flex-direction: column; gap: 16px; }
 
-    /* CARTES D'OPÉRATION (DÉPÔTS & COMMANDES) */
-    .operation-card {
-      background: #FFFFFF;
-      border: 1px solid var(--border);
-      border-radius: var(--radius-card);
-      padding: 14px;
-      box-shadow: var(--shadow-card);
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
+    /* CARTES DES ACTIONS */
+    .operation-card { background: #FFFFFF; border: 1px solid var(--border); border-radius: var(--radius-card); padding: 14px; box-shadow: var(--shadow-card); display: flex; flex-direction: column; gap: 10px; }
     .op-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; }
     .op-client-title { font-size: 13px; font-weight: 800; color: var(--text-black); }
     .op-client-sub { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
     .op-amount { font-size: 15px; font-weight: 900; color: var(--royal-blue); white-space: nowrap; }
 
-    .op-details-box {
-      background: var(--surface-subtle);
-      border: 1px solid var(--border-light);
-      border-radius: var(--radius-sm);
-      padding: 10px 12px;
-      font-size: 11px;
-      line-height: 1.6;
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
-
+    .op-details-box { background: var(--surface-subtle); border: 1px solid var(--border-light); border-radius: var(--radius-sm); padding: 10px 12px; font-size: 11px; line-height: 1.6; display: flex; flex-direction: column; gap: 4px; }
     .detail-line { display: flex; justify-content: space-between; gap: 10px; }
     .detail-label { color: var(--text-muted); font-weight: 600; flex-shrink: 0; }
     .detail-val { font-weight: 800; text-align: right; word-break: break-all; }
 
-    .btn-view-receipt {
-      background: #FFFFFF;
-      border: 1px solid var(--royal-blue);
-      color: var(--royal-blue);
-      border-radius: var(--radius-sm);
-      padding: 4px 10px;
-      font-size: 11px;
-      font-weight: 800;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-    }
-
+    .btn-view-receipt { background: #FFFFFF; border: 1px solid var(--royal-blue); color: var(--royal-blue); border-radius: var(--radius-sm); padding: 4px 10px; font-size: 11px; font-weight: 800; cursor: pointer; display: inline-flex; align-items: center; gap: 4px; }
     .op-actions { display: flex; gap: 8px; margin-top: 2px; }
-    .btn-action {
-      flex: 1;
-      height: 40px;
-      border-radius: var(--radius-sm);
-      border: none;
-      font-size: 12px;
-      font-weight: 800;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      font-family: inherit;
-    }
-
+    .btn-action { flex: 1; height: 40px; border-radius: var(--radius-sm); border: none; font-size: 12px; font-weight: 800; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; font-family: inherit; }
     .btn-approve { background: var(--royal-gradient); color: #FFFFFF; box-shadow: 0 4px 12px rgba(29, 78, 216, 0.2); }
     .btn-reject { background: var(--danger-soft); color: var(--danger); border: 1px solid rgba(220, 38, 38, 0.2); flex: 0.6; }
     .empty-stream-box { text-align: center; padding: 40px 16px; color: var(--text-muted); display: flex; flex-direction: column; align-items: center; gap: 8px; }
 
-    /* SECTION UTILISATEURS */
+    /* UTILISATEURS */
     .search-input-box { position: relative; margin-bottom: 12px; }
-    .search-input-box input {
-      width: 100%;
-      height: 42px;
-      background: var(--surface-subtle);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-md);
-      padding: 0 12px 0 38px;
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--text-black);
-      outline: none;
-    }
-    .search-input-box svg {
-      position: absolute;
-      left: 12px;
-      top: 13px;
-      stroke: var(--text-light);
-      pointer-events: none;
-    }
-
-    .user-card {
-      background: #FFFFFF;
-      border: 1px solid var(--border);
-      border-radius: var(--radius-md);
-      padding: 12px;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      box-shadow: var(--shadow-sm);
-    }
+    .search-input-box input { width: 100%; height: 42px; background: var(--surface-subtle); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 0 12px 0 38px; font-size: 13px; font-weight: 600; color: var(--text-black); outline: none; }
+    .search-input-box svg { position: absolute; left: 12px; top: 13px; stroke: var(--text-light); pointer-events: none; }
+    .user-card { background: #FFFFFF; border: 1px solid var(--border); border-radius: var(--radius-md); padding: 12px; display: flex; flex-direction: column; gap: 8px; box-shadow: var(--shadow-sm); }
     .user-card-head { display: flex; justify-content: space-between; align-items: flex-start; }
     .user-card-name { font-size: 13px; font-weight: 800; color: var(--text-black); }
     .user-card-email { font-size: 11px; color: var(--text-muted); }
     .user-card-balance { font-size: 14px; font-weight: 900; color: var(--royal-blue); }
     .user-card-actions { display: flex; gap: 6px; }
 
-    /* SECTION PRIX CATALOGUE */
-    .prices-list-box { display: flex; flex-direction: column; gap: 10px; }
-    .price-row-item {
-      background: #FFFFFF;
-      border: 1px solid var(--border);
-      border-radius: var(--radius-md);
-      padding: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-    }
+    /* SECTION PRIX & TAUX DYNAMIQUES */
+    .section-switch-row { display: flex; gap: 6px; margin-bottom: 12px; }
+    .switch-btn-sub { flex: 1; height: 36px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 11px; font-weight: 800; background: var(--surface-subtle); color: var(--text-muted); cursor: pointer; font-family: inherit; }
+    .switch-btn-sub.active { background: var(--text-black); color: #FFFFFF; border-color: var(--text-black); }
+
+    .price-row-item { background: #FFFFFF; border: 1px solid var(--border); border-radius: var(--radius-md); padding: 12px; display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 8px; }
     .price-item-info { flex: 1; }
     .price-item-name { font-size: 13px; font-weight: 800; color: var(--text-black); }
-    .price-item-cat { font-size: 11px; color: var(--text-muted); text-transform: uppercase; }
-    .price-item-input-box { display: flex; align-items: center; gap: 6px; }
-    .price-input {
-      width: 85px;
-      height: 36px;
-      background: var(--surface-subtle);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-sm);
-      text-align: right;
-      padding: 0 8px;
-      font-size: 13px;
-      font-weight: 800;
-      color: var(--text-black);
-      outline: none;
-    }
-    .btn-save-price {
-      height: 36px;
-      background: var(--text-black);
-      color: #FFFFFF;
-      border: none;
-      border-radius: var(--radius-sm);
-      padding: 0 10px;
-      font-size: 11px;
-      font-weight: 800;
-      cursor: pointer;
-    }
+    .price-item-cat { font-size: 11px; color: var(--text-muted); }
+    .price-input { width: 85px; height: 36px; background: var(--surface-subtle); border: 1px solid var(--border); border-radius: var(--radius-sm); text-align: right; padding: 0 8px; font-size: 13px; font-weight: 800; color: var(--text-black); outline: none; }
+    .btn-save-price { height: 36px; background: var(--text-black); color: #FFFFFF; border: none; border-radius: var(--radius-sm); padding: 0 10px; font-size: 11px; font-weight: 800; cursor: pointer; }
 
-    /* SECTION CONTRÔLE SYSTÈME */
-    .system-card {
-      background: #FFFFFF;
-      border: 1px solid var(--border);
-      border-radius: var(--radius-card);
-      padding: 16px;
-      box-shadow: var(--shadow-sm);
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-    .system-card-title { font-size: 14px; font-weight: 900; color: var(--text-black); }
-    .system-card-desc { font-size: 12px; color: var(--text-muted); line-height: 1.4; }
+    .rate-card-item { background: #FFFFFF; border: 1px solid var(--border); border-radius: var(--radius-md); padding: 12px; margin-bottom: 10px; display: flex; flex-direction: column; gap: 8px; }
+    .rate-inputs-flex { display: grid; grid-template-columns: 1fr 1fr 1fr auto; gap: 6px; align-items: center; }
 
-    .switch-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 12px;
-      background: var(--surface-subtle);
-      border-radius: var(--radius-md);
-      border: 1px solid var(--border-light);
-    }
-    .switch-status-label { font-size: 13px; font-weight: 800; }
-    .btn-switch-toggle {
-      padding: 8px 16px;
-      border-radius: var(--radius-full);
-      font-size: 12px;
-      font-weight: 800;
-      border: none;
-      cursor: pointer;
-    }
+    /* SECTION STOCK PINS FREE FIRE */
+    .pins-card { background: #FFFFFF; border: 1px solid var(--border); border-radius: var(--radius-card); padding: 16px; box-shadow: var(--shadow-sm); }
+    .pins-textarea { width: 100%; height: 90px; background: var(--surface-subtle); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 10px; font-size: 12px; font-family: monospace; font-weight: 700; color: var(--text-black); outline: none; margin: 8px 0; resize: none; }
+    .pins-stock-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-top: 10px; }
+    .pin-stock-chip { background: var(--surface-subtle); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 8px 10px; display: flex; justify-content: space-between; align-items: center; }
+    .pin-stock-title { font-size: 11px; font-weight: 800; color: var(--text-black); }
+    .pin-stock-badge { font-size: 10px; font-weight: 900; padding: 2px 6px; border-radius: var(--radius-full); }
+    .pin-stock-badge.ok { background: var(--success-soft); color: var(--success); }
+    .pin-stock-badge.empty { background: var(--danger-soft); color: var(--danger); }
+
+    /* SYSTÈME & MAINTENANCE */
+    .system-card { background: #FFFFFF; border: 1px solid var(--border); border-radius: var(--radius-card); padding: 16px; box-shadow: var(--shadow-sm); display: flex; flex-direction: column; gap: 12px; }
+    .switch-row { display: flex; align-items: center; justify-content: space-between; padding: 12px; background: var(--surface-subtle); border-radius: var(--radius-md); border: 1px solid var(--border-light); }
+    .btn-switch-toggle { padding: 8px 16px; border-radius: var(--radius-full); font-size: 12px; font-weight: 800; border: none; cursor: pointer; }
     .btn-switch-toggle.open { background: var(--success); color: #FFFFFF; }
     .btn-switch-toggle.closed { background: var(--danger); color: #FFFFFF; }
-
-    .field-label { font-size: 11px; font-weight: 800; text-transform: uppercase; color: var(--text-muted); margin-bottom: 4px; display: block; }
-    .admin-input-text {
-      width: 100%;
-      height: 42px;
-      background: var(--surface-subtle);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-md);
-      padding: 0 12px;
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--text-black);
-      outline: none;
-      margin-bottom: 8px;
-    }
-    .admin-textarea {
-      width: 100%;
-      height: 80px;
-      background: var(--surface-subtle);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-md);
-      padding: 10px 12px;
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--text-black);
-      outline: none;
-      margin-bottom: 12px;
-      resize: none;
-      font-family: inherit;
-    }
+    .admin-input-text { width: 100%; height: 42px; background: var(--surface-subtle); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 0 12px; font-size: 13px; font-weight: 600; color: var(--text-black); outline: none; margin-bottom: 8px; }
+    .admin-textarea { width: 100%; height: 80px; background: var(--surface-subtle); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 10px 12px; font-size: 13px; font-weight: 600; color: var(--text-black); outline: none; margin-bottom: 12px; resize: none; font-family: inherit; }
 
     /* FOOTER */
     .site-footer { background: #FFFFFF; border-top: 1px solid var(--border); padding: 18px 16px; margin-top: auto; }
@@ -517,36 +159,10 @@
     .footer-status-pill { display: flex; align-items: center; gap: 6px; font-size: 10px; color: var(--royal-blue); text-transform: uppercase; letter-spacing: 0.5px; }
     .footer-status-indicator { width: 6px; height: 6px; border-radius: 50%; background: var(--royal-blue); }
 
-    /* MODALE & BOTTOM SHEET */
-    .sheet-backdrop {
-      position: fixed;
-      inset: 0;
-      background: rgba(15, 23, 42, 0.6);
-      backdrop-filter: blur(4px);
-      z-index: 120;
-      opacity: 0;
-      visibility: hidden;
-      transition: all 0.2s ease;
-      display: flex;
-      align-items: flex-end;
-      justify-content: center;
-    }
+    /* MODALE & REÇU */
+    .sheet-backdrop { position: fixed; inset: 0; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(4px); z-index: 120; opacity: 0; visibility: hidden; transition: all 0.2s ease; display: flex; align-items: flex-end; justify-content: center; }
     .sheet-backdrop.active { opacity: 1; visibility: visible; }
-    .sheet-modal {
-      width: 100%;
-      max-width: 480px;
-      background: #FFFFFF;
-      border-radius: var(--radius-card) var(--radius-card) 0 0;
-      padding: 20px;
-      box-shadow: var(--shadow-sheet);
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-      transform: translateY(100%);
-      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-      max-height: 90vh;
-      overflow-y: auto;
-    }
+    .sheet-modal { width: 100%; max-width: 480px; background: #FFFFFF; border-radius: var(--radius-card) var(--radius-card) 0 0; padding: 20px; box-shadow: var(--shadow-sheet); display: flex; flex-direction: column; gap: 14px; transform: translateY(100%); transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1); max-height: 90vh; overflow-y: auto; }
     .sheet-backdrop.active .sheet-modal { transform: translateY(0); }
     .modal-head { display: flex; align-items: center; justify-content: space-between; }
     .modal-title { font-size: 15px; font-weight: 900; color: var(--text-black); }
@@ -554,7 +170,7 @@
     .receipt-img-container { width: 100%; max-height: 400px; overflow-y: auto; border-radius: var(--radius-md); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; background: #000; }
     .receipt-img-container img { width: 100%; height: auto; object-fit: contain; }
 
-    /* SIDEBAR */
+    /* SIDEBAR REHAUSSÉE AVEC TAILLES D'ICÔNES RIGIDES (18PX) */
     .sidebar-overlay { position: fixed; inset: 0; background: rgba(15, 23, 42, 0.45); backdrop-filter: blur(4px); z-index: 100; opacity: 0; visibility: hidden; transition: all 0.25s ease; }
     .sidebar-overlay.active { opacity: 1; visibility: visible; }
     .sidebar-drawer { position: fixed; top: 0; right: 0; width: min(82vw, 340px); height: 100vh; background: #FFFFFF; z-index: 101; transform: translateX(100%); transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1); display: flex; flex-direction: column; box-shadow: -10px 0 30px rgba(0, 0, 0, 0.08); }
@@ -567,9 +183,18 @@
     .sidebar-brand-title { font-size: 16px; font-weight: 900; color: #000000; letter-spacing: -0.4px; }
     .sidebar-brand-sub { font-size: 12px; font-weight: 700; color: #000000; letter-spacing: 0.5px; }
     .sidebar-close-btn { width: 32px; height: 32px; border-radius: 50%; background: var(--surface-subtle); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; color: var(--text-muted); cursor: pointer; font-weight: 800; }
-    .sidebar-menu-nav { margin-top: 16px; display: flex; flex-direction: column; gap: 4px; }
-    .menu-link { display: flex; align-items: center; gap: 12px; padding: 10px 12px; border-radius: var(--radius-md); color: var(--text-black); text-decoration: none; font-size: 13px; font-weight: 600; cursor: pointer; }
+    
+    .sidebar-section-title { font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.8px; color: var(--text-light); margin: 16px 0 8px; }
+    .lang-switcher-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px; }
+    .lang-option { background: var(--surface-subtle); border: 1px solid var(--border); padding: 7px 10px; border-radius: var(--radius-sm); display: flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 600; color: var(--text-black); cursor: pointer; font-family: inherit; }
+    .lang-option.active { border-color: var(--royal-blue); background: var(--royal-soft); color: var(--royal-blue); font-weight: 800; }
+
+    .sidebar-menu-nav { margin-top: 10px; display: flex; flex-direction: column; gap: 3px; }
+    .menu-link { display: flex; align-items: center; gap: 12px; padding: 10px 12px; border-radius: var(--radius-md); color: var(--text-black); text-decoration: none; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.15s ease; }
     .menu-link:hover, .menu-link.active { background: var(--surface-subtle); color: var(--royal-blue); }
+    
+    .menu-link svg { width: 18px !important; height: 18px !important; min-width: 18px !important; max-width: 18px !important; stroke: currentColor !important; stroke-width: 2 !important; fill: none !important; flex-shrink: 0; display: inline-block; }
+
     .sidebar-auth-zone { margin-top: auto; padding-top: 16px; border-top: 1px solid var(--border); }
     .btn-auth-logout { display: flex; align-items: center; justify-content: center; width: 100%; height: 40px; border-radius: var(--radius-md); font-size: 13px; font-weight: 700; background: var(--danger-soft); color: var(--danger); border: 1px solid rgba(220, 38, 38, 0.2); cursor: pointer; }
 
@@ -618,7 +243,7 @@
     </div>
   </div>
 
-  <!-- TABLEAU DE BORD ADMINISTRATION UNIQUE ET COMPLET -->
+  <!-- TABLEAU DE BORD ADMINISTRATION -->
   <div class="app-shell" id="admin-secured-shell" style="display: none;">
 
     <header class="site-header">
@@ -665,12 +290,17 @@
 
         <button class="tab-pill" id="tab-btn-prices" onclick="switchTab('prices')">
           <svg class="icon-svg" viewBox="0 0 24 24"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6" stroke-linecap="round"/></svg>
-          <span>Modifier Prix</span>
+          <span>Prix & Taux</span>
+        </button>
+
+        <button class="tab-pill" id="tab-btn-pins" onclick="switchTab('pins')">
+          <svg class="icon-svg" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+          <span>PINs Free Fire</span>
         </button>
 
         <button class="tab-pill" id="tab-btn-system" onclick="switchTab('system')">
           <svg class="icon-svg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
-          <span>Fermer Site / Notifs</span>
+          <span>Système & Notifs</span>
         </button>
       </div>
     </header>
@@ -682,28 +312,28 @@
       </div>
       <div style="padding:10px; background:var(--surface-subtle); border-left:3px solid var(--royal-blue); border-radius:4px; font-size:12px;">
         <strong>Connecté : mmasked36@gmail.com</strong>
-        <p>Toutes les modifications prennent effet instantanément sur le site public.</p>
+        <p>Les modifications de prix, taux, dépôts et PINs s'appliquent en direct.</p>
       </div>
     </div>
 
     <!-- CORPS DES ONGLETS -->
     <main class="admin-body">
 
-      <!-- ==================== 1. ONGLET DÉPÔTS ==================== -->
+      <!-- 1. DÉPÔTS -->
       <section id="tab-section-deposits" style="display: flex; flex-direction: column; gap: 12px;">
         <div id="deposits-stream-target">
           <div class="empty-stream-box">Chargement des demandes de dépôts...</div>
         </div>
       </section>
 
-      <!-- ==================== 2. ONGLET COMMANDES ==================== -->
+      <!-- 2. COMMANDES -->
       <section id="tab-section-orders" style="display: none; flex-direction: column; gap: 12px;">
         <div id="orders-stream-target">
           <div class="empty-stream-box">Chargement des commandes...</div>
         </div>
       </section>
 
-      <!-- ==================== 3. ONGLET UTILISATEURS ==================== -->
+      <!-- 3. UTILISATEURS -->
       <section id="tab-section-users" style="display: none; flex-direction: column; gap: 12px;">
         <div class="search-input-box">
           <svg class="icon-svg" viewBox="0 0 24 24"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke-linecap="round"/></svg>
@@ -714,51 +344,93 @@
         </div>
       </section>
 
-      <!-- ==================== 4. ONGLET MODIFIER PRIX ==================== -->
+      <!-- 4. PRIX & TAUX DYNAMIQUES -->
       <section id="tab-section-prices" style="display: none; flex-direction: column; gap: 12px;">
-        <div style="background:var(--surface-subtle); border:1px solid var(--border); border-radius:var(--radius-md); padding:12px; font-size:12px; color:var(--text-muted);">
-          Modifiez un tarif en HTG et cliquez sur <strong>Enregistrer</strong>. Le prix s'actualisera en direct sur la boutique.
+        <div class="section-switch-row">
+          <button class="switch-btn-sub active" id="btn-sub-prices" onclick="switchPriceSubView('packs')">Packs Fixes</button>
+          <button class="switch-btn-sub" id="btn-sub-rates" onclick="switchPriceSubView('rates')">Taux & Frais (Gift Cards / Finance)</button>
         </div>
-        <div class="prices-list-box" id="prices-matrix-target"></div>
+
+        <!-- SOUS-ONGLET 1 : PACKS FIXES -->
+        <div id="subview-packs-target">
+          <div class="prices-list-box" id="prices-matrix-target"></div>
+        </div>
+
+        <!-- SOUS-ONGLET 2 : TAUX DYNAMIQUES & FRAIS -->
+        <div id="subview-rates-target" style="display: none;">
+          <div style="background:var(--surface-subtle); border:1px solid var(--border); border-radius:var(--radius-md); padding:10px 12px; font-size:12px; color:var(--text-muted); margin-bottom:10px;">
+            Pour chaque service dynamique, réglez le taux (en HTG pour 1$ USD) et appliquez au choix un frais fixe ($) ou un pourcentage (%).
+          </div>
+          <div id="rates-matrix-target"></div>
+        </div>
       </section>
 
-      <!-- ==================== 5. ONGLET FERMER SITE & NOTIFICATIONS ==================== -->
+      <!-- 5. STOCK PINS FREE FIRE -->
+      <section id="tab-section-pins" style="display: none; flex-direction: column; gap: 14px;">
+        <div class="pins-card">
+          <div style="font-size:14px; font-weight:900; color:var(--text-black); margin-bottom:6px;">Approvisionner le Stock de PINs</div>
+          <div style="font-size:12px; color:var(--text-muted); margin-bottom:10px;">Collez les codes Hype Games (un par ligne). Ils seront délivrés automatiquement aux acheteurs.</div>
+
+          <label class="field-label">Pack Cible :</label>
+          <select id="select-target-pack" class="admin-input-text" style="font-weight:700;">
+            <option value="ff_110">110 + 10 Diamants (157 HTG)</option>
+            <option value="ff_310">310 + 31 Diamants (471 HTG)</option>
+            <option value="ff_520">520 + 52 Diamants (775 HTG)</option>
+            <option value="ff_1060">1,060 + 106 Diamants (1,550 HTG)</option>
+            <option value="ff_2180">2,180 + 218 Diamants (3,100 HTG)</option>
+            <option value="ff_5600">5,600 + 560 Diamants (7,750 HTG)</option>
+          </select>
+
+          <label class="field-label">Codes PINs (Un par ligne) :</label>
+          <textarea id="textarea-pins-input" class="pins-textarea" placeholder="HYPE-1037-QUAM-1936&#10;HYPE-8392-4410-9281"></textarea>
+
+          <button class="btn-action btn-approve" id="btn-save-pins" style="height:44px;" onclick="uploadPinsBatch()">
+            Injecter dans le Stock Sécurisé
+          </button>
+        </div>
+
+        <!-- ÉTAT EN DIRECT DES STOCKS PAR PACK -->
+        <div class="pins-card">
+          <div style="font-size:13px; font-weight:900; color:var(--text-black); margin-bottom:4px;">Disponibilité des Stocks en Direct</div>
+          <div class="pins-stock-grid" id="pins-stock-grid-target">
+            <div style="text-align:center; grid-column:1/-1; padding:12px; color:var(--text-muted);">Calcul du stock...</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 6. SYSTÈME & NOTIFICATIONS -->
       <section id="tab-section-system" style="display: none; flex-direction: column; gap: 16px;">
-        
-        <!-- INTERRUPTEUR FERMER LE SITE (MAINTENANCE) -->
         <div class="system-card">
-          <div class="system-card-title">Interrupteur d'Urgence : Fermer le Site</div>
-          <div class="system-card-desc">
-            Si vous activez la fermeture, tous les utilisateurs verront une page de maintenance sobre et aucune commande ne pourra être passée.
+          <div style="font-size:14px; font-weight:900; color:var(--text-black);">Interrupteur d'Urgence : Fermer le Site</div>
+          <div style="font-size:12px; color:var(--text-muted); line-height:1.4;">
+            Si activé, tous les visiteurs verront un bandeau de maintenance sobre et aucune commande ne pourra être passée.
           </div>
           <div class="switch-row">
             <div>
-              <div class="switch-status-label" id="site-status-text">Site Actif & Ouvert</div>
+              <div style="font-size:13px; font-weight:800;" id="site-status-text">Site Actif & Ouvert</div>
               <span style="font-size:11px; color:var(--text-muted);" id="site-status-sub">Les paiements et commandes fonctionnent</span>
             </div>
             <button class="btn-switch-toggle open" id="btn-toggle-site" onclick="toggleSiteStatus()">OUVERT</button>
           </div>
         </div>
 
-        <!-- ENVOYEUR DE NOTIFICATIONS BROADCAST POUR HEADER -->
         <div class="system-card">
-          <div class="system-card-title">Diffuser une Notification (Icône Cloche)</div>
-          <div class="system-card-desc">
-            Le message rédigé ici allume immédiatement la pastille bleue du header de tous les utilisateurs connectés.
+          <div style="font-size:14px; font-weight:900; color:var(--text-black);">Diffuser une Notification (Icône Cloche)</div>
+          <div style="font-size:12px; color:var(--text-muted);">
+            Allume immédiatement la pastille bleue du header chez tous les utilisateurs connectés.
           </div>
 
           <label class="field-label">Titre de l'Annonce :</label>
-          <input type="text" id="notif-broadcast-title" class="admin-input-text" placeholder="Ex: Maintenance programmée / Promo Diamants">
+          <input type="text" id="notif-broadcast-title" class="admin-input-text" placeholder="Ex: Promotion Diamants ce soir">
 
-          <label class="field-label">Message à afficher aux clients :</label>
-          <textarea id="notif-broadcast-body" class="admin-textarea" placeholder="Rédigez le texte de notification générale..."></textarea>
+          <label class="field-label">Message à afficher :</label>
+          <textarea id="notif-broadcast-body" class="admin-textarea" placeholder="Rédigez le texte pour les utilisateurs..."></textarea>
 
           <div style="display:flex; gap:8px;">
             <button class="btn-action btn-approve" onclick="publishBroadcastNotification()">Diffuser l'Annonce</button>
             <button class="btn-action btn-reject" onclick="clearBroadcastNotification()">Effacer</button>
           </div>
         </div>
-
       </section>
 
     </main>
@@ -773,10 +445,11 @@
       </div>
     </footer>
 
-    <!-- SIDEBAR ADMIN -->
+    <!-- SIDEBAR ADMIN REHAUSSÉE AVEC TAILLE 18PX FERME -->
     <div class="sidebar-overlay" id="sidebar-overlay" onclick="closeSidebar()">
       <aside class="sidebar-drawer" onclick="event.stopPropagation()">
         <div class="sidebar-content">
+          
           <div class="sidebar-header-pro">
             <div class="sidebar-brand-box">
               <div class="logo-container-square">
@@ -790,6 +463,15 @@
             <button class="sidebar-close-btn" onclick="closeSidebar()">✕</button>
           </div>
 
+          <div class="sidebar-section-title">Langue / Lang</div>
+          <div class="lang-switcher-grid">
+            <button class="lang-option active" onclick="setLang('fr', this)"><span>🇫🇷</span> Français</button>
+            <button class="lang-option" onclick="setLang('ht', this)"><span>🇭🇹</span> Kreyòl</button>
+            <button class="lang-option" onclick="setLang('en', this)"><span>🇺🇸</span> English</button>
+            <button class="lang-option" onclick="setLang('es', this)"><span>🇪🇸</span> Español</button>
+          </div>
+
+          <div class="sidebar-section-title">Navigation Admin</div>
           <nav class="sidebar-menu-nav">
             <div class="menu-link active" onclick="switchTab('deposits'); closeSidebar();">
               <svg viewBox="0 0 24 24"><path d="M12 4v16m8-8H4" stroke-linecap="round"/></svg>
@@ -805,7 +487,11 @@
             </div>
             <div class="menu-link" onclick="switchTab('prices'); closeSidebar();">
               <svg viewBox="0 0 24 24"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6" stroke-linecap="round"/></svg>
-              <span>Modifier les Prix</span>
+              <span>Modifier Prix & Taux</span>
+            </div>
+            <div class="menu-link" onclick="switchTab('pins'); closeSidebar();">
+              <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+              <span>Stock PINs Free Fire</span>
             </div>
             <div class="menu-link" onclick="switchTab('system'); closeSidebar();">
               <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
@@ -826,7 +512,7 @@
       </aside>
     </div>
 
-    <!-- MODALE BOTTOM SHEET : VISUALISATION REÇU, CONFIRMATION & MODIFICATION SOLDE -->
+    <!-- MODALE BOTTOM SHEET -->
     <div class="sheet-backdrop" id="action-sheet-backdrop">
       <div class="sheet-modal">
         <div class="modal-head">
@@ -856,7 +542,7 @@
 
   </div>
 
-  <!-- JAVASCRIPT EXÉCUTION FIRESTORE SÉCURISÉ -->
+  <!-- JAVASCRIPT ET EXÉCUTION FIRESTORE SÉCURISÉ -->
   <script>
     const firebaseConfig = {
       apiKey: "AIzaSyDOSMtCknVXQs3XL1piE047Ussc6KeCDmY",
@@ -890,7 +576,7 @@
     let isSiteCurrentlyOpen = true;
     let activeActionCallback = null;
 
-    /* CATALOGUE DE BASE POUR L'ÉDITEUR DE PRIX */
+    /* LISTE DES PACKS FIXES */
     const DEFAULT_CATALOG_PRICES = [
       { id: "ff_110", name: "Free Fire — 110 + 10 Diamants", defaultPrice: 157 },
       { id: "ff_310", name: "Free Fire — 310 + 31 Diamants", defaultPrice: 471 },
@@ -917,6 +603,19 @@
       { id: "meru_card", name: "Carte de Crédit Meru", defaultPrice: 1500 }
     ];
 
+    /* LISTE DES SERVICES DYNAMIQUES (GIFT CARDS USA & FINANCE) */
+    const DYNAMIC_SERVICES = [
+      { id: "apple", name: "Apple Gift Card (USA)", defaultRate: 160 },
+      { id: "steam", name: "Steam Gift Card (USA)", defaultRate: 160 },
+      { id: "playstation", name: "PlayStation Gift Card (USA)", defaultRate: 160 },
+      { id: "nintendo", name: "Nintendo eShop (USA)", defaultRate: 160 },
+      { id: "googleplay", name: "Google Play (USA)", defaultRate: 160 },
+      { id: "netflixgc", name: "Netflix Gift Card (USA)", defaultRate: 160 },
+      { id: "wise", name: "Wise USD", defaultRate: 145 },
+      { id: "meru", name: "Meru USD", defaultRate: 145 },
+      { id: "binance", name: "Binance USDT", defaultRate: 142 }
+    ];
+
     function showAdminToast(text, isDanger = false) {
       const container = document.getElementById('toast-container');
       container.innerHTML = '';
@@ -935,7 +634,6 @@
       setTimeout(() => toast.remove(), 2400);
     }
 
-    /* 2FA CODE */
     function handleDigitInput(el, nextId) {
       if (el.value.length >= 1) {
         el.value = el.value.slice(-1);
@@ -973,17 +671,24 @@
       initAllRealtimeStreams();
     }
 
-    /* CHANGEMENT D'ONGLETS SANS RECHARGEMENT */
     function switchTab(tabId) {
       document.querySelectorAll('.tab-pill').forEach(b => b.classList.remove('active'));
       const activeBtn = document.getElementById(`tab-btn-${tabId}`);
       if (activeBtn) activeBtn.classList.add('active');
 
-      const sections = ['deposits', 'orders', 'users', 'prices', 'system'];
+      const sections = ['deposits', 'orders', 'users', 'prices', 'pins', 'system'];
       sections.forEach(s => {
         const secEl = document.getElementById(`tab-section-${s}`);
         if (secEl) secEl.style.display = (s === tabId) ? 'flex' : 'none';
       });
+    }
+
+    function switchPriceSubView(view) {
+      const isPacks = (view === 'packs');
+      document.getElementById('btn-sub-prices').classList.toggle('active', isPacks);
+      document.getElementById('btn-sub-rates').classList.toggle('active', !isPacks);
+      document.getElementById('subview-packs-target').style.display = isPacks ? 'block' : 'none';
+      document.getElementById('subview-rates-target').style.display = isPacks ? 'none' : 'block';
     }
 
     function initAllRealtimeStreams() {
@@ -991,10 +696,12 @@
       streamOrders();
       streamUsers();
       streamCatalogPrices();
+      streamDynamicRates();
+      streamFreeFirePinsStock();
       streamSystemStatus();
     }
 
-    /* ==================== 1. GESTION DES DÉPÔTS ==================== */
+    /* 1. FLUX DÉPÔTS */
     function streamDeposits() {
       const target = document.getElementById('deposits-stream-target');
       const pillCount = document.getElementById('count-pill-deposits');
@@ -1107,7 +814,7 @@
       );
     }
 
-    /* ==================== 2. GESTION DES COMMANDES ==================== */
+    /* 2. FLUX COMMANDES */
     function streamOrders() {
       const target = document.getElementById('orders-stream-target');
       const pillCount = document.getElementById('count-pill-orders');
@@ -1134,7 +841,7 @@
 
           let lines = [];
           if (deliv.playerId) lines.push(`<div class="detail-line"><span class="detail-label">UID Joueur</span><span class="detail-val">${deliv.playerId}</span></div>`);
-          if (deliv.email) lines.push(`<div class="detail-line"><span class="detail-label">Compte Email</span><span class="detail-val">${deliv.email}</span></div>`);
+          if (deliv.email) lines.push(`<div class="detail-line"><span class="detail-label">Email</span><span class="detail-val">${deliv.email}</span></div>`);
           if (deliv.password) lines.push(`<div class="detail-line"><span class="detail-label">Mot de passe</span><span class="detail-val">${deliv.password}</span></div>`);
           if (deliv.username) lines.push(`<div class="detail-line"><span class="detail-label">Utilisateur</span><span class="detail-val">${deliv.username}</span></div>`);
           if (deliv.whatsapp) lines.push(`<div class="detail-line"><span class="detail-label">WhatsApp</span><span class="detail-val">${deliv.whatsapp}</span></div>`);
@@ -1159,7 +866,7 @@
               <div class="detail-line"><span class="detail-label">Moyen de Paiement</span><span class="detail-val">${(ord.paymentMethod || 'Portefeuille').toUpperCase()}</span></div>
               ${ord.transactionId ? `<div class="detail-line"><span class="detail-label">Transaction</span><span class="detail-val">${ord.transactionId}</span></div>` : ''}
               ${ord.pinCode ? `<div class="detail-line"><span class="detail-label">PIN Fourni</span><span class="detail-val" style="color:var(--success); font-family:monospace;">${ord.pinCode}</span></div>` : ''}
-              ${lines.join('') || '<div style="color:var(--text-muted);">Aucune donnée requise</div>'}
+              ${lines.join('') || '<div style="color:var(--text-muted);">Aucune coordonnée supplémentaire requise</div>'}
             </div>
 
             ${isPending ? `
@@ -1181,7 +888,7 @@
     function fulfillOrder(orderId) {
       openActionModal(
         "Livraison de Commande",
-        "Confirmez-vous que les diamants/abonnements ont été crédités sur le compte du joueur ?",
+        "Confirmez-vous que les diamants ou Gift Cards ont été livrés au client ?",
         async () => {
           try {
             await db.collection('orders').doc(orderId).update({
@@ -1214,7 +921,7 @@
       );
     }
 
-    /* ==================== 3. GESTION DES UTILISATEURS ==================== */
+    /* 3. UTILISATEURS */
     function streamUsers() {
       db.collection('users').onSnapshot(snapshot => {
         allLoadedUsers = [];
@@ -1297,7 +1004,7 @@
     function confirmDeleteUser(userId, userEmail) {
       openActionModal(
         "Supprimer l'Utilisateur",
-        `Êtes-vous sûr de vouloir supprimer définitivement le compte ${userEmail} ? Cette action est irréversible.`,
+        `Êtes-vous sûr de vouloir supprimer définitivement le compte ${userEmail} ?`,
         async () => {
           try {
             await db.collection('users').doc(userId).delete();
@@ -1309,10 +1016,9 @@
       );
     }
 
-    /* ==================== 4. MODIFICATEUR DE PRIX ==================== */
+    /* 4. MODIFICATEUR DE PRIX PACKS & TAUX DYNAMIQUES */
     function streamCatalogPrices() {
       const target = document.getElementById('prices-matrix-target');
-
       db.collection('system_config').doc('prices').onSnapshot(doc => {
         const customPrices = doc.exists ? doc.data() : {};
         target.innerHTML = '';
@@ -1326,7 +1032,7 @@
               <div class="price-item-name">${item.name}</div>
               <div class="price-item-cat">Identifiant : ${item.id}</div>
             </div>
-            <div class="price-item-input-box">
+            <div style="display:flex; align-items:center; gap:6px;">
               <input type="number" id="price-input-${item.id}" class="price-input" value="${currentPrice}">
               <span style="font-size:11px; font-weight:800;">HTG</span>
               <button class="btn-save-price" onclick="saveCatalogPrice('${item.id}')">Sauvegarder</button>
@@ -1344,25 +1050,162 @@
         showAdminToast("Prix invalide.", true);
         return;
       }
-
       try {
-        await db.collection('system_config').doc('prices').set({
-          [itemId]: val
-        }, { merge: true });
-        showAdminToast(`Prix de ${itemId} mis à jour : ${val} HTG !`);
+        await db.collection('system_config').doc('prices').set({ [itemId]: val }, { merge: true });
+        showAdminToast(`Prix mis à jour : ${val} HTG !`);
       } catch (e) {
         showAdminToast("Erreur : " + e.message, true);
       }
     }
 
-    /* ==================== 5. FERMER LE SITE & NOTIFICATIONS ==================== */
+    function streamDynamicRates() {
+      const target = document.getElementById('rates-matrix-target');
+      db.collection('system_config').doc('rates').onSnapshot(doc => {
+        const customRates = doc.exists ? doc.data() : {};
+        target.innerHTML = '';
+
+        DYNAMIC_SERVICES.forEach(item => {
+          const saved = customRates[item.id] || {};
+          const currentRate = saved.rate || item.defaultRate;
+          const feePercent = saved.feePercent || 0;
+          const feeFixed = saved.feeFixed || 0;
+
+          const card = document.createElement('div');
+          card.className = 'rate-card-item';
+          card.innerHTML = `
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <span style="font-size:13px; font-weight:800; color:var(--text-black);">${item.name}</span>
+              <span style="font-size:11px; color:var(--text-muted);">Taux Actuel : 1$ = ${currentRate} HTG</span>
+            </div>
+
+            <div class="rate-inputs-flex">
+              <div>
+                <label style="font-size:10px; font-weight:800; color:var(--text-muted); display:block; margin-bottom:2px;">Taux (HTG/$)</label>
+                <input type="number" id="rate-val-${item.id}" class="price-input" style="width:100%; text-align:left;" value="${currentRate}">
+              </div>
+              <div>
+                <label style="font-size:10px; font-weight:800; color:var(--text-muted); display:block; margin-bottom:2px;">Frais Fixe ($)</label>
+                <input type="number" id="fee-fixed-${item.id}" class="price-input" style="width:100%; text-align:left;" value="${feeFixed}">
+              </div>
+              <div>
+                <label style="font-size:10px; font-weight:800; color:var(--text-muted); display:block; margin-bottom:2px;">Frais Pourcentage (%)</label>
+                <input type="number" id="fee-pct-${item.id}" class="price-input" style="width:100%; text-align:left;" value="${feePercent}">
+              </div>
+              <button class="btn-save-price" style="margin-top:14px;" onclick="saveDynamicRate('${item.id}')">Sauver</button>
+            </div>
+          `;
+          target.appendChild(card);
+        });
+      });
+    }
+
+    async function saveDynamicRate(serviceId) {
+      const rateInput = document.getElementById(`rate-val-${serviceId}`);
+      const fixedInput = document.getElementById(`fee-fixed-${serviceId}`);
+      const pctInput = document.getElementById(`fee-pct-${serviceId}`);
+
+      const rateVal = parseFloat(rateInput.value);
+      const fixedVal = parseFloat(fixedInput.value) || 0;
+      const pctVal = parseFloat(pctInput.value) || 0;
+
+      if (isNaN(rateVal) || rateVal <= 0) {
+        showAdminToast("Taux invalide.", true);
+        return;
+      }
+
+      try {
+        await db.collection('system_config').doc('rates').set({
+          [serviceId]: {
+            rate: rateVal,
+            feeFixed: fixedVal,
+            feePercent: pctVal
+          }
+        }, { merge: true });
+        showAdminToast(`Taux de ${serviceId} enregistré (1$ = ${rateVal} HTG) !`);
+      } catch (e) {
+        showAdminToast("Erreur : " + e.message, true);
+      }
+    }
+
+    /* 5. GESTION DES PINS FREE FIRE */
+    async function uploadPinsBatch() {
+      const packId = document.getElementById('select-target-pack').value;
+      const rawText = document.getElementById('textarea-pins-input').value.trim();
+      const btn = document.getElementById('btn-save-pins');
+
+      if (!rawText) {
+        showAdminToast("Veuillez entrer au moins un code PIN.", true);
+        return;
+      }
+
+      const lines = rawText.split('\n').map(l => l.trim()).filter(l => l.length > 3);
+      if (lines.length === 0) {
+        showAdminToast("Aucun code valide trouvé.", true);
+        return;
+      }
+
+      btn.disabled = true;
+      btn.innerText = `Enregistrement de ${lines.length} PIN(s)...`;
+
+      try {
+        const batch = db.batch();
+        lines.forEach(pin => {
+          const docRef = db.collection('freefire_pins').doc();
+          batch.set(docRef, {
+            packId: packId,
+            pinCode: pin,
+            status: "disponible",
+            createdAt: firebase.firestore.FieldValue.serverTimestamp()
+          });
+        });
+
+        await batch.commit();
+        document.getElementById('textarea-pins-input').value = "";
+        btn.disabled = false;
+        btn.innerText = "Injecter dans le Stock Sécurisé";
+        showAdminToast(`${lines.length} code(s) PIN ajouté(s) avec succès !`);
+      } catch (err) {
+        btn.disabled = false;
+        btn.innerText = "Injecter dans le Stock Sécurisé";
+        showAdminToast("Erreur : " + err.message, true);
+      }
+    }
+
+    function streamFreeFirePinsStock() {
+      const grid = document.getElementById('pins-stock-grid-target');
+      db.collection('freefire_pins').where('status', '==', 'disponible').onSnapshot(snapshot => {
+        let counts = { ff_110: 0, ff_310: 0, ff_520: 0, ff_1060: 0, ff_2180: 0, ff_5600: 0 };
+        snapshot.forEach(doc => {
+          const p = doc.data().packId;
+          if (counts[p] !== undefined) counts[p]++;
+        });
+
+        const list = [
+          { name: "110 + 10", count: counts.ff_110 },
+          { name: "310 + 31", count: counts.ff_310 },
+          { name: "520 + 52", count: counts.ff_520 },
+          { name: "1,060 + 106", count: counts.ff_1060 },
+          { name: "2,180 + 218", count: counts.ff_2180 },
+          { name: "5,600 + 560", count: counts.ff_5600 }
+        ];
+
+        grid.innerHTML = '';
+        list.forEach(item => {
+          const chip = document.createElement('div');
+          chip.className = 'pin-stock-chip';
+          chip.innerHTML = `
+            <span class="pin-stock-title">${item.name} 💎</span>
+            <span class="pin-stock-badge ${item.count > 0 ? 'ok' : 'empty'}">${item.count} dispo</span>
+          `;
+          grid.appendChild(chip);
+        });
+      });
+    }
+
+    /* 6. CONTRÔLE SYSTÈME & NOTIFICATIONS */
     function streamSystemStatus() {
       db.collection('system_config').doc('status').onSnapshot(doc => {
-        if (doc.exists) {
-          isSiteCurrentlyOpen = (doc.data().isSiteOpen !== false);
-        } else {
-          isSiteCurrentlyOpen = true;
-        }
+        isSiteCurrentlyOpen = doc.exists ? (doc.data().isSiteOpen !== false) : true;
         updateSiteSwitchUI();
       });
 
@@ -1384,7 +1227,7 @@
         btn.innerText = "OUVERT";
         text.innerText = "Site Actif & Ouvert";
         text.style.color = "var(--success)";
-        sub.innerText = "Les clients peuvent commander et recharger librement";
+        sub.innerText = "Les clients peuvent commander librement";
       } else {
         btn.className = "btn-switch-toggle closed";
         btn.innerText = "FERMÉ";
@@ -1400,14 +1243,14 @@
         nextState ? "Réouverture du Site" : "Fermeture Immédiate du Site",
         nextState 
           ? "Voulez-vous rouvrir la plateforme et autoriser à nouveau les commandes ?"
-          : "Voulez-vous basculer le site en mode maintenance ? Les clients ne pourront plus passer commande.",
+          : "Voulez-vous basculer le site en mode maintenance ?",
         async () => {
           try {
             await db.collection('system_config').doc('status').set({
               isSiteOpen: nextState,
               updatedAt: firebase.firestore.FieldValue.serverTimestamp()
             }, { merge: true });
-            showAdminToast(nextState ? "Le site est maintenant OUVERT !" : "Le site est maintenant FERMÉ !");
+            showAdminToast(nextState ? "Le site est OUVERT !" : "Le site est FERMÉ !");
           } catch (e) {
             showAdminToast("Erreur : " + e.message, true);
           }
@@ -1481,17 +1324,23 @@
       closeActionModal();
     });
 
-    /* GESTION DE LA SIDEBAR & DÉCONNEXION */
+    /* NAVIGATION SIDEBAR & DÉCONNEXION */
     function openSidebar() { document.getElementById('sidebar-overlay').classList.add('active'); }
     function closeSidebar() { document.getElementById('sidebar-overlay').classList.remove('active'); }
     function toggleNotifications() { document.getElementById('notif-panel').classList.toggle('open'); }
+
+    function setLang(code, btn) {
+      document.querySelectorAll('.lang-option').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      showAdminToast("Langue administrative mise à jour.");
+    }
 
     function performAdminSignOut() {
       sessionStorage.removeItem('dp_admin_session_auth');
       auth.signOut().then(() => window.location.href = "../index.html");
     }
 
-    /* SURVEILLANCE AUTHENTIFICATION ADMINISTRATIVE STRICTE */
+    /* SÉCURITÉ AUTHENTIFICATION STRICTE */
     auth.onAuthStateChanged(user => {
       if (!user) {
         window.location.href = "../authentification/login.html";
