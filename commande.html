@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Historique des Commandes — DigitalPay Haiti</title>
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -15,7 +15,7 @@
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
 
   <style>
-    /* FINTECH DESIGN SYSTEM IDENTIQUE À INDEX.HTML */
+    /* FINTECH DESIGN SYSTEM STRICTEMENT IDENTIQUE À INDEX.HTML */
     :root {
       --bg: #FFFFFF;
       --surface: #FFFFFF;
@@ -50,8 +50,32 @@
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-    body { background-color: var(--bg); color: var(--text-black); font-family: var(--font); font-size: 14px; line-height: 1.5; overflow-x: hidden; min-height: 100vh; display: flex; flex-direction: column; }
-    .app-shell { max-width: 480px; margin: 0 auto; min-height: 100vh; background: #FFFFFF; position: relative; display: flex; flex-direction: column; border-left: 1px solid var(--border-light); border-right: 1px solid var(--border-light); }
+    
+    /* BODY STRICTEMENT IDENTIQUE À INDEX.HTML (PAS DE FLEX SUR BODY) */
+    body {
+      background-color: var(--bg);
+      color: var(--text-black);
+      font-family: var(--font);
+      font-size: 14px;
+      line-height: 1.5;
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    /* APP-SHELL MOBILE FIRST 100% PLEINE LARGEUR */
+    .app-shell {
+      width: 100%;
+      max-width: 480px;
+      margin: 0 auto;
+      min-height: 100vh;
+      background: #FFFFFF;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      border-left: 1px solid var(--border-light);
+      border-right: 1px solid var(--border-light);
+    }
+
     .icon-svg { width: 16px; height: 16px; stroke: currentColor; stroke-width: 2; fill: none; display: inline-block; vertical-align: middle; }
 
     /* HEADER IDENTIQUE À INDEX.HTML */
@@ -65,9 +89,9 @@
     .badge-dot { position: absolute; top: 8px; right: 8px; width: 6px; height: 6px; border-radius: 50%; background: var(--royal-blue); box-shadow: 0 0 0 2px #FFFFFF; display: none; }
     .badge-num { position: absolute; top: -3px; right: -3px; background: var(--royal-blue); color: #FFFFFF; font-size: 10px; font-weight: 800; width: 17px; height: 17px; border-radius: var(--radius-full); display: flex; align-items: center; justify-content: center; box-shadow: 0 0 0 2px #FFFFFF; }
 
-    /* CORPS COMMANDES */
-    .orders-main { padding: 20px 16px 40px; flex: 1; display: flex; flex-direction: column; }
-    .orders-header-title { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+    /* CORPS COMMANDES ÉGAL À INDEX.HTML */
+    .orders-main { padding: 16px; flex: 1; }
+    .orders-header-title { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
     .orders-title { font-size: 20px; font-weight: 900; color: var(--text-black); letter-spacing: -0.5px; }
     .orders-count-badge { background: var(--surface-subtle); border: 1px solid var(--border); color: var(--royal-blue); font-size: 12px; font-weight: 800; padding: 4px 10px; border-radius: var(--radius-full); }
 
@@ -92,7 +116,7 @@
 
     .order-card-header { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
     .order-brand-zone { display: flex; align-items: center; gap: 12px; }
-    .order-thumb { width: 44px; height: 44px; border-radius: var(--radius-square); overflow: hidden; background: var(--surface-subtle); border: 1px solid var(--border-light); flex-shrink: 0; }
+    .order-thumb { width: 44px; height: 44px; border-radius: var(--radius-square); overflow: hidden; background: var(--surface-subtle); border: 1px solid var(--border-light); flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
     .order-thumb img { width: 100%; height: 100%; object-fit: cover; }
     .order-item-title { font-size: 13px; font-weight: 800; color: var(--text-black); line-height: 1.2; }
     .order-item-offer { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
@@ -128,7 +152,7 @@
     .order-detail-key { color: var(--text-muted); font-weight: 600; }
     .order-detail-val { font-weight: 800; color: var(--text-black); text-align: right; word-break: break-all; }
 
-    /* COFFRE PIN FREE FIRE (TOUJOURS VISIBLE) */
+    /* COFFRE PIN FREE FIRE (TOUJOURS VISIBLE SANS EXPIRATION) */
     .pin-vault-box {
       background: linear-gradient(135deg, rgba(29, 78, 216, 0.04) 0%, rgba(37, 99, 235, 0.08) 100%);
       border: 1px solid rgba(29, 78, 216, 0.2);
@@ -165,7 +189,7 @@
       cursor: pointer;
     }
     .btn-redeem-link {
-      height: 36px;
+      height: 38px;
       background: var(--royal-gradient);
       color: #FFFFFF;
       border-radius: var(--radius-sm);
@@ -280,7 +304,7 @@
       </div>
     </div>
 
-    <!-- CORPS COMMANDES -->
+    <!-- CORPS COMMANDES (MÊME STRUCTURE QUE LA BOUTIQUE) -->
     <main class="orders-main">
       <div class="orders-header-title">
         <h1 class="orders-title" id="txt-page-title">Mes Commandes</h1>
@@ -539,7 +563,33 @@
       renderOrders();
     }
 
-    /* RENDU DES COMMANDES AVEC PIN TOUJOURS VISIBLE */
+    /* FORMATTAGE ROBUSTE DU TIMESTAMP FIRESTORE */
+    function formatOrderDate(ord) {
+      let timestamp = Date.now();
+      if (ord.createdAt) {
+        if (typeof ord.createdAt.toMillis === 'function') {
+          timestamp = ord.createdAt.toMillis();
+        } else if (ord.createdAt.seconds) {
+          timestamp = ord.createdAt.seconds * 1000;
+        } else if (typeof ord.createdAt === 'number') {
+          timestamp = ord.createdAt;
+        } else if (typeof ord.createdAt === 'string') {
+          const parsed = new Date(ord.createdAt).getTime();
+          if (!isNaN(parsed)) timestamp = parsed;
+        }
+      } else if (ord.createdAtServer) {
+        if (typeof ord.createdAtServer.toMillis === 'function') {
+          timestamp = ord.createdAtServer.toMillis();
+        } else if (ord.createdAtServer.seconds) {
+          timestamp = ord.createdAtServer.seconds * 1000;
+        }
+      }
+      return new Date(timestamp).toLocaleDateString('fr-FR', {
+        day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit'
+      });
+    }
+
+    /* RENDU DES COMMANDES EN PLEINE LARGEUR */
     function renderOrders() {
       const target = document.getElementById('orders-container-target');
       const badge = document.getElementById('orders-count-badge');
@@ -573,10 +623,7 @@
         const item = ord.item || {};
         const logo = item.logo || 'logo.png';
         const deliv = item.deliveryInfo || {};
-        const orderTimestamp = ord.createdAtServer ? ord.createdAtServer.toMillis() : (ord.createdAt || Date.now());
-        const dateStr = new Date(orderTimestamp).toLocaleDateString('fr-FR', {
-          day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit'
-        });
+        const dateStr = formatOrderDate(ord);
 
         let statusClass = "en_attente";
         let statusText = dict.statusPending;
@@ -592,7 +639,7 @@
         if (deliv.meruTag) delivRows.push(`<div class="order-detail-line"><span class="order-detail-key">Tag Meru :</span><span class="order-detail-val">${deliv.meruTag}</span></div>`);
         if (deliv.walletAddress) delivRows.push(`<div class="order-detail-line"><span class="order-detail-key">TRC20 :</span><span class="order-detail-val">${deliv.walletAddress}</span></div>`);
 
-        // Zone Spéciale PIN Free Fire (TOUJOURS VISIBLE SANS EXPIRATION)
+        // Zone PIN Free Fire (Toujours visible)
         let pinZoneHtml = '';
         if (ord.pinCode && ord.status === 'livre') {
           pinZoneHtml = `
@@ -657,8 +704,8 @@
           allOrders = [];
           snapshot.forEach(doc => allOrders.push(doc.data()));
           allOrders.sort((a, b) => {
-            const timeA = a.createdAtServer ? a.createdAtServer.toMillis() : (a.createdAt || 0);
-            const timeB = b.createdAtServer ? b.createdAtServer.toMillis() : (b.createdAt || 0);
+            const timeA = a.createdAt ? (a.createdAt.seconds ? a.createdAt.seconds * 1000 : a.createdAt) : 0;
+            const timeB = b.createdAt ? (b.createdAt.seconds ? b.createdAt.seconds * 1000 : b.createdAt) : 0;
             return timeB - timeA;
           });
           renderOrders();
