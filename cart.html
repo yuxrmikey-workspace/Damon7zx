@@ -284,7 +284,7 @@
               <span class="pay-target-label" id="pay-target-label">Transférer vers le numéro :</span>
               <button class="btn-copy-target" onclick="copyPaymentTarget()">COPIER</button>
             </div>
-            <div class="pay-target-value" id="pay-target-value">+509 3643-5649</div>
+            <div class="pay-target-value" id="pay-target-value">+509 3653-5649</div>
 
             <div class="field-group">
               <label class="field-label" for="tx-id-input">ID de Transaction / Numéro Expéditeur :</label>
@@ -530,7 +530,7 @@
         detailsBox.style.display = 'block';
         if (method === 'moncash') {
           label.innerText = "Transférer vers le numéro MonCash :";
-          val.innerText = "+509 3643-5649";
+          val.innerText = "+509 3653-5649";
         } else if (method === 'natcash') {
           label.innerText = "Transférer vers le numéro NatCash :";
           val.innerText = "+509 3566-9814";
@@ -695,7 +695,7 @@
         localStorage.removeItem('dp_cart');
         showToast("Commande validée ! Redirection WhatsApp...");
 
-        // GÉNÉRATION DU RÉSUMÉ E-COMMERCE PROFESSIONNEL POUR WHATSAPP (+509 3635 549)
+        // GÉNÉRATION DU RÉSUMÉ E-COMMERCE PROFESSIONNEL POUR WHATSAPP (+509 36535649)
         let waText = `*NOUVELLE COMMANDE — DIGITALPAY HAITI*\n`;
         waText += `--------------------------------------\n`;
         waText += `*Client :* ${currentUser.displayName || 'Client'} (${currentUser.email})\n`;
@@ -727,7 +727,7 @@
         waText += `--------------------------------------\n`;
         waText += `_Merci de procéder au traitement de ma commande._`;
 
-        const waUrl = `https://wa.me/5093635549?text=${encodeURIComponent(waText)}`;
+        const waUrl = `https://wa.me/50936535649?text=${encodeURIComponent(waText)}`;
 
         setTimeout(() => {
           window.location.href = waUrl;
