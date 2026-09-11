@@ -128,7 +128,7 @@
     .order-detail-key { color: var(--text-muted); font-weight: 600; }
     .order-detail-val { font-weight: 800; color: var(--text-black); text-align: right; word-break: break-all; }
 
-    /* COFFRE PIN FREE FIRE (EXPIRATION 24H) */
+    /* COFFRE PIN FREE FIRE (TOUJOURS VISIBLE) */
     .pin-vault-box {
       background: linear-gradient(135deg, rgba(29, 78, 216, 0.04) 0%, rgba(37, 99, 235, 0.08) 100%);
       border: 1px solid rgba(29, 78, 216, 0.2);
@@ -178,16 +178,6 @@
       text-decoration: none;
       margin-top: 2px;
       box-shadow: 0 4px 12px rgba(29, 78, 216, 0.2);
-    }
-    .pin-expired-notice {
-      font-size: 11px;
-      color: var(--text-muted);
-      background: var(--surface-subtle);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-sm);
-      padding: 8px 10px;
-      text-align: center;
-      font-weight: 600;
     }
 
     /* EMPTY STATE */
@@ -417,7 +407,6 @@
         copyBtn: "COPIER",
         copied: "Code PIN copié !",
         redeemBtn: "Recharger sur redeem.hype.games",
-        pinExpired: "Code PIN masqué pour des raisons de sécurité (archivé après 24h).",
         authLogout: "Se Déconnecter",
         authLogin: "Se Connecter",
         authRegister: "S'inscrire",
@@ -440,7 +429,6 @@
         copyBtn: "KOPIYE",
         copied: "Kòd PIN kopye avèk siksè !",
         redeemBtn: "Rechaje sou redeem.hype.games",
-        pinExpired: "Kòd PIN an kache pou sekirite (efase apre 24 èdtan).",
         authLogout: "Dekonekte",
         authLogin: "Konekte",
         authRegister: "Enskri",
@@ -463,7 +451,6 @@
         copyBtn: "COPY",
         copied: "PIN Code copied!",
         redeemBtn: "Redeem on redeem.hype.games",
-        pinExpired: "PIN Code hidden for security (archived after 24 hours).",
         authLogout: "Log Out",
         authLogin: "Sign In",
         authRegister: "Sign Up",
@@ -486,7 +473,6 @@
         copyBtn: "COPIAR",
         copied: "¡Código PIN copiado!",
         redeemBtn: "Canjear en redeem.hype.games",
-        pinExpired: "Código PIN oculto por seguridad (archivado tras 24 horas).",
         authLogout: "Cerrar Sesión",
         authLogin: "Iniciar Sesión",
         authRegister: "Registrarse",
@@ -553,7 +539,7 @@
       renderOrders();
     }
 
-    /* RENDU DES COMMANDES AVEC SÉCURITÉ PINS 24H */
+    /* RENDU DES COMMANDES AVEC PIN TOUJOURS VISIBLE */
     function renderOrders() {
       const target = document.getElementById('orders-container-target');
       const badge = document.getElementById('orders-count-badge');
@@ -592,9 +578,6 @@
           day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit'
         });
 
-        // Détection expiration 24 heures pour le code PIN
-        const isExpired24h = (Date.now() - orderTimestamp) > (24 * 3600 * 1000);
-
         let statusClass = "en_attente";
         let statusText = dict.statusPending;
 
@@ -609,28 +592,24 @@
         if (deliv.meruTag) delivRows.push(`<div class="order-detail-line"><span class="order-detail-key">Tag Meru :</span><span class="order-detail-val">${deliv.meruTag}</span></div>`);
         if (deliv.walletAddress) delivRows.push(`<div class="order-detail-line"><span class="order-detail-key">TRC20 :</span><span class="order-detail-val">${deliv.walletAddress}</span></div>`);
 
-        // Zone Spéciale PIN Free Fire
+        // Zone Spéciale PIN Free Fire (TOUJOURS VISIBLE SANS EXPIRATION)
         let pinZoneHtml = '';
         if (ord.pinCode && ord.status === 'livre') {
-          if (!isExpired24h) {
-            pinZoneHtml = `
-              <div class="pin-vault-box">
-                <div class="pin-vault-header">
-                  <span class="pin-vault-label">${dict.pinTitle}</span>
-                </div>
-                <div class="pin-code-display">
-                  <span>${ord.pinCode}</span>
-                  <button class="btn-copy-pin" onclick="copyPinCode('${ord.pinCode}')">${dict.copyBtn}</button>
-                </div>
-                <a href="${ord.redeemUrl || 'https://redeem.hype.games/'}" target="_blank" rel="noopener noreferrer" class="btn-redeem-link">
-                  <svg class="icon-svg" viewBox="0 0 24 24" style="stroke:#FFFFFF;"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                  <span>${dict.redeemBtn}</span>
-                </a>
+          pinZoneHtml = `
+            <div class="pin-vault-box">
+              <div class="pin-vault-header">
+                <span class="pin-vault-label">${dict.pinTitle}</span>
               </div>
-            `;
-          } else {
-            pinZoneHtml = `<div class="pin-expired-notice">${dict.pinExpired}</div>`;
-          }
+              <div class="pin-code-display">
+                <span>${ord.pinCode}</span>
+                <button class="btn-copy-pin" onclick="copyPinCode('${ord.pinCode}')">${dict.copyBtn}</button>
+              </div>
+              <a href="${ord.redeemUrl || 'https://redeem.hype.games/'}" target="_blank" rel="noopener noreferrer" class="btn-redeem-link">
+                <svg class="icon-svg" viewBox="0 0 24 24" style="stroke:#FFFFFF;"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <span>${dict.redeemBtn}</span>
+              </a>
+            </div>
+          `;
         }
 
         const card = document.createElement('div');
