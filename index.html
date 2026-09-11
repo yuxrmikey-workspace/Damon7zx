@@ -9,9 +9,10 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 
-  <!-- Firebase SDKs Compat -->
+  <!-- Firebase SDKs Compat 10.12.0 (Auth + Firestore en direct) -->
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
 
   <style>
     /* FINTECH DESIGN SYSTEM — BLANC, NOIR & DÉGRADÉ BLEU ROYAL */
@@ -32,6 +33,8 @@
 
       --danger: #DC2626;
       --danger-soft: rgba(220, 38, 38, 0.08);
+      --warning: #F59E0B;
+      --warning-soft: rgba(245, 158, 11, 0.08);
 
       --radius-sm: 8px;
       --radius-md: 12px;
@@ -47,8 +50,23 @@
 
     * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
     body { background-color: var(--bg); color: var(--text-black); font-family: var(--font); font-size: 14px; line-height: 1.5; overflow-x: hidden; min-height: 100vh; }
-    .app-shell { max-width: 480px; margin: 0 auto; min-height: 100vh; background: #FFFFFF; position: relative; display: flex; flex-direction: column; border-left: 1px solid var(--border-light); border-right: 1px solid var(--border-light); }
+    .app-shell { width: 100%; max-width: 480px; margin: 0 auto; min-height: 100vh; background: #FFFFFF; position: relative; display: flex; flex-direction: column; border-left: 1px solid var(--border-light); border-right: 1px solid var(--border-light); }
     .icon-svg { width: 16px; height: 16px; stroke: currentColor; stroke-width: 2; fill: none; display: inline-block; vertical-align: middle; }
+
+    /* BANNIÈRE MAINTENANCE (SITE FERMÉ) */
+    #maintenance-banner {
+      display: none;
+      background: #991B1B;
+      color: #FFFFFF;
+      padding: 10px 16px;
+      font-size: 12px;
+      font-weight: 800;
+      text-align: center;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      box-shadow: 0 2px 10px rgba(153, 27, 27, 0.3);
+    }
 
     /* HEADER */
     .site-header { position: sticky; top: 0; z-index: 40; background: rgba(255, 255, 255, 0.96); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-bottom: 1px solid var(--border); padding: 10px 16px; }
@@ -58,7 +76,7 @@
     .header-btn { width: 38px; height: 38px; border-radius: var(--radius-md); background: #FFFFFF; border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; color: var(--text-black); cursor: pointer; position: relative; text-decoration: none; transition: transform 0.15s ease; }
     .header-btn:active { transform: scale(0.94); background: var(--surface-subtle); }
     .header-btn svg { width: 18px; height: 18px; stroke: currentColor; stroke-width: 2; fill: none; }
-    .badge-dot { position: absolute; top: 8px; right: 8px; width: 6px; height: 6px; border-radius: 50%; background: var(--royal-blue); box-shadow: 0 0 0 2px #FFFFFF; }
+    .badge-dot { position: absolute; top: 8px; right: 8px; width: 6px; height: 6px; border-radius: 50%; background: var(--royal-blue); box-shadow: 0 0 0 2px #FFFFFF; display: none; }
     .badge-num { position: absolute; top: -3px; right: -3px; background: var(--royal-blue); color: #FFFFFF; font-size: 10px; font-weight: 800; width: 17px; height: 17px; border-radius: var(--radius-full); display: flex; align-items: center; justify-content: center; box-shadow: 0 0 0 2px #FFFFFF; }
 
     .search-box { margin-top: 10px; position: relative; }
@@ -111,7 +129,7 @@
     .faq-answer { padding: 0 14px 12px; font-size: 12px; color: var(--text-muted); line-height: 1.5; display: none; }
     .faq-item.open .faq-answer { display: block; }
 
-    /* FOOTER ULTRA ÉPURÉ */
+    /* FOOTER */
     .site-footer { background: #FFFFFF; border-top: 1px solid var(--border); padding: 18px 16px; margin-top: 32px; }
     .footer-minimal-row { display: flex; justify-content: space-between; align-items: center; font-size: 11px; font-weight: 700; color: var(--text-muted); }
     .footer-status-pill { display: flex; align-items: center; gap: 6px; font-size: 10px; color: var(--royal-blue); text-transform: uppercase; letter-spacing: 0.5px; }
@@ -138,7 +156,7 @@
     .sidebar-close-btn { width: 32px; height: 32px; border-radius: 50%; background: var(--surface-subtle); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; color: var(--text-muted); cursor: pointer; font-weight: 800; }
     .sidebar-section-title { font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.8px; color: var(--text-light); margin: 16px 0 8px; }
     .lang-switcher-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px; }
-    .lang-option { background: var(--surface-subtle); border: 1px solid var(--border); padding: 7px 10px; border-radius: var(--radius-sm); display: flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 600; color: var(--text-black); cursor: pointer; }
+    .lang-option { background: var(--surface-subtle); border: 1px solid var(--border); padding: 7px 10px; border-radius: var(--radius-sm); display: flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 600; color: var(--text-black); cursor: pointer; font-family: inherit; }
     .lang-option.active { border-color: var(--royal-blue); background: var(--royal-soft); color: var(--royal-blue); font-weight: 800; }
     .sidebar-menu-nav { margin-top: 10px; display: flex; flex-direction: column; gap: 3px; }
     .menu-link { display: flex; align-items: center; gap: 12px; padding: 9px 12px; border-radius: var(--radius-md); color: var(--text-black); text-decoration: none; font-size: 13px; font-weight: 600; transition: all 0.15s ease; cursor: pointer; }
@@ -150,7 +168,7 @@
     .btn-register { background: #FFFFFF; border: 1px solid var(--border); color: var(--text-black); }
     .btn-logout { background: var(--danger-soft); color: var(--danger); border: 1px solid rgba(220, 38, 38, 0.2); }
 
-    /* MODALE DES OFFRES AVEC FORMULAIRE DE LIVRAISON */
+    /* MODALE DES OFFRES */
     .sheet-backdrop { position: fixed; inset: 0; background: rgba(15, 23, 42, 0.55); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); z-index: 120; opacity: 0; visibility: hidden; transition: all 0.2s ease; }
     .sheet-backdrop.active { opacity: 1; visibility: visible; }
     .sheet-modal { position: fixed; bottom: 0; left: 50%; transform: translate(-50%, 100%); width: 100%; max-width: 480px; max-height: 88vh; background: #FFFFFF; border-radius: var(--radius-card) var(--radius-card) 0 0; z-index: 121; display: flex; flex-direction: column; box-shadow: var(--shadow-sheet); transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1); }
@@ -165,7 +183,7 @@
     .offer-item-title { font-size: 13px; font-weight: 700; color: var(--text-black); }
     .offer-item-price { font-size: 13px; font-weight: 900; color: var(--royal-blue); }
 
-    /* NOUVEAUX CHAMPS DE LIVRAISON */
+    /* CHAMPS DE LIVRAISON */
     .delivery-form-container { margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--border); }
     .delivery-form-title { font-size: 11px; font-weight: 800; text-transform: uppercase; color: var(--text-black); letter-spacing: 0.5px; margin-bottom: 8px; }
     .field-group { margin-bottom: 10px; }
@@ -192,6 +210,11 @@
 
   <div class="app-shell">
 
+    <!-- BANDEAU DE FERMETURE DU SITE (PILOTÉ PAR L'ADMIN) -->
+    <div id="maintenance-banner">
+      Plateforme temporairement en maintenance. Les commandes sont suspendues pour un court instant.
+    </div>
+
     <!-- HEADER -->
     <header class="site-header">
       <div class="header-top">
@@ -211,7 +234,7 @@
             <svg viewBox="0 0 24 24">
               <path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 01-3.46 0" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
-            <span class="badge-dot"></span>
+            <span class="badge-dot" id="notif-dot"></span>
           </button>
 
           <button class="header-btn" onclick="openSidebar()" aria-label="Menu">
@@ -264,8 +287,8 @@
         <button onclick="toggleNotifications()" style="border:none; background:none; cursor:pointer; font-weight:700;">✕</button>
       </div>
       <div style="padding:10px; background:var(--surface-subtle); border-left:3px solid var(--royal-blue); border-radius:4px; font-size:12px;">
-        <strong>Diffusion Administrateur</strong>
-        <p>Les packs de diamants Free Fire sont livrés automatiquement en code PIN avec le lien redeem.hype.games.</p>
+        <strong id="notif-broadcast-heading">Diffusion Administrateur</strong>
+        <p id="notif-broadcast-text">Bienvenue sur DigitalPay Haiti. Vos recharges de jeux sont livrées 24/7.</p>
       </div>
     </div>
 
@@ -285,22 +308,31 @@
         </a>
       </div>
 
-      <!-- AVIS CLIENTS -->
+      <!-- AVIS CLIENTS (LES 3 AVIS EXACTS DEMANDÉS) -->
       <h3 class="section-title" id="txt-reviews-title">Avis des Clients</h3>
       <div class="reviews-grid">
         <div class="review-card">
           <div class="review-header">
-            <span class="reviewer-name">Jean-Marc B.</span>
+            <span class="reviewer-name">7zx M!nato</span>
             <span class="review-date">Aujourd'hui</span>
           </div>
-          <p class="review-text">Recharge Free Fire reçue en moins de 30 secondes. Service extrêmement fiable et rapide.</p>
+          <p class="review-text">Yoo site lan bon frèm. Félicitations. 🥳</p>
         </div>
+
         <div class="review-card">
           <div class="review-header">
-            <span class="reviewer-name">Stanley D.</span>
+            <span class="reviewer-name">Pierre Antoine</span>
             <span class="review-date">Hier</span>
           </div>
-          <p class="review-text">Le retrait Meru vers MonCash s'est fait sans aucun accroc. C'est la meilleure plateforme en Haïti.</p>
+          <p class="review-text">Sèvis yo a bon prix , epi site la senp 🙂‍↕️</p>
+        </div>
+
+        <div class="review-card">
+          <div class="review-header">
+            <span class="reviewer-name">Tz Yasuk3</span>
+            <span class="review-date">Il y a 2 jours</span>
+          </div>
+          <p class="review-text">Depi kòb ou gentan sou kont ou , pin yo livre tankou flash😂</p>
         </div>
       </div>
 
@@ -413,8 +445,6 @@
 
         <div class="sheet-body">
           <div id="modal-offers-body"></div>
-          
-          <!-- FORMULAIRE DE LIVRAISON AVANT PANIER -->
           <div id="modal-delivery-body"></div>
         </div>
 
@@ -432,19 +462,21 @@
   </div>
 
   <script>
-    /* CONFIGURATION FIREBASE */
-     const firebaseConfig = {
-  apiKey: "AIzaSyDOSMtCknVXQs3XL1piE047Ussc6KeCDmY",
-  authDomain: "digitalpayht-officiel.firebaseapp.com",
-  projectId: "digitalpayht-officiel",
-  storageBucket: "digitalpayht-officiel.firebasestorage.app",
-  messagingSenderId: "492314684302",
-  appId: "1:492314684302:web:dc36ab9445877df2dcd2df"
-};
+    /* CONFIGURATION FIREBASE OFFICIELLE */
+    const firebaseConfig = {
+      apiKey: "AIzaSyDOSMtCknVXQs3XL1piE047Ussc6KeCDmY",
+      authDomain: "digitalpayht-officiel.firebaseapp.com",
+      projectId: "digitalpayht-officiel",
+      storageBucket: "digitalpayht-officiel.firebasestorage.app",
+      messagingSenderId: "492314684302",
+      appId: "1:492314684302:web:dc36ab9445877df2dcd2df"
+    };
+
     if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
+    const db = firebase.firestore();
 
-    /* CATALOGUE COMPLET */
+    /* CATALOGUE COMPLET AVEC IDENTIFIANTS UNIQUES D'OFFRES POUR MODIFICATION PRIX */
     const PRODUCTS = [
       // JEUX
       { id: "freefire", title: "Free Fire", category: "gaming", logo: "freefire-logo.png", offers: [
@@ -460,99 +492,143 @@
         { id: "ff_month", name: "Abonnement Mois", price: 1600, isPin: false, req: "email_pass_wa" }
       ]},
       { id: "callofduty", title: "Call of Duty", category: "gaming", logo: "callofduty.png", req: "email_pass_wa", offers: [
-        { name: "80 + 8 CP", price: 180 }, { name: "400 + 60 CP", price: 925 },
-        { name: "800 + 160 CP", price: 1850 }, { name: "2,000 + 600 CP", price: 4625 },
-        { name: "4,000 + 1,400 CP", price: 9500 }, { name: "8,000 + 3,600 CP", price: 19000 }
+        { id: "cod_80", name: "80 + 8 CP", price: 180 }, 
+        { id: "cod_400", name: "400 + 60 CP", price: 925 },
+        { id: "cod_800", name: "800 + 160 CP", price: 1850 }, 
+        { id: "cod_2000", name: "2,000 + 600 CP", price: 4625 },
+        { id: "cod_4000", name: "4,000 + 1,400 CP", price: 9500 }, 
+        { id: "cod_8000", name: "8,000 + 3,600 CP", price: 19000 }
       ]},
       { id: "bloodstrike", title: "Blood Strike", category: "gaming", logo: "bloodstrike.png", req: "id_wa", offers: [
-        { name: "50 + 1 Gold", price: 80 }, { name: "100 + 5 Gold", price: 157 },
-        { name: "300 + 20 Gold", price: 471 }, { name: "500 + 40 Gold", price: 785 },
-        { name: "1,000 + 100 Gold", price: 1571 }, { name: "5,000 + 800 Gold", price: 9100 },
-        { name: "Strike Pass Elite", price: 640 }, { name: "Strike Pass Premium", price: 1485 },
-        { name: "Level Up Pass", price: 330 }
+        { id: "bs_50", name: "50 + 1 Gold", price: 80 }, 
+        { id: "bs_100", name: "100 + 5 Gold", price: 157 },
+        { id: "bs_300", name: "300 + 20 Gold", price: 471 }, 
+        { id: "bs_500", name: "500 + 40 Gold", price: 785 },
+        { id: "bs_1000", name: "1,000 + 100 Gold", price: 1571 }, 
+        { id: "bs_5000", name: "5,000 + 800 Gold", price: 9100 },
+        { id: "bs_pass_elite", name: "Strike Pass Elite", price: 640 }, 
+        { id: "bs_pass_prem", name: "Strike Pass Premium", price: 1485 },
+        { id: "bs_pass_lvl", name: "Level Up Pass", price: 330 }
       ]},
       { id: "dls", title: "Dream League Soccer (2026)", category: "gaming", logo: "dreamleaguesoccer.png", req: "email_pass_wa", offers: [
-        { name: "900 Coins", price: 400 }, { name: "1,950 Coins", price: 825 },
-        { name: "3,450 Coins", price: 1400 }, { name: "6,700 Coins", price: 2375 },
-        { name: "14,500 Coins", price: 4000 }, { name: "40,500 Coins", price: 9250 },
-        { name: "90 Gems", price: 400 }, { name: "400 Gems", price: 1600 },
-        { name: "910 Gems", price: 3400 }, { name: "2,700 Gems", price: 8850 },
-        { name: "6,000 Gems", price: 20250 }, { name: "Season Pass", price: 810 },
-        { name: "Season Pass Premium", price: 2025 }
+        { id: "dls_c900", name: "900 Coins", price: 400 }, 
+        { id: "dls_c1950", name: "1,950 Coins", price: 825 },
+        { id: "dls_c3450", name: "3,450 Coins", price: 1400 }, 
+        { id: "dls_c6700", name: "6,700 Coins", price: 2375 },
+        { id: "dls_c14500", name: "14,500 Coins", price: 4000 }, 
+        { id: "dls_c40500", name: "40,500 Coins", price: 9250 },
+        { id: "dls_g90", name: "90 Gems", price: 400 }, 
+        { id: "dls_g400", name: "400 Gems", price: 1600 },
+        { id: "dls_g910", name: "910 Gems", price: 3400 }, 
+        { id: "dls_g2700", name: "2,700 Gems", price: 8850 },
+        { id: "dls_g6000", name: "6,000 Gems", price: 20250 }, 
+        { id: "dls_pass", name: "Season Pass", price: 810 },
+        { id: "dls_pass_prem", name: "Season Pass Premium", price: 2025 }
       ]},
       { id: "fcmobile", title: "Fc Mobile", category: "gaming", logo: "fcmobile.png", req: "email_pass_wa", offers: [
-        { name: "40 Points", price: 95 }, { name: "100 Points", price: 210 },
-        { name: "500 + 20 Bonus Points", price: 1085 }, { name: "1,000 + 70 Bonus Points", price: 2192 },
-        { name: "2,000 + 200 Bonus Points", price: 4250 }, { name: "5,000 + 750 Bonus Points", price: 20750 },
-        { name: "10,000 + 2,000 Bonus Points", price: 10500 }
+        { id: "fc_40", name: "40 Points", price: 95 }, 
+        { id: "fc_100", name: "100 Points", price: 210 },
+        { id: "fc_500", name: "500 + 20 Bonus Points", price: 1085 }, 
+        { id: "fc_1000", name: "1,000 + 70 Bonus Points", price: 2192 },
+        { id: "fc_2000", name: "2,000 + 200 Bonus Points", price: 4250 }, 
+        { id: "fc_5000", name: "5,000 + 750 Bonus Points", price: 20750 },
+        { id: "fc_10000", name: "10,000 + 2,000 Bonus Points", price: 10500 }
       ]},
       { id: "efootball", title: "E-Football", category: "gaming", logo: "efootball.png", req: "email_pass_wa", offers: [
-        { name: "130 pièces", price: 220 }, { name: "300 pièces", price: 550 },
-        { name: "550 pièces", price: 885 }, { name: "1,040 pièces", price: 1625 },
-        { name: "2,130 pièces", price: 3140 }, { name: "3,250 pièces", price: 4675 },
-        { name: "12,800 pièces", price: 16230 }
+        { id: "ef_130", name: "130 pièces", price: 220 }, 
+        { id: "ef_300", name: "300 pièces", price: 550 },
+        { id: "ef_550", name: "550 pièces", price: 885 }, 
+        { id: "ef_1040", name: "1,040 pièces", price: 1625 },
+        { id: "ef_2130", name: "2,130 pièces", price: 3140 }, 
+        { id: "ef_3250", name: "3,250 pièces", price: 4675 },
+        { id: "ef_12800", name: "12,800 pièces", price: 16230 }
       ]},
       { id: "pubg", title: "PUBG Mobile", category: "gaming", logo: "pubgmobile-logo.png", req: "id_wa", offers: [
-        { name: "60 UC", price: 180 }, { name: "300 + 25 UC", price: 891 },
-        { name: "600 + 60 UC", price: 1780 }, { name: "1,500 + 300 UC", price: 4130 },
-        { name: "3,000 + 850 UC", price: 8075 }
+        { id: "pubg_60", name: "60 UC", price: 180 }, 
+        { id: "pubg_300", name: "300 + 25 UC", price: 891 },
+        { id: "pubg_600", name: "600 + 60 UC", price: 1780 }, 
+        { id: "pubg_1500", name: "1,500 + 300 UC", price: 4130 },
+        { id: "pubg_3000", name: "3,000 + 850 UC", price: 8075 }
       ]},
       { id: "minecraft", title: "Minecraft", category: "gaming", logo: "minecraft-logo.png", isUnavailable: true, offers: [] },
       { id: "roblox", title: "Roblox", category: "gaming", logo: "roblox-logo.png", req: "user_pass", offers: [
-        { name: "500 Robux", price: 750 }, { name: "1,000 Robux", price: 1460 },
-        { name: "2,000 Robux", price: 2950 }, { name: "5,250 Robux", price: 7350 },
-        { name: "11,000 Robux", price: 14661 }, { name: "24,000 Robux", price: 29575 }
+        { id: "rbx_500", name: "500 Robux", price: 750 }, 
+        { id: "rbx_1000", name: "1,000 Robux", price: 1460 },
+        { id: "rbx_2000", name: "2,000 Robux", price: 2950 }, 
+        { id: "rbx_5250", name: "5,250 Robux", price: 7350 },
+        { id: "rbx_11000", name: "11,000 Robux", price: 14661 }, 
+        { id: "rbx_24000", name: "24,000 Robux", price: 29575 }
       ]},
       { id: "lordsmobile", title: "Lords Mobile", category: "gaming", logo: "lordsmobile.png", req: "email_pass_wa", offers: [
-        { name: "99 Diamants", price: 185 }, { name: "199 Diamants", price: 370 },
-        { name: "499 Diamants", price: 925 }, { name: "999 Diamants", price: 1800 },
-        { name: "1,999 Diamants", price: 3600 }, { name: "2,999 Diamants", price: 5400 },
-        { name: "4,999 Diamants", price: 9000 }, { name: "9,999 Diamants", price: 18000 },
-        { name: "29,999 Diamants", price: 54000 }
+        { id: "lm_99", name: "99 Diamants", price: 185 }, 
+        { id: "lm_199", name: "199 Diamants", price: 370 },
+        { id: "lm_499", name: "499 Diamants", price: 925 }, 
+        { id: "lm_999", name: "999 Diamants", price: 1800 },
+        { id: "lm_1999", name: "1,999 Diamants", price: 3600 }, 
+        { id: "lm_2999", name: "2,999 Diamants", price: 5400 },
+        { id: "lm_4999", name: "4,999 Diamants", price: 9000 }, 
+        { id: "lm_9999", name: "9,999 Diamants", price: 18000 },
+        { id: "lm_29999", name: "29,999 Diamants", price: 54000 }
       ]},
       { id: "onestate", title: "One State", category: "gaming", logo: "onestate.png", req: "email_pass_wa", offers: [
-        { name: "Pack Débutant", price: 450 }, { name: "Pack Avancé", price: 1200 }
+        { id: "os_deb", name: "Pack Débutant", price: 450 }, 
+        { id: "os_av", name: "Pack Avancé", price: 1200 }
       ]},
       { id: "flexcity", title: "Flex City", category: "gaming", logo: "flexcity.png", req: "email_pass_wa", offers: [
-        { name: "100 Diamants", price: 215 }, { name: "310 Diamants", price: 628 },
-        { name: "520 Diamants", price: 1100 }, { name: "1,060 Diamants", price: 2150 },
-        { name: "4,320 Diamants", price: 4500 }, { name: "11,200 Diamants", price: 10800 },
-        { name: "500 Gold", price: 195 }, { name: "2,100 Gold", price: 628 },
-        { name: "6,250 Gold", price: 1800 }, { name: "17,000 Gold", price: 4750 },
-        { name: "40,000 Gold", price: 10000 }, { name: "77,500 Gold", price: 18000 }
+        { id: "fc_d100", name: "100 Diamants", price: 215 }, 
+        { id: "fc_d310", name: "310 Diamants", price: 628 },
+        { id: "fc_d520", name: "520 Diamants", price: 1100 }, 
+        { id: "fc_d1060", name: "1,060 Diamants", price: 2150 },
+        { id: "fc_d4320", name: "4,320 Diamants", price: 4500 }, 
+        { id: "fc_d11200", name: "11,200 Diamants", price: 10800 },
+        { id: "fc_g500", name: "500 Gold", price: 195 }, 
+        { id: "fc_g2100", name: "2,100 Gold", price: 628 },
+        { id: "fc_g6250", name: "6,250 Gold", price: 1800 }, 
+        { id: "fc_g17000", name: "17,000 Gold", price: 4750 },
+        { id: "fc_g40000", name: "40,000 Gold", price: 10000 }, 
+        { id: "fc_g77500", name: "77,500 Gold", price: 18000 }
       ]},
       { id: "mobilelegends", title: "Mobile Legends", category: "gaming", logo: "mobilelegends.png", req: "id_wa", offers: [
-        { name: "50 Diamonds", price: 150 }, { name: "250 Diamonds", price: 700 }
+        { id: "ml_50", name: "50 Diamonds", price: 150 }, 
+        { id: "ml_250", name: "250 Diamonds", price: 700 }
       ]},
 
       // ABONNEMENT
       { id: "netflix", title: "Netflix", category: "streaming", logo: "netflix.png", req: "email_pass_wa", offers: [
-        { name: "1 mois", price: 400 }, { name: "2 mois", price: 850 }, { name: "3 mois", price: 1300 }
+        { id: "netflix_1m", name: "1 mois", price: 400 }, 
+        { id: "netflix_2m", name: "2 mois", price: 850 }, 
+        { id: "netflix_3m", name: "3 mois", price: 1300 }
       ]},
       { id: "primevideo", title: "Prime Video", category: "streaming", logo: "primevideo.png", req: "email_pass_wa", offers: [
-        { name: "1 mois", price: 425 }, { name: "2 mois", price: 825 }, { name: "3 mois", price: 1240 }
+        { id: "prime_1m", name: "1 mois", price: 425 }, 
+        { id: "prime_2m", name: "2 mois", price: 825 }, 
+        { id: "prime_3m", name: "3 mois", price: 1240 }
       ]},
       { id: "disney", title: "Disney+", category: "streaming", logo: "disneyplus.png", req: "email_pass_wa", offers: [
-        { name: "1 mois", price: 625 }, { name: "2 mois", price: 1200 }, { name: "3 mois", price: 1800 }
+        { id: "disney_1m", name: "1 mois", price: 625 }, 
+        { id: "disney_2m", name: "2 mois", price: 1200 }, 
+        { id: "disney_3m", name: "3 mois", price: 1800 }
       ]},
       { id: "crunchyroll", title: "Crunchyroll", category: "streaming", logo: "crunchyroll.png", req: "email_pass_wa", offers: [
-        { name: "1 mois", price: 425 }, { name: "2 mois", price: 850 }, { name: "3 mois", price: 1325 }
+        { id: "crunchy_1m", name: "1 mois", price: 425 }, 
+        { id: "crunchy_2m", name: "2 mois", price: 850 }, 
+        { id: "crunchy_3m", name: "3 mois", price: 1325 }
       ]},
 
       // FINANCE
       { id: "wise", title: "Wise", category: "finance", logo: "meru.png", isFinance: true, rate: 145, feeStep: 20, min: 5, max: 250, req: "email_dest" },
       { id: "meru", title: "Meru", category: "finance", logo: "meru.png", isFinance: true, rate: 145, feeStep: 20, min: 5, max: 250, req: "meru_tag" },
       { id: "merucard", title: "Meru (Carte de crédit)", category: "finance", logo: "merucard.png", req: "id_wa", offers: [
-        { name: "Activation Carte Meru", price: 1500 }
+        { id: "meru_card", name: "Activation Carte Meru", price: 1500 }
       ]},
       { id: "binance", title: "Binance", category: "finance", logo: "binance.png", isFinance: true, rate: 142, feeStep: 0, min: 5, max: 250, req: "crypto_addr" },
 
       // GIFT CARD
-      { id: "apple", title: "Apple", category: "giftcard", logo: "applegc.png", offers: [{ name: "Tarification en attente", price: 0 }] },
-      { id: "nintendo", title: "Nintendo", category: "giftcard", logo: "nintendogc.png", offers: [{ name: "Tarification en attente", price: 0 }] },
-      { id: "playstation", title: "PlayStation", category: "giftcard", logo: "playstationgc.png", offers: [{ name: "Tarification en attente", price: 0 }] },
-      { id: "googleplay", title: "Google Play", category: "giftcard", logo: "googleplaycard.png", offers: [{ name: "Tarification en attente", price: 0 }] },
-      { id: "steam", title: "Steam", category: "giftcard", logo: "steamgc.png", offers: [{ name: "Tarification en attente", price: 0 }] }
+      { id: "apple", title: "Apple", category: "giftcard", logo: "applegc.png", offers: [{ id: "gc_apple", name: "Tarification en attente", price: 0 }] },
+      { id: "nintendo", title: "Nintendo", category: "giftcard", logo: "nintendogc.png", offers: [{ id: "gc_nintendo", name: "Tarification en attente", price: 0 }] },
+      { id: "playstation", title: "PlayStation", category: "giftcard", logo: "playstationgc.png", offers: [{ id: "gc_ps", name: "Tarification en attente", price: 0 }] },
+      { id: "googleplay", title: "Google Play", category: "giftcard", logo: "googleplaycard.png", offers: [{ id: "gc_gp", name: "Tarification en attente", price: 0 }] },
+      { id: "steam", title: "Steam", category: "giftcard", logo: "steamgc.png", offers: [{ id: "gc_steam", name: "Tarification en attente", price: 0 }] }
     ];
 
     const CATEGORIES_CONFIG = [
@@ -568,6 +644,8 @@
     let selectedOffer = null;
     let selectedPrice = 0;
     let currentLang = 'fr';
+    let isSiteOpen = true;
+    let liveCustomPrices = {};
 
     /* DICTIONNAIRE I18N */
     const I18N = {
@@ -706,6 +784,68 @@
       showToast(dict.toastMsg);
     }
 
+    /* ==========================================================================
+       SYNCHRONISATION EN DIRECT DES PRIX DEPUIS FIRESTORE (system_config/prices)
+       ========================================================================== */
+    function listenToRealtimePrices() {
+      db.collection('system_config').doc('prices').onSnapshot(doc => {
+        if (doc.exists) {
+          liveCustomPrices = doc.data() || {};
+          applyCustomPrices();
+          renderMainCatalog();
+          if (selectedProduct) {
+            openOffersModal(selectedProduct.id, true);
+          }
+        }
+      });
+    }
+
+    function applyCustomPrices() {
+      PRODUCTS.forEach(prod => {
+        if (prod.offers && Array.isArray(prod.offers)) {
+          prod.offers.forEach(offer => {
+            if (offer.id && liveCustomPrices[offer.id] !== undefined) {
+              offer.price = Number(liveCustomPrices[offer.id]);
+            }
+          });
+        }
+      });
+    }
+
+    /* ÉCOUTE DU STATUT DE FERMETURE DU SITE (MAINTENANCE) */
+    function listenToSiteStatus() {
+      db.collection('system_config').doc('status').onSnapshot(doc => {
+        if (doc.exists) {
+          isSiteOpen = (doc.data().isSiteOpen !== false);
+        } else {
+          isSiteOpen = true;
+        }
+        const banner = document.getElementById('maintenance-banner');
+        if (!isSiteOpen) {
+          banner.style.display = 'block';
+        } else {
+          banner.style.display = 'none';
+        }
+      });
+    }
+
+    /* ÉCOUTE DES NOTIFICATIONS DU HEADER */
+    function listenToBroadcastNotifications() {
+      db.collection('system_config').doc('notifications').onSnapshot(doc => {
+        const dot = document.getElementById('notif-dot');
+        const heading = document.getElementById('notif-broadcast-heading');
+        const text = document.getElementById('notif-broadcast-text');
+
+        if (doc.exists && doc.data().active) {
+          dot.style.display = 'block';
+          if (heading) heading.innerText = doc.data().title || "Annonce Globale";
+          if (text) text.innerText = doc.data().message || "";
+        } else {
+          dot.style.display = 'none';
+        }
+      });
+    }
+
     /* RENDU CATALOGUE : 4 SECTIONS DE 4 SUR "TOUT" */
     function renderMainCatalog() {
       const target = document.getElementById('catalog-container');
@@ -811,14 +951,12 @@
       renderMainCatalog();
     }
 
-    /* MODALE DES OFFRES & FORMULAIRE DE LIVRAISON AVANT PANIER */
-    function openOffersModal(prodId) {
+    /* MODALE DES OFFRES AVEC PRIX SYNCHRONISÉS */
+    function openOffersModal(prodId, isSilentRefresh = false) {
       const prod = PRODUCTS.find(p => p.id === prodId);
       if (!prod) return;
 
       selectedProduct = prod;
-      selectedOffer = null;
-      selectedPrice = 0;
 
       const dict = I18N[currentLang];
       document.getElementById('modal-service-name').innerText = prod.title;
@@ -838,12 +976,12 @@
         body.innerHTML = `<div class="service-unavailable-box">${dict.unavailableText}</div>`;
         btnOrder.disabled = true;
         document.getElementById('modal-total-price').innerText = `0 HTG`;
-        document.getElementById('sheet-backdrop').classList.add('active');
+        if (!isSilentRefresh) document.getElementById('sheet-backdrop').classList.add('active');
         return;
       }
       btnOrder.disabled = false;
 
-      // CAS FINANCE
+      // CAS SERVICES FINANCIERS
       if (prod.isFinance) {
         body.innerHTML = `
           <div class="calc-box">
@@ -855,27 +993,41 @@
         renderDeliveryFields(prod.req);
         document.getElementById('modal-total-price').innerText = `0 HTG`;
       } 
-      // CAS PACKS
+      // CAS PACKS GAMING & STREAMING
       else {
         const list = document.createElement('div');
         list.className = 'offers-list';
 
         prod.offers.forEach((offer, idx) => {
+          const isSelected = (!selectedOffer && idx === 0) || (selectedOffer && selectedOffer.id === offer.id);
           const item = document.createElement('div');
-          item.className = `offer-item ${idx === 0 ? 'selected' : ''}`;
+          item.className = `offer-item ${isSelected ? 'selected' : ''}`;
           item.onclick = () => selectOfferItem(item, offer);
           item.innerHTML = `
             <span class="offer-item-title">${offer.name}</span>
             <span class="offer-item-price">${offer.price > 0 ? offer.price + ' HTG' : 'Bientôt'}</span>
           `;
           list.appendChild(item);
+          if (isSelected) {
+            selectedOffer = offer;
+            selectedPrice = offer.price;
+          }
         });
 
         body.appendChild(list);
-        selectOfferItem(list.firstChild, prod.offers[0]);
+        if (selectedOffer) {
+          document.getElementById('modal-total-price').innerText = `${selectedPrice} HTG`;
+          let reqType = selectedProduct.req;
+          if (selectedProduct.id === "freefire") {
+            reqType = selectedOffer.isPin ? "pin_none" : selectedOffer.req;
+          }
+          renderDeliveryFields(reqType);
+        }
       }
 
-      document.getElementById('sheet-backdrop').classList.add('active');
+      if (!isSilentRefresh) {
+        document.getElementById('sheet-backdrop').classList.add('active');
+      }
     }
 
     function selectOfferItem(el, offer) {
@@ -885,7 +1037,6 @@
       selectedPrice = offer.price;
       document.getElementById('modal-total-price').innerText = `${selectedPrice} HTG`;
 
-      // Détermine les champs de livraison requis
       let reqType = selectedProduct.req;
       if (selectedProduct.id === "freefire") {
         reqType = offer.isPin ? "pin_none" : offer.req;
@@ -954,15 +1105,20 @@
       const totalUSD = usd + feesUSD;
       selectedPrice = Math.round(totalUSD * selectedProduct.rate);
       document.getElementById('modal-total-price').innerText = `${selectedPrice} HTG`;
-      selectedOffer = { name: `Recharge $${usd} USD (Total: $${totalUSD})`, price: selectedPrice, usdAmount: usd };
+      selectedOffer = { id: selectedProduct.id, name: `Recharge $${usd} USD (Total: $${totalUSD})`, price: selectedPrice, usdAmount: usd };
     }
 
     function closeOffersModal() {
       document.getElementById('sheet-backdrop').classList.remove('active');
     }
 
-    /* AJOUT AU PANIER AVEC VÉRIFICATION DES INFORMATIONS */
+    /* AJOUT AU PANIER AVEC BLOCAGE SI MAINTENANCE ACTIVE */
     function addToCart() {
+      if (!isSiteOpen) {
+        showToast("La plateforme est temporairement fermée pour maintenance.", true);
+        return;
+      }
+
       if (!currentUser) {
         showToast(I18N[currentLang].authRequired, true);
         setTimeout(() => window.location.href = "authentification/login.html", 1000);
@@ -975,7 +1131,6 @@
         return;
       }
 
-      // Collecte et vérification des champs de livraison
       let deliveryData = {};
       const elEmail = document.getElementById('deliv-email');
       const elPass = document.getElementById('deliv-pass');
@@ -993,7 +1148,6 @@
       if (elTag) deliveryData.meruTag = elTag.value.trim();
       if (elAddr) deliveryData.walletAddress = elAddr.value.trim();
 
-      // Vérification obligatoire
       for (const [key, value] of Object.entries(deliveryData)) {
         if (!value) {
           showToast(I18N[currentLang].missingDelivery, true);
@@ -1102,6 +1256,11 @@
       renderMainCatalog();
       updateCartIndicator();
       updateSidebarAuthUI();
+      
+      // Branchement temps réel
+      listenToRealtimePrices();
+      listenToSiteStatus();
+      listenToBroadcastNotifications();
     });
   </script>
 </body>
