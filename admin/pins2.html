@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Coffre PINs Free Fire — DigitalPay Admin</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+
+  <style>
+    /* ==================== FINTECH DESIGN SYSTEM ==================== */
+    :root {
+      --bg: #FFFFFF;
+      --surface: #FFFFFF;
+      --surface-subtle: #F8FAFC;
+      --border: #E2E8F0;
+      --border-light: #F1F5F9;
+
+      --text-black: #0F172A;
+      --text-muted: #475569;
+      --text-light: #94A3B8;
+
+      --royal-blue: #1D4ED8;
+      --royal-gradient: linear-gradient(135deg, #1D4ED8 0%, #2563EB 50%, #3B82F6 100%);
+      --royal-soft: rgba(29, 78, 216, 0.08);
+
+      --danger: #DC2626;
+      --danger-soft: rgba(220, 38, 38, 0.08);
+      --success: #10B981;
+      --success-soft: rgba(16, 185, 129, 0.08);
+      --warning: #F59E0B;
+      --warning-soft: rgba(245, 158, 11, 0.08);
+
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-square: 16px;
+      --radius-card: 16px;
+      --radius-full: 9999px;
+
+      --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.05);
+      --shadow-card: 0 4px 14px -2px rgba(15, 23, 42, 0.06);
+      --shadow-sheet: 0 -10px 35px rgba(15, 23, 42, 0.12);
+      --font: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+    body { background-color: var(--bg); color: var(--text-black); font-family: var(--font); font-size: 14px; line-height: 1.5; overflow-x: hidden; min-height: 100vh; }
+    .app-shell { width: 100%; max-width: 480px; margin: 0 auto; min-height: 100vh; background: var(--surface); position: relative; display: flex; flex-direction: column; border-left: 1px solid var(--border-light); border-right: 1px solid var(--border-light); }
+    .icon-svg { width: 16px; height: 16px; stroke: currentColor; stroke-width: 2; fill: none; display: inline-block; vertical-align: middle; }
+
+    /* ==================== HEADER ==================== */
+    .site-header { position: sticky; top: 0; z-index: 40; background: rgba(255, 255, 255, 0.98); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-bottom: 1px solid var(--border); padding: 10px 16px; }
+    .header-top { display: flex; align-items: center; justify-content: space-between; height: 44px; }
+    .brand-group { display: flex; align-items: center; gap: 8px; text-decoration: none; }
+    .brand-logo-only { height: 34px; width: auto; max-width: 120px; object-fit: contain; cursor: pointer; }
+    .admin-pill-tag { background: var(--text-black); color: #FFFFFF; font-size: 9px; font-weight: 800; padding: 3px 8px; border-radius: var(--radius-full); text-transform: uppercase; letter-spacing: 0.6px; }
+    .header-icons { display: flex; align-items: center; gap: 6px; }
+    .header-btn { width: 38px; height: 38px; border-radius: var(--radius-md); background: #FFFFFF; border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; color: var(--text-black); cursor: pointer; position: relative; text-decoration: none; transition: transform 0.15s ease; }
+    .header-btn:active { transform: scale(0.94); background: var(--surface-subtle); }
+    .header-btn svg { width: 18px; height: 18px; stroke: currentColor; stroke-width: 2; fill: none; }
+    .badge-dot { position: absolute; top: 8px; right: 8px; width: 6px; height: 6px; border-radius: 50%; background: var(--royal-blue); box-shadow: 0 0 0 2px #FFFFFF; display: none; }
+
+    /* ==================== BARRE ONGLETS ADMIN ==================== */
+    .admin-nav-bar { display: flex; gap: 6px; overflow-x: auto; padding-top: 10px; scrollbar-width: none; }
+    .admin-nav-bar::-webkit-scrollbar { display: none; }
+    .admin-pill { background: #FFFFFF; border: 1px solid var(--border); color: var(--text-muted); padding: 7px 14px; border-radius: var(--radius-full); font-size: 11px; font-weight: 700; white-space: nowrap; text-decoration: none; display: flex; align-items: center; gap: 6px; transition: all 0.15s ease; font-family: inherit; cursor: pointer; }
+    .admin-pill.active { background: var(--text-black); border-color: var(--text-black); color: #FFFFFF; }
+    .admin-pill.active .icon-svg { stroke: #FFFFFF; }
+
+    /* ==================== 2FA SCREEN ==================== */
+    .two-factor-screen { position: fixed; inset: 0; z-index: 200; background: #FFFFFF; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 24px; max-width: 480px; margin: 0 auto; }
+    .two-factor-box { width: 100%; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 16px; }
+    .two-factor-icon-shield { width: 60px; height: 60px; border-radius: 50%; background: var(--royal-soft); border: 1px solid rgba(29, 78, 216, 0.2); display: flex; align-items: center; justify-content: center; color: var(--royal-blue); }
+    .two-factor-title { font-size: 20px; font-weight: 900; color: var(--text-black); letter-spacing: -0.5px; }
+    .two-factor-desc { font-size: 13px; color: var(--text-muted); line-height: 1.5; max-width: 320px; }
+    .digits-input-container { display: flex; gap: 8px; justify-content: center; margin: 12px 0 6px; width: 100%; }
+    .digit-cell { width: 46px; height: 52px; background: var(--surface-subtle); border: 1.5px solid var(--border); border-radius: var(--radius-md); font-size: 22px; font-weight: 900; color: var(--text-black); text-align: center; outline: none; font-family: inherit; transition: all 0.15s ease; }
+    .digit-cell:focus { background: #FFFFFF; border-color: var(--royal-blue); box-shadow: 0 0 0 3px var(--royal-soft); }
+    .btn-verify-2fa { width: 100%; height: 48px; background: var(--royal-gradient); color: #FFFFFF; border: none; border-radius: var(--radius-md); font-size: 13px; font-weight: 800; cursor: pointer; box-shadow: 0 4px 14px rgba(29, 78, 216, 0.25); font-family: inherit; }
+    .btn-cancel-2fa { background: none; border: none; color: var(--danger); font-size: 12px; font-weight: 800; cursor: pointer; margin-top: 8px; font-family: inherit; }
+
+    /* ==================== CORPS ==================== */
+    .pins-main { padding: 16px; flex: 1; display: flex; flex-direction: column; gap: 16px; }
+
+    .pins-card { background: #FFFFFF; border: 1px solid var(--border); border-radius: var(--radius-card); padding: 16px; box-shadow: var(--shadow-sm); }
+    .pins-card-title { font-size: 14px; font-weight: 900; color: var(--text-black); margin-bottom: 4px; }
+    .pins-card-desc { font-size: 12px; color: var(--text-muted); margin-bottom: 12px; line-height: 1.4; }
+
+    .field-label-pro { font-size: 10px; font-weight: 800; text-transform: uppercase; color: var(--text-muted); display: block; margin-bottom: 4px; letter-spacing: 0.4px; }
+
+    .admin-select {
+      width: 100%;
+      height: 42px;
+      background: var(--surface-subtle);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 0 12px;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text-black);
+      outline: none;
+      font-family: inherit;
+      margin-bottom: 10px;
+    }
+    .admin-select:focus { background: #FFFFFF; border-color: var(--royal-blue); }
+
+    .admin-textarea {
+      width: 100%;
+      height: 100px;
+      background: var(--surface-subtle);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 10px 12px;
+      font-size: 12px;
+      font-family: monospace;
+      font-weight: 700;
+      color: var(--text-black);
+      outline: none;
+      resize: none;
+      margin-bottom: 12px;
+      line-height: 1.6;
+    }
+    .admin-textarea:focus { border-color: var(--royal-blue); background: #FFFFFF; }
+
+    .btn-submit-batch {
+      width: 100%;
+      height: 44px;
+      background: var(--royal-gradient);
+      color: #FFFFFF;
+      border: none;
+      border-radius: var(--radius-sm);
+      font-size: 13px;
+      font-weight: 800;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      box-shadow: 0 4px 12px rgba(29, 78, 216, 0.2);
+      font-family: inherit;
+      transition: transform 0.15s ease;
+    }
+    .btn-submit-batch:active { transform: scale(0.99); }
+    .btn-submit-batch:disabled { opacity: 0.6; cursor: not-allowed; }
+
+    /* ==================== MATRICE STOCK ==================== */
+    .pins-stock-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-top: 6px; }
+    .pin-stock-chip {
+      background: var(--surface-subtle);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 8px 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      transition: all 0.12s ease;
+      font-family: inherit;
+    }
+    .pin-stock-chip:active, .pin-stock-chip.active {
+      border-color: var(--royal-blue);
+      background: var(--royal-soft);
+    }
+    .pin-stock-chip.active { box-shadow: 0 0 0 1px var(--royal-blue); }
+    .pin-stock-title { font-size: 11px; font-weight: 800; color: var(--text-black); }
+    .pin-stock-badge { font-size: 10px; font-weight: 900; padding: 2px 6px; border-radius: var(--radius-full); }
+    .pin-stock-badge.ok { background: var(--success-soft); color: var(--success); }
+    .pin-stock-badge.empty { background: var(--danger-soft); color: var(--danger); }
+
+    /* ==================== FILTRES & RECHERCHE ==================== */
+    .explorer-filters-bar { display: flex; gap: 6px; margin-bottom: 10px; overflow-x: auto; scrollbar-width: none; }
+    .explorer-filters-bar::-webkit-scrollbar { display: none; }
+    .filter-btn-pill { background: var(--surface-subtle); border: 1px solid var(--border); border-radius: var(--radius-full); padding: 5px 12px; font-size: 11px; font-weight: 700; color: var(--text-muted); cursor: pointer; white-space: nowrap; font-family: inherit; transition: all 0.15s ease; }
+    .filter-btn-pill.active { background: var(--text-black); color: #FFFFFF; border-color: var(--text-black); }
+
+    .search-input-box { position: relative; margin-bottom: 12px; }
+    .search-input-box input { width: 100%; height: 40px; background: var(--surface-subtle); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 0 12px 0 36px; font-size: 12px; font-weight: 600; color: var(--text-black); outline: none; font-family: inherit; }
+    .search-input-box input:focus { background: #FFFFFF; border-color: var(--royal-blue); }
+    .search-input-box svg { position: absolute; left: 12px; top: 12px; stroke: var(--text-light); pointer-events: none; }
+
+    /* ==================== LISTE DES PINS ==================== */
+    .pins-list-container { display: flex; flex-direction: column; gap: 8px; max-height: 520px; overflow-y: auto; }
+    .pins-list-container::-webkit-scrollbar { width: 4px; }
+    .pins-list-container::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+
+    .pin-item-row {
+      background: #FFFFFF;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 10px 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      box-shadow: var(--shadow-sm);
+      transition: border-color 0.15s ease;
+    }
+    .pin-item-row:hover { border-color: var(--royal-blue); }
+
+    .pin-code-info { flex: 1; overflow: hidden; min-width: 0; }
+    .pin-code-text { font-family: monospace; font-size: 13px; font-weight: 900; color: var(--royal-blue); letter-spacing: 0.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .pin-meta-text { font-size: 10px; color: var(--text-muted); margin-top: 3px; line-height: 1.4; }
+
+    .pin-actions-group { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
+    .btn-pin-action {
+      height: 32px;
+      padding: 0 10px;
+      border-radius: var(--radius-sm);
+      font-size: 11px;
+      font-weight: 800;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-family: inherit;
+      transition: all 0.15s ease;
+    }
+    .btn-copy { background: var(--royal-soft); color: var(--royal-blue); }
+    .btn-copy:active { background: var(--royal-blue); color: #FFFFFF; }
+    .btn-delete { background: var(--danger-soft); color: var(--danger); width: 32px; height: 32px; padding: 0; justify-content: center; }
+    .btn-delete:active { background: var(--danger); color: #FFFFFF; }
+
+    /* ==================== FOOTER ==================== */
+    .site-footer { background: #FFFFFF; border-top: 1px solid var(--border); padding: 18px 16px; margin-top: auto; }
+    .footer-minimal-row { display: flex; justify-content: space-between; align-items: center; font-size: 11px; font-weight: 700; color: var(--text-muted); }
+    .footer-status-pill { display: flex; align-items: center; gap: 6px; font-size: 10px; color: var(--royal-blue); text-transform: uppercase; letter-spacing: 0.5px; }
+    .footer-status-indicator { width: 6px; height: 6px; border-radius: 50%; background: var(--royal-blue); }
+
+    /* ==================== MODALE CONFIRMATION ==================== */
+    .sheet-backdrop { position: fixed; inset: 0; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(4px); z-index: 120; opacity: 0; visibility: hidden; transition: all 0.2s ease; display: flex; align-items: flex-end; justify-content: center; }
+    .sheet-backdrop.active { opacity: 1; visibility: visible; }
+    .sheet-modal { width: 100%; max-width: 480px; background: #FFFFFF; border-radius: var(--radius-card) var(--radius-card) 0 0; padding: 20px; box-shadow: var(--shadow-sheet); display: flex; flex-direction: column; gap: 14px; transform: translateY(100%); transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1); max-height: 90vh; overflow-y: auto; }
+    .sheet-backdrop.active .sheet-modal { transform: translateY(0); }
+    .modal-head { display: flex; align-items: center; justify-content: space-between; }
+    .modal-title { font-size: 15px; font-weight: 900; color: var(--text-black); }
+    .modal-close-btn { width: 30px; height: 30px; border-radius: 50%; border: none; background: var(--surface-subtle); color: var(--text-muted); cursor: pointer; font-weight: 800; font-family: inherit; }
+    .modal-desc { font-size: 13px; color: var(--text-muted); line-height: 1.5; }
+    .modal-actions { display: flex; gap: 8px; }
+    .btn-modal-action { flex: 1; height: 42px; border-radius: var(--radius-sm); border: none; font-size: 12px; font-weight: 800; cursor: pointer; font-family: inherit; }
+    .btn-modal-cancel { background: var(--surface-subtle); color: var(--text-muted); }
+    .btn-modal-danger { background: var(--danger); color: #FFFFFF; }
+
+    /* ==================== SIDEBAR ==================== */
+    .sidebar-overlay { position: fixed; inset: 0; background: rgba(15, 23, 42, 0.45); backdrop-filter: blur(4px); z-index: 100; opacity: 0; visibility: hidden; transition: all 0.25s ease; }
+    .sidebar-overlay.active { opacity: 1; visibility: visible; }
+    .sidebar-drawer { position: fixed; top: 0; right: 0; width: min(82vw, 340px); height: 100vh; background: #FFFFFF; z-index: 101; transform: translateX(100%); transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1); display: flex; flex-direction: column; box-shadow: -10px 0 30px rgba(0, 0, 0, 0.08); }
+    .sidebar-overlay.active .sidebar-drawer { transform: translateX(0); }
+    .sidebar-content { padding: 24px 20px; display: flex; flex-direction: column; height: 100%; overflow-y: auto; }
+    .sidebar-header-pro { display: flex; align-items: center; justify-content: space-between; padding-bottom: 16px; border-bottom: 1px solid var(--border); }
+    .sidebar-brand-box { display: flex; align-items: center; gap: 12px; }
+    .logo-container-square { width: 44px; height: 44px; border-radius: var(--radius-square); background: var(--surface-subtle); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; overflow: hidden; }
+    .logo-container-square img { width: 100%; height: 100%; object-fit: contain; }
+    .sidebar-brand-title { font-size: 16px; font-weight: 900; color: #000000; letter-spacing: -0.4px; }
+    .sidebar-brand-sub { font-size: 12px; font-weight: 700; color: #000000; letter-spacing: 0.5px; }
+    .sidebar-close-btn { width: 32px; height: 32px; border-radius: 50%; background: var(--surface-subtle); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; color: var(--text-muted); cursor: pointer; font-weight: 800; font-family: inherit; }
+    .sidebar-section-title { font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.8px; color: var(--text-light); margin: 16px 0 8px; }
+    .lang-switcher-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px; }
+    .lang-option { background: var(--surface-subtle); border: 1px solid var(--border); padding: 7px 10px; border-radius: var(--radius-sm); display: flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 600; color: var(--text-black); cursor: pointer; font-family: inherit; }
+    .lang-option.active { border-color: var(--royal-blue); background: var(--royal-soft); color: var(--royal-blue); font-weight: 800; }
+    .sidebar-menu-nav { margin-top: 10px; display: flex; flex-direction: column; gap: 3px; }
+    .menu-link { display: flex; align-items: center; gap: 12px; padding: 10px 12px; border-radius: var(--radius-md); color: var(--text-black); text-decoration: none; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.15s ease; font-family: inherit; background: none; border: none; text-align: left; width: 100%; }
+    .menu-link:hover, .menu-link.active { background: var(--surface-subtle); color: var(--royal-blue); }
+    .menu-link svg { width: 18px !important; height: 18px !important; min-width: 18px !important; max-width: 18px !important; stroke: currentColor !important; stroke-width: 2 !important; fill: none !important; flex-shrink: 0; display: inline-block; }
+    .sidebar-auth-zone { margin-top: auto; padding-top: 16px; border-top: 1px solid var(--border); }
+    .btn-auth-logout { display: flex; align-items: center; justify-content: center; width: 100%; height: 40px; border-radius: var(--radius-md); font-size: 13px; font-weight: 700; background: var(--danger-soft); color: var(--danger); border: 1px solid rgba(220, 38, 38, 0.2); cursor: pointer; font-family: inherit; }
+
+    /* ==================== TOAST ==================== */
+    #toast-container { position: fixed; top: 16px; left: 50%; transform: translateX(-50%); z-index: 300; width: calc(100% - 32px); max-width: 380px; pointer-events: none; }
+    .toast-pro { background: #0F172A; color: #FFFFFF; padding: 12px 16px; border-radius: var(--radius-md); font-size: 12px; font-weight: 700; display: flex; align-items: center; gap: 10px; box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2); transform: translateY(-20px); opacity: 0; transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1); }
+    .toast-pro.toast-danger { background: #991B1B; border-left: 4px solid #EF4444; }
+    .toast-pro.show { transform: translateY(0); opacity: 1; }
+  </style>
+</head>
+<body>
+
+  <div id="toast-container"></div>
+
+  <!-- ==================== ÉCRAN 2FA ==================== -->
+  <div class="two-factor-screen" id="two-factor-screen">
+    <div class="two-factor-box">
+      <div class="two-factor-icon-shield">
+        <svg class="icon-svg" viewBox="0 0 24 24" style="width:28px; height:28px; stroke:var(--royal-blue);"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      </div>
+      <h2 class="two-factor-title">Double Authentification</h2>
+      <p class="two-factor-desc">
+        Accès réservé exclusivement à <strong style="color:var(--text-black);">mmasked36@gmail.com</strong>.<br>
+        Entrez le code d'administration à 6 chiffres.
+      </p>
+
+      <div class="digits-input-container">
+        <input type="tel" class="digit-cell" maxlength="1" id="digit-1" inputmode="numeric" oninput="handleDigitInput(this, 'digit-2')" onkeydown="handleDigitBackspace(event, this, null)">
+        <input type="tel" class="digit-cell" maxlength="1" id="digit-2" inputmode="numeric" oninput="handleDigitInput(this, 'digit-3')" onkeydown="handleDigitBackspace(event, this, 'digit-1')">
+        <input type="tel" class="digit-cell" maxlength="1" id="digit-3" inputmode="numeric" oninput="handleDigitInput(this, 'digit-4')" onkeydown="handleDigitBackspace(event, this, 'digit-2')">
+        <input type="tel" class="digit-cell" maxlength="1" id="digit-4" inputmode="numeric" oninput="handleDigitInput(this, 'digit-5')" onkeydown="handleDigitBackspace(event, this, 'digit-3')">
+        <input type="tel" class="digit-cell" maxlength="1" id="digit-5" inputmode="numeric" oninput="handleDigitInput(this, 'digit-6')" onkeydown="handleDigitBackspace(event, this, 'digit-4')">
+        <input type="tel" class="digit-cell" maxlength="1" id="digit-6" inputmode="numeric" oninput="handleDigitInput(this, null)" onkeydown="handleDigitBackspace(event, this, 'digit-5')">
+      </div>
+
+      <button class="btn-verify-2fa" onclick="verifyTwoFactorCode()">
+        Déverrouiller le Coffre PINs
+      </button>
+
+      <button class="btn-cancel-2fa" onclick="performAdminSignOut()">
+        Annuler et quitter
+      </button>
+    </div>
+  </div>
+
+  <!-- ==================== SHELL ADMIN ==================== -->
+  <div class="app-shell" id="admin-secured-shell" style="display: none;">
+
+    <header class="site-header">
+      <div class="header-top">
+        <a href="index.html" class="brand-group">
+          <img src="../logo.png" alt="DigitalPay Logo" class="brand-logo-only" onerror="this.src='../assets/logo.png'; this.onerror=null;">
+          <span class="admin-pill-tag">Console</span>
+        </a>
+
+        <div class="header-icons">
+          <a href="../index.html" class="header-btn" title="Boutique publique">
+            <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><path d="M9 22V12h6v10"/></svg>
+          </a>
+
+          <button class="header-btn" onclick="openSidebar()" aria-label="Menu Admin">
+            <svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16" stroke-linecap="round"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="admin-nav-bar">
+        <a href="index.html" class="admin-pill">
+          <svg class="icon-svg" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><path d="M9 22V12h6v10"/></svg>
+          <span>Tableau de bord</span>
+        </a>
+        <a href="pins.html" class="admin-pill active">
+          <svg class="icon-svg" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+          <span>Coffre PINs</span>
+        </a>
+      </div>
+    </header>
+
+    <main class="pins-main">
+
+      <!-- SECTION 1 : AJOUTER DES PINS -->
+      <div class="pins-card">
+        <div class="pins-card-title">Ajouter de Nouveaux PINs Free Fire</div>
+        <div class="pins-card-desc">Sélectionnez le pack cible et collez les codes PINs Hype Games (un par ligne). L'injection est sécurisée et atomique.</div>
+
+        <label class="field-label-pro">Pack de Diamants :</label>
+        <select id="select-target-pack" class="admin-select">
+          <option value="ff_110">110 + 10 Diamants (157 HTG)</option>
+          <option value="ff_310">310 + 31 Diamants (471 HTG)</option>
+          <option value="ff_520">520 + 52 Diamants (775 HTG)</option>
+          <option value="ff_1060">1,060 + 106 Diamants (1,550 HTG)</option>
+          <option value="ff_2180">2,180 + 218 Diamants (3,100 HTG)</option>
+          <option value="ff_5600">5,600 + 560 Diamants (7,750 HTG)</option>
+        </select>
+
+        <label class="field-label-pro">Codes PINs (Un par ligne) :</label>
+        <textarea id="textarea-pins-input" class="admin-textarea" placeholder="HYPE-1037-QUAM-1936&#10;HYPE-8392-4410-9281&#10;HYPE-2810-SHWI-2619"></textarea>
+
+        <button class="btn-submit-batch" id="btn-save-pins" onclick="uploadPinsBatch()">
+          <svg class="icon-svg" viewBox="0 0 24 24" style="stroke:#FFFFFF;"><path d="M12 4v16m8-8H4" stroke-linecap="round"/></svg>
+          <span>Injecter dans le Stock</span>
+        </button>
+      </div>
+
+      <!-- SECTION 2 : ÉTAT DES STOCKS -->
+      <div class="pins-card">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+          <div class="pins-card-title" style="margin:0;">État des Stocks Disponibles</div>
+          <span id="total-available-badge" style="font-size:11px; font-weight:800; color:var(--royal-blue); background:var(--royal-soft); padding:3px 9px; border-radius:var(--radius-full);">0 dispo</span>
+        </div>
+        <div class="pins-stock-grid" id="pins-stock-matrix"></div>
+      </div>
+
+      <!-- SECTION 3 : EXPLORATEUR DE PINS -->
+      <div class="pins-card">
+        <div class="pins-card-title" style="margin-bottom:10px;">Gestion des Codes Enregistrés</div>
+
+        <div class="explorer-filters-bar">
+          <button class="filter-btn-pill active" data-status="all" onclick="setPinStatusFilter('all', this)">Tous</button>
+          <button class="filter-btn-pill" data-status="disponible" onclick="setPinStatusFilter('disponible', this)">Disponibles</button>
+          <button class="filter-btn-pill" data-status="vendu" onclick="setPinStatusFilter('vendu', this)">Vendus</button>
+        </div>
+
+        <div class="search-input-box">
+          <svg class="icon-svg" viewBox="0 0 24 24"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke-linecap="round"/></svg>
+          <input type="text" id="pin-search-input" placeholder="Rechercher par code PIN ou ID commande..." oninput="filterPinsList(this.value)">
+        </div>
+
+        <div class="pins-list-container" id="pins-list-target">
+          <div style="text-align:center; padding:20px; color:var(--text-muted); font-size:12px;">Chargement des PINs...</div>
+        </div>
+      </div>
+
+    </main>
+
+    <footer class="site-footer">
+      <div class="footer-minimal-row">
+        <span>© 2026 DigitalPay S.A.</span>
+        <div class="footer-status-pill">
+          <span class="footer-status-indicator"></span>
+          <span>Session 2FA Active</span>
+        </div>
+      </div>
+    </footer>
+
+    <!-- ==================== SIDEBAR ADMIN ==================== -->
+    <div class="sidebar-overlay" id="sidebar-overlay" onclick="closeSidebar()">
+      <aside class="sidebar-drawer" onclick="event.stopPropagation()">
+        <div class="sidebar-content">
+          
+          <div class="sidebar-header-pro">
+            <div class="sidebar-brand-box">
+              <div class="logo-container-square">
+                <img src="../logo.png" alt="DigitalPay Logo" onerror="this.src='../assets/logo.png'; this.onerror=null;">
+              </div>
+              <div>
+                <div class="sidebar-brand-title">DigitalPay</div>
+                <div class="sidebar-brand-sub">Haiti</div>
+              </div>
+            </div>
+            <button class="sidebar-close-btn" onclick="closeSidebar()">✕</button>
+          </div>
+
+          <div class="sidebar-section-title">Langue / Lang</div>
+          <div class="lang-switcher-grid">
+            <button class="lang-option active" onclick="setLang('fr', this)"><span>🇫🇷</span> Français</button>
+            <button class="lang-option" onclick="setLang('ht', this)"><span>🇭🇹</span> Kreyòl</button>
+            <button class="lang-option" onclick="setLang('en', this)"><span>🇺🇸</span> English</button>
+            <button class="lang-option" onclick="setLang('es', this)"><span>🇪🇸</span> Español</button>
+          </div>
+
+          <div class="sidebar-section-title">Navigation Admin</div>
+          <nav class="sidebar-menu-nav">
+            <a href="index.html" class="menu-link">
+              <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><path d="M9 22V12h6v10"/></svg>
+              <span>Tableau de bord</span>
+            </a>
+            <a href="pins.html" class="menu-link active">
+              <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+              <span>Coffre PINs Free Fire</span>
+            </a>
+            <a href="../index.html" class="menu-link">
+              <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><path d="M9 22V12h6v10"/></svg>
+              <span>Retour Boutique</span>
+            </a>
+          </nav>
+
+          <div class="sidebar-auth-zone">
+            <div style="font-size:12px; font-weight:800; color:var(--text-black);">Direction Générale</div>
+            <div style="font-size:11px; color:var(--text-muted); margin-bottom:10px; font-family:monospace; word-break:break-all;">mmasked36@gmail.com</div>
+            <button class="btn-auth-logout" onclick="performAdminSignOut()">Déconnexion Direction</button>
+          </div>
+
+        </div>
+      </aside>
+    </div>
+
+    <!-- ==================== MODALE SUPPRESSION ==================== -->
+    <div class="sheet-backdrop" id="delete-modal-backdrop">
+      <div class="sheet-modal">
+        <div class="modal-head">
+          <div class="modal-title">Suppression de PIN</div>
+          <button class="modal-close-btn" onclick="closeDeleteModal()">✕</button>
+        </div>
+        <div class="modal-desc" id="delete-modal-text">
+          Confirmez-vous la suppression définitive de ce code PIN ?
+        </div>
+        <div class="modal-actions">
+          <button class="btn-modal-action btn-modal-cancel" onclick="closeDeleteModal()">Annuler</button>
+          <button class="btn-modal-action btn-modal-danger" id="confirm-delete-btn">Supprimer Définitivement</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ==================== SCRIPT ==================== -->
+  <script>
+    /* ========== FIREBASE ========== */
+    const firebaseConfig = {
+      apiKey: "AIzaSyDOSMtCknVXQs3XL1piE047Ussc6KeCDmY",
+      authDomain: "digitalpayht-officiel.firebaseapp.com",
+      projectId: "digitalpayht-officiel",
+      storageBucket: "digitalpayht-officiel.firebasestorage.app",
+      messagingSenderId: "492314684302",
+      appId: "1:492314684302:web:dc36ab9445877df2dcd2df"
+    };
+
+    if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+
+    const STRICT_ADMIN_EMAIL = "mmasked36@gmail.com";
+
+    function universalHash(str) {
+      let hash1 = 5381, hash2 = 52711;
+      for (let i = 0; i < str.length; i++) {
+        const char = str.charCodeAt(i);
+        hash1 = (hash1 * 33) ^ char;
+        hash2 = (hash2 * 33) ^ char;
+      }
+      return (Math.abs(hash1 >>> 0).toString(16) + Math.abs(hash2 >>> 0).toString(16));
+    }
+
+    const SALT = "DIGITALPAY_SECURE_SALT_2026_";
+    const TARGET_HASH = universalHash(SALT + "363636");
+
+    const PACKS_MAP = {
+      ff_110: "110 + 10",
+      ff_310: "310 + 31",
+      ff_520: "520 + 52",
+      ff_1060: "1,060 + 106",
+      ff_2180: "2,180 + 218",
+      ff_5600: "5,600 + 560"
+    };
+
+    let allPins = [];
+    let currentStatusFilter = 'all';
+    let currentPackFilter = 'all';
+    let currentSearchQuery = '';
+    let pinIdToDelete = null;
+
+    /* ========== TOAST ========== */
+    function showAdminToast(text, isDanger = false) {
+      const container = document.getElementById('toast-container');
+      container.innerHTML = '';
+      const toast = document.createElement('div');
+      toast.className = `toast-pro ${isDanger ? 'toast-danger' : ''}`;
+      toast.innerHTML = `
+        <svg class="icon-svg" viewBox="0 0 24 24" style="stroke:${isDanger ? '#FCA5A5' : '#10B981'};">
+          ${isDanger 
+            ? '<circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>' 
+            : '<path d="M20 6L9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/>'}
+        </svg>
+        <span>${text}</span>
+      `;
+      container.appendChild(toast);
+      requestAnimationFrame(() => toast.classList.add('show'));
+      setTimeout(() => {
+        toast.classList.remove('show');
+        setTimeout(() => toast.remove(), 250);
+      }, 2400);
+    }
+
+    /* ========== 2FA ========== */
+    function handleDigitInput(el, nextId) {
+      if (el.value.length >= 1) {
+        el.value = el.value.replace(/\D/g, '').slice(-1);
+        if (nextId) document.getElementById(nextId).focus();
+      }
+    }
+
+    function handleDigitBackspace(event, el, prevId) {
+      if (event.key === 'Backspace' && !el.value && prevId) {
+        document.getElementById(prevId).focus();
+      }
+    }
+
+    function verifyTwoFactorCode() {
+      const enteredCode = [1,2,3,4,5,6].map(i => document.getElementById(`digit-${i}`).value.trim()).join('');
+      if (enteredCode.length < 6) {
+        showAdminToast("Veuillez saisir les 6 chiffres.", true);
+        return;
+      }
+
+      if (universalHash(SALT + enteredCode) === TARGET_HASH) {
+        sessionStorage.setItem('dp_admin_session_auth', 'AUTHENTICATED_MASTER');
+        showAdminToast("Coffre PINs déverrouillé !");
+        unlockVaultUI();
+      } else {
+        showAdminToast("Code PIN incorrect.", true);
+        [1,2,3,4,5,6].forEach(i => document.getElementById(`digit-${i}`).value = '');
+        document.getElementById('digit-1').focus();
+      }
+    }
+
+    function unlockVaultUI() {
+      document.getElementById('two-factor-screen').style.display = 'none';
+      document.getElementById('admin-secured-shell').style.display = 'flex';
+      listenToPinsCollection();
+    }
+
+    /* ========== AJOUT DE PINS EN MASSE ========== */
+    async function uploadPinsBatch() {
+      const packId = document.getElementById('select-target-pack').value;
+      const rawText = document.getElementById('textarea-pins-input').value.trim();
+      const btn = document.getElementById('btn-save-pins');
+
+      if (!rawText) {
+        showAdminToast("Veuillez entrer au moins un code PIN.", true);
+        return;
+      }
+
+      const lines = rawText.split('\n').map(l => l.trim()).filter(l => l.length > 3);
+      if (lines.length === 0) {
+        showAdminToast("Aucun code valide trouvé.", true);
+        return;
+      }
+
+      btn.disabled = true;
+      btn.innerHTML = `<span>Enregistrement de ${lines.length} PIN(s)...</span>`;
+
+      try {
+        const batch = db.batch();
+        lines.forEach(pin => {
+          const docRef = db.collection('freefire_pins').doc();
+          batch.set(docRef, {
+            packId: packId,
+            pinCode: pin,
+            status: "disponible",
+            createdAt: firebase.firestore.FieldValue.serverTimestamp()
+          });
+        });
+
+        await batch.commit();
+        document.getElementById('textarea-pins-input').value = "";
+        btn.disabled = false;
+        btn.innerHTML = `<svg class="icon-svg" viewBox="0 0 24 24" style="stroke:#FFFFFF;"><path d="M12 4v16m8-8H4" stroke-linecap="round"/></svg><span>Injecter dans le Stock</span>`;
+        showAdminToast(`${lines.length} code(s) PIN ajouté(s) avec succès !`);
+      } catch (err) {
+        btn.disabled = false;
+        btn.innerHTML = `<svg class="icon-svg" viewBox="0 0 24 24" style="stroke:#FFFFFF;"><path d="M12 4v16m8-8H4" stroke-linecap="round"/></svg><span>Injecter dans le Stock</span>`;
+        showAdminToast("Erreur d'ajout : " + err.message, true);
+      }
+    }
+
+    /* ========== ÉCOUTE FIRESTORE ========== */
+    function listenToPinsCollection() {
+      db.collection('freefire_pins').onSnapshot(snapshot => {
+        allPins = [];
+        let counts = { ff_110: 0, ff_310: 0, ff_520: 0, ff_1060: 0, ff_2180: 0, ff_5600: 0 };
+        let totalAvailable = 0;
+
+        snapshot.forEach(doc => {
+          const data = doc.data();
+          allPins.push({ id: doc.id, ...data });
+          if (data.status === 'disponible') {
+            if (counts[data.packId] !== undefined) counts[data.packId]++;
+            totalAvailable++;
+          }
+        });
+
+        allPins.sort((a, b) => {
+          const ta = a.createdAt ? (a.createdAt.seconds ? a.createdAt.seconds * 1000 : 0) : 0;
+          const tb = b.createdAt ? (b.createdAt.seconds ? b.createdAt.seconds * 1000 : 0) : 0;
+          return tb - ta;
+        });
+
+        document.getElementById('total-available-badge').innerText = `${totalAvailable} dispo`;
+        renderStockMatrix(counts);
+        renderPinsList();
+      }, err => {
+        showAdminToast("Erreur de chargement : " + err.message, true);
+      });
+    }
+
+    /* ========== MATRICE DE STOCK ========== */
+    function renderStockMatrix(counts) {
+      const target = document.getElementById('pins-stock-matrix');
+      target.innerHTML = '';
+
+      Object.keys(PACKS_MAP).forEach(packKey => {
+        const count = counts[packKey] || 0;
+        const chip = document.createElement('button');
+        chip.type = 'button';
+        chip.className = `pin-stock-chip ${currentPackFilter === packKey ? 'active' : ''}`;
+        chip.onclick = () => togglePackFilter(packKey);
+        chip.innerHTML = `
+          <span class="pin-stock-title">${PACKS_MAP[packKey]}</span>
+          <span class="pin-stock-badge ${count > 0 ? 'ok' : 'empty'}">${count}</span>
+        `;
+        target.appendChild(chip);
+      });
+    }
+
+    function togglePackFilter(packKey) {
+      currentPackFilter = (currentPackFilter === packKey) ? 'all' : packKey;
+      renderStockMatrixFromState();
+      renderPinsList();
+    }
+
+    function renderStockMatrixFromState() {
+      let counts = { ff_110: 0, ff_310: 0, ff_520: 0, ff_1060: 0, ff_2180: 0, ff_5600: 0 };
+      allPins.forEach(p => {
+        if (p.status === 'disponible' && counts[p.packId] !== undefined) counts[p.packId]++;
+      });
+      renderStockMatrix(counts);
+    }
+
+    /* ========== FILTRES ========== */
+    function setPinStatusFilter(status, btn) {
+      currentStatusFilter = status;
+      document.querySelectorAll('.filter-btn-pill').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderPinsList();
+    }
+
+    function filterPinsList(query) {
+      currentSearchQuery = query.toLowerCase().trim();
+      renderPinsList();
+    }
+
+    /* ========== RENDU DE LA LISTE DES PINS ========== */
+    function renderPinsList() {
+      const target = document.getElementById('pins-list-target');
+      let filtered = [...allPins];
+
+      if (currentStatusFilter !== 'all') {
+        filtered = filtered.filter(p => p.status === currentStatusFilter);
+      }
+      if (currentPackFilter !== 'all') {
+        filtered = filtered.filter(p => p.packId === currentPackFilter);
+      }
+      if (currentSearchQuery) {
+        filtered = filtered.filter(p => 
+          (p.pinCode && p.pinCode.toLowerCase().includes(currentSearchQuery)) ||
+          (p.orderId && p.orderId.toLowerCase().includes(currentSearchQuery))
+        );
+      }
+
+      if (filtered.length === 0) {
+        target.innerHTML = `<div style="text-align:center; padding:20px; color:var(--text-muted); font-size:12px;">Aucun code PIN ne correspond aux filtres.</div>`;
+        return;
+      }
+
+      target.innerHTML = '';
+      filtered.forEach(pin => {
+        const packLabel = PACKS_MAP[pin.packId] || pin.packId;
+        const isSold = (pin.status === 'vendu');
+
+        const row = document.createElement('div');
+        row.className = 'pin-item-row';
+
+        const codeInfo = document.createElement('div');
+        codeInfo.className = 'pin-code-info';
+        codeInfo.innerHTML = `
+          <div class="pin-code-text">${pin.pinCode}</div>
+          <div class="pin-meta-text">
+            Pack <strong>${packLabel}</strong> • 
+            <span style="font-weight:800; color:${isSold ? 'var(--danger)' : 'var(--success)'};">
+              ${isSold ? 'VENDU' : 'DISPONIBLE'}
+            </span>
+            ${pin.orderId ? ` • Réf: <code>${pin.orderId}</code>` : ''}
+          </div>
+        `;
+
+        const actions = document.createElement('div');
+        actions.className = 'pin-actions-group';
+
+        const copyBtn = document.createElement('button');
+        copyBtn.className = 'btn-pin-action btn-copy';
+        copyBtn.title = "Copier le code";
+        copyBtn.innerHTML = `
+          <svg class="icon-svg" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+          <span>Copier</span>
+        `;
+        copyBtn.onclick = () => copyPin(pin.pinCode);
+
+        const deleteBtn = document.createElement('button');
+        deleteBtn.className = 'btn-pin-action btn-delete';
+        deleteBtn.title = "Supprimer définitivement";
+        deleteBtn.innerHTML = `
+          <svg class="icon-svg" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/></svg>
+        `;
+        deleteBtn.onclick = () => promptDeletePin(pin.id, pin.pinCode);
+
+        actions.appendChild(copyBtn);
+        actions.appendChild(deleteBtn);
+        row.appendChild(codeInfo);
+        row.appendChild(actions);
+        target.appendChild(row);
+      });
+    }
+
+    /* ========== COPIER UN PIN ========== */
+    function copyPin(code) {
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(code).then(() => {
+          showAdminToast("Code PIN copié !");
+        }).catch(() => {
+          fallbackCopy(code);
+        });
+      } else {
+        fallbackCopy(code);
+      }
+    }
+
+    function fallbackCopy(text) {
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      try {
+        document.execCommand('copy');
+        showAdminToast("Code PIN copié !");
+      } catch (e) {
+        showAdminToast("Copie impossible.", true);
+      }
+      document.body.removeChild(ta);
+    }
+
+    /* ========== SUPPRIMER UN PIN ========== */
+    function promptDeletePin(pinId, code) {
+      pinIdToDelete = pinId;
+      document.getElementById('delete-modal-text').innerText = 
+        `Confirmez-vous la suppression définitive du code "${code}" ? Cette action est irréversible.`;
+      document.getElementById('delete-modal-backdrop').classList.add('active');
+    }
+
+    function closeDeleteModal() {
+      document.getElementById('delete-modal-backdrop').classList.remove('active');
+      pinIdToDelete = null;
+    }
+
+    document.getElementById('confirm-delete-btn').addEventListener('click', async () => {
+      if (!pinIdToDelete) return;
+      const btn = document.getElementById('confirm-delete-btn');
+      btn.disabled = true;
+      btn.innerText = "Suppression...";
+
+      try {
+        await db.collection('freefire_pins').doc(pinIdToDelete).delete();
+        btn.disabled = false;
+        btn.innerText = "Supprimer Définitivement";
+        closeDeleteModal();
+        showAdminToast("Code PIN supprimé avec succès.");
+      } catch (err) {
+        btn.disabled = false;
+        btn.innerText = "Supprimer Définitivement";
+        showAdminToast("Erreur : " + err.message, true);
+      }
+    });
+
+    /* ========== NAVIGATION SIDEBAR ========== */
+    function openSidebar() { document.getElementById('sidebar-overlay').classList.add('active'); }
+    function closeSidebar() { document.getElementById('sidebar-overlay').classList.remove('active'); }
+
+    function setLang(code, btn) {
+      document.querySelectorAll('.lang-option').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const names = { fr: "Français", ht: "Kreyòl Ayisyen", en: "English", es: "Español" };
+      showAdminToast(`Langue : ${names[code] || code}`);
+    }
+
+    function performAdminSignOut() {
+      sessionStorage.removeItem('dp_admin_session_auth');
+      auth.signOut().then(() => window.location.href = "../index.html");
+    }
+
+    /* ========== SURVEILLANCE AUTHENTIFICATION ========== */
+    auth.onAuthStateChanged(user => {
+      if (!user) {
+        window.location.href = "../authentification/login.html";
+        return;
+      }
+
+      if (user.email.toLowerCase() !== STRICT_ADMIN_EMAIL.toLowerCase()) {
+        showAdminToast("Accès strictement refusé.", true);
+        auth.signOut().then(() => {
+          setTimeout(() => window.location.href = "../index.html", 1200);
+        });
+        return;
+      }
+
+      if (sessionStorage.getItem('dp_admin_session_auth') === 'AUTHENTICATED_MASTER') {
+        unlockVaultUI();
+      } else {
+        document.getElementById('two-factor-screen').style.display = 'flex';
+        document.getElementById('admin-secured-shell').style.display = 'none';
+        setTimeout(() => document.getElementById('digit-1').focus(), 150);
+      }
+    });
+  </script>
+</body>
+</html>
