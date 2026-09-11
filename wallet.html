@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 
-  <!-- Firebase SDKs Compat -->
+  <!-- Firebase SDKs Compat 10.12.0 -->
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
@@ -69,7 +69,7 @@
     /* CORPS DU PORTEFEUILLE */
     .wallet-main { padding: 20px 16px 40px; flex: 1; display: flex; flex-direction: column; }
 
-    /* CARTE SOLDE BLEU ROYAL HAUT DE GAMME */
+    /* CARTE SOLDE BLEU ROYAL */
     .balance-card {
       background: var(--royal-gradient);
       color: #FFFFFF;
@@ -135,7 +135,7 @@
       opacity: 0.9;
     }
 
-    /* BARRE D'ACTION HAUTE GAMME (LE BOUTON DÉPÔT PRO) */
+    /* BOUTON DÉPÔT PRO */
     .wallet-actions-row {
       display: grid;
       grid-template-columns: 1fr;
@@ -161,11 +161,9 @@
       transition: transform 0.15s ease;
     }
 
-    .btn-action-deposit:active {
-      transform: scale(0.99);
-    }
+    .btn-action-deposit:active { transform: scale(0.99); }
 
-    /* HISTORIQUE TRANSACTIONS PRO */
+    /* HISTORIQUE DES RECHARGES */
     .section-card {
       background: #FFFFFF;
       border: 1px solid var(--border);
@@ -234,15 +232,8 @@
       margin-top: 2px;
     }
 
-    .tx-right {
-      text-align: right;
-    }
-
-    .tx-amount {
-      font-size: 13px;
-      font-weight: 900;
-      color: var(--success);
-    }
+    .tx-right { text-align: right; }
+    .tx-amount { font-size: 13px; font-weight: 900; color: var(--success); }
 
     .tx-status-badge {
       font-size: 10px;
@@ -278,10 +269,7 @@
       transition: all 0.2s ease;
     }
 
-    .sheet-backdrop.active {
-      opacity: 1;
-      visibility: visible;
-    }
+    .sheet-backdrop.active { opacity: 1; visibility: visible; }
 
     .sheet-modal {
       position: fixed;
@@ -300,9 +288,7 @@
       transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    .sheet-backdrop.active .sheet-modal {
-      transform: translate(-50%, 0);
-    }
+    .sheet-backdrop.active .sheet-modal { transform: translate(-50%, 0); }
 
     .sheet-header {
       padding: 16px;
@@ -312,12 +298,7 @@
       justify-content: space-between;
     }
 
-    .sheet-title {
-      font-size: 14px;
-      font-weight: 800;
-      color: var(--text-black);
-    }
-
+    .sheet-title { font-size: 14px; font-weight: 800; color: var(--text-black); }
     .sheet-close-btn {
       width: 32px;
       height: 32px;
@@ -332,11 +313,7 @@
       font-weight: 800;
     }
 
-    .sheet-body {
-      padding: 16px;
-      overflow-y: auto;
-      flex: 1;
-    }
+    .sheet-body { padding: 16px; overflow-y: auto; flex: 1; }
 
     .deposit-methods-grid {
       display: grid;
@@ -445,9 +422,7 @@
       font-family: inherit;
     }
 
-    .text-input:focus {
-      border-color: var(--royal-blue);
-    }
+    .text-input:focus { border-color: var(--royal-blue); }
 
     .sheet-footer {
       padding: 14px 16px;
@@ -466,16 +441,47 @@
       font-weight: 800;
       cursor: pointer;
       display: flex;
-      align-items: center;
+      align-items: center; 
       justify-content: center;
       gap: 8px;
       box-shadow: 0 4px 14px rgba(29, 78, 216, 0.25);
       font-family: inherit;
     }
 
-    .btn-submit-deposit:disabled {
-      opacity: 0.6;
-      cursor: not-allowed;
+    .btn-submit-deposit:disabled { opacity: 0.6; cursor: not-allowed; }
+
+    /* FOOTER */
+    .site-footer {
+      background: #FFFFFF;
+      border-top: 1px solid var(--border);
+      padding: 18px 16px;
+      margin-top: auto;
+    }
+
+    .footer-minimal-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text-muted);
+    }
+
+    .footer-status-pill {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 10px;
+      color: var(--royal-blue);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .footer-status-indicator {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--royal-blue);
     }
 
     /* TOAST */
@@ -485,7 +491,7 @@
     .toast-pro.show { transform: translateY(0); opacity: 1; }
 
     /* SIDEBAR */
-    .sidebar-overlay { position: fixed; inset: 0; background: rgba(15, 23, 42, 0.45); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); z-index: 100; opacity: 0; visibility: hidden; transition: all 0.25s ease; }
+    .sidebar-overlay { position: fixed; inset: 0; background: rgba(15, 23, 42, 0.45); backdrop-filter: blur(4px); z-index: 100; opacity: 0; visibility: hidden; transition: all 0.25s ease; }
     .sidebar-overlay.active { opacity: 1; visibility: visible; }
     .sidebar-drawer { position: fixed; top: 0; right: 0; width: min(82vw, 340px); height: 100vh; background: #FFFFFF; z-index: 101; transform: translateX(100%); transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1); display: flex; flex-direction: column; box-shadow: -10px 0 30px rgba(0, 0, 0, 0.08); }
     .sidebar-overlay.active .sidebar-drawer { transform: translateX(0); }
@@ -583,6 +589,17 @@
 
     </main>
 
+    <!-- FOOTER ULTRA ÉPURÉ -->
+    <footer class="site-footer">
+      <div class="footer-minimal-row">
+        <span>© 2026 DigitalPay S.A.</span>
+        <div class="footer-status-pill">
+          <span class="footer-status-indicator"></span>
+          <span>Système Actif</span>
+        </div>
+      </div>
+    </footer>
+
     <!-- SIDEBAR-MENU HAUT DE GAMME -->
     <div class="sidebar-overlay" id="sidebar-overlay" onclick="closeSidebar()">
       <aside class="sidebar-drawer" onclick="event.stopPropagation()">
@@ -601,6 +618,7 @@
             <button class="sidebar-close-btn" onclick="closeSidebar()">✕</button>
           </div>
 
+          <!-- 4 Langues avec drapeaux -->
           <div class="sidebar-section-title">Langue / Lang</div>
           <div class="lang-switcher-grid">
             <button class="lang-option active" onclick="setLang('fr', this)"><span>🇫🇷</span> Français</button>
@@ -609,6 +627,7 @@
             <button class="lang-option" onclick="setLang('es', this)"><span>🇪🇸</span> Español</button>
           </div>
 
+          <!-- Navigation -->
           <div class="sidebar-section-title">Navigation</div>
           <nav class="sidebar-menu-nav">
             <a href="index.html" class="menu-link">
@@ -638,7 +657,7 @@
       </aside>
     </div>
 
-    <!-- MODALE BOTTOM SHEET DU FORMULAIRE DE DÉPÔT -->
+    <!-- MODALE DU FORMULAIRE DE DÉPÔT -->
     <div class="sheet-backdrop" id="deposit-sheet-backdrop" onclick="closeDepositModal()">
       <div class="sheet-modal" onclick="event.stopPropagation()">
         
@@ -703,30 +722,29 @@
 
   </div>
 
-  <!-- JAVASCRIPT ET TRANSACTION FIRESTORE ROBUSTE -->
+  <!-- LOGIQUE JAVASCRIPT ET TRANSMISSION BASE64 -->
   <script>
-    /* 1. CONFIGURATION FIREBASE */
+    /* 1. CONFIGURATION OFFICIELLE FIREBASE */
     const firebaseConfig = {
-  apiKey: "AIzaSyDOSMtCknVXQs3XL1piE047Ussc6KeCDmY",
-  authDomain: "digitalpayht-officiel.firebaseapp.com",
-  projectId: "digitalpayht-officiel",
-  storageBucket: "digitalpayht-officiel.firebasestorage.app",
-  messagingSenderId: "492314684302",
-  appId: "1:492314684302:web:dc36ab9445877df2dcd2df"
-};
+      apiKey: "AIzaSyDOSMtCknVXQs3XL1piE047Ussc6KeCDmY",
+      authDomain: "digitalpayht-officiel.firebaseapp.com",
+      projectId: "digitalpayht-officiel",
+      storageBucket: "digitalpayht-officiel.firebasestorage.app",
+      messagingSenderId: "492314684302",
+      appId: "1:492314684302:web:dc36ab9445877df2dcd2df"
+    };
 
     if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
     const db = firebase.firestore();
 
-    /* 2. ÉTAT LOCAL */
     let currentUser = null;
     let currentBalance = 0;
     let selectedDepositMethod = 'moncash';
     let currentLang = 'fr';
-    const MERU_RATE = 150; // Taux officiel DigitalPay : 1$ = 150 HTG
+    const MERU_RATE = 150; // 1$ = 150 HTG
 
-    /* 3. DICTIONNAIRE I18N */
+    /* 2. DICTIONNAIRE I18N */
     const I18N = {
       fr: {
         toastLang: "Langue changée : Français",
@@ -838,7 +856,6 @@
       }
     };
 
-    /* 4. TOAST NOTIFICATION */
     function showToast(text, isDanger = false) {
       const container = document.getElementById('toast-container');
       container.innerHTML = '';
@@ -854,13 +871,9 @@
       `;
       container.appendChild(toast);
       requestAnimationFrame(() => toast.classList.add('show'));
-      setTimeout(() => {
-        toast.classList.remove('show');
-        setTimeout(() => toast.remove(), 250);
-      }, 2400);
+      setTimeout(() => toast.remove(), 2500);
     }
 
-    /* 5. GESTION DES LANGUES */
     function setLang(code, btn) {
       currentLang = code;
       document.querySelectorAll('.lang-option').forEach(b => b.classList.remove('active'));
@@ -887,7 +900,6 @@
       showToast(dict.toastLang);
     }
 
-    /* 6. MODALE DE DÉPÔT */
     function openDepositModal() {
       document.getElementById('deposit-sheet-backdrop').classList.add('active');
     }
@@ -964,11 +976,12 @@
       }
     }
 
-    /* 7. SOUMISSION ET ENREGISTREMENT SANS PERTE */
+    /* SOUMISSION DU DÉPÔT AVEC VRAIE IMAGE DU REÇU EN BASE64 */
     async function submitDepositRequest() {
       const amountInput = document.getElementById('dep-amount-input').value.trim();
       const txId = document.getElementById('dep-txid-input').value.trim();
-      const proofFile = document.getElementById('dep-proof-file').files[0];
+      const proofFileInput = document.getElementById('dep-proof-file');
+      const proofFile = proofFileInput.files[0];
       const btn = document.getElementById('btn-submit-deposit');
       const dict = I18N[currentLang];
 
@@ -978,58 +991,77 @@
         return;
       }
 
+      if (proofFile.size > 1048576) {
+        showToast(dict.fileTooLarge, true);
+        return;
+      }
+
       let creditHTG = rawAmount;
       if (selectedDepositMethod === 'meru') {
         creditHTG = Math.round(rawAmount * MERU_RATE);
       }
 
       btn.disabled = true;
-      btn.innerText = "...";
+      btn.innerText = "Téléversement du reçu...";
 
-      const depositId = "DEP-" + Math.floor(100000 + Math.random() * 900000);
-      const newDeposit = {
-        depositId: depositId,
-        userId: currentUser.uid,
-        userEmail: currentUser.email,
-        method: selectedDepositMethod,
-        depositedAmount: rawAmount,
-        creditHTG: creditHTG,
-        transactionId: txId,
-        proofFileName: proofFile.name,
-        status: "en_attente",
-        createdAt: Date.now() // Timestamp JavaScript direct
+      // Conversion en Base64
+      const reader = new FileReader();
+      reader.onload = async function() {
+        const proofBase64 = reader.result;
+        const depositId = "DEP-" + Math.floor(100000 + Math.random() * 900000);
+
+        const newDeposit = {
+          depositId: depositId,
+          userId: currentUser.uid,
+          userEmail: currentUser.email,
+          userName: currentUser.displayName || "Utilisateur",
+          method: selectedDepositMethod,
+          depositedAmount: rawAmount,
+          creditHTG: creditHTG,
+          transactionId: txId,
+          proofFileName: proofFile.name,
+          proofDataUrl: proofBase64, // L'IMAGE EST STOCKÉE ICI POUR L'ADMIN
+          status: "en_attente",
+          createdAt: Date.now()
+        };
+
+        try {
+          await db.collection('deposits').doc(depositId).set({
+            ...newDeposit,
+            createdAtServer: firebase.firestore.FieldValue.serverTimestamp()
+          });
+
+          let localDeposits = JSON.parse(localStorage.getItem('dp_dep_' + currentUser.uid) || '[]');
+          localDeposits.unshift(newDeposit);
+          localStorage.setItem('dp_dep_' + currentUser.uid, JSON.stringify(localDeposits));
+
+          btn.disabled = false;
+          btn.innerText = dict.btnDeposit;
+          document.getElementById('dep-amount-input').value = "";
+          document.getElementById('dep-txid-input').value = "";
+          document.getElementById('dep-proof-file').value = "";
+          document.getElementById('meru-calc-hint').style.display = "none";
+
+          closeDepositModal();
+          showToast(dict.depositSubmitted);
+          renderDepositsList(localDeposits);
+        } catch (err) {
+          btn.disabled = false;
+          btn.innerText = dict.btnDeposit;
+          showToast("Erreur : " + err.message, true);
+        }
       };
 
-      try {
-        // Enregistrement Firestore
-        await db.collection('deposits').doc(depositId).set({
-          ...newDeposit,
-          createdAtServer: firebase.firestore.FieldValue.serverTimestamp()
-        });
-
-        // Secours LocalStorage pour affichage immédiat sans index
-        let localDeposits = JSON.parse(localStorage.getItem(`dp_dep_${currentUser.uid}`) || '[]');
-        localDeposits.unshift(newDeposit);
-        localStorage.setItem(`dp_dep_${currentUser.uid}`, JSON.stringify(localDeposits));
-
+      reader.onerror = function() {
         btn.disabled = false;
         btn.innerText = dict.btnDeposit;
-        document.getElementById('dep-amount-input').value = "";
-        document.getElementById('dep-txid-input').value = "";
-        document.getElementById('dep-proof-file').value = "";
-        document.getElementById('meru-calc-hint').style.display = "none";
+        showToast("Impossible de lire l'image.", true);
+      };
 
-        closeDepositModal();
-        showToast(dict.depositSubmitted);
-        renderDepositsList(localDeposits);
-      } catch (err) {
-        btn.disabled = false;
-        btn.innerText = dict.btnDeposit;
-        showToast("Erreur d'enregistrement : " + err.message, true);
-      }
+      reader.readAsDataURL(proofFile);
     }
 
-    /* 8. HISTORIQUE DES RECHARGES (SANS ERREUR D'INDEX COMPOSITE) */
+    /* HISTORIQUE LOCAL ET SYNC FIRESTORE */
     function renderDepositsList(deposits) {
       const target = document.getElementById('tx-history-target');
       const dict = I18N[currentLang];
@@ -1071,11 +1103,9 @@
     }
 
     function listenToUserDeposits() {
-      // 1. Affiche immédiatement le cache local
-      let localDeposits = JSON.parse(localStorage.getItem(`dp_dep_${currentUser.uid}`) || '[]');
+      let localDeposits = JSON.parse(localStorage.getItem('dp_dep_' + currentUser.uid) || '[]');
       renderDepositsList(localDeposits);
 
-      // 2. Écoute Firestore sans orderBy pour éviter le crash d'index composite
       db.collection('deposits')
         .where('userId', '==', currentUser.uid)
         .onSnapshot(snapshot => {
@@ -1088,17 +1118,14 @@
             });
           });
 
-          // Tri en mémoire JavaScript ultra-sécurisé
           list.sort((a, b) => b.createdAt - a.createdAt);
-          localStorage.setItem(`dp_dep_${currentUser.uid}`, JSON.stringify(list));
+          localStorage.setItem('dp_dep_' + currentUser.uid, JSON.stringify(list));
           renderDepositsList(list);
-        }, err => {
-          console.warn("Firestore sync : utilisation du cache local", err);
         });
     }
 
-    /* 9. AUTH ET CHARGEMENT DU SOLDE */
-    auth.onAuthStateChanged(user => {
+    /* AUTHENTIFICATION & CRÉATION AUTOMATIQUE DU DOCUMENT USERS */
+    auth.onAuthStateChanged(async user => {
       if (!user) {
         showToast(I18N[currentLang].authRequired, true);
         setTimeout(() => window.location.href = "authentification/login.html", 1000);
@@ -1108,13 +1135,22 @@
       currentUser = user;
       document.getElementById('wallet-user-name').innerText = user.displayName || user.email;
 
-      // Écoute temps réel du solde utilisateur
-      db.collection('users').doc(user.uid).onSnapshot(doc => {
-        if (doc.exists) {
+      const userDocRef = db.collection('users').doc(user.uid);
+
+      // Écoute en temps réel et auto-réparation si le profil n'a pas été initialisé
+      userDocRef.onSnapshot(async doc => {
+        if (!doc.exists) {
+          await userDocRef.set({
+            uid: user.uid,
+            displayName: user.displayName || 'Utilisateur DigitalPay',
+            email: user.email,
+            walletBalance: 0,
+            createdAt: firebase.firestore.FieldValue.serverTimestamp()
+          });
+          document.getElementById('wallet-balance-val').innerText = "0";
+        } else {
           currentBalance = doc.data().walletBalance || 0;
           document.getElementById('wallet-balance-val').innerText = currentBalance.toLocaleString();
-        } else {
-          document.getElementById('wallet-balance-val').innerText = "0";
         }
       });
 
