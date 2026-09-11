@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>Direction & Opérations — DigitalPay Haiti</title>
+  <title>Direction Générale — DigitalPay Haiti</title>
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,7 +15,7 @@
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
 
   <style>
-    /* FINTECH DESIGN SYSTEM HAUT DE GAMME */
+    /* DESIGN SYSTEM FINTECH HAUT DE GAMME */
     :root {
       --bg: #F8FAFC;
       --surface: #FFFFFF;
@@ -177,8 +177,8 @@
       box-shadow: 0 0 0 2px #FFFFFF;
     }
 
-    /* BARRE D'ONGLETS ADMIN UNIFIÉE */
-    .admin-nav-bar {
+    /* BARRE DE NAVIGATION PAR ONGLETS */
+    .admin-tabs-nav {
       display: flex;
       gap: 6px;
       overflow-x: auto;
@@ -186,33 +186,45 @@
       scrollbar-width: none;
     }
 
-    .admin-nav-bar::-webkit-scrollbar { display: none; }
+    .admin-tabs-nav::-webkit-scrollbar { display: none; }
 
-    .admin-pill {
+    .tab-pill {
       background: #FFFFFF;
       border: 1px solid var(--border);
       color: var(--text-muted);
-      padding: 7px 14px;
+      padding: 7px 12px;
       border-radius: var(--radius-full);
-      font-size: 12px;
+      font-size: 11px;
       font-weight: 700;
       white-space: nowrap;
-      text-decoration: none;
       display: flex;
       align-items: center;
       gap: 6px;
+      cursor: pointer;
+      font-family: inherit;
       transition: all 0.15s ease;
     }
 
-    .admin-pill.active {
+    .tab-pill.active {
       background: var(--text-black);
       border-color: var(--text-black);
       color: #FFFFFF;
     }
 
-    .admin-pill.active .icon-svg { stroke: #FFFFFF; }
+    .tab-pill.active .icon-svg { stroke: #FFFFFF; }
+    .tab-count {
+      background: rgba(0, 0, 0, 0.08);
+      padding: 1px 6px;
+      border-radius: var(--radius-full);
+      font-size: 10px;
+      font-weight: 800;
+    }
+    .tab-pill.active .tab-count {
+      background: var(--royal-blue);
+      color: #FFFFFF;
+    }
 
-    /* ÉCRAN 2FA HAUTE SÉCURITÉ */
+    /* ÉCRAN 2FA */
     .two-factor-screen {
       position: fixed;
       inset: 0;
@@ -285,49 +297,42 @@
       box-shadow: 0 4px 14px rgba(29, 78, 216, 0.25);
     }
 
-    /* SEGMENTATION TACTILE */
-    .mobile-segment-container { padding: 12px 16px 0; background: #FFFFFF; }
-    .segment-bar { background: var(--surface-subtle); border-radius: var(--radius-md); padding: 4px; display: flex; gap: 4px; border: 1px solid var(--border-light); }
-    .segment-btn {
-      flex: 1;
-      height: 38px;
-      border-radius: var(--radius-sm);
-      border: none;
-      background: transparent;
-      font-size: 12px;
-      font-weight: 800;
-      color: var(--text-muted);
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-    }
-
-    .segment-btn.active { background: #FFFFFF; color: var(--text-black); box-shadow: var(--shadow-sm); }
-    .counter-pill { font-size: 10px; font-weight: 900; padding: 2px 6px; border-radius: var(--radius-full); background: var(--border); color: var(--text-black); }
-    .segment-btn.active .counter-pill { background: var(--royal-blue); color: #FFFFFF; }
-
     /* CORPS PRINCIPAL */
     .admin-body { padding: 16px; flex: 1; display: flex; flex-direction: column; gap: 16px; }
-    .kpi-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
-    .kpi-card { background: var(--surface-subtle); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 12px 6px; text-align: center; }
-    .kpi-label { font-size: 9px; font-weight: 800; text-transform: uppercase; color: var(--text-muted); }
-    .kpi-value { font-size: 18px; font-weight: 900; color: var(--text-black); margin-top: 2px; }
 
-    .stream-container { display: flex; flex-direction: column; gap: 12px; }
-    .operation-card { background: #FFFFFF; border: 1px solid var(--border); border-radius: var(--radius-card); padding: 14px; box-shadow: var(--shadow-card); display: flex; flex-direction: column; gap: 10px; }
+    /* CARTES D'OPÉRATION (DÉPÔTS & COMMANDES) */
+    .operation-card {
+      background: #FFFFFF;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-card);
+      padding: 14px;
+      box-shadow: var(--shadow-card);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
     .op-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; }
     .op-client-title { font-size: 13px; font-weight: 800; color: var(--text-black); }
     .op-client-sub { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
     .op-amount { font-size: 15px; font-weight: 900; color: var(--royal-blue); white-space: nowrap; }
 
-    .op-details-box { background: var(--surface-subtle); border: 1px solid var(--border-light); border-radius: var(--radius-sm); padding: 10px 12px; font-size: 11px; line-height: 1.6; display: flex; flex-direction: column; gap: 4px; }
+    .op-details-box {
+      background: var(--surface-subtle);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-sm);
+      padding: 10px 12px;
+      font-size: 11px;
+      line-height: 1.6;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
     .detail-line { display: flex; justify-content: space-between; gap: 10px; }
     .detail-label { color: var(--text-muted); font-weight: 600; flex-shrink: 0; }
     .detail-val { font-weight: 800; text-align: right; word-break: break-all; }
 
-    /* BOUTON REÇU */
     .btn-view-receipt {
       background: #FFFFFF;
       border: 1px solid var(--royal-blue);
@@ -345,7 +350,7 @@
     .op-actions { display: flex; gap: 8px; margin-top: 2px; }
     .btn-action {
       flex: 1;
-      height: 42px;
+      height: 40px;
       border-radius: var(--radius-sm);
       border: none;
       font-size: 12px;
@@ -355,15 +360,164 @@
       align-items: center;
       justify-content: center;
       gap: 6px;
+      font-family: inherit;
     }
 
-    .btn-action:active { transform: scale(0.98); }
     .btn-approve { background: var(--royal-gradient); color: #FFFFFF; box-shadow: 0 4px 12px rgba(29, 78, 216, 0.2); }
     .btn-reject { background: var(--danger-soft); color: var(--danger); border: 1px solid rgba(220, 38, 38, 0.2); flex: 0.6; }
-
     .empty-stream-box { text-align: center; padding: 40px 16px; color: var(--text-muted); display: flex; flex-direction: column; align-items: center; gap: 8px; }
 
-    /* MODALE REÇU & CONFIRMATION */
+    /* SECTION UTILISATEURS */
+    .search-input-box { position: relative; margin-bottom: 12px; }
+    .search-input-box input {
+      width: 100%;
+      height: 42px;
+      background: var(--surface-subtle);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 0 12px 0 38px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-black);
+      outline: none;
+    }
+    .search-input-box svg {
+      position: absolute;
+      left: 12px;
+      top: 13px;
+      stroke: var(--text-light);
+      pointer-events: none;
+    }
+
+    .user-card {
+      background: #FFFFFF;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      box-shadow: var(--shadow-sm);
+    }
+    .user-card-head { display: flex; justify-content: space-between; align-items: flex-start; }
+    .user-card-name { font-size: 13px; font-weight: 800; color: var(--text-black); }
+    .user-card-email { font-size: 11px; color: var(--text-muted); }
+    .user-card-balance { font-size: 14px; font-weight: 900; color: var(--royal-blue); }
+    .user-card-actions { display: flex; gap: 6px; }
+
+    /* SECTION PRIX CATALOGUE */
+    .prices-list-box { display: flex; flex-direction: column; gap: 10px; }
+    .price-row-item {
+      background: #FFFFFF;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .price-item-info { flex: 1; }
+    .price-item-name { font-size: 13px; font-weight: 800; color: var(--text-black); }
+    .price-item-cat { font-size: 11px; color: var(--text-muted); text-transform: uppercase; }
+    .price-item-input-box { display: flex; align-items: center; gap: 6px; }
+    .price-input {
+      width: 85px;
+      height: 36px;
+      background: var(--surface-subtle);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      text-align: right;
+      padding: 0 8px;
+      font-size: 13px;
+      font-weight: 800;
+      color: var(--text-black);
+      outline: none;
+    }
+    .btn-save-price {
+      height: 36px;
+      background: var(--text-black);
+      color: #FFFFFF;
+      border: none;
+      border-radius: var(--radius-sm);
+      padding: 0 10px;
+      font-size: 11px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    /* SECTION CONTRÔLE SYSTÈME */
+    .system-card {
+      background: #FFFFFF;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-card);
+      padding: 16px;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .system-card-title { font-size: 14px; font-weight: 900; color: var(--text-black); }
+    .system-card-desc { font-size: 12px; color: var(--text-muted); line-height: 1.4; }
+
+    .switch-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px;
+      background: var(--surface-subtle);
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-light);
+    }
+    .switch-status-label { font-size: 13px; font-weight: 800; }
+    .btn-switch-toggle {
+      padding: 8px 16px;
+      border-radius: var(--radius-full);
+      font-size: 12px;
+      font-weight: 800;
+      border: none;
+      cursor: pointer;
+    }
+    .btn-switch-toggle.open { background: var(--success); color: #FFFFFF; }
+    .btn-switch-toggle.closed { background: var(--danger); color: #FFFFFF; }
+
+    .field-label { font-size: 11px; font-weight: 800; text-transform: uppercase; color: var(--text-muted); margin-bottom: 4px; display: block; }
+    .admin-input-text {
+      width: 100%;
+      height: 42px;
+      background: var(--surface-subtle);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 0 12px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-black);
+      outline: none;
+      margin-bottom: 8px;
+    }
+    .admin-textarea {
+      width: 100%;
+      height: 80px;
+      background: var(--surface-subtle);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 10px 12px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-black);
+      outline: none;
+      margin-bottom: 12px;
+      resize: none;
+      font-family: inherit;
+    }
+
+    /* FOOTER */
+    .site-footer { background: #FFFFFF; border-top: 1px solid var(--border); padding: 18px 16px; margin-top: auto; }
+    .footer-minimal-row { display: flex; justify-content: space-between; align-items: center; font-size: 11px; font-weight: 700; color: var(--text-muted); }
+    .footer-status-pill { display: flex; align-items: center; gap: 6px; font-size: 10px; color: var(--royal-blue); text-transform: uppercase; letter-spacing: 0.5px; }
+    .footer-status-indicator { width: 6px; height: 6px; border-radius: 50%; background: var(--royal-blue); }
+
+    /* MODALE & BOTTOM SHEET */
     .sheet-backdrop {
       position: fixed;
       inset: 0;
@@ -377,9 +531,7 @@
       align-items: flex-end;
       justify-content: center;
     }
-
     .sheet-backdrop.active { opacity: 1; visibility: visible; }
-
     .sheet-modal {
       width: 100%;
       max-width: 480px;
@@ -395,7 +547,6 @@
       max-height: 90vh;
       overflow-y: auto;
     }
-
     .sheet-backdrop.active .sheet-modal { transform: translateY(0); }
     .modal-head { display: flex; align-items: center; justify-content: space-between; }
     .modal-title { font-size: 15px; font-weight: 900; color: var(--text-black); }
@@ -403,13 +554,7 @@
     .receipt-img-container { width: 100%; max-height: 400px; overflow-y: auto; border-radius: var(--radius-md); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; background: #000; }
     .receipt-img-container img { width: 100%; height: auto; object-fit: contain; }
 
-    /* FOOTER */
-    .site-footer { background: #FFFFFF; border-top: 1px solid var(--border); padding: 18px 16px; margin-top: auto; }
-    .footer-minimal-row { display: flex; justify-content: space-between; align-items: center; font-size: 11px; font-weight: 700; color: var(--text-muted); }
-    .footer-status-pill { display: flex; align-items: center; gap: 6px; font-size: 10px; color: var(--royal-blue); text-transform: uppercase; letter-spacing: 0.5px; }
-    .footer-status-indicator { width: 6px; height: 6px; border-radius: 50%; background: var(--royal-blue); }
-
-    /* SIDEBAR ADMIN */
+    /* SIDEBAR */
     .sidebar-overlay { position: fixed; inset: 0; background: rgba(15, 23, 42, 0.45); backdrop-filter: blur(4px); z-index: 100; opacity: 0; visibility: hidden; transition: all 0.25s ease; }
     .sidebar-overlay.active { opacity: 1; visibility: visible; }
     .sidebar-drawer { position: fixed; top: 0; right: 0; width: min(82vw, 340px); height: 100vh; background: #FFFFFF; z-index: 101; transform: translateX(100%); transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1); display: flex; flex-direction: column; box-shadow: -10px 0 30px rgba(0, 0, 0, 0.08); }
@@ -422,14 +567,10 @@
     .sidebar-brand-title { font-size: 16px; font-weight: 900; color: #000000; letter-spacing: -0.4px; }
     .sidebar-brand-sub { font-size: 12px; font-weight: 700; color: #000000; letter-spacing: 0.5px; }
     .sidebar-close-btn { width: 32px; height: 32px; border-radius: 50%; background: var(--surface-subtle); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; color: var(--text-muted); cursor: pointer; font-weight: 800; }
-    .sidebar-section-title { font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.8px; color: var(--text-light); margin: 16px 0 8px; }
-    .lang-switcher-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px; }
-    .lang-option { background: var(--surface-subtle); border: 1px solid var(--border); padding: 7px 10px; border-radius: var(--radius-sm); display: flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 600; color: var(--text-black); cursor: pointer; }
-    .lang-option.active { border-color: var(--royal-blue); background: var(--royal-soft); color: var(--royal-blue); font-weight: 800; }
-    .sidebar-menu-nav { margin-top: 10px; display: flex; flex-direction: column; gap: 3px; }
-    .menu-link { display: flex; align-items: center; gap: 12px; padding: 9px 12px; border-radius: var(--radius-md); color: var(--text-black); text-decoration: none; font-size: 13px; font-weight: 600; cursor: pointer; }
-    .menu-link.active { background: var(--surface-subtle); color: var(--royal-blue); }
-    .sidebar-auth-zone { margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--border); }
+    .sidebar-menu-nav { margin-top: 16px; display: flex; flex-direction: column; gap: 4px; }
+    .menu-link { display: flex; align-items: center; gap: 12px; padding: 10px 12px; border-radius: var(--radius-md); color: var(--text-black); text-decoration: none; font-size: 13px; font-weight: 600; cursor: pointer; }
+    .menu-link:hover, .menu-link.active { background: var(--surface-subtle); color: var(--royal-blue); }
+    .sidebar-auth-zone { margin-top: auto; padding-top: 16px; border-top: 1px solid var(--border); }
     .btn-auth-logout { display: flex; align-items: center; justify-content: center; width: 100%; height: 40px; border-radius: var(--radius-md); font-size: 13px; font-weight: 700; background: var(--danger-soft); color: var(--danger); border: 1px solid rgba(220, 38, 38, 0.2); cursor: pointer; }
 
     /* TOAST */
@@ -454,8 +595,8 @@
       </div>
       <h2 class="two-factor-title">Double Authentification</h2>
       <p class="two-factor-desc">
-        Accès réservé à <strong style="color:var(--text-black);">mmasked36@gmail.com</strong>.<br>
-        Entrez le code administrateur à 6 chiffres.
+        Accès réservé exclusivement à <strong style="color:var(--text-black);">mmasked36@gmail.com</strong>.<br>
+        Entrez le code d'administration à 6 chiffres.
       </p>
 
       <div class="digits-input-container">
@@ -468,7 +609,7 @@
       </div>
 
       <button class="btn-verify-2fa" onclick="verifyTwoFactorCode()">
-        <span>Déverrouiller l'accès</span>
+        <span>Déverrouiller le Panel Admin</span>
       </button>
 
       <button onclick="auth.signOut().then(()=>window.location.href='../index.html')" style="background:none; border:none; color:var(--danger); font-size:12px; font-weight:800; cursor:pointer; margin-top:8px;">
@@ -477,7 +618,7 @@
     </div>
   </div>
 
-  <!-- TABLEAU DE BORD ADMINISTRATION -->
+  <!-- TABLEAU DE BORD ADMINISTRATION UNIQUE ET COMPLET -->
   <div class="app-shell" id="admin-secured-shell" style="display: none;">
 
     <header class="site-header">
@@ -503,85 +644,121 @@
         </div>
       </div>
 
-      <div class="admin-nav-bar">
-        <a href="index.html" class="admin-pill active">
-          <svg class="icon-svg" viewBox="0 0 24 24"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round"/></svg>
-          <span>Dépôts & Commandes</span>
-        </a>
-        <a href="pins.html" class="admin-pill">
-          <svg class="icon-svg" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
-          <span>Stock PINs</span>
-        </a>
-        <a href="users.html" class="admin-pill">
+      <!-- ONGLETS DE CONTRÔLE CENTRALISÉ -->
+      <div class="admin-tabs-nav">
+        <button class="tab-pill active" id="tab-btn-deposits" onclick="switchTab('deposits')">
+          <svg class="icon-svg" viewBox="0 0 24 24"><path d="M12 4v16m8-8H4" stroke-linecap="round"/></svg>
+          <span>Dépôts</span>
+          <span class="tab-count" id="count-pill-deposits">0</span>
+        </button>
+
+        <button class="tab-pill" id="tab-btn-orders" onclick="switchTab('orders')">
+          <svg class="icon-svg" viewBox="0 0 24 24"><path d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" stroke-linecap="round"/></svg>
+          <span>Commandes</span>
+          <span class="tab-count" id="count-pill-orders">0</span>
+        </button>
+
+        <button class="tab-pill" id="tab-btn-users" onclick="switchTab('users')">
           <svg class="icon-svg" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
-          <span>Comptes Clients</span>
-        </a>
-        <a href="settings.html" class="admin-pill">
+          <span>Utilisateurs</span>
+        </button>
+
+        <button class="tab-pill" id="tab-btn-prices" onclick="switchTab('prices')">
+          <svg class="icon-svg" viewBox="0 0 24 24"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6" stroke-linecap="round"/></svg>
+          <span>Modifier Prix</span>
+        </button>
+
+        <button class="tab-pill" id="tab-btn-system" onclick="switchTab('system')">
           <svg class="icon-svg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
-          <span>Configuration & Prix</span>
-        </a>
+          <span>Fermer Site / Notifs</span>
+        </button>
       </div>
     </header>
 
     <div class="notif-panel" id="notif-panel">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-        <strong style="font-size:12px; text-transform:uppercase;">Console Sécurisée 2FA</strong>
+        <strong style="font-size:12px; text-transform:uppercase;">Console Maître 2FA</strong>
         <button onclick="toggleNotifications()" style="border:none; background:none; cursor:pointer; font-weight:700;">✕</button>
       </div>
       <div style="padding:10px; background:var(--surface-subtle); border-left:3px solid var(--royal-blue); border-radius:4px; font-size:12px;">
-        <strong>Opérateur : mmasked36@gmail.com</strong>
-        <p>Validation instantanée des dépôts et visualisation des reçus sans latence.</p>
+        <strong>Connecté : mmasked36@gmail.com</strong>
+        <p>Toutes les modifications prennent effet instantanément sur le site public.</p>
       </div>
     </div>
 
-    <div class="mobile-segment-container">
-      <div class="segment-bar">
-        <button class="segment-btn active" id="seg-btn-deposits" onclick="switchSegment('deposits')">
-          <span>Dépôts</span>
-          <span class="counter-pill" id="counter-seg-deposits">0</span>
-        </button>
-        <button class="segment-btn" id="seg-btn-orders" onclick="switchSegment('orders')">
-          <span>Commandes</span>
-          <span class="counter-pill" id="counter-seg-orders">0</span>
-        </button>
-        <button class="segment-btn" id="seg-btn-kpi" onclick="switchSegment('kpi')">
-          <span>Aperçu</span>
-        </button>
-      </div>
-    </div>
-
+    <!-- CORPS DES ONGLETS -->
     <main class="admin-body">
-      
-      <!-- VUE KPI -->
-      <div id="view-kpi-block" style="display: none;">
-        <div class="kpi-row">
-          <div class="kpi-card">
-            <div class="kpi-label">Dépôts Attente</div>
-            <div class="kpi-value" id="count-pending-deposits" style="color:var(--warning);">0</div>
-          </div>
-          <div class="kpi-card">
-            <div class="kpi-label">Commandes Attente</div>
-            <div class="kpi-value" id="count-pending-orders" style="color:var(--royal-blue);">0</div>
-          </div>
-          <div class="kpi-card">
-            <div class="kpi-label">Clients Inscrits</div>
-            <div class="kpi-value" id="count-total-users">0</div>
-          </div>
-        </div>
-      </div>
 
-      <!-- VUE 1 : DÉPÔTS EN ATTENTE (AVEC BOUTON REÇU) -->
-      <section id="view-deposits-section" class="stream-container">
+      <!-- ==================== 1. ONGLET DÉPÔTS ==================== -->
+      <section id="tab-section-deposits" style="display: flex; flex-direction: column; gap: 12px;">
         <div id="deposits-stream-target">
-          <div class="empty-stream-box">Chargement des requêtes...</div>
+          <div class="empty-stream-box">Chargement des demandes de dépôts...</div>
         </div>
       </section>
 
-      <!-- VUE 2 : COMMANDES MANUELLES -->
-      <section id="view-orders-section" class="stream-container" style="display: none;">
+      <!-- ==================== 2. ONGLET COMMANDES ==================== -->
+      <section id="tab-section-orders" style="display: none; flex-direction: column; gap: 12px;">
         <div id="orders-stream-target">
           <div class="empty-stream-box">Chargement des commandes...</div>
         </div>
+      </section>
+
+      <!-- ==================== 3. ONGLET UTILISATEURS ==================== -->
+      <section id="tab-section-users" style="display: none; flex-direction: column; gap: 12px;">
+        <div class="search-input-box">
+          <svg class="icon-svg" viewBox="0 0 24 24"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke-linecap="round"/></svg>
+          <input type="text" id="user-search-input" placeholder="Rechercher par email, nom ou UID..." oninput="filterUsers(this.value)">
+        </div>
+        <div id="users-stream-target" style="display: flex; flex-direction: column; gap: 10px;">
+          <div class="empty-stream-box">Chargement des utilisateurs...</div>
+        </div>
+      </section>
+
+      <!-- ==================== 4. ONGLET MODIFIER PRIX ==================== -->
+      <section id="tab-section-prices" style="display: none; flex-direction: column; gap: 12px;">
+        <div style="background:var(--surface-subtle); border:1px solid var(--border); border-radius:var(--radius-md); padding:12px; font-size:12px; color:var(--text-muted);">
+          Modifiez un tarif en HTG et cliquez sur <strong>Enregistrer</strong>. Le prix s'actualisera en direct sur la boutique.
+        </div>
+        <div class="prices-list-box" id="prices-matrix-target"></div>
+      </section>
+
+      <!-- ==================== 5. ONGLET FERMER SITE & NOTIFICATIONS ==================== -->
+      <section id="tab-section-system" style="display: none; flex-direction: column; gap: 16px;">
+        
+        <!-- INTERRUPTEUR FERMER LE SITE (MAINTENANCE) -->
+        <div class="system-card">
+          <div class="system-card-title">Interrupteur d'Urgence : Fermer le Site</div>
+          <div class="system-card-desc">
+            Si vous activez la fermeture, tous les utilisateurs verront une page de maintenance sobre et aucune commande ne pourra être passée.
+          </div>
+          <div class="switch-row">
+            <div>
+              <div class="switch-status-label" id="site-status-text">Site Actif & Ouvert</div>
+              <span style="font-size:11px; color:var(--text-muted);" id="site-status-sub">Les paiements et commandes fonctionnent</span>
+            </div>
+            <button class="btn-switch-toggle open" id="btn-toggle-site" onclick="toggleSiteStatus()">OUVERT</button>
+          </div>
+        </div>
+
+        <!-- ENVOYEUR DE NOTIFICATIONS BROADCAST POUR HEADER -->
+        <div class="system-card">
+          <div class="system-card-title">Diffuser une Notification (Icône Cloche)</div>
+          <div class="system-card-desc">
+            Le message rédigé ici allume immédiatement la pastille bleue du header de tous les utilisateurs connectés.
+          </div>
+
+          <label class="field-label">Titre de l'Annonce :</label>
+          <input type="text" id="notif-broadcast-title" class="admin-input-text" placeholder="Ex: Maintenance programmée / Promo Diamants">
+
+          <label class="field-label">Message à afficher aux clients :</label>
+          <textarea id="notif-broadcast-body" class="admin-textarea" placeholder="Rédigez le texte de notification générale..."></textarea>
+
+          <div style="display:flex; gap:8px;">
+            <button class="btn-action btn-approve" onclick="publishBroadcastNotification()">Diffuser l'Annonce</button>
+            <button class="btn-action btn-reject" onclick="clearBroadcastNotification()">Effacer</button>
+          </div>
+        </div>
+
       </section>
 
     </main>
@@ -596,7 +773,7 @@
       </div>
     </footer>
 
-    <!-- SIDEBAR -->
+    <!-- SIDEBAR ADMIN -->
     <div class="sidebar-overlay" id="sidebar-overlay" onclick="closeSidebar()">
       <aside class="sidebar-drawer" onclick="event.stopPropagation()">
         <div class="sidebar-content">
@@ -614,22 +791,26 @@
           </div>
 
           <nav class="sidebar-menu-nav">
-            <a href="index.html" class="menu-link active">
-              <svg viewBox="0 0 24 24"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round"/></svg>
-              <span>Tableau de bord</span>
-            </a>
-            <a href="pins.html" class="menu-link">
-              <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
-              <span>Stock PINs Free Fire</span>
-            </a>
-            <a href="users.html" class="menu-link">
+            <div class="menu-link active" onclick="switchTab('deposits'); closeSidebar();">
+              <svg viewBox="0 0 24 24"><path d="M12 4v16m8-8H4" stroke-linecap="round"/></svg>
+              <span>Valider les Dépôts</span>
+            </div>
+            <div class="menu-link" onclick="switchTab('orders'); closeSidebar();">
+              <svg viewBox="0 0 24 24"><path d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" stroke-linecap="round"/></svg>
+              <span>Gérer les Commandes</span>
+            </div>
+            <div class="menu-link" onclick="switchTab('users'); closeSidebar();">
               <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
-              <span>Comptes Clients</span>
-            </a>
-            <a href="settings.html" class="menu-link">
+              <span>Comptes Utilisateurs</span>
+            </div>
+            <div class="menu-link" onclick="switchTab('prices'); closeSidebar();">
+              <svg viewBox="0 0 24 24"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6" stroke-linecap="round"/></svg>
+              <span>Modifier les Prix</span>
+            </div>
+            <div class="menu-link" onclick="switchTab('system'); closeSidebar();">
               <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
-              <span>Configuration & Prix</span>
-            </a>
+              <span>Fermer Site / Notifs</span>
+            </div>
             <a href="../index.html" class="menu-link">
               <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><path d="M9 22V12h6v10"/></svg>
               <span>Retour Boutique</span>
@@ -645,24 +826,28 @@
       </aside>
     </div>
 
-    <!-- MODALE BOTTOM SHEET : CONFIRMATION & VISUALISATION DE REÇU -->
+    <!-- MODALE BOTTOM SHEET : VISUALISATION REÇU, CONFIRMATION & MODIFICATION SOLDE -->
     <div class="sheet-backdrop" id="action-sheet-backdrop">
       <div class="sheet-modal">
         <div class="modal-head">
-          <div class="modal-title" id="modal-action-title">Détail du Dépôt</div>
+          <div class="modal-title" id="modal-action-title">Détail</div>
           <button class="modal-close-btn" onclick="closeActionModal()">✕</button>
         </div>
         
-        <!-- Zone Image du Reçu -->
         <div id="modal-receipt-view" style="display: none;">
           <div class="receipt-img-container">
-            <img id="receipt-modal-img" src="" alt="Preuve de paiement">
+            <img id="receipt-modal-img" src="" alt="Reçu">
           </div>
         </div>
 
-        <div class="modal-desc" id="modal-action-desc">Veuillez confirmer cette opération.</div>
+        <div id="modal-custom-input-box" style="display: none;">
+          <label class="field-label" id="modal-input-label">Nouveau montant :</label>
+          <input type="number" id="modal-generic-input" class="admin-input-text" placeholder="Entrez la valeur...">
+        </div>
+
+        <div class="modal-desc" id="modal-action-desc" style="font-size:12px; color:var(--text-muted); line-height:1.5;"></div>
         
-        <div class="modal-actions" id="modal-action-buttons">
+        <div class="modal-actions" id="modal-action-buttons" style="display:flex; gap:8px;">
           <button class="btn-action btn-reject" onclick="closeActionModal()">Annuler</button>
           <button class="btn-action btn-approve" id="modal-confirm-action-btn">Confirmer</button>
         </div>
@@ -701,8 +886,36 @@
     const SALT = "DIGITALPAY_SECURE_SALT_2026_";
     const TARGET_HASH = universalHash(SALT + "363636");
 
-    let currentAdmin = null;
+    let allLoadedUsers = [];
+    let isSiteCurrentlyOpen = true;
     let activeActionCallback = null;
+
+    /* CATALOGUE DE BASE POUR L'ÉDITEUR DE PRIX */
+    const DEFAULT_CATALOG_PRICES = [
+      { id: "ff_110", name: "Free Fire — 110 + 10 Diamants", defaultPrice: 157 },
+      { id: "ff_310", name: "Free Fire — 310 + 31 Diamants", defaultPrice: 471 },
+      { id: "ff_520", name: "Free Fire — 520 + 52 Diamants", defaultPrice: 775 },
+      { id: "ff_1060", name: "Free Fire — 1,060 + 106 Diamants", defaultPrice: 1550 },
+      { id: "ff_2180", name: "Free Fire — 2,180 + 218 Diamants", defaultPrice: 3100 },
+      { id: "ff_5600", name: "Free Fire — 5,600 + 560 Diamants", defaultPrice: 7750 },
+      { id: "ff_booyah", name: "Free Fire — Booyah Pass", defaultPrice: 400 },
+      { id: "ff_level", name: "Free Fire — Level Up Pass", defaultPrice: 800 },
+      { id: "ff_week", name: "Free Fire — Semaine", defaultPrice: 325 },
+      { id: "ff_month", name: "Free Fire — Mois", defaultPrice: 1600 },
+      { id: "pubg_60", name: "PUBG Mobile — 60 UC", defaultPrice: 180 },
+      { id: "pubg_300", name: "PUBG Mobile — 300+25 UC", defaultPrice: 891 },
+      { id: "pubg_600", name: "PUBG Mobile — 600+60 UC", defaultPrice: 1780 },
+      { id: "bs_50", name: "Blood Strike — 50+1 Gold", defaultPrice: 80 },
+      { id: "bs_100", name: "Blood Strike — 100+5 Gold", defaultPrice: 157 },
+      { id: "bs_300", name: "Blood Strike — 300+20 Gold", defaultPrice: 471 },
+      { id: "cod_80", name: "Call of Duty — 80+8 CP", defaultPrice: 180 },
+      { id: "cod_400", name: "Call of Duty — 400+60 CP", defaultPrice: 925 },
+      { id: "netflix_1m", name: "Netflix — 1 Mois", defaultPrice: 400 },
+      { id: "netflix_2m", name: "Netflix — 2 Mois", defaultPrice: 850 },
+      { id: "disney_1m", name: "Disney+ — 1 Mois", defaultPrice: 625 },
+      { id: "prime_1m", name: "Prime Video — 1 Mois", defaultPrice: 425 },
+      { id: "meru_card", name: "Carte de Crédit Meru", defaultPrice: 1500 }
+    ];
 
     function showAdminToast(text, isDanger = false) {
       const container = document.getElementById('toast-container');
@@ -719,9 +932,10 @@
       `;
       container.appendChild(toast);
       requestAnimationFrame(() => toast.classList.add('show'));
-      setTimeout(() => toast.remove(), 2500);
+      setTimeout(() => toast.remove(), 2400);
     }
 
+    /* 2FA CODE */
     function handleDigitInput(el, nextId) {
       if (el.value.length >= 1) {
         el.value = el.value.slice(-1);
@@ -738,14 +952,14 @@
     function verifyTwoFactorCode() {
       const enteredCode = [1,2,3,4,5,6].map(i => document.getElementById(`digit-${i}`).value.trim()).join('');
       if (enteredCode.length < 6) {
-        showAdminToast("Veuillez remplir les 6 chiffres.", true);
+        showAdminToast("Veuillez saisir les 6 chiffres.", true);
         return;
       }
 
       if (universalHash(SALT + enteredCode) === TARGET_HASH) {
         sessionStorage.setItem('dp_admin_session_auth', 'AUTHENTICATED_MASTER');
-        showAdminToast("Accès direction accordé !");
-        unlockDashboardUI();
+        showAdminToast("Accès direction déverrouillé !");
+        unlockAdminUI();
       } else {
         showAdminToast("Code PIN incorrect.", true);
         [1,2,3,4,5,6].forEach(i => document.getElementById(`digit-${i}`).value = '');
@@ -753,78 +967,60 @@
       }
     }
 
-    function unlockDashboardUI() {
+    function unlockAdminUI() {
       document.getElementById('two-factor-screen').style.display = 'none';
       document.getElementById('admin-secured-shell').style.display = 'flex';
+      initAllRealtimeStreams();
+    }
+
+    /* CHANGEMENT D'ONGLETS SANS RECHARGEMENT */
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-pill').forEach(b => b.classList.remove('active'));
+      const activeBtn = document.getElementById(`tab-btn-${tabId}`);
+      if (activeBtn) activeBtn.classList.add('active');
+
+      const sections = ['deposits', 'orders', 'users', 'prices', 'system'];
+      sections.forEach(s => {
+        const secEl = document.getElementById(`tab-section-${s}`);
+        if (secEl) secEl.style.display = (s === tabId) ? 'flex' : 'none';
+      });
+    }
+
+    function initAllRealtimeStreams() {
       streamDeposits();
       streamOrders();
-      streamUserMetrics();
+      streamUsers();
+      streamCatalogPrices();
+      streamSystemStatus();
     }
 
-    function switchSegment(seg) {
-      document.querySelectorAll('.segment-btn').forEach(b => b.classList.remove('active'));
-      document.getElementById(`seg-btn-${seg}`).classList.add('active');
-
-      document.getElementById('view-deposits-section').style.display = (seg === 'deposits') ? 'flex' : 'none';
-      document.getElementById('view-orders-section').style.display = (seg === 'orders') ? 'flex' : 'none';
-      document.getElementById('view-kpi-block').style.display = (seg === 'kpi') ? 'block' : 'none';
-    }
-
-    function openActionModal(title, desc, onConfirm, receiptImgUrl = null) {
-      document.getElementById('modal-action-title').innerText = title;
-      document.getElementById('modal-action-desc').innerText = desc;
-      activeActionCallback = onConfirm;
-
-      const receiptView = document.getElementById('modal-receipt-view');
-      const receiptImg = document.getElementById('receipt-modal-img');
-      const actionButtons = document.getElementById('modal-action-buttons');
-
-      if (receiptImgUrl) {
-        receiptImg.src = receiptImgUrl;
-        receiptView.style.display = 'block';
-        actionButtons.style.display = onConfirm ? 'flex' : 'none';
-      } else {
-        receiptView.style.display = 'none';
-        actionButtons.style.display = 'flex';
-      }
-
-      document.getElementById('action-sheet-backdrop').classList.add('active');
-    }
-
-    function closeActionModal() {
-      document.getElementById('action-sheet-backdrop').classList.remove('active');
-      activeActionCallback = null;
-    }
-
-    document.getElementById('modal-confirm-action-btn').addEventListener('click', () => {
-      if (typeof activeActionCallback === 'function') activeActionCallback();
-      closeActionModal();
-    });
-
-    /* ÉCOUTE TEMPS RÉEL DES DÉPÔTS (AVEC AFFICHAGE DU REÇU) */
+    /* ==================== 1. GESTION DES DÉPÔTS ==================== */
     function streamDeposits() {
       const target = document.getElementById('deposits-stream-target');
-      const counterSeg = document.getElementById('counter-seg-deposits');
-      const kpiDeposits = document.getElementById('count-pending-deposits');
+      const pillCount = document.getElementById('count-pill-deposits');
 
-      db.collection('deposits').where('status', '==', 'en_attente').onSnapshot(snapshot => {
-        const count = snapshot.size;
-        counterSeg.innerText = count;
-        kpiDeposits.innerText = count;
+      db.collection('deposits').onSnapshot(snapshot => {
+        let list = [];
+        snapshot.forEach(doc => list.push(doc.data()));
+        list.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
 
-        if (snapshot.empty) {
-          target.innerHTML = `<div class="empty-stream-box">Aucun dépôt en attente.</div>`;
+        const pendingList = list.filter(d => d.status === 'en_attente');
+        pillCount.innerText = pendingList.length;
+
+        if (list.length === 0) {
+          target.innerHTML = `<div class="empty-stream-box">Aucun dépôt enregistré.</div>`;
           return;
         }
 
         target.innerHTML = '';
-        snapshot.forEach(doc => {
-          const d = doc.data();
+        list.forEach(d => {
+          const isPending = (d.status === 'en_attente');
+          const statusBadgeColor = d.status === 'valide' ? 'var(--success)' : (d.status === 'rejete' ? 'var(--danger)' : 'var(--warning)');
           const card = document.createElement('div');
           card.className = 'operation-card';
-          
+
           let receiptBtnHtml = d.proofDataUrl 
-            ? `<button class="btn-view-receipt" onclick="viewReceiptImage('${d.depositId}', '${d.proofDataUrl}')">
+            ? `<button class="btn-view-receipt" onclick="viewReceipt('${d.depositId}', '${d.proofDataUrl}')">
                  <svg class="icon-svg" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
                  Voir Reçu
                </button>`
@@ -834,38 +1030,30 @@
             <div class="op-head">
               <div>
                 <div class="op-client-title">${d.userName || 'Client'}</div>
-                <div class="op-client-sub">${d.userEmail}</div>
+                <div class="op-client-sub">${d.userEmail} • Réf: ${d.depositId}</div>
               </div>
-              <div class="op-amount">+${(d.creditHTG || d.depositedAmount).toLocaleString()} HTG</div>
+              <div style="text-align:right;">
+                <div class="op-amount">+${(d.creditHTG || d.depositedAmount || 0).toLocaleString()} HTG</div>
+                <span style="font-size:10px; font-weight:800; color:${statusBadgeColor}; text-transform:uppercase;">${d.status}</span>
+              </div>
             </div>
 
             <div class="op-details-box">
-              <div class="detail-line">
-                <span class="detail-label">Canal</span>
-                <span class="detail-val">${(d.method || 'MONCASH').toUpperCase()}</span>
-              </div>
-              <div class="detail-line">
-                <span class="detail-label">ID Transaction</span>
-                <span class="detail-val">${d.transactionId || 'Non fourni'}</span>
-              </div>
-              <div class="detail-line">
-                <span class="detail-label">Preuve Reçue</span>
-                <span class="detail-val">${receiptBtnHtml}</span>
-              </div>
-              <div class="detail-line">
-                <span class="detail-label">Réf</span>
-                <span class="detail-val"><code>${d.depositId}</code></span>
-              </div>
+              <div class="detail-line"><span class="detail-label">Moyen</span><span class="detail-val">${(d.method || 'MONCASH').toUpperCase()}</span></div>
+              <div class="detail-line"><span class="detail-label">Transaction ID</span><span class="detail-val">${d.transactionId || 'Non fourni'}</span></div>
+              <div class="detail-line"><span class="detail-label">Preuve Reçue</span><span class="detail-val">${receiptBtnHtml}</span></div>
             </div>
 
-            <div class="op-actions">
-              <button class="btn-action btn-approve" onclick="confirmDepositApproval('${d.depositId}', '${d.userId}', ${d.creditHTG || d.depositedAmount})">
-                Valider & Créditer
-              </button>
-              <button class="btn-action btn-reject" onclick="confirmDepositRejection('${d.depositId}')">
-                Rejeter
-              </button>
-            </div>
+            ${isPending ? `
+              <div class="op-actions">
+                <button class="btn-action btn-approve" onclick="approveDeposit('${d.depositId}', '${d.userId}', ${d.creditHTG || d.depositedAmount})">
+                  Valider & Créditer
+                </button>
+                <button class="btn-action btn-reject" onclick="rejectDeposit('${d.depositId}')">
+                  Rejeter
+                </button>
+              </div>
+            ` : ''}
           `;
           target.appendChild(card);
         });
@@ -874,15 +1062,14 @@
       });
     }
 
-    function viewReceiptImage(depositId, dataUrl) {
-      openActionModal(`Reçu Dépôt ${depositId}`, "Vérifiez attentivement les détails du paiement avant validation.", null, dataUrl);
+    function viewReceipt(depositId, imgUrl) {
+      openActionModal(`Reçu Dépôt ${depositId}`, "Vérifiez attentivement le montant et l'ID avant de créditer.", null, imgUrl);
     }
 
-    /* VALIDATION ET CRÉDIT GARANTI DU PORTEFEUILLE */
-    function confirmDepositApproval(depositId, userId, amount) {
+    function approveDeposit(depositId, userId, amount) {
       openActionModal(
-        "Validation du Dépôt",
-        `Confirmez-vous la réception du paiement ? +${amount.toLocaleString()} HTG seront ajoutés immédiatement au solde du client.`,
+        "Validation Dépôt",
+        `Confirmez-vous la réception du paiement ? +${amount.toLocaleString()} HTG seront crédités instantanément sur le portefeuille du client.`,
         async () => {
           try {
             await db.collection('deposits').doc(depositId).update({
@@ -902,10 +1089,10 @@
       );
     }
 
-    function confirmDepositRejection(depositId) {
+    function rejectDeposit(depositId) {
       openActionModal(
-        "Rejet de la Recharge",
-        "Voulez-vous rejeter ce dépôt ?",
+        "Rejet de Dépôt",
+        "Confirmez-vous le rejet de cette demande de recharge ?",
         async () => {
           try {
             await db.collection('deposits').doc(depositId).update({
@@ -920,36 +1107,39 @@
       );
     }
 
-    /* ÉCOUTE DES COMMANDES MANUELLES */
+    /* ==================== 2. GESTION DES COMMANDES ==================== */
     function streamOrders() {
       const target = document.getElementById('orders-stream-target');
-      const counterSeg = document.getElementById('counter-seg-orders');
-      const kpiOrders = document.getElementById('count-pending-orders');
+      const pillCount = document.getElementById('count-pill-orders');
 
-      db.collection('orders').where('status', '==', 'en_attente').onSnapshot(snapshot => {
-        const count = snapshot.size;
-        counterSeg.innerText = count;
-        kpiOrders.innerText = count;
+      db.collection('orders').onSnapshot(snapshot => {
+        let list = [];
+        snapshot.forEach(doc => list.push(doc.data()));
+        list.sort((a, b) => (b.createdAtServer ? b.createdAtServer.toMillis() : 0) - (a.createdAtServer ? a.createdAtServer.toMillis() : 0));
 
-        if (snapshot.empty) {
-          target.innerHTML = `<div class="empty-stream-box">Aucune commande en attente.</div>`;
+        const pendingList = list.filter(o => o.status === 'en_attente');
+        pillCount.innerText = pendingList.length;
+
+        if (list.length === 0) {
+          target.innerHTML = `<div class="empty-stream-box">Aucune commande enregistrée.</div>`;
           return;
         }
 
         target.innerHTML = '';
-        snapshot.forEach(doc => {
-          const ord = doc.data();
+        list.forEach(ord => {
           const item = ord.item || {};
           const deliv = item.deliveryInfo || {};
+          const isPending = (ord.status === 'en_attente');
+          const statusColor = ord.status === 'livre' ? 'var(--success)' : (ord.status === 'rejete' ? 'var(--danger)' : 'var(--warning)');
 
           let lines = [];
           if (deliv.playerId) lines.push(`<div class="detail-line"><span class="detail-label">UID Joueur</span><span class="detail-val">${deliv.playerId}</span></div>`);
-          if (deliv.email) lines.push(`<div class="detail-line"><span class="detail-label">Email Compte</span><span class="detail-val">${deliv.email}</span></div>`);
+          if (deliv.email) lines.push(`<div class="detail-line"><span class="detail-label">Compte Email</span><span class="detail-val">${deliv.email}</span></div>`);
           if (deliv.password) lines.push(`<div class="detail-line"><span class="detail-label">Mot de passe</span><span class="detail-val">${deliv.password}</span></div>`);
-          if (deliv.username) lines.push(`<div class="detail-line"><span class="detail-label">Nom Utilisateur</span><span class="detail-val">${deliv.username}</span></div>`);
+          if (deliv.username) lines.push(`<div class="detail-line"><span class="detail-label">Utilisateur</span><span class="detail-val">${deliv.username}</span></div>`);
           if (deliv.whatsapp) lines.push(`<div class="detail-line"><span class="detail-label">WhatsApp</span><span class="detail-val">${deliv.whatsapp}</span></div>`);
-          if (deliv.walletAddress) lines.push(`<div class="detail-line"><span class="detail-label">Adresse TRC20</span><span class="detail-val">${deliv.walletAddress}</span></div>`);
           if (deliv.meruTag) lines.push(`<div class="detail-line"><span class="detail-label">Tag Meru</span><span class="detail-val">${deliv.meruTag}</span></div>`);
+          if (deliv.walletAddress) lines.push(`<div class="detail-line"><span class="detail-label">TRC-20</span><span class="detail-val">${deliv.walletAddress}</span></div>`);
 
           const card = document.createElement('div');
           card.className = 'operation-card';
@@ -959,31 +1149,39 @@
                 <div class="op-client-title">${item.title || 'Service'} — ${item.offerName || ''}</div>
                 <div class="op-client-sub">${ord.userEmail} • Réf: ${ord.orderId}</div>
               </div>
-              <div class="op-amount">${item.price ? item.price.toLocaleString() + ' HTG' : ''}</div>
+              <div style="text-align:right;">
+                <div class="op-amount">${(item.price || 0).toLocaleString()} HTG</div>
+                <span style="font-size:10px; font-weight:800; color:${statusColor}; text-transform:uppercase;">${ord.status}</span>
+              </div>
             </div>
 
             <div class="op-details-box">
-              ${lines.join('') || '<div style="color:var(--text-muted);">Aucun identifiant de livraison fourni</div>'}
+              <div class="detail-line"><span class="detail-label">Moyen de Paiement</span><span class="detail-val">${(ord.paymentMethod || 'Portefeuille').toUpperCase()}</span></div>
+              ${ord.transactionId ? `<div class="detail-line"><span class="detail-label">Transaction</span><span class="detail-val">${ord.transactionId}</span></div>` : ''}
+              ${ord.pinCode ? `<div class="detail-line"><span class="detail-label">PIN Fourni</span><span class="detail-val" style="color:var(--success); font-family:monospace;">${ord.pinCode}</span></div>` : ''}
+              ${lines.join('') || '<div style="color:var(--text-muted);">Aucune donnée requise</div>'}
             </div>
 
-            <div class="op-actions">
-              <button class="btn-action btn-approve" onclick="confirmOrderFulfillment('${ord.orderId}')">
-                Marquer comme Livré
-              </button>
-              <button class="btn-action btn-reject" onclick="confirmOrderRejection('${ord.orderId}')">
-                Rejeter
-              </button>
-            </div>
+            ${isPending ? `
+              <div class="op-actions">
+                <button class="btn-action btn-approve" onclick="fulfillOrder('${ord.orderId}')">
+                  Marquer comme Livré
+                </button>
+                <button class="btn-action btn-reject" onclick="rejectOrder('${ord.orderId}')">
+                  Rejeter
+                </button>
+              </div>
+            ` : ''}
           `;
           target.appendChild(card);
         });
       });
     }
 
-    function confirmOrderFulfillment(orderId) {
+    function fulfillOrder(orderId) {
       openActionModal(
-        "Clôture de Commande",
-        "Confirmez-vous que le service a bien été activé pour le client ?",
+        "Livraison de Commande",
+        "Confirmez-vous que les diamants/abonnements ont été crédités sur le compte du joueur ?",
         async () => {
           try {
             await db.collection('orders').doc(orderId).update({
@@ -998,7 +1196,7 @@
       );
     }
 
-    function confirmOrderRejection(orderId) {
+    function rejectOrder(orderId) {
       openActionModal(
         "Rejet de Commande",
         "Voulez-vous rejeter cette commande ?",
@@ -1016,12 +1214,274 @@
       );
     }
 
-    function streamUserMetrics() {
-      db.collection('users').onSnapshot(snap => {
-        document.getElementById('count-total-users').innerText = snap.size;
+    /* ==================== 3. GESTION DES UTILISATEURS ==================== */
+    function streamUsers() {
+      db.collection('users').onSnapshot(snapshot => {
+        allLoadedUsers = [];
+        snapshot.forEach(doc => allLoadedUsers.push(doc.data()));
+        renderUsersList(allLoadedUsers);
       });
     }
 
+    function renderUsersList(users) {
+      const target = document.getElementById('users-stream-target');
+      if (!users || users.length === 0) {
+        target.innerHTML = `<div class="empty-stream-box">Aucun utilisateur trouvé.</div>`;
+        return;
+      }
+
+      target.innerHTML = '';
+      users.forEach(u => {
+        const card = document.createElement('div');
+        card.className = 'user-card';
+        card.innerHTML = `
+          <div class="user-card-head">
+            <div>
+              <div class="user-card-name">${u.displayName || 'Utilisateur'}</div>
+              <div class="user-card-email">${u.email}</div>
+              <div style="font-size:10px; color:var(--text-light); font-family:monospace; margin-top:2px;">UID: ${u.uid}</div>
+            </div>
+            <div class="user-card-balance">${(u.walletBalance || 0).toLocaleString()} HTG</div>
+          </div>
+
+          <div class="user-card-actions">
+            <button class="btn-action btn-approve" style="height:34px; font-size:11px;" onclick="promptEditUserBalance('${u.uid}', ${u.walletBalance || 0})">
+              Modifier Solde
+            </button>
+            <button class="btn-action btn-reject" style="height:34px; font-size:11px;" onclick="confirmDeleteUser('${u.uid}', '${u.email}')">
+              Supprimer
+            </button>
+          </div>
+        `;
+        target.appendChild(card);
+      });
+    }
+
+    function filterUsers(query) {
+      const q = query.toLowerCase().trim();
+      if (!q) { renderUsersList(allLoadedUsers); return; }
+      const filtered = allLoadedUsers.filter(u => 
+        (u.email && u.email.toLowerCase().includes(q)) ||
+        (u.displayName && u.displayName.toLowerCase().includes(q)) ||
+        (u.uid && u.uid.toLowerCase().includes(q))
+      );
+      renderUsersList(filtered);
+    }
+
+    function promptEditUserBalance(userId, currentBalance) {
+      const inputEl = document.getElementById('modal-generic-input');
+      inputEl.value = currentBalance;
+      document.getElementById('modal-input-label').innerText = "Nouveau solde portefeuille (en HTG) :";
+      
+      openActionModal(
+        "Ajuster le Solde Client",
+        "Définissez le nouveau solde en HTG. La mise à jour sera immédiate.",
+        async () => {
+          const newVal = parseFloat(inputEl.value);
+          if (isNaN(newVal) || newVal < 0) {
+            showAdminToast("Montant invalide.", true);
+            return;
+          }
+          try {
+            await db.collection('users').doc(userId).update({ walletBalance: newVal });
+            showAdminToast(`Solde mis à jour : ${newVal.toLocaleString()} HTG`);
+          } catch (e) {
+            showAdminToast("Erreur : " + e.message, true);
+          }
+        },
+        null,
+        true
+      );
+    }
+
+    function confirmDeleteUser(userId, userEmail) {
+      openActionModal(
+        "Supprimer l'Utilisateur",
+        `Êtes-vous sûr de vouloir supprimer définitivement le compte ${userEmail} ? Cette action est irréversible.`,
+        async () => {
+          try {
+            await db.collection('users').doc(userId).delete();
+            showAdminToast("Utilisateur supprimé de la base.");
+          } catch (e) {
+            showAdminToast("Erreur : " + e.message, true);
+          }
+        }
+      );
+    }
+
+    /* ==================== 4. MODIFICATEUR DE PRIX ==================== */
+    function streamCatalogPrices() {
+      const target = document.getElementById('prices-matrix-target');
+
+      db.collection('system_config').doc('prices').onSnapshot(doc => {
+        const customPrices = doc.exists ? doc.data() : {};
+        target.innerHTML = '';
+
+        DEFAULT_CATALOG_PRICES.forEach(item => {
+          const currentPrice = (customPrices[item.id] !== undefined) ? customPrices[item.id] : item.defaultPrice;
+          const row = document.createElement('div');
+          row.className = 'price-row-item';
+          row.innerHTML = `
+            <div class="price-item-info">
+              <div class="price-item-name">${item.name}</div>
+              <div class="price-item-cat">Identifiant : ${item.id}</div>
+            </div>
+            <div class="price-item-input-box">
+              <input type="number" id="price-input-${item.id}" class="price-input" value="${currentPrice}">
+              <span style="font-size:11px; font-weight:800;">HTG</span>
+              <button class="btn-save-price" onclick="saveCatalogPrice('${item.id}')">Sauvegarder</button>
+            </div>
+          `;
+          target.appendChild(row);
+        });
+      });
+    }
+
+    async function saveCatalogPrice(itemId) {
+      const input = document.getElementById(`price-input-${itemId}`);
+      const val = parseFloat(input.value);
+      if (isNaN(val) || val <= 0) {
+        showAdminToast("Prix invalide.", true);
+        return;
+      }
+
+      try {
+        await db.collection('system_config').doc('prices').set({
+          [itemId]: val
+        }, { merge: true });
+        showAdminToast(`Prix de ${itemId} mis à jour : ${val} HTG !`);
+      } catch (e) {
+        showAdminToast("Erreur : " + e.message, true);
+      }
+    }
+
+    /* ==================== 5. FERMER LE SITE & NOTIFICATIONS ==================== */
+    function streamSystemStatus() {
+      db.collection('system_config').doc('status').onSnapshot(doc => {
+        if (doc.exists) {
+          isSiteCurrentlyOpen = (doc.data().isSiteOpen !== false);
+        } else {
+          isSiteCurrentlyOpen = true;
+        }
+        updateSiteSwitchUI();
+      });
+
+      db.collection('system_config').doc('notifications').onSnapshot(doc => {
+        if (doc.exists && doc.data().active) {
+          document.getElementById('notif-broadcast-title').value = doc.data().title || "";
+          document.getElementById('notif-broadcast-body').value = doc.data().message || "";
+        }
+      });
+    }
+
+    function updateSiteSwitchUI() {
+      const btn = document.getElementById('btn-toggle-site');
+      const text = document.getElementById('site-status-text');
+      const sub = document.getElementById('site-status-sub');
+
+      if (isSiteCurrentlyOpen) {
+        btn.className = "btn-switch-toggle open";
+        btn.innerText = "OUVERT";
+        text.innerText = "Site Actif & Ouvert";
+        text.style.color = "var(--success)";
+        sub.innerText = "Les clients peuvent commander et recharger librement";
+      } else {
+        btn.className = "btn-switch-toggle closed";
+        btn.innerText = "FERMÉ";
+        text.innerText = "Site Fermé (Maintenance)";
+        text.style.color = "var(--danger)";
+        sub.innerText = "Le site public affiche un écran d'indisponibilité";
+      }
+    }
+
+    function toggleSiteStatus() {
+      const nextState = !isSiteCurrentlyOpen;
+      openActionModal(
+        nextState ? "Réouverture du Site" : "Fermeture Immédiate du Site",
+        nextState 
+          ? "Voulez-vous rouvrir la plateforme et autoriser à nouveau les commandes ?"
+          : "Voulez-vous basculer le site en mode maintenance ? Les clients ne pourront plus passer commande.",
+        async () => {
+          try {
+            await db.collection('system_config').doc('status').set({
+              isSiteOpen: nextState,
+              updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+            }, { merge: true });
+            showAdminToast(nextState ? "Le site est maintenant OUVERT !" : "Le site est maintenant FERMÉ !");
+          } catch (e) {
+            showAdminToast("Erreur : " + e.message, true);
+          }
+        }
+      );
+    }
+
+    async function publishBroadcastNotification() {
+      const title = document.getElementById('notif-broadcast-title').value.trim();
+      const body = document.getElementById('notif-broadcast-body').value.trim();
+
+      if (!title || !body) {
+        showAdminToast("Veuillez remplir le titre et le message.", true);
+        return;
+      }
+
+      try {
+        await db.collection('system_config').doc('notifications').set({
+          title: title,
+          message: body,
+          active: true,
+          updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+        showAdminToast("Notification diffusée à tous les clients !");
+      } catch (e) {
+        showAdminToast("Erreur : " + e.message, true);
+      }
+    }
+
+    async function clearBroadcastNotification() {
+      try {
+        await db.collection('system_config').doc('notifications').set({
+          active: false,
+          updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+        }, { merge: true });
+        document.getElementById('notif-broadcast-title').value = "";
+        document.getElementById('notif-broadcast-body').value = "";
+        showAdminToast("Notification désactivée.");
+      } catch (e) {
+        showAdminToast("Erreur : " + e.message, true);
+      }
+    }
+
+    /* MODALE GÉNÉRIQUE POUR TOUTES LES ACTIONS */
+    function openActionModal(title, desc, onConfirm, receiptImgUrl = null, hasInput = false) {
+      document.getElementById('modal-action-title').innerText = title;
+      document.getElementById('modal-action-desc').innerText = desc;
+      activeActionCallback = onConfirm;
+
+      const receiptView = document.getElementById('modal-receipt-view');
+      const receiptImg = document.getElementById('receipt-modal-img');
+      const customInputBox = document.getElementById('modal-custom-input-box');
+      const actionButtons = document.getElementById('modal-action-buttons');
+
+      receiptView.style.display = receiptImgUrl ? 'block' : 'none';
+      if (receiptImgUrl) receiptImg.src = receiptImgUrl;
+
+      customInputBox.style.display = hasInput ? 'block' : 'none';
+      actionButtons.style.display = onConfirm ? 'flex' : 'none';
+
+      document.getElementById('action-sheet-backdrop').classList.add('active');
+    }
+
+    function closeActionModal() {
+      document.getElementById('action-sheet-backdrop').classList.remove('active');
+      activeActionCallback = null;
+    }
+
+    document.getElementById('modal-confirm-action-btn').addEventListener('click', () => {
+      if (typeof activeActionCallback === 'function') activeActionCallback();
+      closeActionModal();
+    });
+
+    /* GESTION DE LA SIDEBAR & DÉCONNEXION */
     function openSidebar() { document.getElementById('sidebar-overlay').classList.add('active'); }
     function closeSidebar() { document.getElementById('sidebar-overlay').classList.remove('active'); }
     function toggleNotifications() { document.getElementById('notif-panel').classList.toggle('open'); }
@@ -1031,7 +1491,7 @@
       auth.signOut().then(() => window.location.href = "../index.html");
     }
 
-    /* VÉRIFICATION D'ACCÈS MMASKED36@GMAIL.COM */
+    /* SURVEILLANCE AUTHENTIFICATION ADMINISTRATIVE STRICTE */
     auth.onAuthStateChanged(user => {
       if (!user) {
         window.location.href = "../authentification/login.html";
@@ -1039,17 +1499,15 @@
       }
 
       if (user.email.toLowerCase() !== STRICT_ADMIN_EMAIL.toLowerCase()) {
-        showAdminToast("Accès refusé : vous n'êtes pas administrateur.", true);
+        showAdminToast("Accès strictement refusé.", true);
         auth.signOut().then(() => {
           setTimeout(() => window.location.href = "../index.html", 1200);
         });
         return;
       }
 
-      currentAdmin = user;
-
       if (sessionStorage.getItem('dp_admin_session_auth') === 'AUTHENTICATED_MASTER') {
-        unlockDashboardUI();
+        unlockAdminUI();
       } else {
         document.getElementById('two-factor-screen').style.display = 'flex';
         document.getElementById('admin-secured-shell').style.display = 'none';
