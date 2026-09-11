@@ -15,7 +15,7 @@
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
 
   <style>
-    /* FINTECH DESIGN SYSTEM HAUTE GAMME */
+    /* FINTECH DESIGN SYSTEM ULTRA-PRO */
     :root {
       --bg: #FFFFFF;
       --surface: #FFFFFF;
@@ -24,29 +24,27 @@
       --border-light: #F1F5F9;
 
       --text-black: #0F172A;
-      --text-muted: #64748B;
+      --text-muted: #475569;
       --text-light: #94A3B8;
 
       --royal-blue: #1D4ED8;
       --royal-gradient: linear-gradient(135deg, #1D4ED8 0%, #2563EB 50%, #3B82F6 100%);
-      --royal-soft: rgba(29, 78, 216, 0.08);
+      --royal-soft: rgba(29, 78, 216, 0.06);
 
       --danger: #DC2626;
       --danger-soft: rgba(220, 38, 38, 0.08);
       --success: #10B981;
-      --success-soft: rgba(16, 185, 129, 0.08);
       --warning: #F59E0B;
 
       --radius-sm: 8px;
       --radius-md: 12px;
-      --radius-square: 16px;
-      --radius-card: 18px;
+      --radius-card: 16px;
       --radius-full: 9999px;
 
-      --shadow-sm: 0 2px 8px rgba(15, 23, 42, 0.04);
-      --shadow-card: 0 4px 16px -2px rgba(15, 23, 42, 0.06);
-      --shadow-float: 0 10px 25px -4px rgba(29, 78, 216, 0.35);
-      --shadow-sheet: 0 -10px 35px rgba(15, 23, 42, 0.14);
+      --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.05);
+      --shadow-card: 0 4px 14px -2px rgba(15, 23, 42, 0.06);
+      --shadow-float: 0 12px 28px -4px rgba(15, 23, 42, 0.3);
+      --shadow-sheet: 0 -10px 35px rgba(15, 23, 42, 0.12);
       --font: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     }
 
@@ -71,7 +69,7 @@
     }
 
     /* HEADER */
-    .site-header { position: sticky; top: 0; z-index: 40; background: rgba(255, 255, 255, 0.96); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-bottom: 1px solid var(--border); padding: 10px 16px; }
+    .site-header { position: sticky; top: 0; z-index: 40; background: rgba(255, 255, 255, 0.98); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-bottom: 1px solid var(--border); padding: 10px 16px; }
     .header-top { display: flex; align-items: center; justify-content: space-between; height: 44px; }
     .brand-logo-only { height: 34px; width: auto; max-width: 120px; object-fit: contain; cursor: pointer; }
     .header-icons { display: flex; align-items: center; gap: 6px; }
@@ -92,17 +90,18 @@
     .cat-btn.active { background: var(--text-black); border-color: var(--text-black); color: #FFFFFF; }
     .cat-btn.active .icon-svg { stroke: #FFFFFF; }
 
-    /* CORPS & CARTES PRODUITS HAUTE GAMME */
+    /* CORPS & GRILLE DE PRODUITS */
     .main-body { padding: 16px; flex: 1; }
-    .category-section-block { margin-bottom: 24px; }
+    .category-section-block { margin-bottom: 26px; }
     .category-section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
     .category-section-title { font-size: 15px; font-weight: 900; color: var(--text-black); letter-spacing: -0.3px; }
-    .btn-see-more { font-size: 12px; font-weight: 800; color: var(--royal-blue); background: none; border: none; cursor: pointer; font-family: inherit; padding: 4px 8px; border-radius: var(--radius-sm); display: flex; align-items: center; gap: 4px; }
+    .btn-see-more { font-size: 12px; font-weight: 800; color: var(--royal-blue); background: none; border: none; cursor: pointer; font-family: inherit; padding: 4px 6px; border-radius: var(--radius-sm); display: flex; align-items: center; gap: 4px; }
     .btn-see-more:active { background: var(--royal-soft); }
     .btn-see-more svg { width: 14px; height: 14px; stroke: currentColor; stroke-width: 2.5; fill: none; }
 
-    .products-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+    .products-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
     
+    /* CARTE PRODUIT FINTECH SANS POINT VERT */
     .product-card {
       background: #FFFFFF;
       border: 1px solid var(--border);
@@ -112,34 +111,44 @@
       flex-direction: column;
       justify-content: space-between;
       box-shadow: var(--shadow-sm);
-      transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+      transition: transform 0.12s ease, border-color 0.12s ease;
+      cursor: pointer;
+    }
+    .product-card:active { transform: scale(0.98); border-color: var(--royal-blue); }
+
+    .product-square-frame {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      background: var(--surface-subtle);
+      border: 1px solid var(--border-light);
       position: relative;
+      margin-bottom: 10px;
     }
-    .product-card:active { transform: scale(0.98); border-color: var(--royal-blue); box-shadow: var(--shadow-card); }
-    
-    .product-badge-live {
-      position: absolute;
-      top: 8px;
-      right: 8px;
-      z-index: 2;
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: #10B981;
-      box-shadow: 0 0 0 2px #FFFFFF;
-    }
-
-    .product-square-frame { width: 100%; aspect-ratio: 1 / 1; border-radius: var(--radius-square); overflow: hidden; background: var(--surface-subtle); border: 1px solid var(--border-light); position: relative; margin-bottom: 10px; }
     .product-square-frame img { width: 100%; height: 100%; object-fit: cover; display: block; }
-    .frame-fallback { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 18px; color: var(--text-light); text-transform: uppercase; }
+    .frame-fallback { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 16px; color: var(--text-light); text-transform: uppercase; }
     
-    .product-name { font-size: 13px; font-weight: 800; color: var(--text-black); line-height: 1.2; margin-bottom: 2px; display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden; }
-    .product-starting-price { font-size: 11px; font-weight: 700; color: var(--royal-blue); margin-bottom: 10px; }
+    .product-name { font-size: 13px; font-weight: 800; color: var(--text-black); line-height: 1.25; margin-bottom: 3px; display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden; }
+    .product-starting-price { font-size: 11px; font-weight: 700; color: var(--royal-blue); margin-bottom: 10px; letter-spacing: -0.2px; }
 
-    .btn-view-offers { width: 100%; height: 36px; background: var(--surface-subtle); border: 1px solid var(--border); border-radius: var(--radius-md); color: var(--royal-blue); font-size: 12px; font-weight: 800; display: flex; align-items: center; justify-content: center; cursor: pointer; font-family: inherit; transition: all 0.15s ease; }
-    .btn-view-offers:active { background: var(--royal-gradient); color: #FFFFFF; border-color: transparent; }
+    .btn-view-offers {
+      width: 100%;
+      height: 34px;
+      background: var(--surface-subtle);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      color: var(--royal-blue);
+      font-size: 11px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: inherit;
+      pointer-events: none;
+    }
 
-    /* BOUTON FLOTTANT PANIER (FINTECH REVOLUT STYLE) */
+    /* BOUTON FLOTTANT PANIER */
     .floating-cart-pill {
       position: fixed;
       bottom: 20px;
@@ -155,7 +164,7 @@
       gap: 12px;
       cursor: pointer;
       text-decoration: none;
-      transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      transition: transform 0.15s ease;
     }
     .floating-cart-pill:active { transform: scale(0.96); }
     .floating-cart-count { background: var(--royal-blue); color: #FFFFFF; font-size: 11px; font-weight: 900; width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
@@ -188,7 +197,7 @@
     .footer-status-pill { display: flex; align-items: center; gap: 6px; font-size: 10px; color: var(--royal-blue); text-transform: uppercase; letter-spacing: 0.5px; }
     .footer-status-indicator { width: 6px; height: 6px; border-radius: 50%; background: var(--royal-blue); }
 
-    /* TOAST PRO */
+    /* TOAST */
     #toast-container { position: fixed; top: 16px; left: 50%; transform: translateX(-50%); z-index: 300; width: calc(100% - 32px); max-width: 380px; pointer-events: none; }
     .toast-pro { background: #0F172A; color: #FFFFFF; padding: 12px 16px; border-radius: var(--radius-md); font-size: 12px; font-weight: 700; display: flex; align-items: center; gap: 10px; box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2); transform: translateY(-20px); opacity: 0; transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1); }
     .toast-pro.toast-danger { background: #991B1B; border-left: 4px solid #EF4444; }
@@ -222,7 +231,7 @@
     .btn-logout { background: var(--danger-soft); color: var(--danger); border: 1px solid rgba(220, 38, 38, 0.2); }
 
     /* ==========================================================================
-       MODALE / BOTTOM SHEET : SÉLECTION PACKS FINTECH AVANCÉE
+       MODALE / BOTTOM SHEET DE SÉLECTION D'OFFRES
        ========================================================================== */
     .sheet-backdrop { position: fixed; inset: 0; background: rgba(15, 23, 42, 0.55); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); z-index: 120; opacity: 0; visibility: hidden; transition: all 0.2s ease; }
     .sheet-backdrop.active { opacity: 1; visibility: visible; }
@@ -230,25 +239,25 @@
     .sheet-backdrop.active .sheet-modal { transform: translate(-50%, 0); }
     
     .sheet-handle-bar { width: 36px; height: 4px; background: var(--border); border-radius: var(--radius-full); margin: 8px auto 0; }
-    .sheet-header { padding: 12px 16px 16px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+    .sheet-header { padding: 12px 16px 14px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
     .sheet-thumb { width: 40px; height: 40px; border-radius: var(--radius-sm); overflow: hidden; border: 1px solid var(--border-light); }
     .sheet-thumb img { width: 100%; height: 100%; object-fit: cover; }
     .sheet-body { padding: 16px; overflow-y: auto; flex: 1; }
 
-    /* GRILLE DES PACKS SÉLECTIONNABLES */
-    .offers-pack-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-bottom: 12px; }
+    /* GRILLE D'OFFRES */
+    .offers-pack-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-bottom: 10px; }
     
     .offer-card-chip {
-      border: 1.5px solid var(--border);
+      border: 1px solid var(--border);
       border-radius: var(--radius-md);
-      padding: 10px;
+      padding: 10px 12px;
       background: #FFFFFF;
       cursor: pointer;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
       position: relative;
-      transition: all 0.15s ease;
+      transition: all 0.12s ease;
     }
     .offer-card-chip.selected {
       border-color: var(--royal-blue);
@@ -268,10 +277,10 @@
     .offer-card-chip.selected .chip-check-icon { display: block; }
     
     .chip-name { font-size: 12px; font-weight: 800; color: var(--text-black); line-height: 1.3; margin-bottom: 6px; padding-right: 14px; }
-    .chip-price { font-size: 13px; font-weight: 900; color: var(--royal-blue); }
+    .chip-price { font-size: 13px; font-weight: 900; color: var(--royal-blue); letter-spacing: -0.2px; }
 
-    /* PUCE DE PRÉSÉLECTION DE MONTANTS RAPIDES (GIFT CARDS) */
-    .presets-chips-row { display: flex; gap: 6px; margin: 10px 0; overflow-x: auto; scrollbar-width: none; }
+    /* MONTANTS RAPIDES POUR GIFT CARDS */
+    .presets-chips-row { display: flex; gap: 6px; margin: 8px 0; overflow-x: auto; scrollbar-width: none; }
     .preset-btn {
       background: var(--surface-subtle);
       border: 1px solid var(--border);
@@ -286,12 +295,12 @@
     }
     .preset-btn:active, .preset-btn.active { background: var(--text-black); color: #FFFFFF; border-color: var(--text-black); }
 
-    .calc-box { background: var(--surface-subtle); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 14px; margin-bottom: 14px; }
+    .calc-box { background: var(--surface-subtle); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 12px; margin-bottom: 12px; }
     .calc-input { width: 100%; height: 44px; background: #FFFFFF; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 0 12px; font-size: 15px; font-weight: 900; color: var(--text-black); outline: none; margin-top: 6px; }
     .calc-input:focus { border-color: var(--royal-blue); }
 
-    /* FORMULAIRE DE LIVRAISON STYLISÉ */
-    .delivery-form-container { margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--border); }
+    /* FORMULAIRE DE LIVRAISON */
+    .delivery-form-container { margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--border); }
     .delivery-form-title { font-size: 11px; font-weight: 800; text-transform: uppercase; color: var(--text-black); letter-spacing: 0.5px; margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
     .field-group { margin-bottom: 10px; }
     .field-group label { font-size: 11px; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 4px; }
@@ -314,12 +323,12 @@
 
   <div class="app-shell">
 
-    <!-- BANDEAU FERMETURE MAINTENANCE -->
+    <!-- BANDEAU MAINTENANCE -->
     <div id="maintenance-banner">
       Plateforme temporairement en maintenance. Les commandes sont suspendues pour un court instant.
     </div>
 
-    <!-- HEADER -->
+    <!-- HEADER PRO -->
     <header class="site-header">
       <div class="header-top">
         <a href="index.html">
@@ -400,7 +409,7 @@
     <main class="main-body">
       <div id="catalog-container"></div>
 
-      <!-- WHATSAPP BANNER -->
+      <!-- BANNIÈRE WHATSAPP VIP -->
       <div class="whatsapp-banner">
         <div>
           <div class="wa-title" id="txt-wa-title">Assistance WhatsApp 24/7</div>
@@ -464,7 +473,7 @@
       </div>
     </main>
 
-    <!-- PILULE FLOTTANTE PANIER (FINTECH REVOLUT) -->
+    <!-- PILULE FLOTTANTE PANIER (FINTECH REVOLUT STYLE) -->
     <a href="cart.html" class="floating-cart-pill" id="floating-cart-pill">
       <span class="floating-cart-count" id="float-cart-count">0</span>
       <span class="floating-cart-text">Voir Panier</span>
@@ -482,7 +491,7 @@
       </div>
     </footer>
 
-    <!-- SIDEBAR-MENU HAUT DE GAMME -->
+    <!-- SIDEBAR-MENU REHAUSSÉ -->
     <div class="sidebar-overlay" id="sidebar-overlay" onclick="closeSidebar()">
       <aside class="sidebar-drawer" onclick="event.stopPropagation()">
         <div class="sidebar-content">
@@ -537,7 +546,7 @@
       </aside>
     </div>
 
-    <!-- MODALE / BOTTOM SHEET PROFESSIONNELLE -->
+    <!-- MODALE / BOTTOM SHEET DE SÉLECTION D'OFFRES -->
     <div class="sheet-backdrop" id="sheet-backdrop" onclick="closeOffersModal()">
       <div class="sheet-modal" onclick="event.stopPropagation()">
         <div class="sheet-handle-bar"></div>
@@ -587,7 +596,7 @@
     const auth = firebase.auth();
     const db = firebase.firestore();
 
-    /* CATALOGUE EXACT AVEC PACKS ET GIFT CARDS USA */
+    /* CATALOGUE COMPLET INTÉGRÉ */
     const PRODUCTS = [
       // 1. JEUX
       { id: "freefire", title: "Free Fire", category: "gaming", logo: "freefire-logo.png", minPrice: 157, offers: [
@@ -658,7 +667,7 @@
         { id: "pubg_60", name: "60 UC", price: 180 }, 
         { id: "pubg_300", name: "300 + 25 UC", price: 891 },
         { id: "pubg_600", name: "600 + 60 UC", price: 1780 }, 
-        { id: "pubg_1500", name: "1,500 + 300 UC", price: 4130 },
+        { id: "pubg_1500", name: "1,500 + 300 UC", price: 4130 }, 
         { id: "pubg_3000", name: "3,000 + 850 UC", price: 8075 }
       ]},
       { id: "minecraft", title: "Minecraft", category: "gaming", logo: "minecraft-logo.png", isUnavailable: true, minPrice: 0, offers: [] },
@@ -676,7 +685,7 @@
         { id: "lm_499", name: "499 Diamants", price: 925 }, 
         { id: "lm_999", name: "999 Diamants", price: 1800 },
         { id: "lm_1999", name: "1,999 Diamants", price: 3600 }, 
-        { id: "lm_2999", name: "2,999 Diamants", price: 5400 },
+        { id: "lm_2999", name: "2,999 Diamants", price: 5400 }, 
         { id: "lm_4999", name: "4,999 Diamants", price: 9000 }, 
         { id: "lm_9999", name: "9,999 Diamants", price: 18000 },
         { id: "lm_29999", name: "29,999 Diamants", price: 54000 }
@@ -734,7 +743,7 @@
       ]},
       { id: "binance", title: "Binance", category: "finance", logo: "binance.png", isDynamic: true, rate: 142, min: 5, max: 250, feeFixed: 0, feePercent: 0, req: "crypto_addr" },
 
-      // 4. GIFT CARDS (USA RÉGION UNIQUE, MONTANTS AU CHOIX, WHATSAPP SEULEMENT)
+      // 4. GIFT CARDS USA (WHATSAPP SEULEMENT)
       { id: "apple", title: "Apple Gift Card (USA)", category: "giftcard", logo: "applegc.png", isDynamic: true, rate: 160, min: 5, max: 500, feeFixed: 0, feePercent: 0, req: "whatsapp_only" },
       { id: "steam", title: "Steam Gift Card (USA)", category: "giftcard", logo: "steamgc.png", isDynamic: true, rate: 160, min: 5, max: 500, feeFixed: 0, feePercent: 0, req: "whatsapp_only" },
       { id: "playstation", title: "PlayStation Gift Card (USA)", category: "giftcard", logo: "playstationgc.png", isDynamic: true, rate: 160, min: 5, max: 500, feeFixed: 0, feePercent: 0, req: "whatsapp_only" },
@@ -760,6 +769,7 @@
     let liveCustomPrices = {};
     let liveCustomRates = {};
 
+    /* TRADUCTIONS */
     const I18N = {
       fr: {
         toastMsg: "Langue changée : Français",
@@ -767,14 +777,14 @@
         missingDelivery: "Veuillez remplir vos informations de livraison",
         searchPlaceholder: "Rechercher Free Fire, Netflix, Meru, Apple...",
         catAll: "Tout", catGaming: "Jeux", catStreaming: "Abonnement", catFinance: "Finance", catGiftcard: "Gift Card",
-        seeMore: "Voir plus", viewOffers: "Voir les offres", fromPrice: "À partir de",
+        seeMore: "Voir plus", viewOffers: "Voir les offres", fromPrice: "Dès",
         waTitle: "Assistance WhatsApp 24/7", waSub: "Un problème ? Notre équipe répond en quelques secondes.", waBtn: "Discuter",
         reviewsTitle: "Avis des Clients", faqTitle: "Questions Fréquentes",
         faqQ1: "Comment sont livrées les recharges Free Fire ?", faqA1: "Les packs de diamants sont livrés automatiquement par code PIN sur redeem.hype.games.",
         faqQ2: "Quels sont les moyens de paiement acceptés ?", faqA2: "MonCash, NatCash, Meru, et Portefeuille DigitalPay.",
         navHome: "Accueil", navHistory: "Historique", navWallet: "Wallet", navShop: "Boutique", navSupport: "Support",
         authLogin: "Se Connecter", authRegister: "S'inscrire", authLogout: "Se Déconnecter",
-        modalOffersSub: "Sélectionnez votre offre", modalTotal: "Total à régler", modalOrder: "Ajouter au Panier",
+        modalOffersSub: "Sélectionnez votre formule", modalTotal: "Total à régler", modalOrder: "Ajouter au Panier",
         unavailableText: "Ce service n'est pas encore disponible"
       },
       ht: {
@@ -799,7 +809,7 @@
         missingDelivery: "Please fill in delivery details",
         searchPlaceholder: "Search Free Fire, Netflix, Meru, Apple...",
         catAll: "All", catGaming: "Games", catStreaming: "Subscription", catFinance: "Finance", catGiftcard: "Gift Cards",
-        seeMore: "See more", viewOffers: "View offers", fromPrice: "Starting at",
+        seeMore: "See more", viewOffers: "View offers", fromPrice: "From",
         waTitle: "24/7 WhatsApp Support", waSub: "Need help? Our team replies in seconds.", waBtn: "Chat now",
         reviewsTitle: "Customer Reviews", faqTitle: "Frequently Asked Questions",
         faqQ1: "How are Free Fire top-ups delivered?", faqA1: "Diamond packs are delivered automatically with PIN codes for redeem.hype.games.",
@@ -815,7 +825,7 @@
         missingDelivery: "Por favor complete los datos de entrega",
         searchPlaceholder: "Buscar Free Fire, Netflix, Meru, Apple...",
         catAll: "Todo", catGaming: "Juegos", catStreaming: "Suscripción", catFinance: "Finanzas", catGiftcard: "Tarjetas",
-        seeMore: "Ver más", viewOffers: "Ver ofertas", fromPrice: "A partir de",
+        seeMore: "Ver más", viewOffers: "Ver ofertas", fromPrice: "Desde",
         waTitle: "Soporte WhatsApp 24/7", waSub: "¿Necesita ayuda? Respondemos al instante.", waBtn: "Chatear",
         reviewsTitle: "Opiniones de Clientes", faqTitle: "Preguntas Frecuentes",
         faqQ1: "¿Cómo se entregan las recargas de Free Fire?", faqA1: "Los paquetes de diamantes se entregan automáticamente con códigos PIN en redeem.hype.games.",
@@ -962,7 +972,7 @@
       });
     }
 
-    /* RENDU DU CATALOGUE PRINCIPAL */
+    /* RENDU DU CATALOGUE SANS POINT VERT */
     function renderMainCatalog() {
       const target = document.getElementById('catalog-container');
       target.innerHTML = '';
@@ -1024,6 +1034,7 @@
       const initials = prod.title.substring(0, 2).toUpperCase();
       const card = document.createElement('div');
       card.className = 'product-card';
+      card.onclick = () => openOffersModal(prod.id);
 
       let priceText = '';
       if (prod.isDynamic) {
@@ -1033,7 +1044,6 @@
       }
 
       card.innerHTML = `
-        <span class="product-badge-live" title="Disponible 24/7"></span>
         <div>
           <div class="product-square-frame">
             <span class="frame-fallback">${initials}</span>
@@ -1044,9 +1054,9 @@
           <div class="product-name">${prod.title}</div>
           <div class="product-starting-price">${priceText}</div>
         </div>
-        <button class="btn-view-offers" onclick="openOffersModal('${prod.id}')">
+        <div class="btn-view-offers">
           ${dict.viewOffers}
-        </button>
+        </div>
       `;
       return card;
     }
@@ -1066,7 +1076,7 @@
       renderMainCatalog();
     }
 
-    /* MODALE / BOTTOM SHEET DE SÉLECTION D'OFFRES REVAMPÉE */
+    /* MODALE DES OFFRES FINTECH */
     function openOffersModal(prodId, isSilentRefresh = false) {
       const prod = PRODUCTS.find(p => p.id === prodId);
       if (!prod) return;
@@ -1095,13 +1105,12 @@
       }
       btnOrder.disabled = false;
 
-      // CAS 1 : SERVICES DYNAMIQUES (GIFT CARDS USA & FINANCE)
+      // CAS 1 : DYNAMIQUE (GIFT CARDS USA & FINANCE)
       if (prod.isDynamic) {
         let feeLabel = "Zéro frais supplémentaire";
         if (prod.feePercent > 0) feeLabel = `Frais appliqués : ${prod.feePercent}%`;
         if (prod.feeFixed > 0) feeLabel = `Frais fixes : +$${prod.feeFixed} USD`;
 
-        // Puces de présélections ($10, $25, $50, $100, $200)
         let presets = [10, 25, 50, 100, 200].filter(v => v >= prod.min && v <= prod.max);
 
         body.innerHTML = `
@@ -1122,7 +1131,7 @@
         renderDeliveryFields(prod.req);
         document.getElementById('modal-total-price').innerText = `0 HTG`;
       } 
-      // CAS 2 : PACKS FIXES (JEUX & STREAMING) SOUS FORME DE GRILLE MODERNE
+      // CAS 2 : PACKS FIXES (JEUX & STREAMING)
       else {
         const grid = document.createElement('div');
         grid.className = 'offers-pack-grid';
@@ -1208,7 +1217,7 @@
       };
     }
 
-    /* GESTION UNIQUE DES CHAMPS DE LIVRAISON : SEUL WHATSAPP POUR LES GIFT CARDS */
+    /* FORMULAIRE DE LIVRAISON SANS EMAIL POUR LES GIFT CARDS */
     function renderDeliveryFields(reqType) {
       const target = document.getElementById('modal-delivery-body');
       target.innerHTML = '';
@@ -1226,7 +1235,7 @@
 
       let fieldsHtml = '';
 
-      // POUR LES GIFT CARDS : SEUL LE NUMÉRO WHATSAPP EST DEMANDÉ
+      // SEUL LE NUMÉRO WHATSAPP EST DEMANDÉ POUR LES GIFT CARDS
       if (reqType === "whatsapp_only") {
         fieldsHtml = `
           <div class="field-group">
@@ -1275,7 +1284,6 @@
       document.getElementById('sheet-backdrop').classList.remove('active');
     }
 
-    /* AJOUT AU PANIER AVEC GESTION DES CARTES CADEAUX */
     function addToCart() {
       if (!isSiteOpen) {
         showToast("La plateforme est temporairement fermée pour maintenance.", true);
@@ -1311,7 +1319,7 @@
       if (elTag) deliveryData.meruTag = elTag.value.trim();
       if (elAddr) deliveryData.walletAddress = elAddr.value.trim();
 
-      // Vérification : si c'est une gift card, seul whatsapp est obligatoire
+      // Pour les Gift Cards : seul whatsapp est obligatoire
       if (selectedProduct.req === "whatsapp_only") {
         if (!deliveryData.whatsapp) {
           showToast("Veuillez entrer votre numéro WhatsApp pour recevoir le code.", true);
@@ -1345,7 +1353,6 @@
       updateCartIndicator();
     }
 
-    /* MISE À JOUR DE LA PILULE FLOTTANTE ET DU COMPTEUR */
     function updateCartIndicator() {
       let cart = JSON.parse(localStorage.getItem('dp_cart') || '[]');
       const count = cart.length;
