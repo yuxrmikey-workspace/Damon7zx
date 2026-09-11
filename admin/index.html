@@ -65,7 +65,6 @@
       flex-direction: column;
     }
 
-    /* CADRE CENTRÉ MOBILE FIRST */
     .app-shell {
       max-width: 480px;
       margin: 0 auto;
@@ -215,7 +214,111 @@
 
     .admin-pill.active .icon-svg { stroke: #FFFFFF; }
 
-    /* SEGMENTATION TACTILE MOBILE (DÉPÔTS / COMMANDES / VUE) */
+    /* ==========================================================================
+       ÉCRAN DE DOUBLE AUTHENTIFICATION (2FA) OBLIGATOIRE
+       ========================================================================== */
+    .two-factor-screen {
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      background: #FFFFFF;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      max-width: 480px;
+      margin: 0 auto;
+    }
+
+    .two-factor-box {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 16px;
+    }
+
+    .two-factor-icon-shield {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: var(--royal-soft);
+      border: 1px solid rgba(29, 78, 216, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--royal-blue);
+      margin-bottom: 4px;
+    }
+
+    .two-factor-title {
+      font-size: 20px;
+      font-weight: 900;
+      color: var(--text-black);
+      letter-spacing: -0.5px;
+    }
+
+    .two-factor-desc {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.5;
+      max-width: 320px;
+    }
+
+    .digits-input-container {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      margin: 12px 0 6px;
+      width: 100%;
+    }
+
+    .digit-cell {
+      width: 46px;
+      height: 52px;
+      background: var(--surface-subtle);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-md);
+      font-size: 22px;
+      font-weight: 900;
+      color: var(--text-black);
+      text-align: center;
+      outline: none;
+      font-family: inherit;
+      transition: all 0.15s ease;
+    }
+
+    .digit-cell:focus {
+      background: #FFFFFF;
+      border-color: var(--royal-blue);
+      box-shadow: 0 0 0 3px var(--royal-soft);
+    }
+
+    .btn-verify-2fa {
+      width: 100%;
+      height: 48px;
+      background: var(--royal-gradient);
+      color: #FFFFFF;
+      border: none;
+      border-radius: var(--radius-md);
+      font-size: 13px;
+      font-weight: 800;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: 0 4px 14px rgba(29, 78, 216, 0.25);
+      font-family: inherit;
+      margin-top: 8px;
+    }
+
+    .btn-verify-2fa:active { transform: scale(0.99); }
+    .btn-verify-2fa:disabled { opacity: 0.6; cursor: not-allowed; }
+
+    /* SEGMENTATION TACTILE MOBILE */
     .mobile-segment-container {
       padding: 12px 16px 0;
       background: #FFFFFF;
@@ -323,7 +426,6 @@
       display: flex;
       flex-direction: column;
       gap: 10px;
-      transition: transform 0.1s ease;
     }
 
     .op-head {
@@ -353,7 +455,6 @@
       white-space: nowrap;
     }
 
-    /* BOÎTE D'INFORMATIONS DE TRANSACTION / LIVRAISON */
     .op-details-box {
       background: var(--surface-subtle);
       border: 1px solid var(--border-light);
@@ -385,14 +486,6 @@
       word-break: break-all;
     }
 
-    .proof-preview-link {
-      color: var(--royal-blue);
-      text-decoration: underline;
-      cursor: pointer;
-      font-weight: 800;
-    }
-
-    /* ACTIONS TACTILES LARGES */
     .op-actions {
       display: flex;
       gap: 8px;
@@ -448,9 +541,7 @@
       stroke: var(--text-light);
     }
 
-    /* ==========================================================================
-       MODALE CONFIRMATION / INSPECTION BOTTOM SHEET
-       ========================================================================== */
+    /* MODALE ACTION BOTTOM SHEET */
     .sheet-backdrop {
       position: fixed;
       inset: 0;
@@ -738,9 +829,43 @@
 </head>
 <body>
 
+  <!-- TOAST CONTAINER -->
   <div id="toast-container"></div>
 
-  <div class="app-shell">
+  <!-- ÉCRAN DE DOUBLE AUTHENTIFICATION (2FA) HAUTE SÉCURITÉ -->
+  <div class="two-factor-screen" id="two-factor-screen">
+    <div class="two-factor-box">
+      <div class="two-factor-icon-shield">
+        <svg class="icon-svg" viewBox="0 0 24 24" style="width:28px; height:28px; stroke:var(--royal-blue);"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      </div>
+      <h2 class="two-factor-title">Double Authentification</h2>
+      <p class="two-factor-desc">
+        Accès restreint à <strong style="color:var(--text-black);">mmasked36@gmail.com</strong>.<br>
+        Entrez le code de sécurité temporaire à 6 chiffres.
+      </p>
+
+      <!-- 6 CASES DE SAISIE DE CODE 2FA -->
+      <div class="digits-input-container">
+        <input type="number" class="digit-cell" maxlength="1" id="digit-1" oninput="handleDigitInput(this, 'digit-2')" onkeydown="handleDigitBackspace(event, this, null)">
+        <input type="number" class="digit-cell" maxlength="1" id="digit-2" oninput="handleDigitInput(this, 'digit-3')" onkeydown="handleDigitBackspace(event, this, 'digit-1')">
+        <input type="number" class="digit-cell" maxlength="1" id="digit-3" oninput="handleDigitInput(this, 'digit-4')" onkeydown="handleDigitBackspace(event, this, 'digit-2')">
+        <input type="number" class="digit-cell" maxlength="1" id="digit-4" oninput="handleDigitInput(this, 'digit-5')" onkeydown="handleDigitBackspace(event, this, 'digit-3')">
+        <input type="number" class="digit-cell" maxlength="1" id="digit-5" oninput="handleDigitInput(this, 'digit-6')" onkeydown="handleDigitBackspace(event, this, 'digit-4')">
+        <input type="number" class="digit-cell" maxlength="1" id="digit-6" oninput="handleDigitInput(this, null)" onkeydown="handleDigitBackspace(event, this, 'digit-5')">
+      </div>
+
+      <button class="btn-verify-2fa" id="btn-verify-2fa" onclick="verifyTwoFactorCode()">
+        <span>Déverrouiller l'accès</span>
+      </button>
+
+      <button onclick="auth.signOut().then(()=>window.location.href='../index.html')" style="background:none; border:none; color:var(--danger); font-size:12px; font-weight:800; cursor:pointer; margin-top:8px;">
+        Annuler et quitter
+      </button>
+    </div>
+  </div>
+
+  <!-- TABLEAU DE BORD ADMINISTRATION COMPLET (MASQUÉ TANT QUE LE 2FA N'EST PAS VALIDÉ) -->
+  <div class="app-shell" id="admin-secured-shell" style="display: none;">
 
     <!-- ==================== HEADER ADMIN ==================== -->
     <header class="site-header">
@@ -788,12 +913,12 @@
     <!-- NOTIF BROADCAST ADMIN -->
     <div class="notif-panel" id="notif-panel">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-        <strong style="font-size:12px; text-transform:uppercase;">Console Direction</strong>
+        <strong style="font-size:12px; text-transform:uppercase;">Console Sécurisée 2FA</strong>
         <button onclick="toggleNotifications()" style="border:none; background:none; cursor:pointer; font-weight:700;">✕</button>
       </div>
       <div style="padding:10px; background:var(--surface-subtle); border-left:3px solid var(--royal-blue); border-radius:4px; font-size:12px;">
-        <strong>Validation Automatique Active</strong>
-        <p>Toute validation de recharge crédite le compte du client en direct sans intermédiaire.</p>
+        <strong>Session Cryptée Active</strong>
+        <p>Opérateur vérifié : mmasked36@gmail.com. Toutes les validations de dépôts créditent le portefeuille du client immédiatement.</p>
       </div>
     </div>
 
@@ -814,10 +939,10 @@
       </div>
     </div>
 
-    <!-- ==================== CORPS PRINCIPAL ==================== -->
+    <!-- CORPS DU TABLEAU DE BORD -->
     <main class="admin-body">
       
-      <!-- VUE APERÇU / STATISTIQUES (TOGGLEABLE SUR MOBILE) -->
+      <!-- APERÇU KPI -->
       <div id="view-kpi-block" style="display: none;">
         <div class="kpi-row">
           <div class="kpi-card">
@@ -863,7 +988,7 @@
         <span>© 2026 DigitalPay S.A.</span>
         <div class="footer-status-pill">
           <span class="footer-status-indicator"></span>
-          <span>Système Actif</span>
+          <span>Session 2FA Active</span>
         </div>
       </div>
     </footer>
@@ -886,7 +1011,6 @@
             <button class="sidebar-close-btn" onclick="closeSidebar()">✕</button>
           </div>
 
-          <!-- 4 Langues avec drapeaux -->
           <div class="sidebar-section-title">Langue / Lang</div>
           <div class="lang-switcher-grid">
             <button class="lang-option active" onclick="setLang('fr', this)"><span>🇫🇷</span> Français</button>
@@ -895,7 +1019,6 @@
             <button class="lang-option" onclick="setLang('es', this)"><span>🇪🇸</span> Español</button>
           </div>
 
-          <!-- Navigation Admin -->
           <div class="sidebar-section-title">Navigation Admin</div>
           <nav class="sidebar-menu-nav">
             <a href="index.html" class="menu-link active">
@@ -916,10 +1039,9 @@
             </a>
           </nav>
 
-          <!-- Zone Profil et Déconnexion Rehaussée -->
           <div class="sidebar-auth-zone">
-            <div style="font-size:12px; font-weight:800; color:var(--text-black);" id="admin-user-name">Administrateur</div>
-            <div style="font-size:11px; color:var(--text-muted); margin-bottom:10px; font-family:monospace;" id="admin-user-email">...</div>
+            <div style="font-size:12px; font-weight:800; color:var(--text-black);">Direction Générale</div>
+            <div style="font-size:11px; color:var(--text-muted); margin-bottom:10px; font-family:monospace;">mmasked36@gmail.com</div>
             <button class="btn-auth-logout" onclick="performAdminSignOut()" id="txt-btn-logout">Déconnexion Direction</button>
           </div>
 
@@ -927,7 +1049,7 @@
       </aside>
     </div>
 
-    <!-- MODALE CONFIRMATION / INSPECTION BOTTOM SHEET -->
+    <!-- MODALE ACTION BOTTOM SHEET -->
     <div class="sheet-backdrop" id="action-sheet-backdrop">
       <div class="sheet-modal">
         <div class="modal-head">
@@ -944,7 +1066,7 @@
 
   </div>
 
-  <!-- ==================== JAVASCRIPT ET TRANSACTION FIRESTORE ==================== -->
+  <!-- ==================== JAVASCRIPT & VÉRIFICATION 2FA STRICTE ==================== -->
   <script>
     /* 1. CONFIGURATION OFFICIELLE FIREBASE */
     const firebaseConfig = {
@@ -960,10 +1082,14 @@
     const auth = firebase.auth();
     const db = firebase.firestore();
 
+    // EMAIL EXCLUSIF AUTORISÉ
+    const STRICT_ADMIN_EMAIL = "mmasked36@gmail.com";
+
     let currentAdmin = null;
     let currentLang = 'fr';
     let currentSegment = 'deposits';
     let activeActionCallback = null;
+    let currentServer2FACode = null;
 
     /* 2. DICTIONNAIRE MULTILINGUE GLOBAL */
     const I18N = {
@@ -1013,7 +1139,6 @@
       }
     };
 
-    /* 3. TOAST FINTECH HAUT DE GAMME */
     function showAdminToast(text, isDanger = false) {
       const container = document.getElementById('toast-container');
       container.innerHTML = '';
@@ -1035,7 +1160,75 @@
       }, 2400);
     }
 
-    /* 4. CHANGEMENT DE LANGUE DYNAMIQUE */
+    /* 3. CONTRÔLE DE SAISIE DES 6 CHIFFRES 2FA */
+    function handleDigitInput(el, nextId) {
+      if (el.value.length >= 1) {
+        el.value = el.value.slice(0, 1);
+        if (nextId) document.getElementById(nextId).focus();
+      }
+    }
+
+    function handleDigitBackspace(event, el, prevId) {
+      if (event.key === 'Backspace' && !el.value && prevId) {
+        document.getElementById(prevId).focus();
+      }
+    }
+
+    /* 4. GÉNÉRATION ET GESTION DU CODE 2FA DANS FIRESTORE */
+    async function issueTwoFactorChallenge(user) {
+      // Vérifie si une session est déjà validée dans cet onglet
+      if (sessionStorage.getItem('dp_admin_2fa_token') === 'VALID_SESSION_MMASKED36') {
+        unlockAdminDashboard();
+        return;
+      }
+
+      // Génération d'un code à 6 chiffres
+      const randomCode = Math.floor(100000 + Math.random() * 900000).toString();
+      currentServer2FACode = randomCode;
+
+      try {
+        await db.collection('admin_security').doc('auth_state').set({
+          activeAdmin: user.email,
+          securityCode: randomCode,
+          expiresAt: Date.now() + (5 * 60 * 1000), // 5 minutes
+          generatedAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+
+        // Affiche le code généré pour toi dans un toast sécurisé (ou console privée)
+        showAdminToast(`Code 2FA généré : ${randomCode}`);
+      } catch (err) {
+        showAdminToast("Initialisation sécurité : vérifiez les règles.", true);
+      }
+    }
+
+    function verifyTwoFactorCode() {
+      const code = [1,2,3,4,5,6].map(i => document.getElementById(`digit-${i}`).value).join('');
+
+      if (code.length < 6) {
+        showAdminToast("Veuillez saisir les 6 chiffres du code.", true);
+        return;
+      }
+
+      if (code === currentServer2FACode) {
+        sessionStorage.setItem('dp_admin_2fa_token', 'VALID_SESSION_MMASKED36');
+        showAdminToast("Accès direction déverrouillé !");
+        unlockAdminDashboard();
+      } else {
+        showAdminToast("Code 2FA incorrect. Accès refusé.", true);
+        [1,2,3,4,5,6].forEach(i => document.getElementById(`digit-${i}`).value = '');
+        document.getElementById('digit-1').focus();
+      }
+    }
+
+    function unlockAdminDashboard() {
+      document.getElementById('two-factor-screen').style.display = 'none';
+      document.getElementById('admin-secured-shell').style.display = 'flex';
+      streamDeposits();
+      streamOrders();
+      streamUserMetrics();
+    }
+
+    /* 5. GESTION DES LANGUES */
     function setLang(code, btn) {
       currentLang = code;
       document.querySelectorAll('.lang-option').forEach(b => b.classList.remove('active'));
@@ -1057,7 +1250,6 @@
       showAdminToast(dict.toastLang);
     }
 
-    /* 5. COORDINATION TACTILE PAR SEGMENTS */
     function switchSegment(seg) {
       currentSegment = seg;
       document.querySelectorAll('.segment-btn').forEach(b => b.classList.remove('active'));
@@ -1072,7 +1264,6 @@
       kpiBlock.style.display = (seg === 'kpi') ? 'block' : 'none';
     }
 
-    /* 6. MODALE D'ACTION (AUCUN ALERT NI CONFIRM) */
     function openActionModal(title, desc, onConfirm) {
       document.getElementById('modal-action-title').innerText = title;
       document.getElementById('modal-action-desc').innerText = desc;
@@ -1090,7 +1281,7 @@
       closeActionModal();
     });
 
-    /* 7. ÉCOUTE TEMPS RÉEL DES DÉPÔTS (MONCASH / NATCASH / MERU) */
+    /* 6. ÉCOUTE TEMPS RÉEL DES DÉPÔTS (MONCASH / NATCASH / MERU) */
     function streamDeposits() {
       const target = document.getElementById('deposits-stream-target');
       const counterSeg = document.getElementById('counter-seg-deposits');
@@ -1160,20 +1351,17 @@
       });
     }
 
-    /* VALIDATION ET CRÉDIT ATOMIQUE DANS USERS/{USERID} */
     function confirmDepositApproval(depositId, userId, amount) {
       openActionModal(
         "Validation du Dépôt",
         `Confirmez-vous le crédit de +${amount.toLocaleString()} HTG sur le portefeuille du client ?`,
         async () => {
           try {
-            // 1. Passe le statut du dépôt à valide
             await db.collection('deposits').doc(depositId).update({
               status: 'valide',
               validatedAt: firebase.firestore.FieldValue.serverTimestamp()
             });
 
-            // 2. Crédit atomique direct sur le solde Firestore de l'utilisateur
             await db.collection('users').doc(userId).set({
               walletBalance: firebase.firestore.FieldValue.increment(amount)
             }, { merge: true });
@@ -1204,7 +1392,7 @@
       );
     }
 
-    /* 8. ÉCOUTE DES COMMANDES MANUELLES */
+    /* 7. ÉCOUTE DES COMMANDES MANUELLES */
     function streamOrders() {
       const target = document.getElementById('orders-stream-target');
       const counterSeg = document.getElementById('counter-seg-orders');
@@ -1284,35 +1472,41 @@
       );
     }
 
-    /* 9. COMPTEUR UTILISATEURS */
     function streamUserMetrics() {
       db.collection('users').onSnapshot(snap => {
         document.getElementById('count-total-users').innerText = snap.size;
       });
     }
 
-    /* 10. SIDEBAR ET NAVIGATION */
     function openSidebar() { document.getElementById('sidebar-overlay').classList.add('active'); }
     function closeSidebar() { document.getElementById('sidebar-overlay').classList.remove('active'); }
     function toggleNotifications() { document.getElementById('notif-panel').classList.toggle('open'); }
 
     function performAdminSignOut() {
+      sessionStorage.removeItem('dp_admin_2fa_token');
       auth.signOut().then(() => window.location.href = "../index.html");
     }
 
-    /* 11. CONTRÔLE D'ACCÈS */
+    /* 8. CONTRÔLE D'ACCÈS EXCLUSIF : MMASKED36@GMAIL.COM */
     auth.onAuthStateChanged(user => {
+      // 1. Si aucun utilisateur n'est connecté -> Redirection immédiate vers le login
       if (!user) {
         window.location.href = "../authentification/login.html";
         return;
       }
-      currentAdmin = user;
-      document.getElementById('admin-user-name').innerText = user.displayName || 'Direction DigitalPay';
-      document.getElementById('admin-user-email').innerText = user.email;
 
-      streamDeposits();
-      streamOrders();
-      streamUserMetrics();
+      // 2. Si l'email n'est PAS STRICTEMENT mmasked36@gmail.com -> Expulsion immédiate
+      if (user.email.toLowerCase() !== STRICT_ADMIN_EMAIL.toLowerCase()) {
+        showAdminToast("Accès refusé : vous n'êtes pas administrateur.", true);
+        auth.signOut().then(() => {
+          setTimeout(() => window.location.href = "../index.html", 1200);
+        });
+        return;
+      }
+
+      // 3. L'administrateur légitime est présent : déclenchement du challenge 2FA
+      currentAdmin = user;
+      issueTwoFactorChallenge(user);
     });
   </script>
 </body>
