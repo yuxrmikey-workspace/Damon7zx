@@ -9,13 +9,13 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 
-  <!-- Firebase SDKs Compat 10.12.0 (Auth + Firestore en direct) -->
+  <!-- Firebase SDKs Compat 10.12.0 -->
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
 
   <style>
-    /* FINTECH DESIGN SYSTEM — BLANC, NOIR & DÉGRADÉ BLEU ROYAL */
+    /* FINTECH DESIGN SYSTEM */
     :root {
       --bg: #FFFFFF;
       --surface: #FFFFFF;
@@ -53,7 +53,6 @@
     .app-shell { width: 100%; max-width: 480px; margin: 0 auto; min-height: 100vh; background: #FFFFFF; position: relative; display: flex; flex-direction: column; border-left: 1px solid var(--border-light); border-right: 1px solid var(--border-light); }
     .icon-svg { width: 16px; height: 16px; stroke: currentColor; stroke-width: 2; fill: none; display: inline-block; vertical-align: middle; }
 
-    /* BANNIÈRE MAINTENANCE (SITE FERMÉ) */
     #maintenance-banner {
       display: none;
       background: #991B1B;
@@ -90,7 +89,7 @@
     .cat-btn.active { background: var(--text-black); border-color: var(--text-black); color: #FFFFFF; }
     .cat-btn.active .icon-svg { stroke: #FFFFFF; }
 
-    /* CORPS & GRILLE */
+    /* CORPS & PRODUITS */
     .main-body { padding: 16px; flex: 1; }
     .category-section-block { margin-bottom: 24px; }
     .category-section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
@@ -109,7 +108,6 @@
     .btn-view-offers { width: 100%; height: 36px; background: var(--surface-subtle); border: 1px solid var(--border); border-radius: var(--radius-md); color: var(--royal-blue); font-size: 12px; font-weight: 800; display: flex; align-items: center; justify-content: center; cursor: pointer; font-family: inherit; transition: all 0.15s ease; }
     .btn-view-offers:active { background: var(--royal-gradient); color: #FFFFFF; border-color: transparent; }
 
-    /* SECTIONS SECONDAIRES */
     .whatsapp-banner { background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%); color: #FFFFFF; border-radius: var(--radius-card); padding: 18px; margin: 28px 0 24px; display: flex; align-items: center; justify-content: space-between; gap: 12px; box-shadow: var(--shadow-card); }
     .wa-title { font-size: 14px; font-weight: 900; margin-bottom: 2px; }
     .wa-sub { font-size: 11px; color: var(--text-light); }
@@ -129,13 +127,11 @@
     .faq-answer { padding: 0 14px 12px; font-size: 12px; color: var(--text-muted); line-height: 1.5; display: none; }
     .faq-item.open .faq-answer { display: block; }
 
-    /* FOOTER */
     .site-footer { background: #FFFFFF; border-top: 1px solid var(--border); padding: 18px 16px; margin-top: 32px; }
     .footer-minimal-row { display: flex; justify-content: space-between; align-items: center; font-size: 11px; font-weight: 700; color: var(--text-muted); }
     .footer-status-pill { display: flex; align-items: center; gap: 6px; font-size: 10px; color: var(--royal-blue); text-transform: uppercase; letter-spacing: 0.5px; }
     .footer-status-indicator { width: 6px; height: 6px; border-radius: 50%; background: var(--royal-blue); }
 
-    /* TOAST */
     #toast-container { position: fixed; top: 16px; left: 50%; transform: translateX(-50%); z-index: 300; width: calc(100% - 32px); max-width: 380px; pointer-events: none; }
     .toast-pro { background: #0F172A; color: #FFFFFF; padding: 12px 16px; border-radius: var(--radius-md); font-size: 12px; font-weight: 700; display: flex; align-items: center; gap: 10px; box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2); transform: translateY(-20px); opacity: 0; transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1); }
     .toast-pro.toast-danger { background: #991B1B; border-left: 4px solid #EF4444; }
@@ -183,7 +179,6 @@
     .offer-item-title { font-size: 13px; font-weight: 700; color: var(--text-black); }
     .offer-item-price { font-size: 13px; font-weight: 900; color: var(--royal-blue); }
 
-    /* CHAMPS DE LIVRAISON */
     .delivery-form-container { margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--border); }
     .delivery-form-title { font-size: 11px; font-weight: 800; text-transform: uppercase; color: var(--text-black); letter-spacing: 0.5px; margin-bottom: 8px; }
     .field-group { margin-bottom: 10px; }
@@ -249,7 +244,7 @@
         <svg viewBox="0 0 24 24">
           <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke-linecap="round"/>
         </svg>
-        <input type="text" id="search-bar" placeholder="Rechercher Free Fire, Netflix, Meru..." oninput="filterSearch(this.value)">
+        <input type="text" id="search-bar" placeholder="Rechercher Free Fire, Netflix, Meru, Apple..." oninput="filterSearch(this.value)">
       </div>
 
       <div class="categories-bar" id="categories-bar">
@@ -288,7 +283,7 @@
       </div>
       <div style="padding:10px; background:var(--surface-subtle); border-left:3px solid var(--royal-blue); border-radius:4px; font-size:12px;">
         <strong id="notif-broadcast-heading">Diffusion Administrateur</strong>
-        <p id="notif-broadcast-text">Bienvenue sur DigitalPay Haiti. Vos recharges de jeux sont livrées 24/7.</p>
+        <p id="notif-broadcast-text">Bienvenue sur DigitalPay Haiti. Vos recharges de jeux et Gift Cards sont traitées 24/7.</p>
       </div>
     </div>
 
@@ -308,7 +303,7 @@
         </a>
       </div>
 
-      <!-- AVIS CLIENTS (LES 3 AVIS EXACTS DEMANDÉS) -->
+      <!-- AVIS CLIENTS -->
       <h3 class="section-title" id="txt-reviews-title">Avis des Clients</h3>
       <div class="reviews-grid">
         <div class="review-card">
@@ -426,7 +421,7 @@
       </aside>
     </div>
 
-    <!-- MODALE DES OFFRES AVEC LIVRAISON CONTEXTUELLE -->
+    <!-- MODALE DES OFFRES -->
     <div class="sheet-backdrop" id="sheet-backdrop" onclick="closeOffersModal()">
       <div class="sheet-modal" onclick="event.stopPropagation()">
         
@@ -462,7 +457,7 @@
   </div>
 
   <script>
-    /* CONFIGURATION FIREBASE OFFICIELLE */
+    /* CONFIGURATION FIREBASE */
     const firebaseConfig = {
       apiKey: "AIzaSyDOSMtCknVXQs3XL1piE047Ussc6KeCDmY",
       authDomain: "digitalpayht-officiel.firebaseapp.com",
@@ -476,9 +471,9 @@
     const auth = firebase.auth();
     const db = firebase.firestore();
 
-    /* CATALOGUE COMPLET AVEC IDENTIFIANTS UNIQUES D'OFFRES POUR MODIFICATION PRIX */
+    /* CATALOGUE COMPLET INTÉGRÉ */
     const PRODUCTS = [
-      // JEUX
+      // 1. JEUX
       { id: "freefire", title: "Free Fire", category: "gaming", logo: "freefire-logo.png", offers: [
         { id: "ff_110", name: "110 + 10 Diamants", price: 157, isPin: true },
         { id: "ff_310", name: "310 + 31 Diamants", price: 471, isPin: true },
@@ -593,7 +588,7 @@
         { id: "ml_250", name: "250 Diamonds", price: 700 }
       ]},
 
-      // ABONNEMENT
+      // 2. ABONNEMENT STREAMING
       { id: "netflix", title: "Netflix", category: "streaming", logo: "netflix.png", req: "email_pass_wa", offers: [
         { id: "netflix_1m", name: "1 mois", price: 400 }, 
         { id: "netflix_2m", name: "2 mois", price: 850 }, 
@@ -615,20 +610,21 @@
         { id: "crunchy_3m", name: "3 mois", price: 1325 }
       ]},
 
-      // FINANCE
-      { id: "wise", title: "Wise", category: "finance", logo: "meru.png", isFinance: true, rate: 145, feeStep: 20, min: 5, max: 250, req: "email_dest" },
-      { id: "meru", title: "Meru", category: "finance", logo: "meru.png", isFinance: true, rate: 145, feeStep: 20, min: 5, max: 250, req: "meru_tag" },
+      // 3. SERVICES FINANCIERS
+      { id: "wise", title: "Wise", category: "finance", logo: "meru.png", isDynamic: true, rate: 145, min: 5, max: 250, feeFixed: 0, feePercent: 5, req: "email_dest" },
+      { id: "meru", title: "Meru", category: "finance", logo: "meru.png", isDynamic: true, rate: 145, min: 5, max: 250, feeFixed: 0, feePercent: 5, req: "meru_tag" },
       { id: "merucard", title: "Meru (Carte de crédit)", category: "finance", logo: "merucard.png", req: "id_wa", offers: [
         { id: "meru_card", name: "Activation Carte Meru", price: 1500 }
       ]},
-      { id: "binance", title: "Binance", category: "finance", logo: "binance.png", isFinance: true, rate: 142, feeStep: 0, min: 5, max: 250, req: "crypto_addr" },
+      { id: "binance", title: "Binance", category: "finance", logo: "binance.png", isDynamic: true, rate: 142, min: 5, max: 250, feeFixed: 0, feePercent: 0, req: "crypto_addr" },
 
-      // GIFT CARD
-      { id: "apple", title: "Apple", category: "giftcard", logo: "applegc.png", offers: [{ id: "gc_apple", name: "Tarification en attente", price: 0 }] },
-      { id: "nintendo", title: "Nintendo", category: "giftcard", logo: "nintendogc.png", offers: [{ id: "gc_nintendo", name: "Tarification en attente", price: 0 }] },
-      { id: "playstation", title: "PlayStation", category: "giftcard", logo: "playstationgc.png", offers: [{ id: "gc_ps", name: "Tarification en attente", price: 0 }] },
-      { id: "googleplay", title: "Google Play", category: "giftcard", logo: "googleplaycard.png", offers: [{ id: "gc_gp", name: "Tarification en attente", price: 0 }] },
-      { id: "steam", title: "Steam", category: "giftcard", logo: "steamgc.png", offers: [{ id: "gc_steam", name: "Tarification en attente", price: 0 }] }
+      // 4. GIFT CARDS (USA RÉGION UNIQUE, MONTANTS AU CHOIX)
+      { id: "apple", title: "Apple Gift Card (USA)", category: "giftcard", logo: "applegc.png", isDynamic: true, rate: 160, min: 5, max: 500, feeFixed: 0, feePercent: 0, req: "email_wa" },
+      { id: "steam", title: "Steam Gift Card (USA)", category: "giftcard", logo: "steamgc.png", isDynamic: true, rate: 160, min: 5, max: 500, feeFixed: 0, feePercent: 0, req: "email_wa" },
+      { id: "playstation", title: "PlayStation Gift Card (USA)", category: "giftcard", logo: "playstationgc.png", isDynamic: true, rate: 160, min: 5, max: 500, feeFixed: 0, feePercent: 0, req: "email_wa" },
+      { id: "nintendo", title: "Nintendo eShop (USA)", category: "giftcard", logo: "nintendogc.png", isDynamic: true, rate: 160, min: 5, max: 500, feeFixed: 0, feePercent: 0, req: "email_wa" },
+      { id: "googleplay", title: "Google Play (USA)", category: "giftcard", logo: "googleplaycard.png", isDynamic: true, rate: 160, min: 5, max: 500, feeFixed: 0, feePercent: 0, req: "email_wa" },
+      { id: "netflixgc", title: "Netflix Gift Card (USA)", category: "giftcard", logo: "netflixgc.png", isDynamic: true, rate: 160, min: 10, max: 250, feeFixed: 0, feePercent: 0, req: "email_wa" }
     ];
 
     const CATEGORIES_CONFIG = [
@@ -646,14 +642,14 @@
     let currentLang = 'fr';
     let isSiteOpen = true;
     let liveCustomPrices = {};
+    let liveCustomRates = {};
 
-    /* DICTIONNAIRE I18N */
     const I18N = {
       fr: {
         toastMsg: "Langue changée : Français",
         authRequired: "Connexion requise pour commander",
         missingDelivery: "Veuillez remplir les informations de livraison",
-        searchPlaceholder: "Rechercher Free Fire, Netflix, Meru...",
+        searchPlaceholder: "Rechercher Free Fire, Netflix, Meru, Apple...",
         catAll: "Tout", catGaming: "Jeux", catStreaming: "Abonnement", catFinance: "Finance", catGiftcard: "Gift Card",
         seeMore: "Voir plus", viewOffers: "Voir les offres",
         waTitle: "Assistance WhatsApp 24/7", waSub: "Un problème ? Notre équipe répond en quelques secondes.", waBtn: "Discuter",
@@ -669,7 +665,7 @@
         toastMsg: "Lang chanje : Kreyòl Ayisyen",
         authRequired: "Ou dwe konekte pou w ka kòmande",
         missingDelivery: "Tanpri mete enfòmasyon livrezon yo",
-        searchPlaceholder: "Chèche Free Fire, Netflix, Meru...",
+        searchPlaceholder: "Chèche Free Fire, Netflix, Meru, Apple...",
         catAll: "Tout", catGaming: "Jwèt", catStreaming: "Abònman", catFinance: "Finans", catGiftcard: "Kat Kado",
         seeMore: "Wè plis", viewOffers: "Wè òf yo",
         waTitle: "Asistans WhatsApp 24/7", waSub: "Yon pwoblèm ? Ekip nou an reponn nan kèk segonn.", waBtn: "Pale kounye a",
@@ -685,7 +681,7 @@
         toastMsg: "Language changed: English",
         authRequired: "Login required to order",
         missingDelivery: "Please fill in delivery details",
-        searchPlaceholder: "Search Free Fire, Netflix, Meru...",
+        searchPlaceholder: "Search Free Fire, Netflix, Meru, Apple...",
         catAll: "All", catGaming: "Games", catStreaming: "Subscription", catFinance: "Finance", catGiftcard: "Gift Cards",
         seeMore: "See more", viewOffers: "View offers",
         waTitle: "24/7 WhatsApp Support", waSub: "Need help? Our team replies in seconds.", waBtn: "Chat now",
@@ -701,7 +697,7 @@
         toastMsg: "Idioma cambiado: Español",
         authRequired: "Inicio de sesión requerido para ordenar",
         missingDelivery: "Por favor complete los datos de entrega",
-        searchPlaceholder: "Buscar Free Fire, Netflix, Meru...",
+        searchPlaceholder: "Buscar Free Fire, Netflix, Meru, Apple...",
         catAll: "Todo", catGaming: "Juegos", catStreaming: "Suscripción", catFinance: "Finanzas", catGiftcard: "Tarjetas",
         seeMore: "Ver más", viewOffers: "Ver ofertas",
         waTitle: "Soporte WhatsApp 24/7", waSub: "¿Necesita ayuda? Respondemos al instante.", waBtn: "Chatear",
@@ -784,18 +780,22 @@
       showToast(dict.toastMsg);
     }
 
-    /* ==========================================================================
-       SYNCHRONISATION EN DIRECT DES PRIX DEPUIS FIRESTORE (system_config/prices)
-       ========================================================================== */
+    /* SYNCHRONISATION EN DIRECT DES PRIX ET DES TAUX */
     function listenToRealtimePrices() {
       db.collection('system_config').doc('prices').onSnapshot(doc => {
         if (doc.exists) {
           liveCustomPrices = doc.data() || {};
           applyCustomPrices();
           renderMainCatalog();
-          if (selectedProduct) {
-            openOffersModal(selectedProduct.id, true);
-          }
+          if (selectedProduct) openOffersModal(selectedProduct.id, true);
+        }
+      });
+
+      db.collection('system_config').doc('rates').onSnapshot(doc => {
+        if (doc.exists) {
+          liveCustomRates = doc.data() || {};
+          applyCustomRates();
+          if (selectedProduct && selectedProduct.isDynamic) openOffersModal(selectedProduct.id, true);
         }
       });
     }
@@ -812,24 +812,24 @@
       });
     }
 
-    /* ÉCOUTE DU STATUT DE FERMETURE DU SITE (MAINTENANCE) */
-    function listenToSiteStatus() {
-      db.collection('system_config').doc('status').onSnapshot(doc => {
-        if (doc.exists) {
-          isSiteOpen = (doc.data().isSiteOpen !== false);
-        } else {
-          isSiteOpen = true;
-        }
-        const banner = document.getElementById('maintenance-banner');
-        if (!isSiteOpen) {
-          banner.style.display = 'block';
-        } else {
-          banner.style.display = 'none';
+    function applyCustomRates() {
+      PRODUCTS.forEach(prod => {
+        if (prod.isDynamic && liveCustomRates[prod.id]) {
+          const r = liveCustomRates[prod.id];
+          if (r.rate) prod.rate = Number(r.rate);
+          if (r.feeFixed !== undefined) prod.feeFixed = Number(r.feeFixed);
+          if (r.feePercent !== undefined) prod.feePercent = Number(r.feePercent);
         }
       });
     }
 
-    /* ÉCOUTE DES NOTIFICATIONS DU HEADER */
+    function listenToSiteStatus() {
+      db.collection('system_config').doc('status').onSnapshot(doc => {
+        isSiteOpen = doc.exists ? (doc.data().isSiteOpen !== false) : true;
+        document.getElementById('maintenance-banner').style.display = isSiteOpen ? 'none' : 'block';
+      });
+    }
+
     function listenToBroadcastNotifications() {
       db.collection('system_config').doc('notifications').onSnapshot(doc => {
         const dot = document.getElementById('notif-dot');
@@ -846,7 +846,6 @@
       });
     }
 
-    /* RENDU CATALOGUE : 4 SECTIONS DE 4 SUR "TOUT" */
     function renderMainCatalog() {
       const target = document.getElementById('catalog-container');
       target.innerHTML = '';
@@ -951,7 +950,7 @@
       renderMainCatalog();
     }
 
-    /* MODALE DES OFFRES AVEC PRIX SYNCHRONISÉS */
+    /* MODALE DES OFFRES (GESTION DES MONTANTS DYNAMIQUES ET PACKS FIXES) */
     function openOffersModal(prodId, isSilentRefresh = false) {
       const prod = PRODUCTS.find(p => p.id === prodId);
       if (!prod) return;
@@ -971,7 +970,6 @@
 
       const btnOrder = document.getElementById('modal-btn-order');
 
-      // CAS MINECRAFT INDISPONIBLE
       if (prod.isUnavailable) {
         body.innerHTML = `<div class="service-unavailable-box">${dict.unavailableText}</div>`;
         btnOrder.disabled = true;
@@ -981,19 +979,26 @@
       }
       btnOrder.disabled = false;
 
-      // CAS SERVICES FINANCIERS
-      if (prod.isFinance) {
+      // SERVICES À MONTANT DYNAMIQUE (GIFT CARDS USA & FINANCE)
+      if (prod.isDynamic) {
+        let feeHint = "Aucun frais supplémentaire";
+        if (prod.feePercent > 0) feeHint = `Frais : ${prod.feePercent}%`;
+        if (prod.feeFixed > 0) feeHint = `Frais fixes : +$${prod.feeFixed} USD`;
+
         body.innerHTML = `
           <div class="calc-box">
-            <span style="font-size:11px; font-weight:800; color:var(--text-muted); text-transform:uppercase;">Taux appliqué : 1$ = ${prod.rate} HTG</span>
-            <input type="number" id="calc-usd-input" class="calc-input" placeholder="Montant USD (${prod.min}$ - ${prod.max}$)" min="${prod.min}" max="${prod.max}" oninput="computeFinance(this.value)">
-            <div style="font-size:11px; color:var(--text-muted);">${prod.feeStep > 0 ? 'Frais : 1$ / 20$' : 'Aucun frais'}</div>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+              <span style="font-size:11px; font-weight:800; color:var(--text-muted); text-transform:uppercase;">Région : USA</span>
+              <span style="font-size:11px; font-weight:800; color:var(--royal-blue);">Taux : 1$ = ${prod.rate} HTG</span>
+            </div>
+            <input type="number" id="calc-usd-input" class="calc-input" placeholder="Montant souhaité ($${prod.min} - $${prod.max} USD)" min="${prod.min}" max="${prod.max}" oninput="computeDynamicPrice(this.value)">
+            <div style="font-size:11px; color:var(--text-muted);">${feeHint}</div>
           </div>
         `;
         renderDeliveryFields(prod.req);
         document.getElementById('modal-total-price').innerText = `0 HTG`;
       } 
-      // CAS PACKS GAMING & STREAMING
+      // PACKS FIXES (JEUX & STREAMING)
       else {
         const list = document.createElement('div');
         list.className = 'offers-list';
@@ -1044,6 +1049,33 @@
       renderDeliveryFields(reqType);
     }
 
+    function computeDynamicPrice(val) {
+      const usd = parseFloat(val);
+      if (isNaN(usd) || usd < selectedProduct.min || usd > selectedProduct.max) {
+        selectedPrice = 0;
+        selectedOffer = null;
+        document.getElementById('modal-total-price').innerText = `0 HTG`;
+        return;
+      }
+
+      let totalUSD = usd;
+      if (selectedProduct.feePercent > 0) {
+        totalUSD += (usd * selectedProduct.feePercent / 100);
+      }
+      if (selectedProduct.feeFixed > 0) {
+        totalUSD += selectedProduct.feeFixed;
+      }
+
+      selectedPrice = Math.round(totalUSD * selectedProduct.rate);
+      document.getElementById('modal-total-price').innerText = `${selectedPrice.toLocaleString()} HTG`;
+      selectedOffer = { 
+        id: selectedProduct.id, 
+        name: `${selectedProduct.title} $${usd} USD (Total: $${totalUSD.toFixed(2)})`, 
+        price: selectedPrice, 
+        usdAmount: usd 
+      };
+    }
+
     function renderDeliveryFields(reqType) {
       const target = document.getElementById('modal-delivery-body');
       target.innerHTML = '';
@@ -1060,7 +1092,12 @@
       }
 
       let fieldsHtml = '';
-      if (reqType === "email_pass_wa") {
+      if (reqType === "email_wa") {
+        fieldsHtml = `
+          <div class="field-group"><label>Email où envoyer le code Gift Card :</label><input type="email" id="deliv-email" placeholder="votre-email@domaine.com"></div>
+          <div class="field-group"><label>Numéro WhatsApp :</label><input type="tel" id="deliv-wa" placeholder="+509 XXXX-XXXX"></div>
+        `;
+      } else if (reqType === "email_pass_wa") {
         fieldsHtml = `
           <div class="field-group"><label>Email du compte :</label><input type="email" id="deliv-email" placeholder="votrecompte@domaine.com"></div>
           <div class="field-group"><label>Mot de passe du compte :</label><input type="password" id="deliv-pass" placeholder="••••••••"></div>
@@ -1094,25 +1131,10 @@
       }
     }
 
-    function computeFinance(val) {
-      const usd = parseFloat(val);
-      if (isNaN(usd) || usd < selectedProduct.min || usd > selectedProduct.max) {
-        selectedPrice = 0;
-        document.getElementById('modal-total-price').innerText = `0 HTG`;
-        return;
-      }
-      let feesUSD = selectedProduct.feeStep > 0 ? Math.ceil(usd / selectedProduct.feeStep) : 0;
-      const totalUSD = usd + feesUSD;
-      selectedPrice = Math.round(totalUSD * selectedProduct.rate);
-      document.getElementById('modal-total-price').innerText = `${selectedPrice} HTG`;
-      selectedOffer = { id: selectedProduct.id, name: `Recharge $${usd} USD (Total: $${totalUSD})`, price: selectedPrice, usdAmount: usd };
-    }
-
     function closeOffersModal() {
       document.getElementById('sheet-backdrop').classList.remove('active');
     }
 
-    /* AJOUT AU PANIER AVEC BLOCAGE SI MAINTENANCE ACTIVE */
     function addToCart() {
       if (!isSiteOpen) {
         showToast("La plateforme est temporairement fermée pour maintenance.", true);
@@ -1127,7 +1149,7 @@
       }
 
       if (selectedPrice <= 0 || !selectedOffer) {
-        showToast("Veuillez choisir une offre valide.");
+        showToast("Veuillez saisir un montant ou une offre valide.");
         return;
       }
 
@@ -1256,8 +1278,6 @@
       renderMainCatalog();
       updateCartIndicator();
       updateSidebarAuthUI();
-      
-      // Branchement temps réel
       listenToRealtimePrices();
       listenToSiteStatus();
       listenToBroadcastNotifications();
